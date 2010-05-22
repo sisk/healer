@@ -3,7 +3,6 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 describe User do
   it_should_behave_like 'authlogic_model'
   it{should validate_presence_of(:login)}
-
   it{should validate_presence_of(:name_first)}
   it{should validate_presence_of(:name_last)}
 end
