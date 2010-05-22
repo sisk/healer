@@ -1,7 +1,7 @@
 describe 'authlogic_model', :shared => true do
 
-  # it_has_the_attribute :login, :type => :string
-  it_has_the_attribute :email, :type => :string
+  it_has_the_attribute :login, :type => :string
+  # it_has_the_attribute :email, :type => :string
   it_has_the_attribute :crypted_password, :type => :string
   it_has_the_attribute :password_salt, :type => :string
   it_has_the_attribute :persistence_token, :type => :string
