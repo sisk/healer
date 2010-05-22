@@ -6,23 +6,33 @@ describe User do
 
   it{should validate_presence_of(:name_first)}
   it{should validate_presence_of(:name_last)}
-  
-  # describe "to_s" do
-  #   it "contains the user's last name if it exists" do
-  #     User.new(:name_first => "", :name_last => "Detweiler", :email => "").to_s.should match(/Detweiler/)
-  #   end
-  #   it "contains the user's first name if it exists" do
-  #     User.new(:name_first => "Max", :name_last => "", :email => "").to_s.should match(/Max/)
-  #   end
-  #   it "contains the user's email if it exists" do
-  #     User.new(:name_first => "", :name_last => "", :email => "derp@derp.derp").to_s.should match(/derp@derp.derp/)
-  #   end
-  #   it "contains the user's email in brackets if it exists" do
-  #     User.new(:name_first => "", :name_last => "", :email => "derp@derp.derp").to_s.should == "<derp@derp.derp>"
-  #   end
-  #   it "looks like 'First Last <email>' if all those components are in place" do
-  #     User.new(:name_first => "Max", :name_last => "Detweiler", :email => "max@vontrapp.com").to_s.should == "Max Detweiler <max@vontrapp.com>"
-  #   end
-  # end
-  
+end
+
+describe User do
+  before(:each) do
+    @user = User.new
+  end
+  describe "#name" do
+    it "returns First Last if no arguments are passed" do
+      @user.name_first = "First"
+      @user.name_last = "Last"
+      @user.name.should == "First Last"
+    end
+    it "returns Last, First if :last_first is an argument" do
+      @user.name_first = "First"
+      @user.name_last = "Last"
+      @user.name(:last_first).should == "Last, First"
+    end
+  end
+  describe "#to_s" do
+    it "returns the value of name with no arguments" do
+      @user.stub(:name).and_return("Derp")
+      @user.to_s.should == "Derp"
+    end
+    it "returns the value of name with arguments" do
+      @user.stub(:name)
+      @user.stub(:name).with(:last_first).and_return("Derp")
+      @user.to_s(:last_first).should == "Derp"
+    end
+  end
 end
