@@ -1,0 +1,10 @@
+administrator:
+  name: "administrator"
+physician:
+  name: "physician"
+nurse:
+  name: "nurse"
+staff:
+  name: "staff"
+patient:
+  name: "patient"
