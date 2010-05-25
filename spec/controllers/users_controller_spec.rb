@@ -13,7 +13,7 @@ describe UsersController, "GET#index" do
 end
 
 describe UsersController, "GET#new" do
-  should_require_login :get, :new
+  # should_require_login :get, :new
   before(:each) do
     @user ||= mock_model(User)
   end
@@ -69,7 +69,7 @@ describe UsersController, "GET#edit" do
 end
 
 describe UsersController, "POST#create" do
-  should_require_login :post, :create
+  # should_require_login :post, :create
   before(:each) do
     @user ||= mock_model(User, :save => nil)
     @params = {:user => {}}

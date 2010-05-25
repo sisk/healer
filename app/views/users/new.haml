@@ -1,15 +1,11 @@
 - content_for :title do
   Register
-- form_for @user do |f|
-  = error_messages_for :user
-  %div
-    = f.label :login, "Login"
-    = f.text_field :login
-  %div
-    = f.label :password, "Password"
-    = f.password_field :password
-  %div
-    = f.label :password_confirmation, "Verify Password"
-    = f.password_field :password_confirmation
-  .buttons
-    = f.submit "Register"
+- semantic_form_for @user do |f|
+  - f.inputs do
+    = f.input :name_first, :label => 'First Name'
+    = f.input :name_last, :label => 'Last Name'
+    = f.input :login, :label => 'Login'
+    = f.input :password, :as => :password, :label => 'Password'
+    = f.input :password_confirmation, :as => :password, :label => 'Verify Password'
+  - f.buttons do
+    = f.commit_button 'Register'

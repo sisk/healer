@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  before_filter :require_user, :except => [:index]
+  before_filter :require_user, :except => [:index, :new, :create]
 
   def index
     redirect_to root_path
