@@ -1,0 +1,12 @@
+- content_for :title do
+  Login
+= error_messages_for :user_session, :header_message => "Login failed."
+- form_for @user_session do |f|
+  %div
+    = f.label :login, "Login"
+    = f.text_field :login
+  %div
+    = f.label :password, "Password"
+    = f.password_field :password
+  .buttons
+    = f.submit "Log In"
