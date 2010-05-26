@@ -3,7 +3,11 @@ class Trip < ActiveRecord::Base
   
   def to_s
     year = start.blank? ? "" : start.strftime("%Y")
-    [year, country].join(" ").strip
+    [year, country_name].join(" ").strip
+  end
+  
+  def country_name
+    Carmen::country_name(country)
   end
   
 end

@@ -20,6 +20,8 @@ Rails::Initializer.run do |config|
   config.gem "authlogic"
   config.gem "acl9"
   config.gem "formtastic"
+  config.gem "validation_reflection"
+  config.gem "carmen"
   config.gem "paperclip"
   config.gem "inherited_resources", :version => '1.0.3'
   # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"

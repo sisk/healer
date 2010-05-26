@@ -10,8 +10,9 @@ end
 
 describe Trip do
   before(:each) do
-    @trip = Trip.new(:country => "Russia", :start => Date.parse("1/5/2009"))
-    @trip = Trip.new(:country => "Russia", :start => nil)
+    @trip = Trip.new(:start => Date.parse("1/5/2009"))
+    @trip = Trip.new(:start => nil)
+    @trip.stub!(:country_name).and_return("Russia")
   end
   describe "#to_s" do
     context "when start date is not set" do

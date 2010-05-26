@@ -1,0 +1,77 @@
+--- !ruby/object:Gem::Specification 
+name: carmen
+version: !ruby/object:Gem::Version 
+  version: 0.1.1
+platform: ruby
+authors: 
+- Jim Benton
+autorequire: 
+bindir: bin
+cert_chain: []
+
+date: 2010-01-09 00:00:00 -05:00
+default_executable: 
+dependencies: []
+
+description: A collection of geographis country and state names for Ruby. Also includes replacements for Rails' country_select and state_select plugins
+email: jim@autonomousmachine.com
+executables: []
+
+extensions: []
+
+extra_rdoc_files: 
+- README.rdoc
+files: 
+- .gitignore
+- MIT-LICENSE
+- README.rdoc
+- Rakefile
+- VERSION
+- carmen.gemspec
+- data/countries.yml
+- data/states/au.yml
+- data/states/br.yml
+- data/states/ca.yml
+- data/states/cu.yml
+- data/states/de.yml
+- data/states/dk.yml
+- data/states/it.yml
+- data/states/mx.yml
+- data/states/ua.yml
+- data/states/us.yml
+- lib/carmen.rb
+- lib/carmen/action_view_helpers.rb
+- rails/init.rb
+- test/carmen_test.rb
+- test/carmen_view_helper_test.rb
+has_rdoc: true
+homepage: http://github.com/jim/carmen
+licenses: []
+
+post_install_message: 
+rdoc_options: 
+- --charset=UTF-8
+require_paths: 
+- lib
+required_ruby_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      version: "0"
+  version: 
+required_rubygems_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      version: "0"
+  version: 
+requirements: []
+
+rubyforge_project: 
+rubygems_version: 1.3.5
+signing_key: 
+specification_version: 3
+summary: A collection of geographis country and state names for Ruby
+test_files: 
+- test/carmen_test.rb
+- test/carmen_view_helper_test.rb
