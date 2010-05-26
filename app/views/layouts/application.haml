@@ -9,9 +9,17 @@
     /[if lt IE 8]
       = stylesheet_link_tag 'compiled/ie.css', :media => 'screen, projection'
     = yield :head
-    %title Healer
+    %title<
+      Healer
+      - if yield :title
+        = "- #{yield :title}"
   %body
     = render :partial => "layouts/shared/session"
     %ul#nav
       %li= link_to "Users", users_path
+      %li= link_to "Trips", trips_path
+    - if yield :title
+      %h1= yield :title
+    - if yield :subnavigation
+      = yield :subnavigation
     = yield

@@ -1,0 +1,6 @@
+-content_for :subnavigation do
+  %ul.subnavigation
+    %li= link_to "New Trip", new_trip_path
+- @trips.each do |trip|
+  .trip
+    %h2= trip
