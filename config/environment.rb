@@ -16,6 +16,7 @@ Rails::Initializer.run do |config|
 
   # Specify gems that this application depends on and have them installed with rake gems:install
   config.gem "haml"
+  config.gem "compass", ">= 0.10.1"
   config.gem "authlogic"
   config.gem "acl9"
   config.gem "formtastic"
