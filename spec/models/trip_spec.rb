@@ -8,6 +8,28 @@ describe Trip do
   it{should validate_presence_of(:country)}
 end
 
+describe Trip do
+  before(:each) do
+    @trip = Trip.new(:country => "Russia", :start => Date.parse("1/5/2009"))
+    @trip = Trip.new(:country => "Russia", :start => nil)
+  end
+  describe "#to_s" do
+    context "when start date is not set" do
+      it "returns the country" do
+        @trip.to_s.should == "Russia"
+      end
+    end
+    context "when start date is set" do
+      before(:each) do
+        @trip.start = Date.parse("1/5/2009")
+      end
+      it "returns the year and country" do
+        @trip.to_s.should == "2009 Russia"
+      end
+    end
+  end
+end
+
 # == Schema Information
 #
 # Table name: trips

@@ -1,5 +1,11 @@
 class Trip < ActiveRecord::Base
   validates_presence_of :country, :on => :save, :message => "can't be blank"
+  
+  def to_s
+    year = start.blank? ? "" : start.strftime("%Y")
+    [year, country].join(" ").strip
+  end
+  
 end
 
 # == Schema Information
