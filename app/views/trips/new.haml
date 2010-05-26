@@ -2,7 +2,9 @@
   New Trip
 - semantic_form_for @trip do |f|
   - f.inputs do
-    - f.input :country, :label => 'Country'
-    - f.input :city, :label => 'City'
-    - f.input :start, :as => :date, :label => 'Trip Begins'
-    - f.input :end, :as => :date, :label => 'Trip Ends'
+    = f.input :country, :label => 'Country', :priority_countries => ['GT', 'NI', 'CU']
+    = f.input :city, :label => 'City'
+    = f.input :start, :as => :date, :label => 'Trip Begins'
+    = f.input :end, :as => :date, :label => 'Trip Ends'
+  - f.buttons do
+    = f.commit_button 'Add Trip'
