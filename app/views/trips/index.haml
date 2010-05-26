@@ -4,3 +4,5 @@
 - @trips.each do |trip|
   .trip
     %h2= trip
+    .nav
+      = link_to "Delete", trip_path(trip), :method => :delete, :confirm => "Are you sure?"
