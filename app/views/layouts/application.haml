@@ -16,7 +16,7 @@
       Healer
       - if yield :title
         = "- #{yield :title}"
-  %body
+  %body.bp
     = render :partial => "layouts/shared/session"
     %ul#nav
       %li= link_to "Trips", trips_path
