@@ -26,27 +26,23 @@ describe TripsController, "GET#new" do
     do_action :get, :new
     response.should be_success
   end
-  it "renders the application layout" do
-    do_action :get, :new
-    response.layout.should == "layouts/application"
-  end
   it "creates a new trip model" do
     Trip.should_receive(:new).and_return(@trip)
     do_action :get, :new
   end
 end
 
-describe TripsController, "GET#edit" do
-  # should_require_login :get, :edit
-  before(:each) do
-    @params = { :id => 1212121212 }
-    Trip.stub!(:find).with(@params[:id].to_s)
-  end
-  it "renders the application layout" do
-    do_action :get, :edit, @params
-    response.layout.should == "layouts/application"
-  end
-end
+# describe TripsController, "GET#edit" do
+#   # should_require_login :get, :edit
+#   before(:each) do
+#     @params = { :id => 1212121212 }
+#     Trip.stub!(:find).with(@params[:id].to_s)
+#   end
+#   it "renders the application layout" do
+#     do_action :get, :edit, @params
+#     response.layout.should == "layouts/application"
+#   end
+# end
 
 describe TripsController, "POST#create" do
   # should_require_login :post, :create
