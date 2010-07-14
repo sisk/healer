@@ -1,12 +1,12 @@
 require 'spec_helper'
 
 def do_action(request_method, action, params = {})
-  do_valid_login
+  #do_valid_login
   send request_method, action, params
 end
 
 describe TripsController, "GET#index" do
-  should_require_login :get, :index
+  # should_require_login :get, :index
   it "responds" do
     do_action :get, :index
     response.should be_success
@@ -14,7 +14,7 @@ describe TripsController, "GET#index" do
 end
 
 describe TripsController, "GET#new" do
-  should_require_login :get, :new
+  # should_require_login :get, :new
   before(:each) do
     @trip ||= mock_model(Trip)
   end
@@ -33,7 +33,7 @@ describe TripsController, "GET#new" do
 end
 
 describe TripsController, "GET#edit" do
-  should_require_login :get, :edit
+  # should_require_login :get, :edit
   before(:each) do
     @params = { :id => 1212121212 }
     Trip.stub!(:find).with(@params[:id].to_s)
@@ -45,7 +45,7 @@ describe TripsController, "GET#edit" do
 end
 
 describe TripsController, "POST#create" do
-  should_require_login :post, :create
+  # should_require_login :post, :create
   before(:each) do
     @trip ||= mock_model(Trip, :save => nil)
     @params = {:trip => {}}
@@ -53,7 +53,7 @@ describe TripsController, "POST#create" do
 end
 
 describe TripsController, "PUT#update" do
-  should_require_login :put, :update
+  # should_require_login :put, :update
   before(:each) do
     @trip ||= mock_model(Trip, :save => nil, :update_attributes => nil)
     @params = { :id => @trip.id, :trip => {} }

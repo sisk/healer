@@ -4,6 +4,8 @@ def do_valid_login
   @current_user.stub!(:has_role?).and_return(true)
   controller.stub!(:current_user).and_return(@current_user)
   session[:user_id] = @current_user.id
+  puts "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+  puts @current_user.inspect
 end
 
 def stub_login_impediments

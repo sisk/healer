@@ -1,8 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe User do
-  it_should_behave_like 'authlogic_model'
-  it{should validate_presence_of(:login)}
+  it{should validate_presence_of(:email)}
   it{should validate_presence_of(:name_first)}
   it{should validate_presence_of(:name_last)}
 end
@@ -35,27 +34,3 @@ describe User do
     end
   end
 end
-# == Schema Information
-#
-# Table name: users
-#
-#  id                  :integer(4)      not null, primary key
-#  login               :string(255)     not null
-#  crypted_password    :string(255)     not null
-#  password_salt       :string(255)     not null
-#  persistence_token   :string(255)     not null
-#  single_access_token :string(255)     not null
-#  perishable_token    :string(255)     not null
-#  login_count         :integer(4)      default(0), not null
-#  failed_login_count  :integer(4)      default(0), not null
-#  last_request_at     :datetime
-#  current_login_at    :datetime
-#  last_login_at       :datetime
-#  current_login_ip    :string(255)
-#  last_login_ip       :string(255)
-#  created_at          :datetime
-#  updated_at          :datetime
-#  name_first          :string(255)     not null
-#  name_last           :string(255)     not null
-#
-

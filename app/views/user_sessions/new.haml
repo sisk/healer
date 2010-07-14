@@ -1,7 +1,7 @@
 - content_for :title do
   Login
 = error_messages_for :user_session, :header_message => "Login failed."
-- semantic_form_for @user_session do |f|
+- semantic_form_for @user_session, :url => user_sessions_path do |f|
   - f.inputs do
     = f.input :login, :label => 'Login'
     = f.input :password, :as => :password, :label => 'Password'

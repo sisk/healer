@@ -1,5 +1,6 @@
 class TripsController < InheritedResources::Base
-  before_filter :require_user
+# class TripsController < ApplicationController
+  before_filter :authenticate_user!
   
   def create
     create! { trips_path }
