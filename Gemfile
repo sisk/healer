@@ -21,6 +21,7 @@ gem 'inherited_resources', '1.1.2'
 group :development, :test do
   gem "rspec-rails", ">= 2.0.0.beta.17"
   gem "shoulda"
+  gem "factory_girl_rails"
 end
 
 # Use unicorn as the web server

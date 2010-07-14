@@ -11,6 +11,7 @@ Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
 #  require any .rb file in spec_helpers directory
 # Dir["#{File.dirname(__FILE__)}/spec_helpers/**/*.rb"].each {|f| require f}
 
+
 RSpec.configure do |config|
   # == Mock Framework
   #
@@ -29,3 +30,8 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = true
 end
+
+require "devise/test_helpers"
+# class ActionController::TestCase
+#   include Devise::TestHelpers
+# end

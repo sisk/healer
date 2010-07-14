@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 def do_action(request_method, action, params = {})
+  # @user = users(:aaron)
+  @user = Factory.create(:user)
+  # @user.save
+  sign_in :user, @user
   #do_valid_login
   send request_method, action, params
 end

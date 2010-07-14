@@ -1,0 +1,10 @@
+aaron:
+  id: 1
+  name_first: Aaron
+  name_last: Aaronson
+  email: aaron@aaron.com
+bob:
+  id: 2
+  name_first: Bob
+  name_last: Bobson
+  email: bob@bob.com
