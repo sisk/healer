@@ -551,3 +551,36 @@ body.two-col #content {
 * html body.two-col #content {
   overflow-x: hidden;
 }
+
+/* line 19, ../../../app/stylesheets/screen.scss */
+#nav, #session_links {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  overflow: hidden;
+  display: inline-block;
+}
+/* line 8, ../../../../../.rvm/gems/ruby-1.9.2-rc2/gems/compass-0.10.2/frameworks/compass/stylesheets/compass/utilities/general/_hacks.scss */
+#nav, #session_links {
+  display: block;
+}
+/* line 50, ../../../../../.rvm/gems/ruby-1.9.2-rc2/gems/compass-0.10.2/frameworks/compass/stylesheets/compass/utilities/lists/_horizontal-list.scss */
+#nav li, #session_links li {
+  list-style-image: none;
+  list-style-type: none;
+  margin-left: 0px;
+  white-space: nowrap;
+  display: inline;
+  float: left;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+/* line 41, ../../../../../.rvm/gems/ruby-1.9.2-rc2/gems/compass-0.10.2/frameworks/compass/stylesheets/compass/utilities/lists/_horizontal-list.scss */
+#nav li:first-child, #nav li.first, #session_links li:first-child, #session_links li.first {
+  padding-left: 0px;
+}
+/* line 43, ../../../../../.rvm/gems/ruby-1.9.2-rc2/gems/compass-0.10.2/frameworks/compass/stylesheets/compass/utilities/lists/_horizontal-list.scss */
+#nav li:last-child, #nav li.last, #session_links li:last-child, #session_links li.last {
+  padding-right: 0px;
+}
