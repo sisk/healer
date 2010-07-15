@@ -1,5 +1,7 @@
 - content_for :title do
   New Trip
+- content_for :subnavigation do
+  = render :partial => "trips/subnav"
 - semantic_form_for @trip do |f|
   - f.inputs do
     = f.input :country, :label => 'Country', :priority_countries => ['GT', 'NI', 'CU']

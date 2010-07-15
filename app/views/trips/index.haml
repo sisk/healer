@@ -1,6 +1,7 @@
--content_for :subnavigation do
-  %ul.subnavigation
-    %li= link_to "New Trip", new_trip_path
+- content_for :title do
+  Trips
+- content_for :subnavigation do
+  = render :partial => "trips/subnav"
 - @trips.each do |trip|
   .trip
     %h2= trip

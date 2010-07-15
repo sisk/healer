@@ -561,18 +561,22 @@ body.two-col #content {
 #head {
   background-color: #000;
 }
+/* line 26, ../../../app/stylesheets/screen.scss */
+#head #session {
+  float: right;
+}
 
-/* line 27, ../../../app/stylesheets/screen.scss */
+/* line 30, ../../../app/stylesheets/screen.scss */
 #head, #content {
   padding: 2em;
 }
 
-/* line 31, ../../../app/stylesheets/screen.scss */
+/* line 34, ../../../app/stylesheets/screen.scss */
 div {
   border: solid 1px #ff0000;
 }
 
-/* line 35, ../../../app/stylesheets/screen.scss */
+/* line 38, ../../../app/stylesheets/screen.scss */
 #nav, #session_links {
   margin: 0;
   padding: 0;
@@ -605,16 +609,16 @@ div {
   padding-right: 0px;
 }
 
-/* line 38, ../../../app/stylesheets/screen.scss */
+/* line 41, ../../../app/stylesheets/screen.scss */
 #nav {
   font-size: 1.5em;
 }
 
-/* line 42, ../../../app/stylesheets/screen.scss */
+/* line 45, ../../../app/stylesheets/screen.scss */
 #nav, #session {
   color: #fff;
 }
-/* line 44, ../../../app/stylesheets/screen.scss */
+/* line 47, ../../../app/stylesheets/screen.scss */
 #nav a, #session a {
   color: #fff;
 }
