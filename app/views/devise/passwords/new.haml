@@ -1,9 +1,10 @@
 - content_for :title do
   Forgot password?
+- content_for :subnavigation do
+  = render :partial => "devise/shared/subnav"
 = semantic_form_for(resource, :as => resource_name, :url => password_path(resource_name)) do |f|
   = devise_error_messages!
   - f.inputs do
     = f.input :email, :label => 'Email'
   - f.buttons do
     = f.commit_button 'Send password reset instructions'
-= render :partial => "devise/shared/links"

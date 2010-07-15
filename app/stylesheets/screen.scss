@@ -16,6 +16,32 @@
 @import "partials/two_col";
 @import "compass/utilities/lists";
 
+body {
+}
+#wrapper {
+  position: relative;
+}
+#head {
+  background-color: #000;
+}
+#head, #content {
+  padding: 2em;
+}
+
+div {
+  border: solid 1px #ff0000;
+}
+
 #nav, #session_links {
   @include horizontal-list;
+}
+#nav {
+  font-size: 1.5em;
+}
+
+#nav, #session {
+  color: #fff;
+  a {
+    color: #fff;
+  }
 }

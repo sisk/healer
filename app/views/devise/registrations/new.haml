@@ -1,5 +1,7 @@
 - content_for :title do
   = "Register"
+- content_for :subnavigation do
+  = render :partial => "devise/shared/subnav"
 = semantic_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
   = devise_error_messages!
   - f.inputs do
@@ -10,4 +12,3 @@
     = f.input :password_confirmation, :as => :password, :label => 'Confirm Password'
   - f.buttons do
     = f.commit_button 'Sign up'
-= render :partial => "devise/shared/links"

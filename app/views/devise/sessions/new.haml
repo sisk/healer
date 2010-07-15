@@ -1,5 +1,7 @@
 - content_for :title do
   Log in
+- content_for :subnavigation do
+  = render :partial => "devise/shared/subnav"
 = semantic_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
   - f.inputs do
     = f.input :email, :label => 'Email'
@@ -8,4 +10,3 @@
       = f.input :remember_me, :label => 'Remember Me', :as => :boolean
   - f.buttons do
     = f.commit_button 'Log In'
-= render :partial => "devise/shared/links"

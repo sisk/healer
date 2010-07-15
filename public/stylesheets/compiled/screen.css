@@ -552,7 +552,27 @@ body.two-col #content {
   overflow-x: hidden;
 }
 
-/* line 19, ../../../app/stylesheets/screen.scss */
+/* line 21, ../../../app/stylesheets/screen.scss */
+#wrapper {
+  position: relative;
+}
+
+/* line 24, ../../../app/stylesheets/screen.scss */
+#head {
+  background-color: #000;
+}
+
+/* line 27, ../../../app/stylesheets/screen.scss */
+#head, #content {
+  padding: 2em;
+}
+
+/* line 31, ../../../app/stylesheets/screen.scss */
+div {
+  border: solid 1px #ff0000;
+}
+
+/* line 35, ../../../app/stylesheets/screen.scss */
 #nav, #session_links {
   margin: 0;
   padding: 0;
@@ -583,4 +603,18 @@ body.two-col #content {
 /* line 43, ../../../../../.rvm/gems/ruby-1.9.2-rc2/gems/compass-0.10.2/frameworks/compass/stylesheets/compass/utilities/lists/_horizontal-list.scss */
 #nav li:last-child, #nav li.last, #session_links li:last-child, #session_links li.last {
   padding-right: 0px;
+}
+
+/* line 38, ../../../app/stylesheets/screen.scss */
+#nav {
+  font-size: 1.5em;
+}
+
+/* line 42, ../../../app/stylesheets/screen.scss */
+#nav, #session {
+  color: #fff;
+}
+/* line 44, ../../../app/stylesheets/screen.scss */
+#nav a, #session a {
+  color: #fff;
 }
