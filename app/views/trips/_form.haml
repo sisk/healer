@@ -1,0 +1,9 @@
+- semantic_form_for @trip do |f|
+  - f.inputs do
+    =# f.input :country, :as => :country, :label => 'Country', :priority_countries => ['GT', 'NI', 'CU', 'US']
+    = f.input :country, :as => :select, :label => 'Country', :collection => Carmen::COUNTRIES
+    = f.input :city, :label => 'City'
+    = f.input :start, :as => :date, :label => 'Trip Begins'
+    = f.input :end, :as => :date, :label => 'Trip Ends'
+  - f.buttons do
+    = f.commit_button
