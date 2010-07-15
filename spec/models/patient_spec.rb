@@ -16,6 +16,7 @@ describe Patient do
   it { should have_db_column(:phone).of_type(:string) }
   it { should have_db_column(:height_cm).of_type(:decimal) }
   it { should have_db_column(:weight_kg).of_type(:decimal) }
+  it { should have_db_column(:email).of_type(:string) }
 
   it { should validate_presence_of(:name_first) }
   it { should validate_presence_of(:name_last) }
