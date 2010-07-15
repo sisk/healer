@@ -1,0 +1,21 @@
+- semantic_form_for @patient, :html => { :multipart => true } do |f|
+  - f.inputs :name => "Name" do
+    = f.input :name_first, :label => 'First Name'
+    = f.input :name_middle, :label => 'Middle Name'
+    = f.input :name_last, :label => 'Last Name'
+  - f.inputs :name => "Demographics" do
+    = f.input :male, :as => :radio, :label => "Gender", :collection => [["Male", true], ["Female", false]]
+    = f.input :birth, :as => :date, :label => "Birth", :start_year => 1900, :end_year => Time.now.year
+    =# f.input :death, :as => :date, :label => "Death"
+    = f.input :height_cm, :label => 'Height (cm)'
+    = f.input :weight_kg, :label => 'Weight (kg)'
+  - f.inputs :name => "Contact" do
+    = f.input :address1, :label => 'Address 1'
+    = f.input :address2, :label => 'Address 2'
+    = f.input :city, :label => 'City'
+    = f.input :state, :label => 'State/Region'
+    = f.input :zip, :label => 'Zip/Postal'
+    = f.input :country, :as => :select, :label => 'Country', :collection => Carmen::COUNTRIES
+    = f.input :phone, :label => 'Phone'
+  - f.buttons do
+    = f.commit_button

@@ -21,7 +21,8 @@
       #head
         = render :partial => "layouts/shared/session"
         %ul#nav
-          %li= link_to "Trips", trips_path
+          %li= link_to_unless_current "Trips", trips_path
+          %li= link_to_unless_current "Patients", patients_path
       #content
         - if yield :title
           %h1= yield :title

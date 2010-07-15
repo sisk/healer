@@ -1,0 +1,10 @@
+- content_for :title do
+  Patients
+- content_for :subnavigation do
+  = render :partial => "subnav"
+- @patients.each do |patient|
+  .patient
+    %h2= patient
+    .nav
+      = link_to "Edit", edit_patient_path(patient)
+      = link_to "Delete", patient_path(patient), :method => :delete, :confirm => "Are you sure?"
