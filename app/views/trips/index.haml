@@ -2,9 +2,12 @@
   Trips
 - content_for :subnavigation do
   = render :partial => "trips/subnav"
-- @trips.each do |trip|
-  .trip
-    %h2= trip
-    .nav
-      = link_to "Edit", edit_trip_path(trip)
-      = link_to "Delete", trip_path(trip), :method => :delete, :confirm => "Are you sure?"
+- unless @current_trips.empty?
+  %h2 Current
+  = render :partial => "current_trips", :locals => { :trips => @current_trips }
+- unless @future_trips.empty?
+  %h2 Upcoming Trips
+  = render :partial => "trips_list", :locals => { :trips => @future_trips }
+- unless @past_trips.empty?
+  %h2 Past Trips
+  = render :partial => "trips_list", :locals => { :trips => @past_trips }

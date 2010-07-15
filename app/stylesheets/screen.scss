@@ -35,8 +35,9 @@ div {
   border: solid 1px #ff0000;
 }
 
-#nav, #session_links {
+#nav, ul.subnavigation {
   @include horizontal-list;
+  padding-left: 0 !important;
 }
 #nav {
   font-size: 1.5em;

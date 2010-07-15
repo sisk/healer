@@ -1,5 +1,17 @@
 class Trip < ActiveRecord::Base
   validates_presence_of :country, :message => "can't be blank"
+
+  default_scope order(:start)
+  
+  scope :current, lambda {
+    where("trips.start IS NOT NULL AND trips.start <= ? AND (trips.end IS NULL OR (trips.end IS NOT NULL AND trips.end > ?))", Time.zone.now, Time.zone.now)
+  }
+  scope :future, lambda {
+    where("trips.start IS NULL OR (trips.start > ? AND (trips.end IS NULL OR trips.end > ?))", Time.zone.now, Time.zone.now)
+  }
+  scope :past, lambda {
+    where("trips.end IS NOT NULL AND trips.end <= ?", Time.zone.now)
+  }
   
   def to_s
     year = start.blank? ? "" : start.strftime("%Y")
@@ -8,6 +20,11 @@ class Trip < ActiveRecord::Base
   
   def country_name
     Carmen::country_name(country)
+  end
+
+  def destination
+    return [city, country_name].join(", ").strip unless city.blank?
+    return country_name
   end
   
 end
