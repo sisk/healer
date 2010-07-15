@@ -13,7 +13,7 @@ gem "devise", "1.1.rc2"
 gem "acl9"
 gem "formtastic", :git => "git://github.com/justinfrench/formtastic.git", :branch => "rails3"
 gem "validation_reflection"
-gem "carmen"
+gem "carmen", :git => "http://github.com/grobie/carmen.git"
 gem "paperclip"
 gem "test-unit"
 gem 'inherited_resources', '1.1.2'
