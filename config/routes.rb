@@ -18,7 +18,10 @@ Healer::Application.routes.draw do |map|
   # match "login" => "user_sessions#new"
   # match "logout" => "user_sessions#destroy"
 
-  resources :trips
+  resources :users
+  resources :trips do
+    # resource :staff, :controller => :staff
+  end
   resources :patients
 
   # Sample resource route with options:
