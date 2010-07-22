@@ -10,7 +10,7 @@ gem 'mysql', '2.8.1'
 gem "haml"
 gem "compass"
 gem "devise", "1.1.rc2"
-gem "acl9"
+gem "declarative_authorization", :git => "http://github.com/stffn/declarative_authorization.git"
 gem "formtastic", :git => "git://github.com/justinfrench/formtastic.git", :branch => "rails3"
 gem "validation_reflection"
 gem "carmen", :git => "http://github.com/grobie/carmen.git"
