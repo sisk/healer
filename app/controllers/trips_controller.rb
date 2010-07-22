@@ -1,6 +1,7 @@
 class TripsController < InheritedResources::Base
 # class TripsController < ApplicationController
   before_filter :authenticate_user!
+  filter_resource_access
   
   def index
     @future_trips = end_of_association_chain.future
@@ -13,10 +14,6 @@ class TripsController < InheritedResources::Base
   end
   def update
     update! { trips_path }
-  end
-
-  def staff
-    
   end
 
 end
