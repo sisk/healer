@@ -33,4 +33,89 @@ describe User do
       @user.to_s(:last_first).should == "Derp"
     end
   end
+  describe "#role_symbols" do
+    it "returns a downcased symbolized list of associate role names" do
+      @roles = [mock_model(Role, :name => "Admin"), mock_model(Role, :name => "Super Duper")]
+      @user.stub(:roles).and_return(@roles)
+      @user.role_symbols.should == [:admin, :super_duper]
+    end
+  end
+  describe "#has_role_admin" do
+    it "returns true if user has admin role" do
+      @roles = [mock_model(Role, :name => "Admin")]
+      @user.stub(:roles).and_return(@roles)
+      @user.has_role_admin.should be_true
+    end
+    it "returns false if user does not have admin role" do
+      @roles = [mock_model(Role, :name => "Not Admin")]
+      @user.stub(:roles).and_return(@roles)
+      @user.has_role_admin.should be_false
+    end
+  end
+  describe "#has_role_admin=" do
+    before(:each) do
+      @admin_role = stub_model(Role, :name => "admin")
+      Role.stub!(:find_by_name).with("admin").and_return(@admin_role)
+    end
+    it "assigns admin role to user if sent 1" do
+      @user.has_role_admin=("1")
+      @user.roles.any?{ |role| role.name == "admin" }.should be_true
+    end
+    it "revokes role admin from user if sent zero" do
+      @user.has_role_admin=("0")
+      @user.roles.any?{ |role| role.name == "admin" }.should be_false
+    end
+  end
+  describe "#has_role_doctor" do
+    it "returns true if user has doctor role" do
+      @roles = [mock_model(Role, :name => "doctor")]
+      @user.stub(:roles).and_return(@roles)
+      @user.has_role_doctor.should be_true
+    end
+    it "returns false if user does not have doctor role" do
+      @roles = [mock_model(Role, :name => "Not doctor")]
+      @user.stub(:roles).and_return(@roles)
+      @user.has_role_doctor.should be_false
+    end
+  end
+  describe "#has_role_doctor=" do
+    before(:each) do
+      @doctor_role = stub_model(Role, :name => "doctor")
+      Role.stub!(:find_by_name).with("doctor").and_return(@doctor_role)
+    end
+    it "assigns doctor role to user if sent 1" do
+      @user.has_role_doctor=("1")
+      @user.roles.any?{ |role| role.name == "doctor" }.should be_true
+    end
+    it "revokes role doctor from user if sent zero" do
+      @user.has_role_doctor=("0")
+      @user.roles.any?{ |role| role.name == "doctor" }.should be_false
+    end
+  end
+  describe "#has_role_nurse" do
+    it "returns true if user has nurse role" do
+      @roles = [mock_model(Role, :name => "nurse")]
+      @user.stub(:roles).and_return(@roles)
+      @user.has_role_nurse.should be_true
+    end
+    it "returns false if user does not have nurse role" do
+      @roles = [mock_model(Role, :name => "Not nurse")]
+      @user.stub(:roles).and_return(@roles)
+      @user.has_role_nurse.should be_false
+    end
+  end
+  describe "#has_role_nurse=" do
+    before(:each) do
+      @nurse_role = stub_model(Role, :name => "nurse")
+      Role.stub!(:find_by_name).with("nurse").and_return(@nurse_role)
+    end
+    it "assigns nurse role to user if sent 1" do
+      @user.has_role_nurse=("1")
+      @user.roles.any?{ |role| role.name == "nurse" }.should be_true
+    end
+    it "revokes role nurse from user if sent zero" do
+      @user.has_role_nurse=("0")
+      @user.roles.any?{ |role| role.name == "nurse" }.should be_false
+    end
+  end
 end
