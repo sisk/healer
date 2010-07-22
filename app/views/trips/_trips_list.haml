@@ -12,5 +12,7 @@
         %th= trip.start
         %th= trip.end
         %th
-          = link_to "Edit", edit_trip_path(trip)
-          = link_to "Delete", trip_path(trip), :method => :delete, :confirm => "Are you sure?"
+          - if permitted_to? :edit, trip
+            = link_to "Edit", edit_trip_path(trip)
+          - if permitted_to? :destroy, trip
+            = link_to "Delete", trip_path(trip), :method => :delete, :confirm => "Are you sure?"
