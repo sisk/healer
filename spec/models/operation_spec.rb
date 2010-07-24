@@ -29,12 +29,18 @@ describe Operation do
   should_validate_inclusion_of :difficulty, :in => Operation::difficulty_table.keys
   
   should_validate_inclusion_of :approach, :in => Operation::approaches
+  should_validate_inclusion_of :ambulatory_order, :in => Operation::ambulatory_orders
   
 end
 
 describe Operation, ".approaches" do
   it "returns an array of the expected values" do
     Operation::approaches.should == ["Anterior","Lateral","Medial","Posterior","Dorsal","Lateral Transfibular"]
+  end
+end
+describe Operation, ".ambulatory_orders" do
+  it "returns an array of the expected values" do
+    Operation::ambulatory_orders.should == ["Weight Bearing as Tolerated","Non-Weight Bearing","Partial Weight Bearing"]
   end
 end
 describe Operation, ".difficulty_table" do

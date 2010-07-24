@@ -5,6 +5,9 @@ class Operation < ActiveRecord::Base
   def self.difficulty_table
     { 0 => "Routine", 1 => "Moderate", 2 => "Severe" }
   end
+  def self.ambulatory_orders
+    ["Weight Bearing as Tolerated","Non-Weight Bearing","Partial Weight Bearing"]
+  end
 
   belongs_to :procedure
   belongs_to :patient
@@ -19,5 +22,6 @@ class Operation < ActiveRecord::Base
   validates_numericality_of :difficulty
   validates_inclusion_of :difficulty, :in => self.difficulty_table.keys
   validates_inclusion_of :approach, :in => self.approaches
+  validates_inclusion_of :ambulatory_order, :in => self.ambulatory_orders
   
 end
