@@ -1,5 +1,5 @@
 class Implant < ActiveRecord::Base
   belongs_to :operation
   belongs_to :body_part
-  validates_inclusion_of :side, :in => ["L", "R", nil]
+  validates_inclusion_of :side, :in => ["L", "R"], :allow_nil => true
 end

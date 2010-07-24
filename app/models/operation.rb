@@ -22,7 +22,7 @@ class Operation < ActiveRecord::Base
   validates_presence_of :date
   validates_numericality_of :difficulty
   validates_inclusion_of :difficulty, :in => self.difficulty_table.keys
-  validates_inclusion_of :approach, :in => self.approaches + [nil]
-  validates_inclusion_of :ambulatory_order, :in => self.ambulatory_orders + [nil]
+  validates_inclusion_of :approach, :in => self.approaches, :allow_nil => true
+  validates_inclusion_of :ambulatory_order, :in => self.ambulatory_orders, :allow_nil => true
   
 end

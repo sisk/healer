@@ -29,8 +29,8 @@ describe Operation do
   should_validate_numericality_of :difficulty
   should_validate_inclusion_of :difficulty, :in => Operation::difficulty_table.keys
   
-  should_validate_inclusion_of :approach, :in => Operation::approaches + [nil]
-  should_validate_inclusion_of :ambulatory_order, :in => Operation::ambulatory_orders + [nil]
+  should_validate_inclusion_of :approach, :in => Operation::approaches, :allow_nil => true
+  should_validate_inclusion_of :ambulatory_order, :in => Operation::ambulatory_orders, :allow_nil => true
   
 end
 

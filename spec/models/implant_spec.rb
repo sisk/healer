@@ -9,7 +9,8 @@ describe Implant do
   should_have_column :notes, :type => :text
 
   should_belong_to :body_part
+  should_belong_to :operation
 
-  should_validate_inclusion_of :side, :in => ["L", "R", nil]
+  should_validate_inclusion_of :side, :in => %w(L R), :allow_nil => true
 
 end
