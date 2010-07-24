@@ -571,12 +571,7 @@ body.two-col #content {
   padding: 2em;
 }
 
-/* line 34, ../../../app/stylesheets/screen.scss */
-div {
-  border: 1px red dotted;
-}
-
-/* line 38, ../../../app/stylesheets/screen.scss */
+/* line 37, ../../../app/stylesheets/screen.scss */
 #nav, ul.subnavigation {
   margin: 0;
   padding: 0;
@@ -610,16 +605,16 @@ div {
   padding-right: 0px;
 }
 
-/* line 42, ../../../app/stylesheets/screen.scss */
+/* line 41, ../../../app/stylesheets/screen.scss */
 #nav {
   font-size: 1.5em;
 }
 
-/* line 46, ../../../app/stylesheets/screen.scss */
+/* line 45, ../../../app/stylesheets/screen.scss */
 #nav, #session {
   color: #fff;
 }
-/* line 48, ../../../app/stylesheets/screen.scss */
+/* line 47, ../../../app/stylesheets/screen.scss */
 #nav a, #session a {
   color: #fff;
 }

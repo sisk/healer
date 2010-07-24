@@ -1,3 +1,4 @@
 %ul.subnavigation
   %li= link_to_unless_current "Patients", patients_path
-  %li= link_to_unless_current "New Patient", new_patient_path
+  - if permitted_to? :create, Patient.new
+    %li= link_to_unless_current "New Patient", new_patient_path

@@ -7,5 +7,7 @@
     %h2= patient
     = image_tag patient.photo.url(:thumb)
     .nav
-      = link_to "Edit", edit_patient_path(patient)
-      = link_to "Delete", patient_path(patient), :method => :delete, :confirm => "Are you sure?"
+      - if permitted_to? :edit, patient
+        = link_to "Edit", edit_patient_path(patient)
+      - if permitted_to? :destroy, patient
+        = link_to "Delete", patient_path(patient), :method => :delete, :confirm => "Are you sure?"
