@@ -15,6 +15,6 @@ class Operation < ActiveRecord::Base
   validates_presence_of :date
   validates_numericality_of :difficulty
   validates_inclusion_of :difficulty, :in => 0..2
-  validates_inclusion_of :approach, :in => Operation::approaches
+  validates_inclusion_of :approach, :in => self.approaches
   
 end

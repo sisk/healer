@@ -17,6 +17,12 @@ describe Diagnosis do
   should_validate_presence_of :disease
   
   should_validate_numericality_of :severity
-  should_validate_inclusion_of :severity, :in => 0..3
+  should_validate_inclusion_of :severity, :in => Diagnosis::severity_table.keys
   should_validate_inclusion_of :side, :in => ["L", "R", nil]
+end
+
+describe Diagnosis, ".severity_table" do
+  it "returns an indexed hash of the expected values" do
+    Diagnosis::severity_table.should == { 0 => "Unremarkable", 1 => "Mild", 2 => "Moderate", 3 => "Severe" }
+  end
 end
