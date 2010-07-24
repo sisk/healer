@@ -1,9 +1,9 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe User do
-  it{should validate_presence_of(:email)}
-  it{should validate_presence_of(:name_first)}
-  it{should validate_presence_of(:name_last)}
+  should_validate_presence_of :email
+  should_validate_presence_of :name_first
+  should_validate_presence_of :name_last
 end
 
 describe User do

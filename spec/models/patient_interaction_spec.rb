@@ -1,13 +1,14 @@
 require 'spec_helper'
 
 describe PatientInteraction do
-  it { should have_db_column(:patient_id).of_type(:integer) }
-  it { should have_db_column(:provider_id).of_type(:integer) }
-  it { should have_db_column(:notes).of_type(:text) }
+  should_have_column :patient_id, :type => :integer
+  should_have_column :provider_id, :type => :integer
+  should_have_column :notes, :type => :text
 
-  it{ should belong_to(:patient) }
-  it{ should belong_to(:provider) }
-  it{ should validate_presence_of(:patient_id) }
+  should_validate_presence_of :patient_id
+
+  should_belong_to :patient
+  should_belong_to :provider
 end
 
 # == Schema Information

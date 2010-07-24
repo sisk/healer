@@ -1,11 +1,11 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Trip do
-  # it_has_the_attribute :start, :type => :date
-  # it_has_the_attribute :end, :type => :date
-  # it_has_the_attribute :country, :type => :string
-  # it_has_the_attribute :city, :type => :string
-  it{should validate_presence_of(:country)}
+  should_have_column :start, :type => :date
+  should_have_column :end, :type => :date
+  should_have_column :country, :type => :string
+  should_have_column :city, :type => :string
+  should_validate_presence_of :country
 end
 
 describe Trip, "#to_s" do

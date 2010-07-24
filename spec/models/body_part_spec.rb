@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe BodyPart do
-  it { should have_db_column(:name).of_type(:string) }
-  it { should validate_presence_of(:name) }
+  should_have_column :name, :type => :string
+  should_validate_presence_of :name
 
-  it { should have_many(:diagnoses) }
+  should_have_many :diagnoses
 end
 
 # == Schema Information

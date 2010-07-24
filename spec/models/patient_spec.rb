@@ -1,32 +1,33 @@
 require 'spec_helper'
 
 describe Patient do
-  it { should have_db_column(:name_first).of_type(:string) }
-  it { should have_db_column(:name_last).of_type(:string) }
-  it { should have_db_column(:name_middle).of_type(:string) }
-  it { should have_db_column(:male).of_type(:boolean) }
-  it { should have_db_column(:birth).of_type(:date) }
-  it { should have_db_column(:death).of_type(:date) }
-  it { should have_db_column(:address1).of_type(:string) }
-  it { should have_db_column(:address2).of_type(:string) }
-  it { should have_db_column(:city).of_type(:string) }
-  it { should have_db_column(:state).of_type(:string) }
-  it { should have_db_column(:zip).of_type(:string) }
-  it { should have_db_column(:country).of_type(:string) }
-  it { should have_db_column(:phone).of_type(:string) }
-  it { should have_db_column(:height_cm).of_type(:decimal) }
-  it { should have_db_column(:weight_kg).of_type(:decimal) }
-  it { should have_db_column(:email).of_type(:string) }
+  should_have_column :name_first, :type => :string
+  should_have_column :name_last, :type => :string
+  should_have_column :name_middle, :type => :string
+  should_have_column :male, :type => :boolean
+  should_have_column :birth, :type => :date
+  should_have_column :death, :type => :date
+  should_have_column :address1, :type => :string
+  should_have_column :address2, :type => :string
+  should_have_column :city, :type => :string
+  should_have_column :state, :type => :string
+  should_have_column :zip, :type => :string
+  should_have_column :country, :type => :string
+  should_have_column :phone, :type => :string
+  should_have_column :height_cm, :type => :decimal
+  should_have_column :weight_kg, :type => :decimal
+  should_have_column :email, :type => :string
 
-  it { should validate_presence_of(:name_first) }
-  it { should validate_presence_of(:name_last) }
+  should_validate_presence_of :name_first
+  should_validate_presence_of :name_last
+
   it "is invalid if male is nil" do
     @patient = Patient.new(:male => nil)
     @patient.should_not be_valid
   end
 
-  it { should have_many(:patient_interactions) }
-  it { should have_many(:diagnoses) }
+  should_have_many :patient_interactions
+  should_have_many :diagnoses
 
 end
 

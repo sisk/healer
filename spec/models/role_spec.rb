@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Role do
-  it{ should validate_presence_of(:name) }
+  should_validate_presence_of :name
 end
 
 # == Schema Information

@@ -3,6 +3,7 @@
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
+require 'remarkable/active_record'
 
 require "devise/test_helpers"
 include Devise::TestHelpers
