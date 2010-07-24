@@ -4,6 +4,7 @@ class CreateDiseases < ActiveRecord::Migration
       t.string :base_name
       t.string :code
       t.integer :display_order
+
       t.timestamps
     end
   end
