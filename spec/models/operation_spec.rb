@@ -26,7 +26,7 @@ describe Operation do
   should_validate_presence_of :date
 
   should_validate_numericality_of :difficulty
-  should_validate_inclusion_of :difficulty, :in => 0..2
+  should_validate_inclusion_of :difficulty, :in => Operation::difficulty_table.keys
   
   should_validate_inclusion_of :approach, :in => Operation::approaches
   
@@ -35,5 +35,10 @@ end
 describe Operation, ".approaches" do
   it "returns an array of the expected values" do
     Operation::approaches.should == ["Anterior","Lateral","Medial","Posterior","Dorsal","Lateral Transfibular"]
+  end
+end
+describe Operation, ".difficulty_table" do
+  it "returns an indexed hash of the expected values" do
+    Operation::difficulty_table.should == { 0 => "Routine", 1 => "Moderate", 2 => "Severe" }
   end
 end
