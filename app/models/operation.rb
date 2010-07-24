@@ -1,4 +1,8 @@
 class Operation < ActiveRecord::Base
+  def self.approaches
+    ["Anterior","Lateral","Medial","Posterior","Dorsal","Lateral Transfibular"]
+  end
+
   belongs_to :procedure
   belongs_to :patient
   belongs_to :diagnosis
@@ -11,4 +15,6 @@ class Operation < ActiveRecord::Base
   validates_presence_of :date
   validates_numericality_of :difficulty
   validates_inclusion_of :difficulty, :in => 0..2
+  validates_inclusion_of :approach, :in => Operation::approaches
+  
 end
