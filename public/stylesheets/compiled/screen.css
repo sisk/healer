@@ -573,7 +573,7 @@ body.two-col #content {
 
 /* line 34, ../../../app/stylesheets/screen.scss */
 div {
-  border: solid 1px #ff0000;
+  border: 1px red dotted;
 }
 
 /* line 38, ../../../app/stylesheets/screen.scss */

@@ -1,0 +1,6 @@
+@mixin bordered($size: 1px, $color: #000, $type: solid) {
+  border: $size $color $type;
+}
+@mixin debug {
+  @include bordered(1px, #f00, dotted);
+}
