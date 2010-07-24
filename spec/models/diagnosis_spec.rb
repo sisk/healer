@@ -17,4 +17,5 @@ describe Diagnosis do
   
   should_validate_numericality_of :severity
   should_validate_inclusion_of :severity, :in => 0..3
+  should_validate_inclusion_of :side, :in => ["L", "R", nil]
 end
