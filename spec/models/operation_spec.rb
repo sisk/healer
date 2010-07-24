@@ -10,7 +10,6 @@ describe Operation do
   it { should have_db_column(:date).of_type(:date) }
   it { should have_db_column(:approach).of_type(:string) }
   it { should have_db_column(:difficulty).of_type(:integer) }
-  it { should have_db_column(:side).of_type(:string) }
   it { should have_db_column(:graft).of_type(:boolean) }
   it { should have_db_column(:notes).of_type(:text) }
   it { should have_db_column(:ambulatory_order).of_type(:string) }

@@ -6,4 +6,5 @@ class Diagnosis < ActiveRecord::Base
   validates_presence_of :patient
   validates_presence_of :disease
   validates_numericality_of :severity
+  validates_inclusion_of :severity, :in => 0..3
 end
