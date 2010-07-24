@@ -26,6 +26,8 @@ describe Patient do
   end
 
   it { should have_many(:patient_interactions) }
+  it { should have_many(:diagnoses) }
+
 end
 
 describe Patient, "#name" do

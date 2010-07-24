@@ -11,6 +11,8 @@ class Patient < ActiveRecord::Base
                     # :email => true
   
   has_many :patient_interactions
+  has_many :diagnoses
+  
   # Paperclip
   has_attached_file :photo,
     :styles => {

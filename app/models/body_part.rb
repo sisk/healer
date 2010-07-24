@@ -1,5 +1,6 @@
 class BodyPart < ActiveRecord::Base
   validates_presence_of :name, :message => "can't be blank"
+  has_many :diagnoses
 end
 
 # == Schema Information
