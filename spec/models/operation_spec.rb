@@ -20,6 +20,7 @@ describe Operation do
   should_belong_to :primary_surgeon
   should_belong_to :secondary_surgeon
   should_belong_to :anesthesiologist
+  should_have_one :implant
 
   should_validate_presence_of :procedure
   should_validate_presence_of :patient

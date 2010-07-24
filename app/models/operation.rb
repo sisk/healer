@@ -15,6 +15,7 @@ class Operation < ActiveRecord::Base
   belongs_to :primary_surgeon, :class_name => "User", :foreign_key => "primary_surgeon_id"
   belongs_to :secondary_surgeon, :class_name => "User", :foreign_key => "secondary_surgeon_id"
   belongs_to :anesthesiologist, :class_name => "User", :foreign_key => "anesthesiologist_id"
+  has_one :implant
 
   validates_presence_of :procedure
   validates_presence_of :patient
