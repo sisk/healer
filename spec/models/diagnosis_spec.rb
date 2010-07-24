@@ -11,6 +11,7 @@ describe Diagnosis do
   should_belong_to :patient
   should_belong_to :disease
   should_belong_to :body_part
+  should_have_many :operations
 
   should_validate_presence_of :patient
   should_validate_presence_of :disease

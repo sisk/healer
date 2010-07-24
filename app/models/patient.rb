@@ -12,6 +12,7 @@ class Patient < ActiveRecord::Base
   
   has_many :patient_interactions
   has_many :diagnoses
+  has_many :operations
   
   # Paperclip
   has_attached_file :photo,
