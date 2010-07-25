@@ -1,6 +1,7 @@
 class BodyPart < ActiveRecord::Base
   validates_presence_of :name, :message => "can't be blank"
   has_many :diagnoses
+  validates_inclusion_of :side, :in => %w(L R), :allow_nil => true
 end
 
 # == Schema Information
