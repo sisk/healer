@@ -11,6 +11,4 @@ class Diagnosis < ActiveRecord::Base
   validates_presence_of :disease
   validates_numericality_of :severity
   validates_inclusion_of :severity, :in => self.severity_table.keys
-
-  validates_inclusion_of :side, :in => ["L", "R", nil]
 end

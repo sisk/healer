@@ -6,7 +6,6 @@ describe Diagnosis do
   should_have_column :disease_id, :type => :integer
   should_have_column :severity, :type => :integer, :default => 0
   should_have_column :assessed_date, :type => :date
-  should_have_column :side, :type => :string
 
   should_belong_to :patient
   should_belong_to :disease
@@ -18,7 +17,6 @@ describe Diagnosis do
   
   should_validate_numericality_of :severity
   should_validate_inclusion_of :severity, :in => Diagnosis::severity_table.keys
-  should_validate_inclusion_of :side, :in => ["L", "R", nil]
 end
 
 describe Diagnosis, ".severity_table" do
