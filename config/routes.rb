@@ -19,6 +19,7 @@ Healer::Application.routes.draw do |map|
   # match "logout" => "user_sessions#destroy"
 
   resources :users
+  resources :body_parts
   resources :trips do
     # resource :staff, :controller => :staff
   end

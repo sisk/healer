@@ -25,8 +25,6 @@
             %li= link_to_unless_current "Trips", trips_path
           - if permitted_to? :index, Patient.new
             %li= link_to_unless_current "Patients", patients_path
-          - if permitted_to? :index, User.new
-            %li= link_to_unless_current "Users", users_path
       #content
         - if yield :title
           %h1= yield :title

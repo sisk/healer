@@ -6,7 +6,7 @@ authorization do
     end
   end
   role :admin do
-    has_permission_on [:trips, :users, :patients], :to => [:index, :show, :new, :create, :edit, :update, :destroy]
+    has_permission_on [:trips, :users, :patients, :body_parts], :to => [:index, :show, :new, :create, :edit, :update, :destroy]
   end
   role :doctor do
     has_permission_on [:trips, :patients], :to => [:index, :show, :edit, :update]
