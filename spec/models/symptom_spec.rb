@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Symptom do
   should_have_column :description, :type => :string
   should_validate_presence_of :description
+  should_have_and_belong_to_many :follow_ups
 end
 
 describe Symptom, "#to_s" do
