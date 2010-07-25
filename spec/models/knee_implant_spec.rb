@@ -22,6 +22,7 @@ describe KneeImplant do
   should_validate_inclusion_of :tibia_diameter, :in => [60,65,70,75,80], :allow_nil => true
   should_validate_inclusion_of :knee_thickness, :in => [10,12,14,16,20,22], :allow_nil => true
   should_validate_inclusion_of :patella_size, :in => KneeImplant::patella_sizes.keys, :allow_nil => true
+  should_validate_inclusion_of :knee_type, :in => ["CR","PS","CC","Hinge"], :allow_nil => true
 
 end
 
