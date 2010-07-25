@@ -1,7 +1,8 @@
 class PatientInteraction < ActiveRecord::Base
   belongs_to :provider, :class_name => "User", :foreign_key => "provider_id"
-  belongs_to :patient, :class_name => "User", :foreign_key => "patient_id"
-  validates_presence_of :patient_id
+  belongs_to :patient
+  belongs_to :operation
+  validates_presence_of :patient
   validates_presence_of :date_time
   validates_presence_of :type
 end
