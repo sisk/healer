@@ -2,7 +2,8 @@ class UsersController < InheritedResources::Base
 # class UsersController < ApplicationController
 
   before_filter :authenticate_user!
-  filter_resource_access
+  # FIXME turn back on when auth engine is fixed
+  # filter_resource_access
 
   before_filter :set_selectable_roles
 

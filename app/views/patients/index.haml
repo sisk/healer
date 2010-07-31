@@ -7,6 +7,8 @@
     %h2= patient
     = image_tag patient.photo.url(:thumb)
     .nav
+      - if permitted_to? :show, patient
+        = link_to "Show", patient_path(patient)
       - if permitted_to? :edit, patient
         = link_to "Edit", edit_patient_path(patient)
       - if permitted_to? :destroy, patient

@@ -1,7 +1,8 @@
 class TripsController < InheritedResources::Base
 # class TripsController < ApplicationController
   before_filter :authenticate_user!
-  filter_resource_access
+  # FIXME turn back on when auth engine is fixed
+  # filter_resource_access
   
   def index
     @future_trips = end_of_association_chain.future

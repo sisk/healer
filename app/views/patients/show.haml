@@ -1,0 +1,6 @@
+- content_for :title do
+  = "Patient: #{@patient}"
+- content_for :subnavigation do
+  = render :partial => "subnav"
+
+= link_to "New Diagnosis", new_patient_diagnosis_path(@patient)
