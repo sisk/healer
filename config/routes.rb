@@ -20,6 +20,11 @@ Healer::Application.routes.draw do |map|
 
   resources :users
   resources :body_parts
+  resources :diseases do
+    collection do
+      put :sort
+    end
+  end
   resources :trips do
     resource :staff, :controller => :staff
   end

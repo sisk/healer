@@ -48,3 +48,7 @@ div {
     color: #fff;
   }
 }
+
+.ui-icon-grip-dotted-vertical {
+  @include float-left;
+}

@@ -9,3 +9,9 @@ describe Disease do
   
   should_have_many :diagnoses
 end
+
+describe Disease, "#to_s" do
+  it "returns base_name" do
+    Disease.new(:base_name => "Dickie Doo-Doo Disease").to_s.should == "Dickie Doo-Doo Disease"
+  end
+end
