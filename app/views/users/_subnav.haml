@@ -1,0 +1,3 @@
+%ul.subnavigation
+  - if permitted_to? :create, User.new
+    %li= link_to_unless_current "New User", new_user_path
