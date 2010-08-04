@@ -1,5 +1,6 @@
 class StaffController < InheritedResources::Base
-  defaults :resource_class => User, :collection_name => 'users', :instance_name => 'user'
+  defaults :resource_class => User, :collection_name => 'staff', :instance_name => 'staff'
+  belongs_to :trip
   # filter_resource_access
 
   before_filter :authenticate_user!

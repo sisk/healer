@@ -1,4 +1,5 @@
 class Trip < ActiveRecord::Base
+  has_and_belongs_to_many :staff, :class_name => "User", :join_table => "staff_trips", :foreign_key => "staff_id"
   validates_presence_of :country, :message => "can't be blank"
 
   default_scope order(:start)

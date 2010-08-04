@@ -6,6 +6,7 @@ describe Trip do
   should_have_column :country, :type => :string
   should_have_column :city, :type => :string
   should_validate_presence_of :country
+  should_have_and_belong_to_many :staff
 end
 
 describe Trip, "#to_s" do
