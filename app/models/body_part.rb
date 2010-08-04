@@ -1,7 +1,15 @@
 class BodyPart < ActiveRecord::Base
   validates_presence_of :name, :message => "can't be blank"
   has_many :diagnoses
-  validates_inclusion_of :side, :in => %w(L R), :allow_nil => true
+  validates_inclusion_of :side, :in => ["L", "R", ""], :allow_nil => true
+  default_scope :order => 'body_parts.name, body_parts.side'
+  
+  def to_s
+    str = name
+    str << " (#{side})" unless side.blank?
+    str
+  end
+  
 end
 
 # == Schema Information
