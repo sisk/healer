@@ -13,6 +13,8 @@ class Patient < ActiveRecord::Base
   has_many :patient_interactions
   has_many :diagnoses
   has_many :operations
+
+  default_scope :order => 'patients.name_last, patients.name_first'
   
   # Paperclip
   has_attached_file :photo,
