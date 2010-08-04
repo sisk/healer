@@ -1,8 +1,8 @@
 - semantic_form_for [@patient,@diagnosis], :html => { :multipart => true } do |f|
   - f.inputs do
     = f.input :body_part_id, :as => :select, :label => 'Body Part', :collection => BodyPart.all.collect{ |bp| [bp.to_s, bp.id] }
-    = f.input :disease_id, :label => 'Disease'
+    = f.input :disease_id, :as => :select, :label => 'Disease', :collection => Disease.all.collect{ |d| [d.to_s, d.id] }
     = f.input :severity, :as => :radio, :label => "Severity", :collection => Diagnosis::severity_table.invert
-    = f.input :assessed_date, :as => :date, :label => "Assessed Date"
+    = f.input :assessed_date, :as => :string, :label => "Assessed Date", :input_html => { :class => 'date' }
   - f.buttons do
     = f.commit_button
