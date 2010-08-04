@@ -19,6 +19,21 @@ describe Diagnosis do
   should_validate_inclusion_of :severity, :in => Diagnosis::severity_table.keys
 end
 
+describe Diagnosis, "#to_s" do
+  before(:each) do
+    @disease = mock_model(Disease)
+    @disease.stub(:to_s).and_return("Le Derp")
+    @body_part = mock_model(BodyPart)
+    @body_part.stub(:to_s).and_return("Shoulder Socket")
+  end
+  it "returns the disease" do
+    Diagnosis.new(:disease => @disease).to_s.should == "Le Derp"
+  end
+  it "concatenates body part with a comma if that's set" do
+    Diagnosis.new(:disease => @disease, :body_part => @body_part).to_s.should == "Le Derp, Shoulder Socket"
+  end
+end
+
 describe Diagnosis, ".severity_table" do
   it "returns an indexed hash of the expected values" do
     Diagnosis::severity_table.should == { 0 => "Unremarkable", 1 => "Mild", 2 => "Moderate", 3 => "Severe" }

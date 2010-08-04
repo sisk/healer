@@ -4,7 +4,11 @@
   = render :partial => "subnav"
 - @patients.each do |patient|
   .patient
-    %h2= patient
+    %h2
+      - if permitted_to? :show, patient
+        = link_to patient, patient_path(patient)
+      - else
+        = patient
     = image_tag patient.photo.url(:thumb)
     .demographic
     .diagnoses
@@ -12,9 +16,5 @@
     .nav
       - if permitted_to? :create, Diagnosis.new(:patient => patient)
         = link_to "New Diagnosis", new_patient_diagnosis_path(patient)
-      - if permitted_to? :show, patient
-        = link_to "Show", patient_path(patient)
       - if permitted_to? :edit, patient
         = link_to "Edit", edit_patient_path(patient)
-      - if permitted_to? :destroy, patient
-        = link_to "Delete", patient_path(patient), :method => :delete, :confirm => "Are you sure?"

@@ -11,4 +11,10 @@ class Diagnosis < ActiveRecord::Base
   validates_presence_of :disease
   validates_numericality_of :severity
   validates_inclusion_of :severity, :in => self.severity_table.keys
+  
+  def to_s
+    str = disease.to_s
+    str << ", #{body_part.to_s}" if body_part.present?
+    str
+  end
 end
