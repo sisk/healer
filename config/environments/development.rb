@@ -24,5 +24,6 @@ Healer::Application.configure do
     :address => "localhost",
     :port => 2525,
   }
+  config.active_support.deprecation = :log
 
 end
