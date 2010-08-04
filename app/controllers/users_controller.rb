@@ -1,5 +1,4 @@
 class UsersController < InheritedResources::Base
-# class UsersController < ApplicationController
 
   before_filter :authenticate_user!
   # FIXME turn back on when auth engine is fixed
