@@ -5,11 +5,12 @@
     -#%li= link_to "Patients", patients_path
     - if permitted_to? :edit, @patient
       = link_to "Edit", edit_patient_path(@patient)
-    - if permitted_to? :create, Diagnosis.new(:patient => @patient)
-      = link_to "New Diagnosis", new_patient_diagnosis_path(@patient)
 
 .section
   %h2 Diagnoses
+  %ul.subnavigation
+    - if permitted_to? :create, Diagnosis.new(:patient => @patient)
+      = link_to "New Diagnosis", new_patient_diagnosis_path(@patient)
   - @patient.diagnoses.each do |diagnosis|
     .diagnosis
       = diagnosis

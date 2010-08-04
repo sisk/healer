@@ -12,9 +12,11 @@
     = image_tag patient.photo.url(:thumb)
     .demographic
     .diagnoses
+      %p= "#{pluralize(patient.diagnoses.size, 'diagnosis')}"
     .operations
-    .nav
-      - if permitted_to? :create, Diagnosis.new(:patient => patient)
-        = link_to "New Diagnosis", new_patient_diagnosis_path(patient)
-      - if permitted_to? :edit, patient
-        = link_to "Edit", edit_patient_path(patient)
+    /
+      .nav
+        - if permitted_to? :create, Diagnosis.new(:patient => patient)
+          = link_to "New Diagnosis", new_patient_diagnosis_path(patient)
+        - if permitted_to? :edit, patient
+          = link_to "Edit", edit_patient_path(patient)
