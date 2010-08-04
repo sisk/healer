@@ -6,7 +6,12 @@
   .patient
     %h2= patient
     = image_tag patient.photo.url(:thumb)
+    .demographic
+    .diagnoses
+    .operations
     .nav
+      - if permitted_to? :create, Diagnosis.new(:patient => patient)
+        = link_to "New Diagnosis", new_patient_diagnosis_path(patient)
       - if permitted_to? :show, patient
         = link_to "Show", patient_path(patient)
       - if permitted_to? :edit, patient

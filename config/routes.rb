@@ -21,9 +21,11 @@ Healer::Application.routes.draw do |map|
   resources :users
   resources :body_parts
   resources :trips do
-    # resource :staff, :controller => :staff
+    resource :staff, :controller => :staff
   end
-  resources :patients
+  resources :patients do
+    resources :diagnoses
+  end
 
   # Sample resource route with options:
   #   resources :products do
