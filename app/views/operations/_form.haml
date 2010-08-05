@@ -1,0 +1,15 @@
+- semantic_form_for [@patient,@operation] do |f|
+  - f.inputs do
+    = f.input :procedure_id, :label => 'Procedure'
+    = f.input :diagnosis_id, :label => 'Diagnosis'
+    = f.input :primary_surgeon_id, :label => 'Primary Surgeon'
+    = f.input :secondary_surgeon_id, :label => 'Secondary Surgeon'
+    = f.input :anesthesiologist_id, :label => 'Anesthesiologist'
+    = f.input :date, :label => 'Operation Date'
+    = f.input :approach, :label => 'Approach'
+    = f.input :difficulty, :label => 'Difficulty'
+    = f.input :graft, :label => 'Graft'
+    = f.input :notes, :label => 'Notes'
+    = f.input :ambulatory_order, :label => 'Ambulatory Order'
+  - f.buttons do
+    = f.commit_button

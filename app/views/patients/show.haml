@@ -15,5 +15,14 @@
     .diagnosis
       = diagnosis
 
+.section
+  %h2 Operations
+  %ul.subnavigation
+    - if permitted_to? :create, Operation.new(:patient => @patient)
+      = link_to "New Operation", new_patient_operation_path(@patient)
+  - @patient.operations.each do |operation|
+    .operation
+      = operation
+
 - if permitted_to? :destroy, @patient
   %p.delete= link_to "Delete #{@patient}", patient_path(@patient), :method => :delete, :confirm => "Are you sure you want to delete the entire patient record for #{@patient}? This will erase all history, procedures, and diagnoses for this patient. Also, this action cannot be undone."
