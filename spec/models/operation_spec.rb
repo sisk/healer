@@ -49,3 +49,12 @@ describe Operation, ".difficulty_table" do
     Operation::difficulty_table.should == { 0 => "Routine", 1 => "Moderate", 2 => "Severe" }
   end
 end
+
+describe Operation, "#to_s" do
+  it "returns the procedure name followed by a formatted date" do
+    procedure = mock_model(Procedure)
+    procedure.stub(:to_s).and_return("Derp")
+    operation = Operation.new(:date => "2010-08-12".to_date, :procedure => procedure)
+    operation.to_s.should == "Derp - 2010-08-12"
+  end
+end

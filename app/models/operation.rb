@@ -24,5 +24,8 @@ class Operation < ActiveRecord::Base
   validates_inclusion_of :difficulty, :in => self.difficulty_table.keys
   validates_inclusion_of :approach, :in => self.approaches, :allow_nil => true
   validates_inclusion_of :ambulatory_order, :in => self.ambulatory_orders, :allow_nil => true
-  
+
+  def to_s
+    "#{procedure.to_s} - #{date}"
+  end
 end
