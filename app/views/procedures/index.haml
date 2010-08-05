@@ -1,0 +1,16 @@
+- content_for :title do
+  Procedures
+- content_for :subnavigation do
+  %ul.subnavigation
+    - if permitted_to? :create, Procedure.new
+      %li= link_to_unless_current "New Procedure", new_procedure_path
+
+#procedure_list
+  - @procedures.each do |procedure|
+    .procedure{ :id => "procedure_#{procedure.id}" }
+      %span.ui-icon.ui-icon-grip-dotted-vertical
+      %span.name= procedure
+      %span.code= "(#{procedure.code})" unless procedure.code.blank?
+      %span.nav
+        = link_to("Edit", edit_procedure_path(procedure))
+        = link_to("Delete", procedure_path(procedure), :method => :delete, :confirm => "Are you sure? This may have rippling effects and cannot be undone.")

@@ -10,6 +10,14 @@ $(document).ready(function() {
       $.post('/diseases/sort', '_method=put&authenticity_token=meta[name=csrf-token]&'+$(this).sortable('serialize'));
     }
   });
+  $('#procedure_list').sortable({
+    items:'.procedure',
+    containment:'parent',
+    axis:'y',
+    update: function() {
+      $.post('/procedures/sort', '_method=put&authenticity_token=meta[name=csrf-token]&'+$(this).sortable('serialize'));
+    }
+  });
 
   $('input.date').datepicker();
 
