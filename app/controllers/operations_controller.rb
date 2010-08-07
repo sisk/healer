@@ -6,4 +6,13 @@ class OperationsController < InheritedResources::Base
   def update
     update! { patient_path(@patient) }
   end
+  
+  private
+  
+  # def build_resource 
+  #    super 
+  #    @operation.build_implant(params[:implant]) 
+  #    @operation
+  # end 
+  
 end
