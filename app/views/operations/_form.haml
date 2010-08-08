@@ -1,4 +1,5 @@
 - semantic_form_for [@patient,@operation] do |operation|
+  = operation.input :patient_id, :as => :hidden
   = operation.input :diagnosis_id, :as => :hidden, :input_html => { :value => params[:diagnosis_id] }
   - operation.inputs do
     = operation.input :body_part_id, :as => :select, :label => 'Body Part', :collection => BodyPart.all.collect{ |bp| [bp.to_s, bp.id] }
