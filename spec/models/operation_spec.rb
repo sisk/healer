@@ -4,6 +4,7 @@ describe Operation do
   should_have_column :procedure_id, :type => :integer
   should_have_column :patient_id, :type => :integer
   should_have_column :diagnosis_id, :type => :integer
+  should_have_column :body_part_id, :type => :integer
   should_have_column :primary_surgeon_id, :type => :integer
   should_have_column :secondary_surgeon_id, :type => :integer
   should_have_column :anesthesiologist_id, :type => :integer
@@ -17,6 +18,7 @@ describe Operation do
   should_belong_to :procedure
   should_belong_to :patient
   should_belong_to :diagnosis
+  should_belong_to :body_part
   should_belong_to :primary_surgeon
   should_belong_to :secondary_surgeon
   should_belong_to :anesthesiologist
@@ -27,6 +29,7 @@ describe Operation do
 
   should_validate_presence_of :procedure
   should_validate_presence_of :patient
+  should_validate_presence_of :body_part
   should_validate_presence_of :date
 
   should_validate_numericality_of :difficulty
