@@ -27,8 +27,8 @@ class Operation < ActiveRecord::Base
   validates_presence_of :body_part
   validates_numericality_of :difficulty
   validates_inclusion_of :difficulty, :in => self.difficulty_table.keys
-  validates_inclusion_of :approach, :in => self.approaches, :allow_nil => true
-  validates_inclusion_of :ambulatory_order, :in => self.ambulatory_orders, :allow_nil => true
+  validates_inclusion_of :approach, :in => self.approaches, :allow_nil => true, :allow_blank => true
+  validates_inclusion_of :ambulatory_order, :in => self.ambulatory_orders, :allow_nil => true, :allow_blank => true
 
   accepts_nested_attributes_for :knee_implant
   accepts_nested_attributes_for :hip_implant
