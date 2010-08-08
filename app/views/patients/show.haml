@@ -13,8 +13,8 @@
       = link_to "New Diagnosis", new_patient_diagnosis_path(@patient)
   - @patient.diagnoses.each do |diagnosis|
     .diagnosis
-      = diagnosis
-      = link_to "New operation for this diagnosis", new_patient_operation_path(@patient, :diagnosis_id => diagnosis.id)
+      = link_to diagnosis, edit_patient_diagnosis_path(@patient, diagnosis)
+      = link_to "New operation for this diagnosis", new_patient_operation_path(@patient, :diagnosis_id => diagnosis.id), :class => "supplemental"
 
 .section
   %h2 Operations
