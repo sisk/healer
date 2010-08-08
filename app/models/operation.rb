@@ -37,4 +37,17 @@ class Operation < ActiveRecord::Base
   def to_s
     "#{procedure.to_s} - #{date}"
   end
+  
+  def build_implant(*args)
+    # override method to deal with STI
+    return implant if implant.present?
+    case body_part.try(:name).try(:downcase)
+    when "knee"
+      self.implant = KneeImplant.new(:operation => self, :body_part => self.body_part)
+    when "hip"
+      self.implant = HipImplant.new(:operation => self, :body_part => self.body_part)
+    else
+      self.implant = Implant.new(:operation => self, :body_part => self.body_part)
+    end
+  end
 end
