@@ -19,6 +19,5 @@ $(document).ready(function() {
     }
   });
 
-  $('input.date').datepicker();
-
+  $('input.ui-datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
 });

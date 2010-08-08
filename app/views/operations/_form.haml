@@ -3,10 +3,10 @@
   - operation.inputs do
     = operation.input :body_part_id, :as => :select, :label => 'Body Part', :collection => BodyPart.all.collect{ |bp| [bp.to_s, bp.id] }
     = operation.input :procedure_id, :as => :select, :label => 'Procedure', :collection => Procedure.all.collect{ |p| [p.to_s, p.id] }
-    = operation.input :primary_surgeon_id, :label => 'Primary Surgeon'
-    = operation.input :secondary_surgeon_id, :label => 'Secondary Surgeon'
-    = operation.input :anesthesiologist_id, :label => 'Anesthesiologist'
-    = operation.input :date, :as => :string, :label => "Operation Date", :input_html => { :class => 'date' }
+    = operation.input :primary_surgeon_id, :as => :select, :label => 'Primary Surgeon', :collection => User.doctor
+    = operation.input :secondary_surgeon_id, :as => :select, :label => 'Secondary Surgeon', :collection => User.doctor
+    = operation.input :anesthesiologist_id, :as => :select, :label => 'Anesthesiologist', :collection => User.doctor
+    = operation.input :date, :as => :datepicker, :label => "Operation Date"
     = operation.input :approach, :as => :select, :label => 'Approach', :collection => Operation::approaches
     = operation.input :difficulty, :as => :radio, :label => "Difficulty", :collection => Operation::difficulty_table.invert
     = operation.input :graft, :label => 'Graft'
