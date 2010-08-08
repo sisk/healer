@@ -4,3 +4,9 @@
   %ul.subnavigation
     - if permitted_to? :edit, @operation
       = link_to "Edit", edit_patient_operation_path(@patient, @operation)
+%h2 Implant
+- if @operation.implant.blank?
+  %ul.subnavigation
+    = link_to "Add Implant", new_operation_implant_path(@operation)
+- else
+  = link_to "Implant Details", operation_implant_path(@operation)

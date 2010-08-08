@@ -1,0 +1,13 @@
+%h2 Hip Implant
+- semantic_form_for :hip_implant, @implant do |implant|
+  - implant.inputs do
+    = implant.input :femur_diameter, :as => :select, :label => 'Femur Diameter', :collection => HipImplant::femur_diameters
+    = implant.input :femur_length, :as => :select, :label => 'Femur Length', :collection => HipImplant::femur_lengths
+    = implant.input :femur_head_size, :as => :select, :label => 'Femur Head Size', :collection => HipImplant::femur_head_sizes
+    = implant.input :neck_length, :as => :select, :label => 'Neck Length', :collection => HipImplant::neck_lengths
+    = implant.input :acetabulum_size, :as => :select, :label => 'Acetabulum Size', :collection => HipImplant::acetabulum_sizes
+    = implant.input :cement_used, :as => :boolean, :label => 'Cement Used'
+    = implant.input :spacer_used, :as => :boolean, :label => 'Spacer Used'
+    = implant.input :notes, :as => :text, :label => 'Notes'
+  - implant.buttons do
+    = implant.commit_button

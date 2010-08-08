@@ -37,6 +37,9 @@ Healer::Application.routes.draw do |map|
     resources :diagnoses
     resources :operations
   end
+  resources :operations do
+    resource :implant
+  end
 
   # Sample resource route with options:
   #   resources :products do

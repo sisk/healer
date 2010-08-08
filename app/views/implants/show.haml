@@ -1,0 +1,5 @@
+- content_for :title do
+  = "#{@implant.type.titleize} - #{@implant.operation.patient} - #{@implant.operation.date}"
+- content_for :subnavigation do
+  %ul.subnavigation
+    = link_to "Edit", edit_operation_implant_path(@operation)

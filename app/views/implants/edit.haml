@@ -1,0 +1,9 @@
+- content_for :title do
+  = "#{@operation} - Edit Implant"
+- content_for :subnavigation do
+  %ul.subnavigation
+    - if permitted_to? :edit, @operation
+      = link_to "Edit Operation", edit_patient_operation_path(@operation.patient, @operation)
+
+-# TODO this is funky. make it more elegant and bulletproof, or consider revising the controller/view.
+= render :partial => "implants/forms/#{@implant.type.underscore}"
