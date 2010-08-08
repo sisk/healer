@@ -17,17 +17,47 @@ describe KneeImplant do
   should_validate_numericality_of :knee_thickness, :allow_nil => true
   should_validate_numericality_of :patella_size, :allow_nil => true
 
-  should_validate_inclusion_of :femur_diameter, :in => [60,65,70,75,80,85], :allow_nil => true
-  should_validate_inclusion_of :tibia_type, :in => ["Metal-backed"], :allow_nil => true
-  should_validate_inclusion_of :tibia_diameter, :in => [60,65,70,75,80], :allow_nil => true
-  should_validate_inclusion_of :knee_thickness, :in => [10,12,14,16,20,22], :allow_nil => true
+  should_validate_inclusion_of :femur_diameter, :in => KneeImplant::femur_diameters, :allow_nil => true
+  should_validate_inclusion_of :tibia_type, :in => KneeImplant::tibia_types, :allow_nil => true
+  should_validate_inclusion_of :tibia_diameter, :in => KneeImplant::tibia_diameters, :allow_nil => true
+  should_validate_inclusion_of :knee_thickness, :in => KneeImplant::knee_thicknesses, :allow_nil => true
   should_validate_inclusion_of :patella_size, :in => KneeImplant::patella_sizes.keys, :allow_nil => true
-  should_validate_inclusion_of :knee_type, :in => ["CR","PS","CC","Hinge"], :allow_nil => true
+  should_validate_inclusion_of :knee_type, :in => KneeImplant::knee_types, :allow_nil => true
 
 end
 
 describe KneeImplant, ".patella_sizes" do
   it "returns an indexed hash of the expected values" do
     KneeImplant::patella_sizes.should == { 0 => "Small", 1 => "Medium", 2 => "Large" }
+  end
+end
+
+describe KneeImplant, ".femur_diameters" do
+  it "returns an array of the expected values" do
+    KneeImplant::femur_diameters.should == [60,65,70,75,80,85]
+  end
+end
+
+describe KneeImplant, ".tibia_diameters" do
+  it "returns an array of the expected values" do
+    KneeImplant::tibia_diameters.should == [60,65,70,75,80]
+  end
+end
+
+describe KneeImplant, ".knee_thicknesses" do
+  it "returns an array of the expected values" do
+    KneeImplant::knee_thicknesses.should == [10,12,14,16,20,22]
+  end
+end
+
+describe KneeImplant, ".tibia_types" do
+  it "returns an array of the expected values" do
+    KneeImplant::tibia_types.should == ["Metal-backed"]
+  end
+end
+
+describe KneeImplant, ".knee_types" do
+  it "returns an array of the expected values" do
+    KneeImplant::knee_types.should == ["CR","PS","CC","Hinge"]
   end
 end
