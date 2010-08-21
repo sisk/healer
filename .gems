@@ -1,0 +1,2 @@
+haml --version '>= 3.0.4'
+compass --version '>= 0.10.3' --source gems.github.com
