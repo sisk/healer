@@ -20,6 +20,7 @@ gem "carmen", :path => File.join(File.dirname(__FILE__), '/vendor/gems/carmen')
 gem "paperclip"
 gem "test-unit"
 gem 'inherited_resources', '1.1.2'
+# gem 'hoptoad_notifier'
 
 group :development, :test do
   gem "rspec-rails", ">= 2.0.0.beta.17"
