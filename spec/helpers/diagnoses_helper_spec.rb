@@ -10,6 +10,13 @@ require 'spec_helper'
 #     end
 #   end
 # end
-describe DiagnosesHelper do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe DiagnosesHelper, "#date_assessed" do
+  it "outputs a formatted date string if date is known" do
+    @diagnosis = Diagnosis.new(:assessed_date => "2010-06-07".to_date)
+    helper.date_assessed(@diagnosis).should == "assessed 2010-06-07"
+  end
+  it "outputs unknown string if date is not known" do
+    @diagnosis = Diagnosis.new(:assessed_date => nil)
+    helper.date_assessed(@diagnosis).should == "unknown assessment date"
+  end
 end
