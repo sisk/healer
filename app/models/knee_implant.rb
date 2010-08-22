@@ -18,7 +18,6 @@ class KneeImplant < Implant
     ["CR","PS","CC","Hinge"]
   end
 
-  validates_inclusion_of :tibia_type, :in => %w(Metal-backed), :allow_nil => true
   validates_numericality_of :femur_diameter, :allow_nil => true
   validates_numericality_of :tibia_diameter, :allow_nil => true
   validates_numericality_of :knee_thickness, :allow_nil => true
