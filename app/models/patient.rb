@@ -27,8 +27,8 @@ class Patient < ActiveRecord::Base
       :secret_access_key => ENV['S3_SECRET']
     },
     :bucket => ENV['S3_BUCKET'],
-    :path => "patients/:attachment/:id"
-
+    :path => ENV['S3_BUCKET'] ? "patients/:attachment/:id/:style/:basename.:extension" : ":rails_root/public/system/patients/:attachment/:id/:style/:basename.:extension",
+    :url => ENV['S3_BUCKET'] ? "patients/:attachment/:id/:style/:basename.:extension" : "/system/patients/:attachment/:id/:style/:basename.:extension"
   
   def to_s(*args)
     name(*args)
