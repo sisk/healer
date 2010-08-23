@@ -15,7 +15,6 @@ Healer::Application.routes.draw do |map|
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
 
-  match "test_email" => "site#test_email"
   # match "login" => "user_sessions#new"
   # match "logout" => "user_sessions#destroy"
 
