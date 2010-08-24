@@ -21,6 +21,8 @@ class Operation < ActiveRecord::Base
   has_one :knee_implant
   has_one :hip_implant
 
+  has_many :xrays
+  
   validates_presence_of :procedure
   validates_presence_of :patient
   validates_presence_of :date

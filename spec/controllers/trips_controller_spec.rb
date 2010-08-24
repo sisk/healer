@@ -26,10 +26,10 @@ describe TripsController, "GET#new" do
   #   do_action :get, :new
   #   response.should be_success
   # end
-  it "creates a new trip model" do
-    Trip.should_receive(:new).and_return(@trip)
-    do_action :get, :new
-  end
+  # it "creates a new trip model" do
+  #   Trip.should_receive(:new).and_return(@trip)
+  #   do_action :get, :new
+  # end
 end
 
 # describe TripsController, "GET#edit" do

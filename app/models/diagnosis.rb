@@ -6,6 +6,7 @@ class Diagnosis < ActiveRecord::Base
   belongs_to :disease
   belongs_to :body_part
   has_many :operations
+  has_many :xrays
   
   validates_presence_of :patient
   validates_presence_of :disease

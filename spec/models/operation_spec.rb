@@ -27,6 +27,8 @@ describe Operation do
   should_have_one :knee_implant
   should_have_one :hip_implant
 
+  should_have_many :xrays
+
   should_validate_presence_of :procedure
   should_validate_presence_of :patient
   should_validate_presence_of :body_part

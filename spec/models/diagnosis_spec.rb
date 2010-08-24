@@ -11,12 +11,14 @@ describe Diagnosis do
   should_belong_to :disease
   should_belong_to :body_part
   should_have_many :operations
+  should_have_many :xrays
 
   should_validate_presence_of :patient
   should_validate_presence_of :disease
   
   should_validate_numericality_of :severity
   should_validate_inclusion_of :severity, :in => Diagnosis::severity_table.keys
+  
 end
 
 describe Diagnosis, "#to_s" do
