@@ -64,3 +64,21 @@ describe Patient, "#to_s" do
     end
   end
 end
+
+describe Patient, "one_line_address" do
+  before(:each) do
+    @patient = Patient.new
+  end
+  it "returns concatenated address elements if any are set" do
+    @patient.address1 = "A"
+    @patient.address2 = "B"
+    @patient.city = "C"
+    @patient.state = "D"
+    @patient.zip = "E"
+    @patient.country = "F"
+    @patient.one_line_address.should == "A, B, C, D, E, F"
+  end
+  it "returns nil if no address elements are set" do
+    @patient.one_line_address.should == nil
+  end
+end

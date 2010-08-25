@@ -1,15 +1,49 @@
 require 'spec_helper'
 
-# Specs in this file have access to a helper object that includes
-# the PatientsHelper. For example:
-# 
-# describe PatientsHelper do
-#   describe "string concat" do
-#     it "concats two strings with spaces" do
-#       helper.concat_strings("this","that").should == "this that"
-#     end
-#   end
-# end
-describe PatientsHelper do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe PatientsHelper, "patient_image" do
+  before(:each) do
+    @patient = Patient.new
+    @patient.stub(:to_s).and_return("Joe Derp")
+    
+  end
+  it "outputs photo thumbnail if set" do
+    @patient.stub(:photo)
+    @patient.photo.stub(:file?).and_return(true)
+    @patient.photo.stub(:url).with(:thumb).and_return("/path/to/image.jpg")
+    helper.patient_image(@patient).should == image_tag(@patient.photo.url(:thumb), :alt => "Photo of Joe Derp")
+  end
+  it "outputs generic silhouette for male if photo not set and gender is not known" do
+    @patient.stub_chain(:photo, :file?).and_return(false)
+    @patient.male = nil
+    helper.patient_image(@patient).should == image_tag("male-generic.gif", :alt => "")
+  end
+  it "outputs generic silhouette for male if photo not set and gender is male" do
+    @patient.stub_chain(:photo, :file?).and_return(false)
+    @patient.male = true
+    helper.patient_image(@patient).should == image_tag("male-generic.gif", :alt => "")
+  end
+  it "outputs generic silhouette for male if photo not set and gender is female" do
+    @patient.stub_chain(:photo, :file?).and_return(false)
+    @patient.male = false
+    helper.patient_image(@patient).should == image_tag("female-generic.gif", :alt => "")
+  end
+end
+
+
+describe PatientsHelper, "patient_gender" do
+  before(:each) do
+    @patient = Patient.new
+  end
+  it "outputs 'Unknown' if gender is not set" do
+    @patient.male = nil
+    helper.patient_gender(@patient).should == "Unknown"
+  end
+  it "outputs 'Male' if gender is male" do
+    @patient.male = true
+    helper.patient_gender(@patient).should == "Male"
+  end
+  it "outputs 'Female' if gender is not male" do
+    @patient.male = false
+    helper.patient_gender(@patient).should == "Female"
+  end
 end

@@ -2,21 +2,5 @@
   Patients
 - content_for :subnavigation do
   = render :partial => "subnav"
-- @patients.each do |patient|
-  .patient
-    %h2
-      - if permitted_to? :show, patient
-        = link_to patient, patient_path(patient)
-      - else
-        = patient
-    = image_tag patient.photo.url(:thumb)
-    .demographic
-    .diagnoses
-      %p= "#{pluralize(patient.diagnoses.size, 'diagnosis')}"
-    .operations
-    /
-      .nav
-        - if permitted_to? :create, Diagnosis.new(:patient => patient)
-          = link_to "New Diagnosis", new_patient_diagnosis_path(patient)
-        - if permitted_to? :edit, patient
-          = link_to "Edit", edit_patient_path(patient)
+#patient_list
+  = render :partial => "inline_summary", :collection => @patients, :as => :patient

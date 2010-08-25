@@ -1,0 +1,33 @@
+.patient
+  .demographic
+    = patient_image(patient)
+    %h3
+      - if permitted_to? :show, patient
+        = link_to patient, patient_path(patient)
+      - else
+        = patient
+    %dl
+      %dt Gender:
+      %dd= patient_gender(patient)
+      - if patient.one_line_address.present?
+        %dt Address:
+        %dd= patient.one_line_address
+      - if patient.phone.present?
+        %dt Phone:
+        %dd= patient.phone
+      - if patient.email.present?
+        %dt Email:
+        %dd= mail_to patient.email
+  .diagnosis
+    %h3 Diagnoses
+    - if patient.diagnoses.empty?
+      = link_to "New diagnosis for #{patient}", new_patient_diagnosis_path(patient)
+    - else
+      %p= "#{pluralize(patient.diagnoses.size, 'diagnosis')}"
+  .operations
+  /
+    .nav
+      - if permitted_to? :create, Diagnosis.new(:patient => patient)
+        = link_to "New Diagnosis", new_patient_diagnosis_path(patient)
+      - if permitted_to? :edit, patient
+        = link_to "Edit", edit_patient_path(patient)

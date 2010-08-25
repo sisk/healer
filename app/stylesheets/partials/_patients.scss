@@ -1,0 +1,26 @@
+#patient_list {
+  .patient {
+    @include clearfix;
+    padding-top: $margin-increment * 2;
+    padding-bottom: $margin-increment * 2;
+    @include column($blueprint-grid-columns);
+    border-bottom: solid 1px $grey-light;
+    .demographic {
+      @include column(13);
+      h3 {
+        margin-bottom: $margin-increment;
+      }
+      img {
+        @include float-left;
+        width: 100px;
+        margin-right: $margin-increment;
+      }
+      dt {
+        @include float-left;
+        margin-right: $margin-increment;
+      }
+      /*.name { font-size: 2em; }*/
+      border-right: solid 1px $grey-light;
+    }
+  }
+}

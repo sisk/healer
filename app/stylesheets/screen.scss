@@ -1,53 +1,26 @@
 // This import applies a global reset to any page that imports this stylesheet.
 @import "blueprint/reset";
 
-// To configure blueprint, edit the partials/base.sass file.
-@import "partials/base";
-
 // Import all the default blueprint modules so that we can access their mixins.
 @import "blueprint";
 @import "blueprint/typography";
 @import "blueprint/form";
 @import "blueprint/interaction";
 
-// Combine the partials into a single screen stylesheet.
-@import "partials/page";
-@import "partials/form";
-@import "partials/two_col";
 @import "compass/utilities/lists";
+@import "compass/utilities/general/min";
 
-body {
-}
-#wrapper {
-  position: relative;
-}
-#head {
-  background-color: #000;
-  #session {
-    float: right;
-  }
-}
-#head, #content {
-  padding: 2em;
-}
+// To configure blueprint, edit the partials/base.sass file.
+@import "partials/base";
 
-div {
-}
+// Combine the partials into a single screen stylesheet.
+@import "partials/two_col";
+@import "partials/page";
 
-#nav, ul.subnavigation {
-  @include horizontal-list;
-  padding-left: 0 !important;
-}
-#nav {
-  font-size: 1.5em;
-}
-
-#nav, #session {
-  color: #fff;
-  a {
-    color: #fff;
-  }
-}
+@import "partials/header";
+@import "partials/navigation";
+@import "partials/form";
+@import "partials/patients";
 
 .ui-icon-grip-dotted-vertical {
   @include float-left;
