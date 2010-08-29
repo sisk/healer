@@ -34,8 +34,12 @@ Healer::Application.routes.draw do |map|
     resource :staff, :controller => :staff
   end
   resources :patients do
-    resources :diagnoses
-    resources :operations
+    resources :diagnoses do
+      resources :xrays
+    end
+    resources :operations do
+      resources :xrays
+    end
   end
   resources :operations do
     resource :implant

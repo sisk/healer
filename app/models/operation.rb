@@ -22,6 +22,7 @@ class Operation < ActiveRecord::Base
   has_one :hip_implant
 
   has_many :xrays
+  accepts_nested_attributes_for :xrays
   
   validates_presence_of :procedure
   validates_presence_of :patient

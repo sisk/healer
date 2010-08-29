@@ -1,0 +1,7 @@
+%h3 X-Ray Photo
+- f.semantic_fields_for :xrays, xray do |x|
+  = x.input :diagnosis_id, :as => :hidden, :input_html => { :value => @diagnosis.id }
+  - x.inputs do
+    =# x.input :date_time, :as => :datepicker, :label => "When Taken"
+    = x.input :taken_at, :label => "Facility"
+    = x.input :photo, :as => :file, :label => "Photo"
