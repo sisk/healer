@@ -1,0 +1,9 @@
+.diagnosis
+  %span.name= diagnosis
+  %span.nav= link_to("Edit", edit_patient_diagnosis_path(diagnosis.patient,diagnosis))
+  -# TODO investigate how this view renders out when > 3 xrays exist.
+  - if diagnosis.xrays.present?
+    %span.xrays
+      - diagnosis.xrays.each do |xray|
+        %span.enlarge
+          = link_to image_tag(xray.photo.url(:tiny), :alt => xray.to_s, :class => "xray"), xray.photo.url, :rel => "group"

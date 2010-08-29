@@ -18,12 +18,19 @@
       - if patient.email.present?
         %dt Email:
         %dd= mail_to patient.email
-  .diagnosis
-    %h3 Diagnoses
+  .diagnoses
     - if patient.diagnoses.empty?
       = link_to "New diagnosis for #{patient}", new_patient_diagnosis_path(patient)
     - else
-      %p= "#{pluralize(patient.diagnoses.size, 'diagnosis')}"
+      %h3 Diagnoses
+      %ul
+        -# show a list of up to 3 individual diagnoses. link-off to patient/show if longer.
+        - for i in 0..patient.diagnoses.size - 1 do
+          - diagnosis = patient.diagnoses[i]
+          - break if i > 2
+          %li.inline= render :partial => "diagnoses/inline", :locals => { :diagnosis => diagnosis }
+      - if patient.diagnoses.size > 3
+        = link_to "+ #{patient.diagnoses.size - 3} more", patient_path(patient)
   .operations
   /
     .nav

@@ -38,3 +38,22 @@
   }
 */  
 }
+
+.diagnoses {
+  ul {
+    list-style-type: none;
+  }
+  li.inline {
+    @include clearfix;
+    border-top: dotted 1px $grey-very-light;
+    padding-top: $margin-increment;
+    .xrays {
+      float: right;
+    }
+    img {
+      height: 20px;
+    }
+    .nav {
+      font-size: .7em;
+    }
+  }}

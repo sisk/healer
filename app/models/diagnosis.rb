@@ -13,6 +13,8 @@ class Diagnosis < ActiveRecord::Base
   validates_presence_of :disease
   validates_numericality_of :severity
   validates_inclusion_of :severity, :in => self.severity_table.keys
+
+  default_scope :order => 'diagnoses.assessed_date DESC'
   
   def to_s
     str = disease.to_s
