@@ -36,6 +36,9 @@ class Patient < ActiveRecord::Base
   def name(*args)
     [*args].flatten.include?(:last_first) ? [name_last, name_first].join(", ") : [name_first, name_last].join(" ")
   end
+  def short_name
+    name_first || name_middle || name_last
+  end
   
   def one_line_address
     str = [address1, address2, city, state, zip, country].reject{ |a| a.blank? }.join(", ")

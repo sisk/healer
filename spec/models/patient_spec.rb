@@ -65,6 +65,18 @@ describe Patient, "#to_s" do
   end
 end
 
+describe Patient, "#short_name" do
+  it "returns first name if set" do
+    Patient.new(:name_first => "Derp").short_name.should == "Derp"
+  end
+  it "returns middle name if first is not set" do
+    Patient.new(:name_middle => "Derp").short_name.should == "Derp"
+  end
+  it "returns last name if neither first nor middle is set" do
+    Patient.new(:name_last => "Derp").short_name.should == "Derp"
+  end
+end
+
 describe Patient, "one_line_address" do
   before(:each) do
     @patient = Patient.new
