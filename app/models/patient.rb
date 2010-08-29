@@ -19,8 +19,9 @@ class Patient < ActiveRecord::Base
   # Paperclip
   has_attached_file :photo,
     :styles => {
+      :tiny=> "60x60#",
       :thumb=> "100x100#",
-      :small  => "150x150>" },
+      :small  => "200x200>" },
     :storage => ENV['S3_BUCKET'] ? :s3 : :filesystem,
     :s3_credentials => {
       :access_key_id => ENV['S3_KEY'],
