@@ -1,0 +1,26 @@
+.list_item.diagnosis
+  %h3
+    = "#{diagnosis}"
+    %span.nav
+      = link_to("Edit", edit_patient_diagnosis_path(@patient,diagnosis))
+      = link_to("Delete", patient_diagnosis_path(@patient,diagnosis), :method => :delete, :confirm => "Are you sure? All records for #{@patient} about this diagnosis (including operations, x-rays, etc.) will be removed.")
+  %dl
+    %dt Assessed Date:
+    %dd= date_assessed(diagnosis)
+    %dt Severity:
+    %dd= severity(diagnosis)
+
+  - if diagnosis.xrays.present?
+    .xrays
+      - diagnosis.xrays.each do |xray|
+        = link_to image_tag(xray.photo.url(:thumb), :alt => xray.to_s, :class => "xray"), xray.photo.url, :rel => "group", :class => "show_xray"
+        =# image_tag(xray.photo.url(:thumb))
+  
+  %h4 Operations for this diagnosis
+  = link_to "New operation for this diagnosis", new_patient_operation_path(@patient, :diagnosis_id => diagnosis.id), :class => "supplemental"
+  - diagnosis.operations.each do |operation|
+    .operation
+      - if permitted_to? :show, operation
+        = link_to operation, patient_operation_path(@patient,operation)
+      - else
+        = operation

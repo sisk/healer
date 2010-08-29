@@ -1,0 +1,34 @@
+.list_item {
+  @include clearfix;
+  position: relative;
+  padding-top: $margin-increment * 2;
+  padding-bottom: $margin-increment * 2;
+  @include column($blueprint-grid-columns);
+  border-bottom: solid 1px $grey-light;
+  dt {
+    @include float-left;
+    margin-right: $margin-increment;
+  }
+  .demographic {
+    @include column(13);
+    h3 {
+      margin-bottom: $margin-increment;
+    }
+    img {
+      @include float-left;
+      width: 100px;
+      margin-right: $margin-increment;
+    }
+  }
+  .xrays {
+    position: absolute;
+    top: 0;
+    right: 0;
+    @include clearfix;
+    @include debug;
+    img {
+      float: right;
+    }
+  }
+  
+}
