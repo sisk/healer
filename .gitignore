@@ -1,5 +1,5 @@
 .bundle/*
-public/system/photos/*
+public/system/*
 config/database.yml
 db/schema.rb
 log/*.log
