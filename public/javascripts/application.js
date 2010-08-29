@@ -21,7 +21,7 @@ $(document).ready(function() {
 
   $('input.ui-datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
 
-  $("a.show_xray").fancybox({
+  $(".enlarge a").fancybox({
     'hideOnContentClick': true,
     'titlePosition': 'inside'
   });

@@ -4,11 +4,13 @@
     = f.input :disease_id, :as => :select, :label => 'Disease', :collection => Disease.all.collect{ |d| [d.to_s, d.id] }
     = f.input :severity, :as => :radio, :label => "Severity", :collection => Diagnosis::severity_table.invert
     = f.input :assessed_date, :as => :datepicker, :label => "Assessed Date"
-  = render :partial => 'xray', :object => Xray.new(:diagnosis => @diagnosis), :locals => { :f => f }
-  .xrays
+  #xrays
+    %h3 X-Rays
     = render :partial => 'xray', :collection => @diagnosis.xrays, :locals => { :f => f }
-  =# link_to_remote "Add x-ray", new_patient_diagnosis_xray_path([@patient,@diagnosis])
-  = link_to_function "Add another x-ray photo" do |page|
-    - page.insert_html :bottom, :xrays, :partial => 'xray', :object => Xray.new(:diagnosis => @diagnosis), :locals => { :f => f }
+  #new_xrays
+  - if @diagnosis.new_record?
+    = render :partial => 'xray', :object => Xray.new(:diagnosis => @diagnosis), :locals => { :f => f }
+  - else
+    = link_to_function 'Add x-ray', "$('#new_xrays').append('#{escape_javascript render :partial => 'xray', :object => Xray.new(:diagnosis => @diagnosis), :locals => { :f => f }}'); $(this).hide();"
   - f.buttons do
     = f.commit_button

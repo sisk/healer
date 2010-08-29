@@ -9,7 +9,7 @@
     @include float-left;
     margin-right: $margin-increment;
   }
-  .demographic {
+  .summary {
     @include column(13);
     h3 {
       margin-bottom: $margin-increment;
@@ -20,15 +20,21 @@
       margin-right: $margin-increment;
     }
   }
-  .xrays {
+  .enlarge {
+    @include float-left;
+    margin: $margin-increment;
+  }
+  .supplemental {
+    clear: both;
+  }
+/*  .xrays {
     position: absolute;
     top: 0;
     right: 0;
     @include clearfix;
-    @include debug;
     img {
       float: right;
     }
   }
-  
+*/  
 }
