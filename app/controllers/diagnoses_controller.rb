@@ -1,5 +1,9 @@
 class DiagnosesController < InheritedResources::Base
+  before_filter :authenticate_user!
+  filter_resource_access
+
   belongs_to :patient
+
   def create
     create! { patient_path(@patient) }
   end
