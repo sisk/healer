@@ -13,6 +13,7 @@ class Patient < ActiveRecord::Base
   has_many :patient_interactions
   has_many :diagnoses
   has_many :operations
+  has_many :registrations
 
   default_scope :order => 'patients.name_last, patients.name_first'
   

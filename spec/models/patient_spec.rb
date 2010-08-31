@@ -29,6 +29,7 @@ describe Patient do
   should_have_many :patient_interactions
   should_have_many :diagnoses
   should_have_many :operations
+  should_have_many :registrations
 
 end
 
