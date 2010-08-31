@@ -18,6 +18,8 @@ gem 'inherited_resources', '1.1.2'
 # gem 'hoptoad_notifier'
 
 group :development, :test do
+  gem "autotest"
+  gem "test_notifier"
   gem "rspec-rails", ">= 2.0.0.beta.17"
   gem "remarkable_activerecord", ">= 4.0.0.alpha4"
   gem "factory_girl_rails"
