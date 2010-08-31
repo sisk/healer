@@ -9,8 +9,7 @@ class ApplicationController < ActionController::Base
   end
 
   # tell declarative_authorization who our current user is for all requests
-  # FIXME turn this back on
-  # before_filter { |c| Authorization.current_user = c.current_user }
+  before_filter { |c| Authorization.current_user = c.current_user }
 
   # TODO implement the Rails 3 version of this.
   # filter_parameter_logging :password

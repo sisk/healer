@@ -1,7 +1,6 @@
 class DiseasesController < InheritedResources::Base
   before_filter :authenticate_user!
-  # FIXME turn back on when auth engine is fixed
-  # filter_resource_access
+  filter_resource_access
   def create
     create! { diseases_path }
   end

@@ -6,18 +6,32 @@ authorization do
     end
   end
   role :admin do
-    has_permission_on [:trips, :users, :patients, :body_parts, :diagnoses], :to => [:index, :show, :new, :create, :edit, :update, :destroy]
+    has_permission_on [:trips, :users, :patients, :body_parts, :diagnoses], :to => :everything
   end
   role :nurse do
-    has_permission_on [:trips], :to => [:index, :show]
-    #has_permission_on [:diagnoses], :to => [:index, :show, :edit, :update]
-    has_permission_on [:patients], :to => [:index, :show, :edit, :update] do
-      has_permission_on :diagnoses, :to => [:index, :show, :create, :update, :edit, :destroy]
+    has_permission_on [:trips], :to => :view_only
+    has_permission_on [:patients], :to => :browse_and_update do
+      has_permission_on :diagnoses, :to => :everything
     end
   end
   role :doctor do
-    include :nurse
-    # has_permission_on [:trips, :patients], :to => [:index, :show, :edit, :update]
-    has_permission_on [:diagnoses], :to => [:index, :show, :edit, :update]
+    includes :nurse
+    # has_permission_on [:trips, :patients], :to => :browse_and_update
+    has_permission_on [:diagnoses], :to => :browse_and_update
+  end
+end
+
+privileges do
+  privilege :everything do
+    includes :index, :show, :new, :create, :edit, :update, :destroy
+  end
+  privilege :manage do
+    includes :create, :read, :update, :delete
+  end
+  privilege :browse_and_update do
+    includes :index, :show, :edit, :update
+  end
+  privilege :view_only do
+    includes :index, :show
   end
 end
