@@ -4,13 +4,6 @@ GIT
   specs:
     carmen (0.1.1)
 
-GIT
-  remote: http://github.com/stffn/declarative_authorization.git
-  revision: 444439953f31b92e07c9fe7b7cef93fa2fe404ce
-  specs:
-    declarative_authorization (0.5)
-      rails (>= 2.1.0)
-
 GEM
   remote: http://rubygems.org/
   specs:
@@ -52,6 +45,8 @@ GEM
     builder (2.1.2)
     compass (0.10.5)
       haml (>= 3.0.4)
+    declarative_authorization (0.5)
+      rails (>= 2.1.0)
     devise (1.1.rc2)
       bcrypt-ruby (~> 2.1.2)
       warden (~> 0.10.7)
@@ -140,7 +135,7 @@ DEPENDENCIES
   aws-s3
   carmen!
   compass
-  declarative_authorization!
+  declarative_authorization (= 0.5)
   devise (= 1.1.rc2)
   factory_girl_rails
   formtastic (= 1.1.0.beta)
