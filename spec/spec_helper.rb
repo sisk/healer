@@ -15,7 +15,6 @@ Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
 #  require any .rb file in spec_helpers directory
 # Dir["#{File.dirname(__FILE__)}/spec_helpers/**/*.rb"].each {|f| require f}
 
-
 RSpec.configure do |config|
   # == Mock Framework
   #
@@ -26,6 +25,7 @@ RSpec.configure do |config|
   # config.mock_with :rr
   config.mock_with :rspec
 
+  config.include Devise::TestHelpers, :type => :controller
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   # config.extend ControllerMacros, :type => :controller
 

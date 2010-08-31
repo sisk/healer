@@ -3,7 +3,7 @@ Factory.define :role do |f|
 end
 
 Factory.define :role_admin, :class => Role do |f|
-  f.name "operator"
+  f.name "administrator"
 end
 Factory.define :role_doctor, :class => Role do |f|
   f.name "doctor"
