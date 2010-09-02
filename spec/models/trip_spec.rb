@@ -8,6 +8,7 @@ describe Trip do
   should_validate_presence_of :country
   should_have_and_belong_to_many :staff
   should_have_many :registrations
+  should_have_many :patients, :through => :registrations
 end
 
 describe Trip, "#to_s" do

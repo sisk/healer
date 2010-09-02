@@ -1,0 +1,6 @@
+- content_for :title do
+  = "#{@trip} - Patient Registrations"
+%ul.nav
+  %li= link_to "Add registration", new_trip_registration_path(@trip)
+#registration_list
+  = render :partial => "summary", :collection => @registrations, :as => :registration

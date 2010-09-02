@@ -4,6 +4,7 @@
       %th Destination
       %th Start
       %th End
+      %th Registrations
       %th &nbsp;
   %tbody
     - trips.each do |trip|
@@ -11,6 +12,7 @@
         %th= trip.destination
         %th= trip.start
         %th= trip.end
+        %th= link_to "#{pluralize(trip.registrations.size, "registration")}", trip_registrations_path(trip)
         %th
           - if permitted_to? :edit, trip
             = link_to "Edit", edit_trip_path(trip)

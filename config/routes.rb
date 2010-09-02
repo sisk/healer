@@ -31,6 +31,11 @@ Healer::Application.routes.draw do |map|
     end
   end
   resources :trips do
+    resources :registrations do
+      member do
+        put :authorize, :deauthorize
+      end
+    end
     resource :staff, :controller => :staff
   end
   resources :patients do

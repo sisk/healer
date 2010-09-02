@@ -4,3 +4,23 @@
 
 form.bp {
   @include blueprint-form; }
+
+form {
+  fieldset.inputs {
+    margin-bottom: $margin-increment;
+    &> legend {
+      font-size: 1.3em;
+      padding-bottom: $margin-increment * 2;
+    }
+    label {
+      text-align: right;
+      margin-right: $margin-increment
+    }
+    li.radio > fieldset > ol > li > label {
+      text-align: left;
+    }
+  }
+  li.hidden {
+    display: none;
+  }
+}
