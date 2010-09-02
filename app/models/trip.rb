@@ -12,6 +12,9 @@ class Trip < ActiveRecord::Base
   scope :future, lambda {
     where("trips.start IS NULL OR (trips.start > ? AND (trips.end IS NULL OR trips.end > ?))", Time.zone.now, Time.zone.now)
   }
+  scope :next, lambda {
+    where("trips.start IS NOT NULL AND (trips.start > ? AND (trips.end IS NULL OR trips.end < ?))", Time.zone.now + 4.months, Time.zone.now + 10.months)
+  }
   scope :past, lambda {
     where("trips.end IS NOT NULL AND trips.end <= ?", Time.zone.now)
   }
