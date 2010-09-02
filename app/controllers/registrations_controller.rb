@@ -2,19 +2,19 @@ class RegistrationsController < InheritedResources::Base
   before_filter :authenticate_user!
   filter_resource_access
 
-  belongs_to :trip
+  belongs_to :trip, :optional => true
 
   def index
     @authorized_registrations = end_of_association_chain.authorized
     @unauthorized_registrations = end_of_association_chain.unauthorized
   end
 
-  # def new
-  #   @trip = Trip.find(params[:trip_id])
-  #   @registration = Registration.new(:trip => @trip)
-  #   @registration.build_patient
-  #   logger.debug @registration.patient.inspect
-  # end
+  def create
+    create! { trip_registrations_path(@registration.trip_id) }
+  end
+  def update
+    update! { trip_registrations_path(@registration.trip) }
+  end
 
   # non-REST
   def authorize

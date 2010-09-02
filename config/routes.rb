@@ -49,6 +49,7 @@ Healer::Application.routes.draw do |map|
   resources :operations do
     resource :implant
   end
+  resources :registrations
 
   # Sample resource route with options:
   #   resources :products do

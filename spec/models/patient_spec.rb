@@ -95,3 +95,16 @@ describe Patient, "one_line_address" do
     @patient.one_line_address.should == nil
   end
 end
+
+describe Patient, "registered?" do
+  before(:each) do
+    @patient = Patient.new(:registrations => [])
+  end
+  it "returns true if patient has any registrations" do
+    @patient.registrations << stub_model(Registration)
+    @patient.registered?.should == true
+  end
+  it "returns false if patient has no registrations" do
+    @patient.registered?.should == false
+  end
+end

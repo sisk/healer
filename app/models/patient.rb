@@ -13,7 +13,7 @@ class Patient < ActiveRecord::Base
   has_many :patient_interactions
   has_many :diagnoses
   has_many :operations
-  has_many :registrations
+  has_many :registrations, :dependent => :destroy
 
   default_scope :order => 'patients.name_last, patients.name_first'
   
@@ -45,6 +45,10 @@ class Patient < ActiveRecord::Base
   def one_line_address
     str = [address1, address2, city, state, zip, country].reject{ |a| a.blank? }.join(", ")
     return str.blank? ? nil : str
+  end
+
+  def registered?
+    !registrations.empty?
   end
   
 end
