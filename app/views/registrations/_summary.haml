@@ -1,2 +1,4 @@
 .registration
   = render :partial => "patients/inline_summary", :locals => { :patient => registration.patient }
+  %p= link_to "Authorize", authorize_trip_registration_path(@trip, registration), :method => :put if !registration.authorized?
+  %p= link_to "Deauthorize", deauthorize_trip_registration_path(@trip, registration), :method => :put if registration.authorized?

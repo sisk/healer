@@ -26,4 +26,6 @@ $(document).ready(function() {
     'titlePosition': 'inside'
   });
 
+  $("#registration_list").tabs();
+
 });

@@ -6,4 +6,19 @@ class Registration < ActiveRecord::Base
   validates_presence_of :patient
   validates_presence_of :trip
   accepts_nested_attributes_for :patient
+  
+  scope :authorized, :conditions => [ "registrations.approved_at is not ?", nil ]
+  scope :unauthorized, :conditions => [ "registrations.approved_at is ?", nil ]  
+
+  def authorize!(approved_by_id = nil)
+    self.update_attributes(:approved_by_id => approved_by_id, :approved_at => Time.now)
+  end
+  def deauthorize!
+    self.update_attributes(:approved_by_id => nil, :approved_at => nil)
+  end
+
+  def authorized?
+    !approved_at.blank?
+  end
+  
 end

@@ -7,6 +7,7 @@ authorization do
   end
   role :admin do
     has_permission_on [:trips, :users, :patients, :body_parts, :diagnoses, :registrations], :to => :everything
+    has_permission_on :registrations, :to => [:authorize, :deauthorize]
   end
   role :nurse do
     has_permission_on [:trips], :to => :view_only
@@ -18,6 +19,7 @@ authorization do
     includes :nurse
     # has_permission_on [:trips, :patients], :to => :browse_and_update
     has_permission_on [:diagnoses], :to => :browse_and_update
+    has_permission_on :registrations, :to => [:authorize, :deauthorize]
   end
 end
 

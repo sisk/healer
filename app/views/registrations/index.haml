@@ -3,4 +3,12 @@
 %ul.nav
   %li= link_to "Add registration", new_trip_registration_path(@trip)
 #registration_list
-  = render :partial => "summary", :collection => @registrations, :as => :registration
+  %ul
+    %li= link_to "Authorized", "#authorized"
+    %li= link_to "Unauthorized", "#unauthorized"
+  #authorized
+    = render :partial => "summary", :collection => @authorized_registrations, :as => :registration
+  #unauthorized
+    = render :partial => "summary", :collection => @unauthorized_registrations, :as => :registration
+
+  
