@@ -26,16 +26,12 @@
       #head
         = render :partial => "layouts/shared/session"
         %ul#nav
-          - if permitted_to? :index, Trip.new
-            %li= link_to_unless_current "Trips", trips_path
+          - Trip.next.each do |trip|
+            - if permitted_to? :show, trip
+              %li= link_to_unless_current trip, trip
           - if permitted_to? :index, Patient.new
             %li= link_to_unless_current "Patients", patients_path
-          - if permitted_to? :index, BodyPart.new
-            %li= link_to_unless_current "Body Parts", body_parts_path
-          - if permitted_to? :index, Disease.new
-            %li= link_to_unless_current "Diseases", diseases_path
-          - if permitted_to? :index, Procedure.new
-            %li= link_to_unless_current "Procedures", procedures_path
+        = render :partial => "layouts/shared/admin_nav"
       #content
         - if yield :title
           %h1= yield :title

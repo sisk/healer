@@ -1,11 +1,15 @@
-#nav, ul.subnavigation {
+#nav, #admin_nav, ul.subnavigation, ul.nav {
   @include horizontal-list;
   padding-left: 0 !important;
 }
+ul.nav {
+  clear: both;
+  padding-top: $margin-increment * 2;
+}
+#nav, #admin_nav {
+  color: #fff;
+  a { color: #fff; }
+}
 #nav {
   font-size: 1.5em;
-  color: #fff;
-  a {
-    color: #fff;
-  }
 }
