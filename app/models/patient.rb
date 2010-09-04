@@ -16,7 +16,9 @@ class Patient < ActiveRecord::Base
   has_many :registrations, :dependent => :destroy
 
   default_scope :order => 'patients.name_last, patients.name_first'
-  
+
+  scope :no_registrations, :conditions => ["patients.id NOT IN (SELECT patient_id FROM registrations)"]
+
   # Paperclip
   has_attached_file :photo,
     :styles => {

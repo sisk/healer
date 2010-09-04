@@ -1,0 +1,6 @@
+@import "compass/utilities/links/link-colors";
+
+.fake_link {
+  @include link-colors($link-color, $link-hover-color, $link-active-color, $link-visited-color, $link-focus-color);
+  text-decoration: underline;
+}

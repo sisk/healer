@@ -1,5 +1,6 @@
 class RegistrationsController < InheritedResources::Base
   before_filter :authenticate_user!
+  before_filter :set_unregistered_patients, :only => :new
   filter_resource_access
 
   belongs_to :trip, :optional => true
@@ -34,6 +35,10 @@ private
     super
     @registration.build_patient(params[:patient]) unless @registration.patient.present?
     @registration
+  end
+  
+  def set_unregistered_patients
+    @all_patients = Patient.all
   end
   
 end

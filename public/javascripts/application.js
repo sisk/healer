@@ -27,5 +27,18 @@ $(document).ready(function() {
   });
 
   $("#registration_list").tabs();
+  $(".choice_toggle").choice_toggle();
 
 });
+
+
+// custom function for choice-toggling forms
+(function($){
+  $.fn.choice_toggle = function() {
+    $(this).find(".choice .toggle").bind('click', function(event) {
+      $(this).parent(".choice").siblings().find(".data").hide();
+      $(this).parent(".choice").find(".data").fadeIn();
+    });
+    return this
+  }
+}(jQuery));
