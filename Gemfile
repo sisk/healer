@@ -16,6 +16,9 @@ gem "carmen", :git => "http://github.com/grobie/carmen.git"
 gem "paperclip"
 gem "test-unit"
 gem 'inherited_resources', '1.1.2'
+gem "test-unit"
+gem "ruby-debug"
+
 # gem 'hoptoad_notifier'
 
 group :development, :test do
