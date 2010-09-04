@@ -2,7 +2,7 @@
   = render :partial => "patients/inline_summary", :locals => { :patient => registration.patient }
   %ul.nav
     %li= link_to "Authorize", authorize_trip_registration_path(@trip, registration), :method => :put if !registration.authorized?
-    %li= link_to "Deauthorize", deauthorize_trip_registration_path(@trip, registration), :method => :put if registration.authorized?
+    %li= link_to "Return to waiting", deauthorize_trip_registration_path(@trip, registration), :method => :put if registration.authorized?
     - if permitted_to? :destroy, registration
       %li.delete= link_to "Delete this registration", trip_registration_path(@trip, registration), :method => :delete, :confirm => "Are you sure?"
     - if permitted_to? :destroy, registration.patient

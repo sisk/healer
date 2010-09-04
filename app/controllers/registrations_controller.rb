@@ -16,6 +16,11 @@ class RegistrationsController < InheritedResources::Base
   def update
     update! { trip_registrations_path(@registration.trip) }
   end
+  def destroy
+    destroy! {
+      @trip.present? ? trip_registrations_path(@trip) : registrations_path
+    }
+  end
 
   # non-REST
   def authorize
