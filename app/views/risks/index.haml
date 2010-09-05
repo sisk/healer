@@ -1,0 +1,14 @@
+- content_for :title do
+  Risks
+- content_for :subnavigation do
+  %ul.subnavigation
+    - if permitted_to? :create, Risk.new
+      %li= link_to_unless_current "New risk", new_risk_path
+
+#risk_list
+  - @risks.each do |risk|
+    .risk{ :id => "risk_#{risk.id}" }
+      %span.ui-icon.ui-icon-grip-dotted-vertical
+      %span.name= risk
+      %span.nav
+        = link_to("Edit", edit_risk_path(risk))

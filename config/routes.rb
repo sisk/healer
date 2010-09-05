@@ -25,6 +25,11 @@ Healer::Application.routes.draw do |map|
       put :sort
     end
   end
+  resources :risks do
+    collection do
+      put :sort
+    end
+  end
   resources :procedures do
     collection do
       put :sort

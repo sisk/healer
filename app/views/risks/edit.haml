@@ -1,0 +1,6 @@
+- content_for :title do
+  = "Edit #{@risk}"
+- content_for :subnavigation do
+  %ul.subnavigation
+    %li= link_to("Delete record for #{@risk}", risk_path(@risk), :method => :delete, :confirm => "Are you sure? This may have rippling effects and cannot be undone.")
+= render :partial => "form"

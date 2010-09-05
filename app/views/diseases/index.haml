@@ -13,4 +13,3 @@
       %span.code= "(#{disease.code})" unless disease.code.blank?
       %span.nav
         = link_to("Edit", edit_disease_path(disease))
-        = link_to("Delete", disease_path(disease), :method => :delete, :confirm => "Are you sure? This may have rippling effects and cannot be undone.")
