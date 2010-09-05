@@ -6,7 +6,7 @@ authorization do
     end
   end
   role :admin do
-    has_permission_on [:trips, :users, :patients, :body_parts, :diagnoses, :diseases, :risks, :registrations, :implants, :operations], :to => :everything
+    has_permission_on [:trips, :users, :patients, :body_parts, :diagnoses, :diseases, :risks, :risk_factors, :registrations, :implants, :operations], :to => :everything
     has_permission_on :registrations, :to => [:authorize, :deauthorize]
   end
   role :nurse do

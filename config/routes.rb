@@ -44,6 +44,7 @@ Healer::Application.routes.draw do |map|
     resource :staff, :controller => :staff
   end
   resources :patients do
+    resources :risk_factors
     resources :diagnoses do
       resources :xrays
     end

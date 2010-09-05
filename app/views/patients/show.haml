@@ -14,6 +14,14 @@
       = link_to "New Diagnosis", new_patient_diagnosis_path(@patient)
   #diagnosis_list
     = render :partial => "diagnosis_summary", :collection => @patient.diagnoses, :as => :diagnosis
+.section
+  %h2= "#{@patient.short_name}'s Risk Factors"
+  %ul.subnavigation
+    - if permitted_to? :create, RiskFactor.new(:patient => @patient)
+      = link_to "New Risk Factor", new_patient_risk_factor_path(@patient)
+  %ul#risk_factor_list
+    - @patient.risk_factors.each do |risk_factor|
+      %li= risk_factor
 / 
 / .section
 /   %h2= "#{@patient.short_name}'s Operations"
