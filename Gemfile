@@ -17,7 +17,7 @@ gem "paperclip"
 gem "test-unit"
 gem 'inherited_resources', '1.1.2'
 gem "test-unit"
-gem "ruby-debug"
+gem "ruby-debug19"
 
 # gem 'hoptoad_notifier'
 
