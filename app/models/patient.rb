@@ -10,10 +10,11 @@ class Patient < ActiveRecord::Base
                     :allow_nil => true
                     # :email => true
   
-  has_many :patient_interactions
-  has_many :diagnoses
-  has_many :operations
+  has_many :patient_interactions, :dependent => :destroy
+  has_many :diagnoses, :dependent => :destroy
+  has_many :operations, :dependent => :destroy
   has_many :registrations, :dependent => :destroy
+  has_many :risk_factors, :dependent => :destroy
 
   default_scope :order => 'patients.name_last, patients.name_first'
 
