@@ -18,7 +18,7 @@ class Diagnosis < ActiveRecord::Base
   
   def to_s
     str = disease.to_s
-    str << ", #{body_part.to_s}" if body_part.present?
+    str += ", #{body_part.to_s}" if body_part.present?
     str
   end
 end

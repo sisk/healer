@@ -6,7 +6,7 @@ class BodyPart < ActiveRecord::Base
   
   def to_s
     str = name
-    str << " (#{side})" unless side.blank?
+    str += " (#{side})" unless side.blank?
     str
   end
   

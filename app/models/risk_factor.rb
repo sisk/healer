@@ -5,7 +5,7 @@ class RiskFactor < ActiveRecord::Base
   validates_presence_of :risk
   def to_s
     str = risk.to_s
-    str << " (severe)" if severe?
+    str += " (severe)" if severe?
     str
   end
 end

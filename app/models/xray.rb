@@ -26,7 +26,7 @@ class Xray < ActiveRecord::Base
 
   def to_s
     str = "X-ray: #{patient.to_s}"
-    str << " - " + date_time.to_s if date_time.present?
+    str += " - " + date_time.to_s if date_time.present?
     return str
   end
   
