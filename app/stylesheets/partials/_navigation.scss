@@ -2,6 +2,9 @@
   @include horizontal-list;
   padding-left: 0 !important;
 }
+ul.subnavigation {
+  @include horizontal-list(.65em);
+}
 ul.nav {
   clear: both;
   padding-top: $margin-increment * 2;

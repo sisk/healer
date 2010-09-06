@@ -6,4 +6,4 @@
     - if permitted_to? :destroy, registration
       %li.delete= link_to "Delete this registration", trip_registration_path(@trip, registration), :method => :delete, :confirm => "Are you sure?"
     - if permitted_to? :destroy, registration.patient
-      %li.delete= link_to "Delete entire patient record", patient_path(registration.patient), :method => :delete, :confirm => "Are you sure you want to delete the entire patient record for #{registration.patient}? This will erase all history, procedures, and diagnoses for this patient. Also, this action cannot be undone."
+      %li.delete= link_to "Edit patient record", edit_patient_path(registration.patient)

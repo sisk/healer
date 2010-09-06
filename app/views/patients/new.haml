@@ -1,5 +1,6 @@
 - content_for :title do
   New Patient
 - content_for :subnavigation do
-  = render :partial => "subnav"
+  %ul.subnavigation
+    %li= link_to "Back to patient index", patients_path
 = render :partial => "form"

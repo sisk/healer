@@ -15,7 +15,7 @@
         %ul
           - patient.risk_factors.each do |risk_factor|
             %li= risk_factor
-    = render :partial => "contact", :locals => { :patient => patient }
+    = render :partial => "patients/contact", :locals => { :patient => patient }
   .diagnoses
     - if patient.diagnoses.empty?
       = link_to "New diagnosis for #{patient}", new_patient_diagnosis_path(patient)
@@ -29,6 +29,7 @@
           %li.inline= render :partial => "diagnoses/inline", :locals => { :diagnosis => diagnosis }
       - if patient.diagnoses.size > 3
         = link_to "+ #{patient.diagnoses.size - 3} more", patient_path(patient)
+
   .operations
   /
     .nav

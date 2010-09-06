@@ -1,6 +1,8 @@
 - content_for :title do
   Patients
 - content_for :subnavigation do
-  = render :partial => "subnav"
+  %ul.subnavigation
+    - if permitted_to? :create, Patient.new
+      %li= link_to_unless_current "New Patient", new_patient_path
 #patient_list
   = render :partial => "inline_summary", :collection => @patients, :as => :patient
