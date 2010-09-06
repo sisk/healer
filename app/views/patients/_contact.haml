@@ -1,0 +1,10 @@
+%dl.contact
+  - if patient.one_line_address.present?
+    %dt Address:
+    %dd= patient.one_line_address
+  - if patient.phone.present?
+    %dt Phone:
+    %dd= patient.phone
+  - if patient.email.present?
+    %dt Email:
+    %dd= mail_to patient.email

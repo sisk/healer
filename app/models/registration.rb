@@ -10,6 +10,10 @@ class Registration < ActiveRecord::Base
   scope :authorized, :conditions => [ "registrations.approved_at is not ?", nil ]
   scope :unauthorized, :conditions => [ "registrations.approved_at is ?", nil ]  
 
+  def to_s
+    trip.to_s
+  end
+
   def authorize!(approved_by_id = nil)
     self.update_attributes(:approved_by_id => approved_by_id, :approved_at => Time.now)
   end

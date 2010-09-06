@@ -6,18 +6,16 @@
         = link_to patient, patient_path(patient)
       - else
         = patient
-    %dl
+    %dl.demographic
       %dt Gender:
       %dd= patient_gender(patient)
-      - if patient.one_line_address.present?
-        %dt Address:
-        %dd= patient.one_line_address
-      - if patient.phone.present?
-        %dt Phone:
-        %dd= patient.phone
-      - if patient.email.present?
-        %dt Email:
-        %dd= mail_to patient.email
+    %dl.medical
+      - if patient.risk_factors.present?
+        %h4.alert Risk Factors
+        %ul
+          - patient.risk_factors.each do |risk_factor|
+            %li= risk_factor
+    = render :partial => "contact", :locals => { :patient => patient }
   .diagnoses
     - if patient.diagnoses.empty?
       = link_to "New diagnosis for #{patient}", new_patient_diagnosis_path(patient)

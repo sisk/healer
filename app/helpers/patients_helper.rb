@@ -17,4 +17,8 @@ module PatientsHelper
     end
   end
   
+  def risk_factor_list(patient)
+    patient.risk_factors.collect{ |rf| rf.to_s }.join(", ")
+  end
+  
 end

@@ -62,3 +62,12 @@ describe Registration, "authorized?" do
     @registration.authorized?.should == false
   end
 end
+
+describe Registration, "to_s" do
+  it "returns the trip's string value" do
+    trip = mock_model(Trip)
+    trip.stub(:to_s).and_return("Las Vegas 2008")
+    registration = Registration.new(:trip => trip)
+    registration.to_s.should == "Las Vegas 2008"
+  end
+end

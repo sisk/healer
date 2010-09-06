@@ -47,3 +47,21 @@ describe PatientsHelper, "patient_gender" do
     helper.patient_gender(@patient).should == "Female"
   end
 end
+
+describe PatientsHelper, "risk_factor_list" do
+  before(:each) do
+    @patient = Patient.new
+  end
+  it "outputs a blank string if no risks" do
+    @patient.stub(:risk_factors).and_return([])
+    helper.risk_factor_list(@patient).should == ""
+  end
+  it "outputs a comma-separated string of risks if any exist" do
+    risk_factor1 = mock_model(RiskFactor)
+    risk_factor1.stub(:to_s).and_return("Derp1")
+    risk_factor2 = mock_model(RiskFactor)
+    risk_factor2.stub(:to_s).and_return("Derp2")
+    @patient.stub(:risk_factors).and_return([risk_factor1, risk_factor2])
+    helper.risk_factor_list(@patient).should == "Derp1, Derp2"
+  end
+end
