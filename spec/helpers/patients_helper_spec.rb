@@ -89,3 +89,16 @@ describe PatientsHelper, "free_text_list_to_array" do
     helper.free_text_list_to_array(str).should == ["a","b","c","d","e"]
   end
 end
+
+describe PatientsHelper, "birth_date_and_age" do
+  it "returns 'Unknown' if birth date is not set" do
+    patient = Patient.new
+    helper.birth_date_and_age(patient).should == "Unknown"
+  end
+  it "returns formatted date with calculated age if birth date is set" do
+    time_now = "2010-09-01".to_time
+    Time.stub(:now).and_return(time_now)
+    patient = Patient.new(:birth => "1975-05-28".to_date)
+    helper.birth_date_and_age(patient).should == "1975-05-28 (Age 35)"
+  end
+end

@@ -25,5 +25,13 @@ module PatientsHelper
     return [] if str.to_s.chomp.blank?
     return str.split(/,|\n|\r/m).reject{ |v| v.blank? }.collect{ |v| v.strip }
   end
+  
+  def birth_date_and_age(patient)
+    return "Unknown" if patient.birth.blank?
+    day_diff = Time.now.day - patient.birth.day
+    month_diff = Time.now.month - patient.birth.month - (day_diff < 0 ? 1 : 0)
+    age = Time.now.year - patient.birth.year - (month_diff < 0 ? 1 : 0)
+    return "#{patient.birth} (Age #{age})"
+  end
 
 end
