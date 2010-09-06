@@ -25,11 +25,13 @@
     %p List all known chronic or other diseases. Separate entries with commas or return.
     = f.input :other_diseases, :label => false
   - f.inputs :name => "Risk Factors" do
-    - if permitted_to? :create, RiskFactor.new(:patient => @patient)
-      %p= link_to "Add a risk factor for #{@patient}", new_patient_risk_factor_path(@patient)
     %ul#risk_factor_list
       - @patient.risk_factors.each do |risk_factor|
-        %li= risk_factor
-    
+        %li
+          = risk_factor
+          = link_to "delete", patient_risk_factor_path(@patient, risk_factor), :method => :delete, :confirm => "Are you sure?"
+    - if permitted_to? :create, RiskFactor.new(:patient => @patient)
+      %p= link_to "Add a risk factor for #{@patient}", new_patient_risk_factor_path(@patient)
+
   - f.buttons do
     = f.commit_button
