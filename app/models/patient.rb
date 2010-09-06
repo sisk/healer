@@ -53,5 +53,9 @@ class Patient < ActiveRecord::Base
   def registered?
     !registrations.empty?
   end
+
+  def has_contact?
+    return %w(address1 address2 city state zip country phone email).any?{ |field| self.send(field).present? }
+  end
   
 end

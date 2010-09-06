@@ -109,3 +109,18 @@ describe Patient, "registered?" do
     @patient.registered?.should == false
   end
 end
+
+describe Patient, "has_contact?" do
+  before(:each) do
+    @patient = Patient.new
+  end
+  it "returns false by default" do
+    @patient.has_contact?.should == false
+  end
+  %w(address1 address2 city state zip country phone email).each do |contact_field|
+    it "returns true if #{contact_field} has a value" do
+      @patient.stub_chain(contact_field, :present?).and_return(true)
+      @patient.has_contact?.should == true
+    end
+  end
+end

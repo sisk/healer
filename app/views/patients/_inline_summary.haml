@@ -1,6 +1,7 @@
 .list_item.patient
-  .summary
+  .image
     = patient_image(patient)
+  .summary
     %h3
       - if permitted_to? :show, patient
         = link_to patient, patient_path(patient)
@@ -9,18 +10,11 @@
     %dl.demographic
       %dt Gender:
       %dd= patient_gender(patient)
-    %dl.medical
-      - if patient.risk_factors.present?
-        %h4.alert Risk Factors
-        %ul
-          - patient.risk_factors.each do |risk_factor|
-            %li= risk_factor
-    = render :partial => "patients/contact", :locals => { :patient => patient }
   .diagnoses
     - if patient.diagnoses.empty?
       = link_to "New diagnosis for #{patient}", new_patient_diagnosis_path(patient)
     - else
-      %h3 Diagnoses
+      %h4 Diagnoses
       %ul
         -# show a list of up to 3 individual diagnoses. link-off to patient/show if longer.
         - for i in 0..patient.diagnoses.size - 1 do
@@ -29,11 +23,17 @@
           %li.inline= render :partial => "diagnoses/inline", :locals => { :diagnosis => diagnosis }
       - if patient.diagnoses.size > 3
         = link_to "+ #{patient.diagnoses.size - 3} more", patient_path(patient)
-
-  .operations
-  /
-    .nav
-      - if permitted_to? :create, Diagnosis.new(:patient => patient)
-        = link_to "New Diagnosis", new_patient_diagnosis_path(patient)
-      - if permitted_to? :edit, patient
-        = link_to "Edit", edit_patient_path(patient)
+  .supplemental
+    %p.fake_link.toggle= "More details for #{patient}"
+    .details
+      .risk_factors
+        - if patient.risk_factors.present?
+          %h4.alert Risk Factors
+          %ul
+            - patient.risk_factors.each do |risk_factor|
+              %li= risk_factor
+      .contact
+        = render :partial => "patients/contact", :locals => { :patient => patient }
+      .operations
+        - if patient.operations.present?
+          %h4 Operations
