@@ -29,7 +29,6 @@ describe PatientsHelper, "patient_image" do
   end
 end
 
-
 describe PatientsHelper, "patient_gender" do
   before(:each) do
     @patient = Patient.new
@@ -63,5 +62,30 @@ describe PatientsHelper, "risk_factor_list" do
     risk_factor2.stub(:to_s).and_return("Derp2")
     @patient.stub(:risk_factors).and_return([risk_factor1, risk_factor2])
     helper.risk_factor_list(@patient).should == "Derp1, Derp2"
+  end
+end
+
+describe PatientsHelper, "free_text_list_to_array" do
+  it "returns an empty array if string argument is nil" do
+    helper.free_text_list_to_array(nil).should == []
+  end
+  it "returns an empty array if string argument is blank" do
+    helper.free_text_list_to_array("").should == []
+  end
+  it "splits any string input by commas, with proper whitespace striping" do
+    str = "a, b, c ,d , e , , ,"
+    helper.free_text_list_to_array(str).should == ["a","b","c","d","e"]
+  end
+  it "splits any string input by newlines, with proper whitespace striping" do
+    str = "a\n b\n c \n\n\nd \n e \n\n\n"
+    helper.free_text_list_to_array(str).should == ["a","b","c","d","e"]
+  end
+  it "splits any string input by returns, with proper whitespace striping" do
+    str = "a\r b\r c \rd \r e \r\r\r"
+    helper.free_text_list_to_array(str).should == ["a","b","c","d","e"]
+  end
+  it "splits hybrid string input, with proper whitespace striping" do
+    str = "a, b\r c ,d \r\n e \r,\n"
+    helper.free_text_list_to_array(str).should == ["a","b","c","d","e"]
   end
 end

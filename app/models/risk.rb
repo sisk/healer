@@ -1,3 +1,4 @@
+# TODO make name distinct
 class Risk < ActiveRecord::Base
   has_many :risk_factors
   validates_presence_of :name

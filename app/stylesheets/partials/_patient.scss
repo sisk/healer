@@ -1,0 +1,11 @@
+.section.medical_history {
+  .risk_factors {
+    @include column($blueprint-grid-columns / 3);
+  }
+  .diseases {
+    @include column($blueprint-grid-columns / 3);
+  }
+  .medications {
+    @include column($blueprint-grid-columns / 3, true);
+  }
+}

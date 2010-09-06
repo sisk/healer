@@ -17,6 +17,8 @@ describe Patient do
   should_have_column :height_cm, :type => :decimal
   should_have_column :weight_kg, :type => :decimal
   should_have_column :email, :type => :string
+  should_have_column :medications, :type => :text
+  should_have_column :other_diseases, :type => :text
 
   should_validate_presence_of :name_first
   should_validate_presence_of :name_last

@@ -1,5 +1,5 @@
 - content_for :title do
-  = "Patient: #{@patient}"
+  = "Patient record - #{@patient}"
 - content_for :subnavigation do
   %ul.subnavigation
     %li= link_to "Patient Index", patients_path
@@ -26,14 +26,27 @@
       = link_to "New Diagnosis", new_patient_diagnosis_path(@patient)
   #diagnosis_list
     = render :partial => "diagnosis_summary", :collection => @patient.diagnoses, :as => :diagnosis
-.section
-  %h2 Risk Factors
-  %ul.subnavigation
-    - if permitted_to? :create, RiskFactor.new(:patient => @patient)
-      = link_to "New Risk Factor", new_patient_risk_factor_path(@patient)
-  %ul#risk_factor_list
-    - @patient.risk_factors.each do |risk_factor|
-      %li= risk_factor
+.section.medical_history
+  %h2 Medical History
+  .risk_factors
+    %h3 Risk Factors
+    %ul#risk_factor_list
+      - @patient.risk_factors.each do |risk_factor|
+        %li= risk_factor
+  .diseases
+    - if @patient.other_diseases.present?
+      %h3 Chronic & Other Diseases
+      %ul
+        - chronics = free_text_list_to_array(@patient.other_diseases)
+        - chronics.each do |chronic|
+          %li= chronic
+  .medications
+    - if @patient.medications.present?
+      %h3 Medications
+      %ul
+        - medications = free_text_list_to_array(@patient.medications)
+        - medications.each do |medication|
+          %li= medication
 / 
 / .section
 /   %h2= "#{@patient.short_name}'s Operations"

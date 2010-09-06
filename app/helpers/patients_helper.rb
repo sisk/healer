@@ -20,5 +20,10 @@ module PatientsHelper
   def risk_factor_list(patient)
     patient.risk_factors.collect{ |rf| rf.to_s }.join(", ")
   end
-  
+
+  def free_text_list_to_array(str)
+    return [] if str.to_s.chomp.blank?
+    return str.split(/,|\n|\r/m).reject{ |v| v.blank? }.collect{ |v| v.strip }
+  end
+
 end
