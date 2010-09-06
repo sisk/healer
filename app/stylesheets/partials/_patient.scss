@@ -1,11 +1,32 @@
 .section.medical_history {
-  .risk_factors {
-    @include column($blueprint-grid-columns / 3);
-  }
-  .diseases {
+  .risk_factors, .diseases {
     @include column($blueprint-grid-columns / 3);
   }
   .medications {
     @include column($blueprint-grid-columns / 3, true);
+  }
+}
+.registration {
+  .list_item {
+    border-bottom: none;
+  }
+  ul.nav {
+    padding-top: 0;
+    margin-top: 0;
+    margin-bottom: $margin-increment;
+  }
+  border-bottom: solid 1px $grey-light;
+  .supplemental {
+    .contact {
+      @include column(7);
+    }
+    .risk_factors {
+      @include column(6);
+      @include prepend(7);
+    }
+    .operations {
+      @include column($blueprint-grid-columns - 13, true);
+      @include prepend(13);
+    }
   }
 }

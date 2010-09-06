@@ -36,6 +36,7 @@ $(document).ready(function() {
 
   $("#registration_list").tabs();
   $(".choice_toggle").choice_toggle();
+  $(".supplemental").supplementable();
 
 });
 
@@ -47,6 +48,17 @@ $(document).ready(function() {
       $(this).parent(".choice").siblings().find(".data").hide();
       $(this).parent(".choice").find(".data").fadeIn();
     });
-    return this
+    return this;
+  }
+}(jQuery));
+
+// custom function for supplemental info boxes
+(function($){
+  $.fn.supplementable = function() {
+    var toggle_trigger = $(this).find(".toggle");
+    toggle_trigger.bind('click', function(event) {
+      $(this).parent(".supplemental").find(".details").slideToggle("fast");
+    });
+    return this;
   }
 }(jQuery));
