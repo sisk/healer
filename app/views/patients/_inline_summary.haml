@@ -27,7 +27,7 @@
       - if patient.diagnoses.size > 3
         = link_to "+ #{patient.diagnoses.size - 3} more", patient_path(patient)
   .supplemental
-    %p.fake_link.toggle= "Toggle details"
+    %p.fake_link.toggle= "Toggle more details for #{patient}"
     .details.hide
       .contact
         = render :partial => "patients/contact", :locals => { :patient => patient }

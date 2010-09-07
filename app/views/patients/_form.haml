@@ -29,7 +29,7 @@
       - @patient.risk_factors.each do |risk_factor|
         %li
           = risk_factor
-          = link_to "delete", patient_risk_factor_path(@patient, risk_factor), :method => :delete, :confirm => "Are you sure?"
+          = link_to "delete", patient_risk_factors_path(@patient, risk_factor), :method => :delete, :confirm => "Are you sure?"
     - if permitted_to? :create, RiskFactor.new(:patient => @patient)
       %p= link_to "Add a risk factor for #{@patient}", new_patient_risk_factor_path(@patient)
 
