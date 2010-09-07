@@ -28,7 +28,7 @@
         %ul#nav
           - Trip.next.each do |trip|
             - if permitted_to? :show, trip
-              %li= link_to_unless_current trip, trip
+              %li= link_to_unless_current trip, trip_registrations_path(trip)
           - if permitted_to? :index, Patient.new
             %li= link_to_unless_current "Patients", patients_path
         = render :partial => "layouts/shared/admin_nav"

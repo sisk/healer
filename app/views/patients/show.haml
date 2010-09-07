@@ -10,7 +10,7 @@
   - if @patient.registered?
     %ul.registrations
       - @patient.registrations.each do |registration|
-        %li= link_to registration, registration
+        %li= link_to registration, trip_registrations_path(registration.trip)
   - else
     %p= "#{@patient.short_name} has no registrations. Select a trip to register #{@patient.short_name} for."
     - semantic_form_for Registration.new(:patient_id => @patient.id), :html => { :multipart => true } do |f|
