@@ -6,6 +6,17 @@
     @include column($blueprint-grid-columns / 3, true);
   }
 }
+.supplemental {
+  .risk_factors {
+    @include column(7);
+  }
+  .diseases {
+    @include column(7);
+  }
+  .medications {
+    @include column(6, true);
+  }
+}
 .registration {
   .list_item {
     border-bottom: none;
@@ -16,13 +27,10 @@
     margin-bottom: $margin-increment;
   }
   border-bottom: solid 1px $grey-light;
+
   .supplemental {
     .contact {
       @include column(7);
-    }
-    .risk_factors {
-      @include column(6);
-      @include prepend(7);
     }
     .operations {
       @include column($blueprint-grid-columns - 13, true);

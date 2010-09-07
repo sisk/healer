@@ -25,13 +25,13 @@ class RegistrationsController < InheritedResources::Base
   # non-REST
   def authorize
     @registration.authorize!(current_user.id)
-    flash[:notice] = "Authorized registration for #{@registration.patient}."
-    redirect_to trip_registrations_path(@registration.trip, :anchor => "unauthorized")
+    flash[:notice] = "Approved registration for #{@registration.patient}."
+    redirect_to trip_registrations_path(@registration.trip, :anchor => "waiting")
   end
   def deauthorize
     @registration.deauthorize!
-    flash[:notice] = "Deauthorized registration for #{@registration.patient}."
-    redirect_to trip_registrations_path(@registration.trip, :anchor => "authorized")
+    flash[:notice] = "Moved registration for #{@registration.patient} to waiting."
+    redirect_to trip_registrations_path(@registration.trip, :anchor => "approved")
   end
   
 private

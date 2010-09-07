@@ -29,17 +29,32 @@
   .supplemental
     %p.fake_link.toggle= "Toggle more details for #{patient}"
     .details.hide
-      .contact
-        = render :partial => "patients/contact", :locals => { :patient => patient }
       .risk_factors
         - if patient.risk_factors.present?
           %h4.alert Risk Factors
           %ul
             - patient.risk_factors.each do |risk_factor|
               %li= risk_factor
-      .operations
-        - if patient.operations.present?
-          %h4 Operations
+      .diseases
+        - if patient.other_diseases.present?
+          %h3 Chronic & Other Diseases
           %ul
-          - patient.operations.each do |operation|
-            %li= link_to operation, patient_operation_path(patient,operation)
+            - chronics = free_text_list_to_array(patient.other_diseases)
+            - chronics.each do |chronic|
+              %li= chronic
+      .medications
+        - if patient.medications.present?
+          %h3 Medications
+          %ul
+            - medications = free_text_list_to_array(patient.medications)
+            - medications.each do |medication|
+              %li= medication
+      .section
+        .contact
+          = render :partial => "patients/contact", :locals => { :patient => patient }
+        .operations
+          - if patient.operations.present?
+            %h4 Operations
+            %ul
+            - patient.operations.each do |operation|
+              %li= link_to operation, patient_operation_path(patient,operation)

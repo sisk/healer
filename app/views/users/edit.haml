@@ -6,8 +6,8 @@
     = f.input :name_first, :label => 'First Name'
     = f.input :name_last, :label => 'Last Name'
     = f.input :email, :label => 'Email'
-    =# f.input :password, :as => :password, :label => 'Password', :hint => "leave blank if you don't want to change password"
-    =# f.input :password_confirmation, :as => :password, :label => 'Confirm Password'
+    = f.input :password, :as => :password, :label => 'Password', :hint => "leave blank if you don't want to change password"
+    = f.input :password_confirmation, :as => :password, :label => 'Confirm Password'
   - f.inputs :name => "Roles" do
     - @selectable_roles.each do |role|
       = f.input "has_role_#{role}", :as => :boolean, :label => "#{role.to_s.titlecase}"

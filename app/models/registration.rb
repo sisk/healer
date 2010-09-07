@@ -7,6 +7,8 @@ class Registration < ActiveRecord::Base
   validates_presence_of :trip
   accepts_nested_attributes_for :patient
   
+  default_scope :include => :patient, :order => 'patients.name_last, patients.name_first'
+  
   scope :authorized, :conditions => [ "registrations.approved_at is not ?", nil ]
   scope :unauthorized, :conditions => [ "registrations.approved_at is ?", nil ]  
 
