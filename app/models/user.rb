@@ -22,6 +22,7 @@ class User < ActiveRecord::Base
   scope :doctor, :include => :roles, :conditions => [ "roles.name = ?", "doctor" ]
   scope :nurse, :include => :roles, :conditions => [ "roles.name = ?", "nurse" ]
   scope :admin, :include => :roles, :conditions => [ "roles.name = ?", "admin" ]
+  scope :superuser, :include => :roles, :conditions => [ "roles.name = ?", "superuser" ]
 
   default_scope :order => 'users.name_last, users.name_first'
 
@@ -54,7 +55,7 @@ class User < ActiveRecord::Base
   end
   
   # TODO refactor below
-  attr_accessible :has_role_admin, :has_role_doctor, :has_role_nurse
+  attr_accessible :has_role_admin, :has_role_superuser, :has_role_doctor, :has_role_nurse
 
   def has_role_admin
     has_role?("admin")
@@ -65,6 +66,9 @@ class User < ActiveRecord::Base
   def has_role_nurse
     has_role?("nurse")
   end
+  def has_role_superuser
+    has_role?("superuser")
+  end
   def has_role_admin=(args)
     args == "1" ? self.grant_role!("admin") : self.revoke_role!("admin")
   end
@@ -73,6 +77,9 @@ class User < ActiveRecord::Base
   end
   def has_role_nurse=(args)
     args == "1" ? self.grant_role!("nurse") : self.revoke_role!("nurse")
+  end
+  def has_role_superuser=(args)
+    args == "1" ? self.grant_role!("superuser") : self.revoke_role!("superuser")
   end
 
   def grant_role!(role_name)

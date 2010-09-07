@@ -118,4 +118,30 @@ describe User do
       @user.roles.any?{ |role| role.name == "nurse" }.should be_false
     end
   end
+  describe "#has_role_superuser" do
+    it "returns true if user has superuser role" do
+      @roles = [mock_model(Role, :name => "superuser")]
+      @user.stub(:roles).and_return(@roles)
+      @user.has_role_superuser.should be_true
+    end
+    it "returns false if user does not have superuser role" do
+      @roles = [mock_model(Role, :name => "Not superuser")]
+      @user.stub(:roles).and_return(@roles)
+      @user.has_role_superuser.should be_false
+    end
+  end
+  describe "#has_role_superuser=" do
+    before(:each) do
+      @superuser_role = stub_model(Role, :name => "superuser")
+      Role.stub!(:find_by_name).with("superuser").and_return(@superuser_role)
+    end
+    it "assigns superuser role to user if sent 1" do
+      @user.has_role_superuser=("1")
+      @user.roles.any?{ |role| role.name == "superuser" }.should be_true
+    end
+    it "revokes role superuser from user if sent zero" do
+      @user.has_role_superuser=("0")
+      @user.roles.any?{ |role| role.name == "superuser" }.should be_false
+    end
+  end
 end

@@ -5,9 +5,12 @@ authorization do
       if_attribute :user => is { user }
     end
   end
-  role :admin do
+  role :superuser do
     has_permission_on [:trips, :users, :patients, :body_parts, :diagnoses, :diseases, :risks, :risk_factors, :registrations, :implants, :operations], :to => :everything
     has_permission_on :registrations, :to => [:authorize, :deauthorize]
+  end
+  role :admin do
+    has_permission_on [:users], :to => :everything
   end
   role :nurse do
     has_permission_on [:trips], :to => :view_only
