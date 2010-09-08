@@ -2,7 +2,8 @@
   = "#{@trip} - Patient Registrations"
 - content_for :subnavigation do
   %ul.subnavigation
-    %li= link_to "Add registration", new_trip_registration_path(@trip)
+    - if permitted_to? :create, Registration.new(:trip => @trip)
+      %li= link_to "Add registration", new_trip_registration_path(@trip)
 #registration_list
   %ul
     %li= link_to "Approved", "#approved"

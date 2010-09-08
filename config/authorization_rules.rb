@@ -10,13 +10,14 @@ authorization do
     has_permission_on :registrations, :to => [:authorize, :deauthorize]
   end
   role :admin do
-    has_permission_on [:users], :to => :everything
+    has_permission_on [:patients, :diseases, :diagnoses, :risks, :risk_factors, :registrations, :implants, :operations], :to => :everything
   end
   role :nurse do
     has_permission_on [:trips], :to => :view_only
     has_permission_on [:patients], :to => :browse_and_update do
       has_permission_on :diagnoses, :to => :everything
     end
+    has_permission_on :registrations, :to => [:index]
   end
   role :doctor do
     includes :nurse
