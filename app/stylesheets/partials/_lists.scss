@@ -30,7 +30,7 @@
       @include prepend(3);
     }
     .toggle {
-      margin-bottom: 0;
+      margin-bottom: $margin-increment;
     }
   }
 /*  .xrays {
