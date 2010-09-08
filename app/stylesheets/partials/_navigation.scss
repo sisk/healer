@@ -2,6 +2,9 @@
   @include horizontal-list;
   padding-left: 0 !important;
 }
+ul#session {
+  @include horizontal-list;
+}
 ul.subnavigation {
   @include horizontal-list(.65em);
 }

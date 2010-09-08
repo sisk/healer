@@ -1,7 +1,7 @@
 - content_for :title do
   = "Edit #{@user}"
 = semantic_form_for(@user) do |f|
-  =# devise_error_messages!
+  = f.semantic_errors
   - f.inputs do
     = f.input :name_first, :label => 'First Name'
     = f.input :name_last, :label => 'Last Name'

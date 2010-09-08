@@ -1,5 +1,4 @@
 Healer::Application.routes.draw do |map|
-  devise_for :users, :path_names => { :sign_in => "login", :sign_out => "logout", :sign_up => "register" }
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -18,7 +17,9 @@ Healer::Application.routes.draw do |map|
   # match "login" => "user_sessions#new"
   # match "logout" => "user_sessions#destroy"
 
+  devise_for :users, :path_names => { :sign_in => "login", :sign_out => "logout", :sign_up => "register" }
   resources :users
+
   resources :body_parts
   resources :diseases do
     collection do
