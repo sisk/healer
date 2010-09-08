@@ -8,5 +8,13 @@ class PatientsController < InheritedResources::Base
   def update
     update! { patients_path }
   end
+
+private
+
+  # def build_resource
+  #   super
+  #   @patient.risk_factors = [] unless @patient.risk_factors.present?
+  #   @patient
+  # end
   
 end

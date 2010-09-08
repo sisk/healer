@@ -11,10 +11,12 @@ authorization do
   end
   role :admin do
     has_permission_on [:patients, :diseases, :diagnoses, :risks, :risk_factors, :registrations, :implants, :operations], :to => :everything
+    has_permission_on [:trips], :to => :view_only
   end
   role :nurse do
     has_permission_on [:trips], :to => :view_only
-    has_permission_on [:patients], :to => :browse_and_update do
+    has_permission_on [:patients], :to => [:manage, :browse_and_update] do
+      has_permission_on :risk_factors, :to => :everything
       has_permission_on :diagnoses, :to => :everything
     end
     has_permission_on :registrations, :to => [:index]
