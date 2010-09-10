@@ -50,8 +50,6 @@
             - medications.each do |medication|
               %li= medication
       .section
-        .contact
-          = render :partial => "patients/contact", :locals => { :patient => patient }
         .operations
           - if patient.operations.present?
             %h4 Operations
