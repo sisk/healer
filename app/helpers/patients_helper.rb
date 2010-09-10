@@ -1,8 +1,8 @@
 module PatientsHelper
   
-  def patient_image(patient)
+  def patient_image(patient, size = :thumb)
     if patient.photo.file?
-      image_tag(patient.photo.url(:thumb), :alt => "Photo of #{patient.to_s}")
+      image_tag(patient.photo.url(size), :alt => "Photo of #{patient.to_s}")
     else
       image_file = (patient.male.nil? || patient.male?) ? "male-generic.gif" : "female-generic.gif"
       image_tag(image_file, :alt => "")

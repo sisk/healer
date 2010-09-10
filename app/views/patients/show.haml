@@ -5,6 +5,18 @@
     %li= link_to "Patient Index", patients_path
     - if permitted_to? :edit, @patient
       %li= link_to "Edit #{@patient}", edit_patient_path(@patient)
+.section.basic_info
+  .image
+    = patient_image(@patient, :small)
+  .info
+    %dl.demographic
+      %dt Gender:
+      %dd= patient_gender(@patient)
+      %dt Birth:
+      %dd= birth_date_and_age(@patient)
+    .contact
+      = render :partial => "patients/contact", :locals => { :patient => @patient }
+
 .section
   %h2 Registrations
   - if @patient.registered?

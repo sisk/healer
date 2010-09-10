@@ -38,3 +38,16 @@
     }
   }
 }
+.basic_info {
+  @include showgrid;
+  .image {
+    @include column(6);
+  }
+  dt {
+    @include float-left;
+    margin-right: $margin-increment;
+  }
+  .info {
+    @include column($blueprint-grid-columns - 6, true);
+  }
+}
