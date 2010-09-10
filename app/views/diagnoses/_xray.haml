@@ -1,7 +1,10 @@
 - if xray.photo.file?
-  .enlarge
-    = link_to image_tag(xray.photo.url(:thumb), :alt => xray.to_s, :class => "xray"), xray.photo.url, :rel => "group"
-    %p [click to enlarge]
+  - f.semantic_fields_for :xrays, xray do |x|
+    .enlarge
+      = link_to image_tag(xray.photo.url(:thumb), :alt => xray.to_s, :class => "xray"), xray.photo.url, :rel => "group"
+      %p [click to enlarge]
+    - x.inputs do
+      = x.input :_destroy, :as => :boolean, :label => "Delete x-ray"
 - else
   - f.semantic_fields_for :xrays, xray do |x|
     = x.input :diagnosis_id, :as => :hidden, :input_html => { :value => @diagnosis.id }
