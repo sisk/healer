@@ -39,7 +39,6 @@
   }
 }
 .basic_info {
-  @include showgrid;
   .image {
     @include column(6);
   }
