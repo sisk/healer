@@ -19,7 +19,7 @@ authorization do
       has_permission_on :risk_factors, :to => :everything
       has_permission_on :diagnoses, :to => :everything
     end
-    has_permission_on :registrations, :to => [:index]
+    has_permission_on :registrations, :to => [:manage, :browse_and_update]
   end
   role :doctor do
     includes :nurse
@@ -34,7 +34,7 @@ privileges do
     includes :index, :show, :new, :create, :edit, :update, :destroy
   end
   privilege :manage do
-    includes :create, :read, :update, :delete
+    includes :new, :create, :read, :update, :delete
   end
   privilege :browse_and_update do
     includes :index, :show, :edit, :update
