@@ -11,7 +11,7 @@ class RiskFactorsController < InheritedResources::Base
     update! { patient_path(@patient) }
   end
   def destroy
-    destroy! { patient_path(@patient) }
+    destroy! { edit_patient_path(@patient) }
   end
 
 end

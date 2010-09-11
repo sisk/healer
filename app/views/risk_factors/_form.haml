@@ -3,6 +3,6 @@
   = f.input :patient_id, :as => :hidden, :input_html => { :value => @patient.id }
   - f.inputs do
     = f.input :risk_id, :as => :select, :label => 'Risk', :collection => Risk.all.collect{ |r| [r.to_s, r.id] }
-    = f.input :severe, :as => :boolean, :label => 'Severe'
+    = f.input :severity, :as => :radio, :label => "Severity", :collection => RiskFactor::severity_table.invert
   - f.buttons do
     = f.commit_button
