@@ -1,4 +1,6 @@
 .registration {
+  border-bottom: solid 1px $grey-light;
+  margin-bottom: $margin-increment * 2;
   .list_item {
     border-bottom: none;
   }
