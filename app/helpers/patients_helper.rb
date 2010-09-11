@@ -33,5 +33,20 @@ module PatientsHelper
     age = Time.now.year - patient.birth.year - (month_diff < 0 ? 1 : 0)
     return "#{patient.birth} (Age #{age})"
   end
+  
+  def patient_height(patient, us = false)
+    return "Unknown" if patient.height_cm.blank?
+    return "#{patient.height_cm} cm" if us == false
+    raw_conversion = patient.height_cm * 0.393700787
+    the_round = (raw_conversion * 100).round.to_f / 100
+    return "#{the_round} in"
+  end
+  def patient_weight(patient, us = false)
+    return "Unknown" if patient.weight_kg.blank?
+    return "#{patient.weight_kg} kg" if us == false
+    raw_conversion = patient.weight_kg * 2.20462262
+    the_round = (raw_conversion * 100).round.to_f / 100
+    return "#{the_round} lb"
+  end
 
 end

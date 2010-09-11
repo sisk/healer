@@ -11,5 +11,7 @@
     margin-bottom: $margin-increment * 3;
     font-size: 1.1em;
   }
-  border-bottom: solid 1px $grey-light;
+}
+form.registration {
+  border-bottom: none;
 }

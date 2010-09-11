@@ -1,0 +1,47 @@
+#diagnosis_list {
+  @include clearfix;
+}
+.diagnoses {
+  ul {
+    list-style-type: none;
+  }
+  a.more {
+    display: block;
+    text-align: right;
+  }
+  li.inline {
+    @include clearfix;
+    border-top: dotted 1px $grey-very-light;
+    padding-top: $margin-increment;
+    .xrays {
+      float: right;
+    }
+    img {
+      height: 30px;
+    }
+    .enlarge {
+      margin: 0 $margin-increment 0 0;
+    }
+    .nav {
+      font-size: .7em;
+    }
+  }
+}
+.list_item.diagnosis {
+  $summary_width: 12;
+  .summary {
+    @include column($summary_width);
+    @include border($grey-light);
+    .xrays {
+      h4 { margin-bottom: $margin-increment; }
+    }
+  }
+  .operations {
+    clear: none;
+    @include column($blueprint-grid-columns - $summary_width, true);
+    float: none;
+  }
+  ul.nav {
+    @include horizontal-list;
+  }
+}

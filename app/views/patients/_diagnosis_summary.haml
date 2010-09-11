@@ -1,22 +1,19 @@
 .list_item.diagnosis
+  %h3= diagnosis
   .summary
-    %h3
-      = "#{diagnosis}"
-      %span.nav
-        = link_to("Edit", edit_patient_diagnosis_path(@patient,diagnosis))
-        = link_to("Delete", patient_diagnosis_path(@patient,diagnosis), :method => :delete, :confirm => "Are you sure? All records for #{@patient} about this diagnosis (including operations, x-rays, etc.) will be removed.")
     %dl
       %dt Assessed Date:
       %dd= date_assessed(diagnosis)
       %dt Severity:
       %dd= severity(diagnosis)
-  - if diagnosis.xrays.present?
-    .xrays
-      - diagnosis.xrays.each do |xray|
-        .enlarge
-          = link_to image_tag(xray.photo.url(:tiny), :alt => xray.to_s, :class => "xray"), xray.photo.url, :rel => "group"
-          %p [click to enlarge]
-        =# image_tag(xray.photo.url(:thumb))
+    - if diagnosis.xrays.present?
+      .xrays
+        %h4 Pre-op X-ray(s)
+        - diagnosis.xrays.each do |xray|
+          .enlarge
+            = link_to image_tag(xray.photo.url(:tiny), :alt => xray.to_s, :class => "xray"), xray.photo.url, :rel => "group"
+            %p [click to enlarge]
+          =# image_tag(xray.photo.url(:thumb))
   .operations.supplemental
     - if diagnosis.operations.present?
       %h4 Operations for this diagnosis
@@ -29,3 +26,6 @@
     - else
       -# TODO turn this back on eventually
       =# link_to "Add operation", new_patient_operation_path(@patient, :diagnosis_id => diagnosis.id), :class => "supplemental"
+  %ul.nav
+    %li= link_to("Edit diagnosis", edit_patient_diagnosis_path(@patient,diagnosis))
+    %li= link_to("Delete diagnosis", patient_diagnosis_path(@patient,diagnosis), :method => :delete, :confirm => "Are you sure? All records for #{@patient} about this diagnosis (including operations, x-rays, etc.) will be removed.")

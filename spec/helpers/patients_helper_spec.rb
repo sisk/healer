@@ -102,3 +102,47 @@ describe PatientsHelper, "birth_date_and_age" do
     helper.birth_date_and_age(patient).should == "1975-05-28 (Age 35)"
   end
 end
+
+describe PatientsHelper, "patient_height" do
+  it "returns 'Unknown' if height_cm is not set" do
+    patient = Patient.new
+    helper.patient_height(patient).should == "Unknown"
+  end
+  it "returns stated metric amount if US param is absent" do
+    patient = Patient.new(:height_cm => 6.25)
+    helper.patient_height(patient).should == "6.25 cm"
+  end
+  it "returns stated metric amount if US param is false" do
+    patient = Patient.new(:height_cm => 6.25)
+    helper.patient_height(patient, false).should == "6.25 cm"
+  end
+  it "returns rounded US amount if US param is true" do
+    # 1 centimeter = 0.393700787 inches
+    patient = Patient.new(:height_cm => 6.25)
+    raw_conversion = 6.25 * 0.393700787
+    the_round = (raw_conversion * 100).round.to_f / 100
+    helper.patient_height(patient, true).should == "#{the_round} in"
+  end
+end
+
+describe PatientsHelper, "patient_weight" do
+  it "returns 'Unknown' if weight_kg is not set" do
+    patient = Patient.new
+    helper.patient_weight(patient).should == "Unknown"
+  end
+  it "returns stated metric amount if US param is absent" do
+    patient = Patient.new(:weight_kg => 6.25)
+    helper.patient_weight(patient).should == "6.25 kg"
+  end
+  it "returns stated metric amount if US param is false" do
+    patient = Patient.new(:weight_kg => 6.25)
+    helper.patient_weight(patient, false).should == "6.25 kg"
+  end
+  it "returns rounded US amount if US param is true" do
+    # 1 kilogram = 2.20462262 pounds
+    patient = Patient.new(:weight_kg => 6.25)
+    raw_conversion = 6.25 * 2.20462262
+    the_round = (raw_conversion * 100).round.to_f / 100
+    helper.patient_weight(patient, true).should == "#{the_round} lb"
+  end
+end
