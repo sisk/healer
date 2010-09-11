@@ -43,3 +43,27 @@
     @include column($blueprint-grid-columns - 6, true);
   }
 }
+form.patient {
+  @include showgrid;
+  .medical_history {
+    @include clearfix;
+    fieldset {
+      @include column($blueprint-grid-columns / 4);
+      ol {
+        padding-left: 0;
+        &> li > textarea {
+          width: 80%;
+          height: $margin-increment * 30;
+        }
+        &> li p.inline-hints {
+          margin: 0;
+          font-size: .8em;
+          font-style: italic;
+        }
+      }
+      &#allergy_list {
+        @include column($blueprint-grid-columns / 4, true);
+      }
+    }
+  }
+}

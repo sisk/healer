@@ -53,6 +53,13 @@
             - medications = free_text_list_to_array(patient.medications)
             - medications.each do |medication|
               %li= medication
+      .allergies
+        - if patient.allergies.present?
+          %h4 Allergies
+          %ul
+            - allergies = free_text_list_to_array(patient.allergies)
+            - allergies.each do |allergy|
+              %li= allergy
       - if patient.operations.present?
         .operations
           %h4 Operations

@@ -19,20 +19,22 @@
     = f.input :country, :as => :select, :label => 'Country', :collection => Carmen::COUNTRIES
     = f.input :phone, :label => 'Phone'
     = f.input :email, :label => 'Email'
-  - f.inputs :name => "Diseases & Medications" do
-    %p List all known medications. Separate entries with commas or return.
-    = f.input :medications, :label => false
-    %p List all known chronic or other diseases. Separate entries with commas or return.
-    = f.input :other_diseases, :label => false
-  - if @patient.risk_factors.present?
-    - f.inputs :name => "Risk Factors" do
-      %ul#risk_factor_list
+  .medical_history
+    %h2 Medical History
+    - if @patient.risk_factors.present?
+      - f.inputs :name => "Risk Factors", :id => "risk_factor_list" do
         - @patient.risk_factors.each do |risk_factor|
           %li
             = risk_factor
             = link_to "delete", patient_risk_factors_path(@patient, risk_factor), :method => :delete, :confirm => "Are you sure?"
-      - if permitted_to? :create, RiskFactor.new(:patient => @patient)
-        -# %p= link_to "Add a risk factor for #{@patient}", new_patient_risk_factor_path(@patient)
+        -# if permitted_to? :create, RiskFactor.new(:patient => @patient)
+          -# %p= link_to "Add a risk factor for #{@patient}", new_patient_risk_factor_path(@patient)
+    - f.inputs :name => "Medications", :id => "medications_list" do
+      = f.input :medications, :label => false, :hint => "Separate entries with commas or return."
+    - f.inputs :name => "Diseases", :id => "disease_list" do
+      = f.input :other_diseases, :label => false, :hint => "Separate entries with commas or return."
+    - f.inputs :name => "Allergies", :id => "allergy_list" do
+      = f.input :allergies, :label => false, :hint => "Separate entries with commas or return."
 
   - f.buttons do
     = f.commit_button
