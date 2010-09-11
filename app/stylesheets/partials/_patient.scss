@@ -44,7 +44,6 @@
   }
 }
 form.patient {
-  @include showgrid;
   .medical_history {
     @include clearfix;
     fieldset {
