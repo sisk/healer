@@ -16,26 +16,13 @@
   .medications {
     @include column(6, true);
   }
-}
-.registration {
-  .list_item {
-    border-bottom: none;
+  .details {
+    @include clearfix;
+    padding-top: $margin-increment * 2;
+    padding-bottom: $margin-increment * 2;
   }
-  ul.nav {
-    padding-top: 0;
-    margin-top: 0;
-    margin-bottom: $margin-increment;
-  }
-  border-bottom: solid 1px $grey-light;
-
-  .supplemental {
-    .contact {
-      @include column(7);
-    }
-    .operations {
-      @include column($blueprint-grid-columns - 13, true);
-      @include prepend(13);
-    }
+  .operations {
+    clear: both;
   }
 }
 .basic_info {
@@ -48,5 +35,31 @@
   }
   .info {
     @include column($blueprint-grid-columns - 6, true);
+  }
+}
+.diagnoses {
+  ul {
+    list-style-type: none;
+  }
+  a.more {
+    display: block;
+    text-align: right;
+  }
+  li.inline {
+    @include clearfix;
+    border-top: dotted 1px $grey-very-light;
+    padding-top: $margin-increment;
+    .xrays {
+      float: right;
+    }
+    img {
+      height: 30px;
+    }
+    .enlarge {
+      margin: 0 $margin-increment 0 0;
+    }
+    .nav {
+      font-size: .7em;
+    }
   }
 }

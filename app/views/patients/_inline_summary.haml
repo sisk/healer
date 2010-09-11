@@ -25,7 +25,7 @@
           - break if i > 2
           %li.inline= render :partial => "diagnoses/inline", :locals => { :diagnosis => diagnosis }
       - if patient.diagnoses.size > 3
-        = link_to "+ #{patient.diagnoses.size - 3} more", patient_path(patient)
+        = link_to "+ #{patient.diagnoses.size - 3} more", patient_path(patient), :class => "more"
   .supplemental
     %p.fake_link.toggle= "Toggle more details for #{patient}"
     .details.hide
@@ -37,22 +37,21 @@
               %li= risk_factor
       .diseases
         - if patient.other_diseases.present?
-          %h3 Chronic & Other Diseases
+          %h4 Chronic & Other Diseases
           %ul
             - chronics = free_text_list_to_array(patient.other_diseases)
             - chronics.each do |chronic|
               %li= chronic
       .medications
         - if patient.medications.present?
-          %h3 Medications
+          %h4 Medications
           %ul
             - medications = free_text_list_to_array(patient.medications)
             - medications.each do |medication|
               %li= medication
-      .section
+      - if patient.operations.present?
         .operations
-          - if patient.operations.present?
-            %h4 Operations
-            %ul
-            - patient.operations.each do |operation|
-              %li= link_to operation, patient_operation_path(patient,operation)
+          %h4 Operations
+          %ul
+          - patient.operations.each do |operation|
+            %li= link_to operation, patient_operation_path(patient,operation)

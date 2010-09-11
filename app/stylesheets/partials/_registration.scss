@@ -1,0 +1,15 @@
+.registration {
+  .list_item {
+    border-bottom: none;
+  }
+  ul.nav {
+    @include horizontal-list(1em);
+    @include prepend(5);
+    padding-top: 0;
+    margin-top: 0;
+    margin-left: 0;
+    margin-bottom: $margin-increment * 3;
+    font-size: 1.1em;
+  }
+  border-bottom: solid 1px $grey-light;
+}

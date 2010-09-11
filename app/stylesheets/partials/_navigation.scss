@@ -1,4 +1,4 @@
-#nav, #admin_nav, ul.subnavigation, ul.nav {
+#nav, #admin_nav, ul.subnavigation {
   @include horizontal-list;
   padding-left: 0 !important;
 }

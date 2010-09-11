@@ -44,26 +44,3 @@
   }
 */  
 }
-
-.diagnoses {
-  ul {
-    list-style-type: none;
-  }
-  li.inline {
-    @include clearfix;
-    border-top: dotted 1px $grey-very-light;
-    padding-top: $margin-increment;
-    .xrays {
-      float: right;
-    }
-    img {
-      height: 30px;
-    }
-    .enlarge {
-      margin: 0 $margin-increment 0 0;
-    }
-    .nav {
-      font-size: .7em;
-    }
-  }
-}
