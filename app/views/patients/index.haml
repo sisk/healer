@@ -4,5 +4,13 @@
   %ul.subnavigation
     - if permitted_to? :create, Patient.new
       %li= link_to_unless_current "New Patient", new_patient_path
+.list_nav
+  - form_tag(patients_path, {:method => :get, :class => "list_search"}) do
+    = label_tag :search, "Search"
+    = text_field_tag :search, params[:search]
+    = submit_tag "Go"
+    - if params[:search].present?
+      = link_to "Clear search", patients_path
+  = will_paginate @patients
 #patient_list
   = render :partial => "inline_summary", :collection => @patients, :as => :patient

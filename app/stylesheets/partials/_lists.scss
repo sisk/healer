@@ -34,3 +34,17 @@
     }
   }
 }
+.list_nav {
+  background-color: $grey-very-light;
+  padding: 1em;
+  @include clearfix;
+  margin-bottom: $margin-increment;
+  @include column($blueprint-grid-columns);
+  form.list_search {
+    @include column($blueprint-grid-columns / 2);
+  }
+  .pagination {
+    @include column($blueprint-grid-columns / 2, true);
+    text-align: right;
+  }
+}

@@ -4,6 +4,13 @@
   %ul.subnavigation
     - if permitted_to? :create, Registration.new(:trip => @trip)
       %li= link_to "Add registration", new_trip_registration_path(@trip)
+.list_nav
+  - form_tag(trip_registrations_path(@trip), {:method => :get, :class => "list_search"}) do
+    = label_tag :search, "Search"
+    = text_field_tag :search, params[:search]
+    = submit_tag "Go"
+    - if params[:search].present?
+      = link_to "Clear search", trip_registrations_path(@trip)
 #registration_list
   %ul
     %li= link_to "Approved", "#approved"
@@ -12,5 +19,3 @@
     = render :partial => "summary", :collection => @authorized_registrations, :as => :registration
   #waiting
     = render :partial => "summary", :collection => @unauthorized_registrations, :as => :registration
-
-  

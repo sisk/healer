@@ -6,8 +6,8 @@ class RegistrationsController < InheritedResources::Base
   belongs_to :trip, :optional => true
 
   def index
-    @authorized_registrations = end_of_association_chain.authorized
-    @unauthorized_registrations = end_of_association_chain.unauthorized
+    @authorized_registrations = authorized_registrations
+    @unauthorized_registrations = unauthorized_registrations
   end
 
   def create
@@ -45,5 +45,22 @@ private
   def set_unregistered_patients
     @all_patients = Patient.all
   end
-  
+
+protected
+
+  def authorized_registrations
+    if params[:search].present?
+      @authorized_registrations ||= end_of_association_chain.authorized.search(params[:search])
+    else
+      @authorized_registrations ||= end_of_association_chain.authorized
+    end
+  end
+  def unauthorized_registrations
+    if params[:search].present?
+      @unauthorized_registrations = end_of_association_chain.unauthorized.search(params[:search])
+    else
+      @unauthorized_registrations = end_of_association_chain.unauthorized
+    end
+  end
+
 end
