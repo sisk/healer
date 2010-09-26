@@ -16,7 +16,7 @@ gem "carmen", :git => "http://github.com/grobie/carmen.git"
 gem "paperclip"
 gem "test-unit"
 gem 'inherited_resources', '1.1.2'
-gem "test-unit"
+gem "will_paginate", '3.0.pre2'
 # gem "ruby-debug19"
 
 # gem 'hoptoad_notifier'
