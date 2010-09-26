@@ -1,3 +1,7 @@
+#registration_list {
+  height: 500px;
+  overflow: auto;
+}
 .registration {
   border-bottom: solid 1px $grey-light;
   margin-bottom: $margin-increment * 2;
