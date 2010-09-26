@@ -12,8 +12,17 @@ class Registration < ActiveRecord::Base
   scope :authorized, :conditions => [ "registrations.approved_at is not ?", nil ]
   scope :unauthorized, :conditions => [ "registrations.approved_at is ?", nil ]  
   scope :search, Proc.new { |term|
-    query = term.strip.gsub(',', '').gsub(/[^\w@\.]/x,'').gsub(' ','|')
-    { :include => [:patient], :conditions => ["patients.name_last like ? or patients.name_first like ? or concat(patients.name_first,patients.name_last) like ?","%#{query}%","%#{query}%","%#{query}%"] } if query.present?
+    query = term.strip.gsub(',', '')
+    logger.debug(query.inspect)
+    first_last = query.split(" ")
+    if query.present?
+      if first_last.size == 2
+        { :include => [:patient], :conditions => ["patients.name_first like ? and patients.name_last like ?","%#{first_last[0]}%","%#{first_last[1]}%" ] }
+      else
+        query = query.gsub(/[^\w@\.]/x,'')
+        { :include => [:patient], :conditions => ["patients.name_last like ? or patients.name_first like ?","%#{query}%","%#{query}%" ] }
+      end
+    end
   }
 
   def to_s

@@ -20,8 +20,17 @@ class Patient < ActiveRecord::Base
 
   scope :no_registrations, :conditions => ["patients.id NOT IN (SELECT patient_id FROM registrations)"]
   scope :search, Proc.new { |term|
-    query = term.strip.gsub(',', '').gsub(/[^\w@\.]/x,'').gsub(' ','|')
-    { :conditions => ["patients.name_last like ? or patients.name_first like ? or concat(patients.name_first,patients.name_last) like ?","%#{query}%","%#{query}%","%#{query}%"] } if query.present?
+    query = term.strip.gsub(',', '')
+    logger.debug(query.inspect)
+    first_last = query.split(" ")
+    if query.present?
+      if first_last.size == 2
+        { :conditions => ["patients.name_first like ? and patients.name_last like ?","%#{first_last[0]}%","%#{first_last[1]}%" ] }
+      else
+        query = query.gsub(/[^\w@\.]/x,'')
+        { :conditions => ["patients.name_last like ? or patients.name_first like ?","%#{query}%","%#{query}%" ] }
+      end
+    end
   }
 
   named_scope :lookup, Proc.new { |term|
