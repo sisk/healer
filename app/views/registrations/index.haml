@@ -13,8 +13,8 @@
       = link_to "Clear search", trip_registrations_path(@trip)
 #registration_list
   %ul
-    %li= link_to "Approved", "#approved"
-    %li= link_to "Waiting", "#waiting"
+    %li= link_to "Approved (#{@authorized_registrations.size})", "#approved"
+    %li= link_to "Waiting (#{@unauthorized_registrations.size})", "#waiting"
   #approved
     = render :partial => "summary", :collection => @authorized_registrations, :as => :registration
   #waiting
