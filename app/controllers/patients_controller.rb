@@ -6,7 +6,7 @@ class PatientsController < InheritedResources::Base
     create! { patients_path }
   end
   def update
-    update! { patients_path }
+    update! { patient_path(@patient) }
   end
 
 private

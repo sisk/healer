@@ -16,6 +16,8 @@ class Patient < ActiveRecord::Base
   has_many :registrations, :dependent => :destroy
   has_many :risk_factors, :dependent => :destroy
 
+  accepts_nested_attributes_for :risk_factors, :allow_destroy => true, :reject_if => proc { |attributes| attributes['risk_id'].blank? }
+
   default_scope :order => 'patients.name_last, patients.name_first'
 
   scope :no_registrations, :conditions => ["patients.id NOT IN (SELECT patient_id FROM registrations)"]
@@ -78,6 +80,10 @@ class Patient < ActiveRecord::Base
 
   def has_contact?
     return %w(address1 address2 city state zip country phone email).any?{ |field| self.send(field).present? }
+  end
+
+  def available_risks
+    Risk.all - self.risk_factors.collect{ |rf| rf.risk }
   end
   
 end

@@ -1,4 +1,6 @@
 class RiskFactorsController < InheritedResources::Base
+  respond_to :html, :xml, :json
+  respond_to :js, :only => :destroy
   before_filter :authenticate_user!
   filter_resource_access
 
@@ -11,7 +13,17 @@ class RiskFactorsController < InheritedResources::Base
     update! { patient_path(@patient) }
   end
   def destroy
-    destroy! { edit_patient_path(@patient) }
+    respond_to do |wants|
+      wants.html do
+        destroy! { edit_patient_path(@patient) }
+      end
+      wants.js do
+        destroy! do
+          render :nothing => true
+          return
+        end
+      end
+    end
   end
 
 end

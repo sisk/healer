@@ -10,7 +10,7 @@ gem "compass"
 gem "devise", "1.1.rc2"
 # gem "declarative_authorization", :git => "http://github.com/stffn/declarative_authorization.git"
 gem "declarative_authorization", '0.5'
-gem "formtastic", '1.1.0.beta'
+gem "formtastic", '~> 1.1.0'
 gem "validation_reflection"
 gem "carmen", :git => "http://github.com/grobie/carmen.git"
 gem "paperclip"

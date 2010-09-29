@@ -127,3 +127,19 @@ describe Patient, "has_contact?" do
     end
   end
 end
+
+describe Patient, "available_risks" do
+  before(:each) do
+    @patient = Patient.new
+    @risk1 = mock_model(Risk)
+    @risk2 = mock_model(Risk)
+    Risk.stub(:all).and_return([@risk1, @risk2])
+  end
+  it "returns all risks by default" do
+    @patient.available_risks.should == [@risk1, @risk2]
+  end
+  it "returns only risks not already represented by a risk factor n the patient" do
+    @patient.risk_factors = [RiskFactor.new(:patient_id => @patient.id, :risk => @risk1)]
+    @patient.available_risks.should == [@risk2]
+  end
+end

@@ -1,3 +1,5 @@
+@import "compass/css3/inline-block";
+
 .patient.list_item {
   .summary {
     h3 { margin-bottom: .5em; }
@@ -47,7 +49,7 @@ form.patient {
   .medical_history {
     @include clearfix;
     fieldset {
-      @include column($blueprint-grid-columns / 4);
+      @include column(($blueprint-grid-columns) / 3);
       ol {
         padding-left: 0;
         &> li > textarea {
@@ -60,8 +62,82 @@ form.patient {
           font-style: italic;
         }
       }
+      &#medications_list {
+        /*@include prepend(5);*/
+      }
       &#allergy_list {
-        @include column($blueprint-grid-columns / 4, true);
+        @include column(($blueprint-grid-columns) / 3, true);
+      }
+    }
+  }
+  .risk_factor_fields {
+    @include clearfix;
+    .risk_factor {
+      @include float-left;
+    }
+    .buttons {
+      @include column(6, true);
+      ol {
+        padding-left: 0;
+      }
+    }
+    ol {
+      @include clearfix;
+      margin-right: 0;
+      margin-bottom: $margin-increment;
+    }
+    li {
+      margin-bottom: 0;
+    }
+  }
+  .risk_factors {
+    #new_risk_factors {
+      @include clearfix;
+      padding-top: $margin-increment * 3;
+    }
+    #add_risk_factor {
+      display: block;
+      @include prepend(7);
+    }
+    fieldset.risk_factor {
+      clear: left;
+      &+ fieldset.buttons {
+        padding-left: 0;
+        @include inline-block;
+      }
+    } 
+    a.inline {
+      @include float-left;
+    }
+    fieldset.associated {
+      @include prepend(5);
+      label {
+        width: auto;
+        margin-right: $margin-increment;
+      }
+      &> ol {
+        &> li {
+          &.risk {
+            @include column(5);
+          }
+          &.severity {
+            @include column(5, true);
+            @include float-left;
+            &>fieldset {
+              &> legend {
+                /*@include float-left;*/
+                text-align: right;
+              }
+              &> ol {
+                @include float-left;
+                &> li {
+                  @include float-left;
+                  margin-right: $margin-increment !important;
+                }
+              }
+            }
+          }
+        }
       }
     }
   }

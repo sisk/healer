@@ -1,0 +1,8 @@
+.risk_factor_fields.deletable
+  - f.semantic_fields_for :risk_factors, risk_factor, :wrapper_html => {:class => "risk_factor", :id => dom_id(risk_factor)} do |rf|
+    - rf.inputs :class => "associated risk_factor", :id => dom_id(risk_factor), do
+      = rf.input :patient_id, :as => :hidden, :input_html => { :value => @patient.id }
+      = rf.input :risk_id, :as => :select, :label => 'Risk', :collection => Risk.all.collect{ |r| [r.to_s, r.id] }, :wrapper_html => { :class => "risk" }
+      = rf.input :severity, :as => :select, :label => "Severity", :collection => RiskFactor::severity_table.invert, :wrapper_html => { :class => "severity" }
+    - rf.buttons do
+      = link_to "delete", patient_risk_factor_path(@patient, risk_factor), :method => :delete, :remote => true, :confirm => "Are you sure?", :class => "inline record_delete"

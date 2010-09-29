@@ -13,6 +13,9 @@
 // To configure blueprint, edit the partials/base.sass file.
 @import "partials/base";
 
+@import "partials/formtastic";
+@import "partials/formtastic_changes";
+
 // Combine the partials into a single screen stylesheet.
 @import "partials/two_col";
 @import "partials/page";

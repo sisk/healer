@@ -1,6 +1,7 @@
 // Only apply the blueprint form styles to forms with
 // a class of "bp". This makes it easier to style
 // forms from scratch if you need to.
+@import "compass/css3/inline-block";
 
 form.bp {
   @include blueprint-form; }
@@ -23,8 +24,9 @@ form {
   li.hidden {
     display: none;
   }
-}
-
-.choice_toggle {
-  
+  .required abbr {
+    color: $red;
+    padding-left: .3em;
+    border: none;
+  }
 }

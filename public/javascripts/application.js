@@ -38,6 +38,17 @@ $(document).ready(function() {
   $(".choice_toggle").choice_toggle();
   $(".supplemental").supplementable();
 
+  $(".risk_factor .record_delete").live('click', function(event){
+    $(this).parents(".risk_factor").remove();
+  });
+  
+});
+
+jQuery(function ($) {
+  $("a.record_delete[data-method='delete'][data-remote='true']").live('click', function (e){
+    var the_deletable = $(this).closest(".deletable");
+    the_deletable.fadeOut('medium',function(){the_deletable.remove()});
+  });
 });
 
 

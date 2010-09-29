@@ -10,6 +10,20 @@
     =# f.input :death, :as => :date, :label => "Death"
     = f.input :height_cm, :label => 'Height (cm)'
     = f.input :weight_kg, :label => 'Weight (kg)'
+  .section.risk_factors
+    %h3 Risk Factors
+    = render :partial => 'risk_factor', :collection => @patient.risk_factors, :locals => { :f => f }
+    - if permitted_to? :create, RiskFactor.new(:patient => @patient)
+      #new_risk_factors
+      = link_to_function 'Add a risk factor', "$('#new_risk_factors').append('#{escape_javascript render :partial => 'new_risk_factor', :object => RiskFactor.new(:patient => @patient), :locals => { :f => f }}');", :id => "add_risk_factor"
+  .section.medical_history
+    - f.inputs :name => "Medications", :id => "medications_list" do
+      = f.input :medications, :label => false, :hint => "Separate entries with commas or return."
+    - f.inputs :name => "Diseases", :id => "disease_list" do
+      = f.input :other_diseases, :label => false, :hint => "Separate entries with commas or return."
+    - f.inputs :name => "Allergies", :id => "allergy_list" do
+      = f.input :allergies, :label => false, :hint => "Separate entries with commas or return."
+
   - f.inputs :name => "Contact" do
     = f.input :address1, :label => 'Address 1'
     = f.input :address2, :label => 'Address 2'
@@ -19,22 +33,7 @@
     = f.input :country, :as => :select, :label => 'Country', :collection => Carmen::COUNTRIES
     = f.input :phone, :label => 'Phone'
     = f.input :email, :label => 'Email'
-  .medical_history
-    %h2 Medical History
-    - if @patient.risk_factors.present?
-      - f.inputs :name => "Risk Factors", :id => "risk_factor_list" do
-        - @patient.risk_factors.each do |risk_factor|
-          %li
-            = risk_factor
-            = link_to "delete", patient_risk_factor_path(@patient, risk_factor), :method => :delete, :confirm => "Are you sure?"
-        -# if permitted_to? :create, RiskFactor.new(:patient => @patient)
-          -# %p= link_to "Add a risk factor for #{@patient}", new_patient_risk_factor_path(@patient)
-    - f.inputs :name => "Medications", :id => "medications_list" do
-      = f.input :medications, :label => false, :hint => "Separate entries with commas or return."
-    - f.inputs :name => "Diseases", :id => "disease_list" do
-      = f.input :other_diseases, :label => false, :hint => "Separate entries with commas or return."
-    - f.inputs :name => "Allergies", :id => "allergy_list" do
-      = f.input :allergies, :label => false, :hint => "Separate entries with commas or return."
+
 
   - f.buttons do
     = f.commit_button

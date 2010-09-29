@@ -2,5 +2,5 @@
   border: $size $color $type;
 }
 @mixin debug {
-  @include bordered(1px, #f00, dotted);
+  border: 1px #f00 dotted !important;
 }
