@@ -58,6 +58,10 @@ Healer::Application.routes.draw do |map|
   end
   resources :registrations
 
+  resources :facilities do
+    resources :rooms
+  end
+
   # Sample resource route with options:
   #   resources :products do
   #     member do

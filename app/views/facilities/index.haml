@@ -1,0 +1,17 @@
+- content_for :title do
+  Facilities
+- content_for :subnavigation do
+  %ul.subnavigation
+    - if permitted_to? :create, Facility.new
+      %li= link_to_unless_current "New Facility", new_facility_path
+- @facilities.each do |facility|
+  .facility
+    %h2
+      = facility
+      %span.inline_nav= link_to "edit", edit_facility_path(facility)
+    %dl
+      - if facility.one_line_address.present?
+        %dt Address:
+        %dd= facility.one_line_address
+      %dt Rooms:
+      %dd= link_to facility.rooms.size, facility

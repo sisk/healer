@@ -3,6 +3,8 @@
     %li= link_to_unless_current "Patients", patients_path
   - if permitted_to? :index, Trip.new
     %li= link_to_unless_current "Trips", trips_path
+  - if permitted_to? :index, Facility.new
+    %li= link_to_unless_current "Facilities", facilities_path
   - if permitted_to? :index, BodyPart.new
     %li= link_to_unless_current "Body Parts", body_parts_path
   - if permitted_to? :index, Disease.new

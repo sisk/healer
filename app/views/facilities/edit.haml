@@ -1,0 +1,8 @@
+- content_for :title do
+  = "Edit Facility: #{@facility}"
+- content_for :subnavigation do
+  %ul.subnavigation
+    %li= link_to "Back to facility index", facilities_path
+    - if permitted_to? :destroy, @facility
+      %li.delete= link_to "Delete #{@facility}", @facility, :method => :delete, :confirm => "Are you sure you want to delete the entire facility record for #{@facility}? This will also destroy its rooms. This action cannot be undone."
+= render :partial => "form"

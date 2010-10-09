@@ -11,3 +11,9 @@ describe Room do
 
   should_have_many :operations
 end
+
+describe Room, "#to_s" do
+  it "returns the title" do
+    Room.new(:title => "Derp").to_s.should == "Derp"
+  end
+end
