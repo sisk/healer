@@ -14,6 +14,7 @@ describe Operation do
   should_have_column :graft, :type => :boolean
   should_have_column :notes, :type => :text
   should_have_column :ambulatory_order, :type => :string
+  should_have_column :operating_room_id, :type => :integer
 
   should_belong_to :procedure
   should_belong_to :patient
@@ -22,6 +23,8 @@ describe Operation do
   should_belong_to :primary_surgeon
   should_belong_to :secondary_surgeon
   should_belong_to :anesthesiologist
+
+  should_belong_to :operating_room
 
   should_have_one :implant
   should_have_one :knee_implant
