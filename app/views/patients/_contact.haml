@@ -1,5 +1,8 @@
 - if patient.has_contact?
-  %h4 Contact Information
+  %h4
+    Contact Information
+    - if permitted_to? :edit, patient
+      %span.inline_nav= link_to "edit", edit_patient_path(patient, :anchor => "contact")
   %dl.contact
     - if patient.one_line_address.present?
       %dt Address:

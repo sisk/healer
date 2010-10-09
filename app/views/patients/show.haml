@@ -42,27 +42,41 @@
       = link_to "New Diagnosis", new_patient_diagnosis_path(@patient)
   #diagnosis_list
     = render :partial => "diagnosis_summary", :collection => @patient.diagnoses, :as => :diagnosis
+.section.risk_factors
+  %h2
+    Risk Factors
+    - if permitted_to? :edit, @patient
+      %span.inline_nav= link_to "edit", edit_patient_path(@patient, :anchor => "risks")
+  %ul#risk_factor_list
+    - @patient.risk_factors.each do |risk_factor|
+      %li= risk_factor
 .section.medical_history
-  %h2 Medical History
-  .risk_factors
-    %h3 Risk Factors
-    %ul#risk_factor_list
-      - @patient.risk_factors.each do |risk_factor|
-        %li= risk_factor
+  %h2
+    Medical History
+    - if permitted_to? :edit, @patient
+      %span.inline_nav= link_to "edit", edit_patient_path(@patient, :anchor => "history")
   .diseases
     - if @patient.other_diseases.present?
+      - chronics = free_text_list_to_array(@patient.other_diseases)
       %h3 Chronic & Other Diseases
       %ul
-        - chronics = free_text_list_to_array(@patient.other_diseases)
         - chronics.each do |chronic|
           %li= chronic
   .medications
     - if @patient.medications.present?
+      - medications = free_text_list_to_array(@patient.medications)
       %h3 Medications
       %ul
-        - medications = free_text_list_to_array(@patient.medications)
         - medications.each do |medication|
           %li= medication
+  .allergies
+    - if @patient.allergies.present?
+      - allergies = free_text_list_to_array(@patient.allergies)
+      %h3 Allergies
+      %ul
+        - allergies.each do |allergy|
+          %li= allergy
+
 / 
 / .section
 /   %h2= "#{@patient.short_name}'s Operations"

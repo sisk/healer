@@ -6,10 +6,10 @@
   }
 }
 .section.medical_history {
-  .risk_factors, .diseases {
+  .medications, .diseases {
     @include column($blueprint-grid-columns / 3);
   }
-  .medications {
+  .allergies {
     @include column($blueprint-grid-columns / 3, true);
   }
 }
