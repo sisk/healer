@@ -34,6 +34,8 @@ describe Patient do
   should_have_many :operations
   should_have_many :registrations
   should_have_many :risk_factors
+  should_have_many :risks, :through => :risk_factors
+
 
 end
 
@@ -138,8 +140,8 @@ describe Patient, "available_risks" do
   it "returns all risks by default" do
     @patient.available_risks.should == [@risk1, @risk2]
   end
-  it "returns only risks not already represented by a risk factor n the patient" do
-    @patient.risk_factors = [RiskFactor.new(:patient_id => @patient.id, :risk => @risk1)]
+  it "returns only risks not applied to the patient" do
+    @patient.stub(:risks).and_return([@risk1])
     @patient.available_risks.should == [@risk2]
   end
 end

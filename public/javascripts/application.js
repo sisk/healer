@@ -35,6 +35,7 @@ $(document).ready(function() {
   });
 
   $("#registration_list").tabs();
+  $("form#patient_edit").tabs();
   $(".choice_toggle").choice_toggle();
   $(".supplemental").supplementable();
 

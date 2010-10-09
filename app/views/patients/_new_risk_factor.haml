@@ -1,5 +1,5 @@
 .risk_factor_fields
-  - f.semantic_fields_for :risk_factors, new_risk_factor, :wrapper_html => {:class => "risk_factor", :id => dom_id(new_risk_factor)} do |rf|
+  - f.semantic_fields_for :risk_factors, new_risk_factor, :wrapper_html => {:class => "risk_factor"} do |rf|
     - rf.inputs :class => "associated risk_factor", :id => dom_id(new_risk_factor) do
       = rf.input :patient_id, :as => :hidden, :input_html => { :value => @patient.id }
       = rf.input :risk_id, :as => :select, :label => 'Risk', :collection => Risk.all.collect{ |r| [r.to_s, r.id] }, :wrapper_html => { :class => "risk" }

@@ -15,6 +15,7 @@ class Patient < ActiveRecord::Base
   has_many :operations, :dependent => :destroy
   has_many :registrations, :dependent => :destroy
   has_many :risk_factors, :dependent => :destroy
+  has_many :risks, :through => :risk_factors
 
   accepts_nested_attributes_for :risk_factors, :allow_destroy => true, :reject_if => proc { |attributes| attributes['risk_id'].blank? }
 
@@ -83,7 +84,7 @@ class Patient < ActiveRecord::Base
   end
 
   def available_risks
-    Risk.all - self.risk_factors.collect{ |rf| rf.risk }
+    Risk.all - self.risks
   end
   
 end

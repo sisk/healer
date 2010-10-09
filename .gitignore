@@ -1,4 +1,5 @@
 .rvmrc
+.idea
 .bundle/*
 public/system/*
 config/database.yml
