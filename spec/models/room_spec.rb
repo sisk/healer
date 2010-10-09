@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe OperatingRoom do
+describe Room do
   should_have_column :title, :type => :string
   should_have_column :location, :type => :string
   should_have_column :facility_id, :type => :integer
