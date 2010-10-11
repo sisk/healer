@@ -1,9 +1,13 @@
 class Facility < ActiveRecord::Base
   validates_presence_of :name
   has_many :rooms, :dependent => :destroy
+
+  default_scope :order => 'facilities.name'
   
   def to_s
-    name
+    s = name
+    s += " - #{city}" unless city.blank?
+    s
   end
   
   def one_line_address

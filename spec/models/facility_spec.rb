@@ -18,6 +18,9 @@ describe Facility, "#to_s" do
   it "returns the name" do
     Facility.new(:name => "Military Hospital").to_s.should == "Military Hospital"
   end
+  it "appends the city if it exists" do
+    Facility.new(:name => "Military Hospital", :city => "Guatemala City").to_s.should == "Military Hospital - Guatemala City"
+  end
 end
 
 describe Facility, "one_line_address" do

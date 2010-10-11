@@ -5,8 +5,10 @@ describe Trip do
   should_have_column :end, :type => :date
   should_have_column :country, :type => :string
   should_have_column :city, :type => :string
+  should_have_column :facility_id, :type => :integer
   should_validate_presence_of :country
   should_have_and_belong_to_many :staff
+  should_belong_to :facility
   should_have_many :registrations
   should_have_many :patients, :through => :registrations
 end

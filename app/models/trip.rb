@@ -1,5 +1,6 @@
 class Trip < ActiveRecord::Base
   has_and_belongs_to_many :staff, :class_name => "User", :join_table => "staff_trips", :foreign_key => "staff_id"
+  belongs_to :facility
   validates_presence_of :country, :message => "can't be blank"
   has_many :registrations
   has_many :patients, :through => :registrations
