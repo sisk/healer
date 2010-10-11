@@ -12,8 +12,8 @@
   %tbody
     - @body_parts.each do |body_part|
       %tr.body_part
-        %th= body_part
-        %th
+        %td= body_part
+        %td
           - if permitted_to? :edit, body_part
             = link_to "Edit", edit_body_part_path(body_part)
           - if permitted_to? :destroy, body_part
