@@ -10,7 +10,7 @@ module PatientsHelper
   end
 
   def patient_gender(patient)
-    case patient.male
+    case patient.try(:male)
     when true then "Male"
     when false then "Female"
     else "Unknown"
@@ -27,7 +27,7 @@ module PatientsHelper
   end
   
   def birth_date_and_age(patient)
-    return "Unknown" if patient.birth.blank?
+    return "Unknown" if patient.try(:birth).blank?
     day_diff = Time.now.day - patient.birth.day
     month_diff = Time.now.month - patient.birth.month - (day_diff < 0 ? 1 : 0)
     age = Time.now.year - patient.birth.year - (month_diff < 0 ? 1 : 0)

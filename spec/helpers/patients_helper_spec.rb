@@ -33,6 +33,9 @@ describe PatientsHelper, "patient_gender" do
   before(:each) do
     @patient = Patient.new
   end
+  it "outputs 'Unknown' if patient is nil" do
+    helper.patient_gender(nil).should == "Unknown"
+  end
   it "outputs 'Unknown' if gender is not set" do
     @patient.male = nil
     helper.patient_gender(@patient).should == "Unknown"
@@ -91,6 +94,9 @@ describe PatientsHelper, "free_text_list_to_array" do
 end
 
 describe PatientsHelper, "birth_date_and_age" do
+  it "returns 'Unknown' if patient is nil" do
+    helper.birth_date_and_age(nil).should == "Unknown"
+  end
   it "returns 'Unknown' if birth date is not set" do
     patient = Patient.new
     helper.birth_date_and_age(patient).should == "Unknown"

@@ -9,15 +9,7 @@
   .image
     = patient_image(@patient, :small)
   .info
-    %dl.demographic
-      %dt Gender:
-      %dd= patient_gender(@patient)
-      %dt Birth:
-      %dd= birth_date_and_age(@patient)
-      %dt Height:
-      %dd= patient_height(@patient, true)
-      %dt Weight:
-      %dd= patient_weight(@patient, true)
+    = render :partial => "patients/shared/demographic", :locals => { :patient => @patient }
     .contact
       = render :partial => "patients/contact", :locals => { :patient => @patient }
 

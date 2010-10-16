@@ -8,15 +8,7 @@
         = link_to patient, patient_path(patient)
       - else
         = patient
-    %dl.demographic
-      %dt Gender:
-      %dd= patient_gender(patient)
-      %dt Birth:
-      %dd= birth_date_and_age(patient)
-      %dt Height:
-      %dd= patient_height(patient, true)
-      %dt Weight:
-      %dd= patient_weight(patient, true)
+    = render :partial => "patients/shared/demographic", :locals => { :patient => patient }
   .diagnoses
     - if patient.diagnoses.empty?
       = link_to "New diagnosis for #{patient}", new_patient_diagnosis_path(patient)
