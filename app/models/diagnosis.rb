@@ -6,7 +6,7 @@ class Diagnosis < ActiveRecord::Base
   belongs_to :disease
   belongs_to :body_part
   has_many :operations
-  has_many :xrays
+  has_many :xrays, :dependent => :destroy
   accepts_nested_attributes_for :xrays, :allow_destroy => true, :reject_if => proc { |attributes| attributes['photo'].blank? }
   
   validates_presence_of :patient
