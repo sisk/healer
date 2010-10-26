@@ -1,4 +1,8 @@
 class Patient < ActiveRecord::Base
+  
+  attr_accessor :weight_unit, :height_unit
+  before_save :set_weight, :set_height
+  
   validates_presence_of :name_first, :message => "can't be blank"
   validates_presence_of :name_last, :message => "can't be blank"
   validates_inclusion_of :male, :in => [true, false]
@@ -85,6 +89,24 @@ class Patient < ActiveRecord::Base
 
   def available_risks
     Risk.all - self.risks
+  end
+
+private
+
+  def set_weight
+    self.weight_kg = to_kg(self.weight_kg) if self.weight_unit == "pounds"
+  end
+  
+  def set_height
+    self.height_cm = to_cm(self.height_cm) if self.height_unit == "inches"
+  end
+
+  def to_kg(pounds)
+    ((pounds / 2.20462262) * 100).round.to_f / 100
+  end
+
+  def to_cm(inches)
+    ((inches / 0.393700787) * 100).round.to_f / 100
   end
   
 end

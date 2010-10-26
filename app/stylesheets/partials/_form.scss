@@ -29,4 +29,27 @@ form {
     padding-left: .3em;
     border: none;
   }
+
+  fieldset.inputs .complex {
+    @include clearfix;
+    li {
+      &.supplemented {
+        @include prepend(3);
+        @include column(6);
+        input {
+          @include float-left;
+          @include column(4);
+        }
+      }
+      &.supplemental {
+        @include column(4);
+      }
+      label {
+        display:block; width:25%; float:left; padding-top:.2em;
+      }
+      @include float-left;
+    }
+    
+  }
+
 }
