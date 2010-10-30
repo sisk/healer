@@ -1,0 +1,7 @@
+table#schedule_edit {
+  #unregistered td {
+    @include column($blueprint-grid-columns / 2);
+    @include bordered;
+    padding: 0;
+  }
+}

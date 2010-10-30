@@ -1,0 +1,10 @@
+.registration.snapshot
+  = patient_image(registration.patient, :tiny)
+  .details
+    %h3= "#{registration.patient} [ID #{registration.id}]"
+    %dl
+      %dt Status
+      %dd= registration.status
+      - unless registration.location.blank?
+        %dt Location
+        %dd= registration.location

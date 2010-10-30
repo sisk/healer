@@ -1,0 +1,5 @@
+- content_for :title do
+  = "#{@trip} - Edit Schedule"
+%table#schedule_edit
+  %tr#unregistered
+    %td= render :partial => "registrations/registration_snapshot", :as => :registration, :collection => @unregistered

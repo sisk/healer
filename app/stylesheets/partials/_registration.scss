@@ -17,7 +17,25 @@
     margin-bottom: $margin-increment * 3;
     font-size: 1.1em;
   }
+  &.snapshot {
+    @include clearfix;
+    &:hover {
+      background-color: $light-yellow;
+    }
+    margin-bottom: 0;
+    padding: $margin-increment;
+    p, dl { margin: 0; }
+    h3 { @include widget_title; }
+    img {
+      height: 50px;
+      @include float-left;
+      margin-right: $margin-increment;
+    }
+    .details { @include float-left; }
+    dl { @include inline_dl; }
+  }
 }
 form.registration {
   border-bottom: none;
 }
+

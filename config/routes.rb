@@ -42,6 +42,7 @@ Healer::Application.routes.draw do
         put :authorize, :deauthorize
       end
     end
+    resource :schedule, :controller => :schedule
     resource :staff, :controller => :staff
   end
   resources :patients do
