@@ -14,6 +14,7 @@ class Operation < ActiveRecord::Base
   belongs_to :diagnosis
   belongs_to :body_part
   belongs_to :room
+  belongs_to :registration
   belongs_to :primary_surgeon, :class_name => "User", :foreign_key => "primary_surgeon_id"
   belongs_to :secondary_surgeon, :class_name => "User", :foreign_key => "secondary_surgeon_id"
   belongs_to :anesthesiologist, :class_name => "User", :foreign_key => "anesthesiologist_id"

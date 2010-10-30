@@ -7,6 +7,10 @@ describe Registration do
   should_have_column :trip_id, :type => :integer
   should_have_column :approved_at, :type => :datetime
   should_have_column :notes, :type => :text
+  should_have_column :checkin_at, :type => :datetime
+  should_have_column :checkout_at, :type => :datetime
+  should_have_column :status, :type => :string
+  should_have_column :location, :type => :string
 
   should_belong_to :patient
   should_belong_to :trip
@@ -15,6 +19,7 @@ describe Registration do
   
   should_validate_presence_of :patient
   should_validate_presence_of :trip
+  should_validate_inclusion_of :status, :in => Registration::possible_statuses, :allow_nil => true
 end
 
 describe Registration, "authorize!" do
@@ -69,5 +74,12 @@ describe Registration, "to_s" do
     trip.stub(:to_s).and_return("Las Vegas 2008")
     registration = Registration.new(:trip => trip)
     registration.to_s.should == "Las Vegas 2008"
+  end
+end
+
+describe Registration, ".possible_statuses" do
+  # Pre-Screening -> Registered -> Checked In -> Preparation -> Procedure -> Recovery -> Discharge -> Checked Out
+  it "returns an array of the expected values" do
+    Registration::possible_statuses.should == ["Pre-Screening","Registered","Checked In","Preparation","Procedure","Recovery","Discharge","Checked Out"]
   end
 end

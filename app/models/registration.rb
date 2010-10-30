@@ -1,10 +1,16 @@
 class Registration < ActiveRecord::Base
+  def self.possible_statuses
+    ["Pre-Screening","Registered","Checked In","Preparation","Procedure","Recovery","Discharge","Checked Out"]
+  end
+
   belongs_to :patient
   belongs_to :trip
   belongs_to :approved_by, :class_name => "User", :foreign_key => "approved_by_id"
   belongs_to :created_by, :class_name => "User", :foreign_key => "created_by_id"
   validates_presence_of :patient
   validates_presence_of :trip
+  validates_inclusion_of :status, :in => self.possible_statuses, :allow_nil => true
+
   accepts_nested_attributes_for :patient
   
   default_scope :include => :patient, :order => 'patients.name_last, patients.name_first'
