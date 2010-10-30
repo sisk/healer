@@ -4,27 +4,26 @@ describe PatientsHelper, "patient_image" do
   before(:each) do
     @patient = Patient.new
     @patient.stub(:to_s).and_return("Joe Derp")
-    
+    @patient.stub_chain(:photo, :path)
   end
   it "outputs photo thumbnail if set" do
     allow_message_expectations_on_nil
-    @patient.stub(:photo)
-    @patient.photo.stub(:file?).and_return(true)
+    File.stub(:exists?).with(@patient.photo.path).and_return(true)
     @patient.photo.stub(:url).with(:thumb).and_return("/path/to/image.jpg")
     helper.patient_image(@patient).should == image_tag(@patient.photo.url(:thumb), :alt => "Photo of Joe Derp")
   end
   it "outputs generic silhouette for male if photo not set and gender is not known" do
-    @patient.stub_chain(:photo, :file?).and_return(false)
+    File.stub(:exists?).with(@patient.photo.path).and_return(false)
     @patient.male = nil
     helper.patient_image(@patient).should == image_tag("male-generic.gif", :alt => "")
   end
   it "outputs generic silhouette for male if photo not set and gender is male" do
-    @patient.stub_chain(:photo, :file?).and_return(false)
+    File.stub(:exists?).with(@patient.photo.path).and_return(false)
     @patient.male = true
     helper.patient_image(@patient).should == image_tag("male-generic.gif", :alt => "")
   end
   it "outputs generic silhouette for male if photo not set and gender is female" do
-    @patient.stub_chain(:photo, :file?).and_return(false)
+    File.stub(:exists?).with(@patient.photo.path).and_return(false)
     @patient.male = false
     helper.patient_image(@patient).should == image_tag("female-generic.gif", :alt => "")
   end
