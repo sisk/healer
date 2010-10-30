@@ -40,7 +40,7 @@ class Patient < ActiveRecord::Base
     end
   }
 
-  named_scope :lookup, Proc.new { |term|
+  scope :lookup, Proc.new { |term|
     query = term.strip.gsub(',', '').gsub(/[^\w@\.]/x,'').gsub(' ','|')
     {
       :conditions => ["people.name_last regexp ? or people.name_first regexp ? or people.employee_id regexp ? or people.email regexp ?",query,query,query,query],
