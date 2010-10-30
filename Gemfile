@@ -7,7 +7,7 @@ gem 'aws-s3'
 gem 'mysql', '2.8.1'
 gem "haml"
 gem "compass"
-gem "devise", "1.1.rc2"
+gem "devise", "1.1.3"
 # gem "declarative_authorization", :git => "http://github.com/stffn/declarative_authorization.git"
 gem "declarative_authorization", '0.5'
 gem "formtastic", '~> 1.1.0'
