@@ -7,6 +7,7 @@ describe PatientsHelper, "patient_image" do
     
   end
   it "outputs photo thumbnail if set" do
+    allow_message_expectations_on_nil
     @patient.stub(:photo)
     @patient.photo.stub(:file?).and_return(true)
     @patient.photo.stub(:url).with(:thumb).and_return("/path/to/image.jpg")
