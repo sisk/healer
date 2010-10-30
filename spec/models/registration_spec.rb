@@ -40,6 +40,10 @@ describe Registration, "authorize!" do
     @registration.authorize!
     @registration.approved_by_id.should be_nil
   end
+  it "sets status to 'Registered'" do
+    @registration.authorize!
+    @registration.status.should == "Registered"
+  end
 end
 describe Registration, "deauthorize!" do
   before(:each) do
@@ -52,6 +56,10 @@ describe Registration, "deauthorize!" do
   it "clears approved_by_id" do
     @registration.deauthorize!
     @registration.approved_by_id.should be_nil
+  end
+  it "sets status to 'Pre-Screen'" do
+    @registration.deauthorize!
+    @registration.status.should == "Pre-Screen"
   end
 end
 
@@ -78,8 +86,8 @@ describe Registration, "to_s" do
 end
 
 describe Registration, ".possible_statuses" do
-  # Pre-Screening -> Registered -> Checked In -> Preparation -> Procedure -> Recovery -> Discharge -> Checked Out
+  # Pre-Screen -> Registered -> Checked In | Scheduled -> Preparation -> Procedure -> Recovery -> Discharge -> Checked Out
   it "returns an array of the expected values" do
-    Registration::possible_statuses.should == ["Pre-Screening","Registered","Checked In","Preparation","Procedure","Recovery","Discharge","Checked Out"]
+    Registration::possible_statuses.should == ["Pre-Screen","Registered","Checked In","Scheduled","Preparation","Procedure","Recovery","Discharge","Checked Out"]
   end
 end

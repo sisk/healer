@@ -1,7 +1,9 @@
 class Registration < ActiveRecord::Base
   def self.possible_statuses
-    ["Pre-Screening","Registered","Checked In","Preparation","Procedure","Recovery","Discharge","Checked Out"]
+    ["Pre-Screen","Registered","Checked In","Scheduled","Preparation","Procedure","Recovery","Discharge","Checked Out"]
   end
+
+  before_create :set_pre_screen
 
   belongs_to :patient
   belongs_to :trip
@@ -30,20 +32,27 @@ class Registration < ActiveRecord::Base
       end
     end
   }
+  scope :unscheduled, :conditions => [ "registrations.status in (?)", ["Registered","Checked In"] ]
 
   def to_s
     trip.to_s
   end
 
   def authorize!(approved_by_id = nil)
-    self.update_attributes(:approved_by_id => approved_by_id, :approved_at => Time.now)
+    self.update_attributes(:approved_by_id => approved_by_id, :approved_at => Time.now, :status => "Registered")
   end
   def deauthorize!
-    self.update_attributes(:approved_by_id => nil, :approved_at => nil)
+    self.update_attributes(:approved_by_id => nil, :approved_at => nil, :status => "Pre-Screen")
   end
 
   def authorized?
     !approved_at.blank?
+  end
+
+private
+
+  def set_pre_screen
+    status = "Pre-Screen"
   end
   
 end
