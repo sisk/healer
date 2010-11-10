@@ -35,7 +35,7 @@ class Registration < ActiveRecord::Base
   scope :unscheduled, :conditions => [ "registrations.status in (?)", ["Registered","Checked In"] ]
 
   def to_s
-    trip.to_s
+    "#{patient.to_s} - #{trip.to_s}"
   end
 
   def authorize!(approved_by_id = nil)
@@ -47,6 +47,10 @@ class Registration < ActiveRecord::Base
 
   def authorized?
     !approved_at.blank?
+  end
+  
+  def in_facility?
+    ["Checked In","Scheduled","Preparation","Procedure","Recovery","Discharge"].include?(status)
   end
 
 private

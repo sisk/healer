@@ -90,21 +90,30 @@ describe Patient, "#short_name" do
   end
 end
 
-describe Patient, "one_line_address" do
+describe Patient, "inline_address" do
   before(:each) do
     @patient = Patient.new
   end
-  it "returns concatenated address elements if any are set" do
-    @patient.address1 = "A"
-    @patient.address2 = "B"
-    @patient.city = "C"
-    @patient.state = "D"
-    @patient.zip = "E"
-    @patient.country = "F"
-    @patient.one_line_address.should == "A, B, C, D, E, F"
+  context "with address" do
+    before(:each) do
+      @patient.address1 = "A"
+      @patient.address2 = "B"
+      @patient.city = "C"
+      @patient.state = "D"
+      @patient.zip = "E"
+      @patient.country = "F"
+    end
+    it "returns address elements concatenated by default commas" do
+      @patient.inline_address.should == "A, B, C, D, E, F"
+    end
+    it "optionally concatenates by param" do
+      @patient.inline_address("<br />").should == "A<br />B<br />C<br />D<br />E<br />F"
+    end
   end
-  it "returns nil if no address elements are set" do
-    @patient.one_line_address.should == nil
+  context "with no address" do
+    it "returns nil" do
+      @patient.inline_address.should == nil
+    end
   end
 end
 

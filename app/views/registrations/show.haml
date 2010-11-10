@@ -1,0 +1,29 @@
+- content_for :title do
+  = "#{@registration}"
+.patient
+  = render :partial => "patients/shared/snapshot", :locals => { :patient => @registration.patient }
+.status
+  %dl
+    %dt Registration Status
+    %dd= @registration.status
+    %dt Location
+    %dd= @registration.location
+    %dt Check In
+    %dd= @registration.checkin_at
+    %dt Check Out
+    %dd= @registration.checkout_at
+
+.manage
+  %h2 Manage
+  - semantic_form_for @registration do |f|
+    - f.inputs do
+      = f.input :status, :as => :select, :collection => Registration::possible_statuses
+      = f.input :location
+      = f.input :checkin_at, :as => :datepicker, :label => "Check In"
+      = f.input :checkout_at, :as => :datepicker, :label => "Check Out"
+    - f.buttons do
+      = f.commit_button 'Make Changes'
+
+.notes
+  %h2 Notes
+  %p= @registration.notes

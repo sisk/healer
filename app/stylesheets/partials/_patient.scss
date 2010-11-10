@@ -1,5 +1,17 @@
 @import "compass/css3/inline-block";
 
+.patient .snapshot {
+  padding-top: 0;
+  @include column(12);
+  dl { @include inline_dl; }
+  .info {
+    @include clearfix;
+    img { @include column(3); }
+    .demographic { @include column(8, true); }
+  }
+  .contact { margin-top: $margin-increment * 2; @include float-left; }
+}
+
 .patient.list_item {
   .summary {
     h3 { margin-bottom: .5em; }
@@ -30,19 +42,6 @@
   }
   .operations {
     clear: both;
-  }
-}
-.basic_info {
-  padding-top: $margin-increment * 2;
-  .image {
-    @include column(6);
-  }
-  dt {
-    @include float-left;
-    margin-right: $margin-increment;
-  }
-  .info {
-    @include column($blueprint-grid-columns - 6, true);
   }
 }
 form.patient {

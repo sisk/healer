@@ -74,8 +74,8 @@ class Patient < ActiveRecord::Base
     name_first || name_middle || name_last
   end
   
-  def one_line_address
-    str = [address1, address2, city, state, zip, country].reject{ |a| a.blank? }.join(", ")
+  def inline_address(join = ", ")
+    str = [address1, address2, city, state, zip, country].reject{ |a| a.blank? }.join(join)
     return str.blank? ? nil : str
   end
 

@@ -1,14 +1,7 @@
 -# TODO refactor view
-.list_item.patient[patient]
-  .image
-    = patient_image(patient)
-  .summary
-    %h3
-      - if permitted_to? :show, patient
-        = link_to patient, patient_path(patient)
-      - else
-        = patient
-    = render :partial => "patients/shared/demographic", :locals => { :patient => patient }
+.list_item[patient]
+  .patient
+    = render :partial => "patients/shared/snapshot", :locals => { :patient => patient }
   .diagnoses
     - if patient.diagnoses.empty?
       = link_to "New diagnosis for #{patient}", new_patient_diagnosis_path(patient)
@@ -24,6 +17,8 @@
         = link_to "+ #{patient.diagnoses.size - 3} more", patient_path(patient), :class => "more"
   .supplemental
     %p.fake_link.toggle= "Toggle more details for #{patient}"
+    - if permitted_to? :show, patient
+      = link_to "Full record", patient_path(patient), :class => "full_record"
     .details.hide
       .risk_factors
         - if patient.risk_factors.present?

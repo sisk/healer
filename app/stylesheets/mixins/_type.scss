@@ -4,7 +4,6 @@
 }
 @mixin inline_dl {
   @include clearfix;
-  dt, dd {
-    @include float-left;
-  }
+  dt, dd { @include float-left; }
+  dt { clear: left; }
 }

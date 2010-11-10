@@ -77,11 +77,13 @@ describe Registration, "authorized?" do
 end
 
 describe Registration, "to_s" do
-  it "returns the trip's string value" do
+  it "returns the trip's string value + patient's string value" do
     trip = mock_model(Trip)
     trip.stub(:to_s).and_return("Las Vegas 2008")
-    registration = Registration.new(:trip => trip)
-    registration.to_s.should == "Las Vegas 2008"
+    patient = mock_model(Patient)
+    patient.stub(:to_s).and_return("Elvis Presley")
+    registration = Registration.new(:trip => trip, :patient => patient)
+    registration.to_s.should == "Elvis Presley - Las Vegas 2008"
   end
 end
 
@@ -89,5 +91,20 @@ describe Registration, ".possible_statuses" do
   # Pre-Screen -> Registered -> Checked In | Scheduled -> Preparation -> Procedure -> Recovery -> Discharge -> Checked Out
   it "returns an array of the expected values" do
     Registration::possible_statuses.should == ["Pre-Screen","Registered","Checked In","Scheduled","Preparation","Procedure","Recovery","Discharge","Checked Out"]
+  end
+end
+
+describe Registration, "in_facility?" do
+  before(:each) do
+    @registration = Registration.new
+  end
+  ["Checked In","Scheduled","Preparation","Procedure","Recovery","Discharge"].each do |status|
+    it "is true if status is #{status}" do
+      @registration.status = status
+      @registration.in_facility?.should be_true
+    end
+  end
+  it "is usually false" do
+    @registration.in_facility?.should be_false
   end
 end

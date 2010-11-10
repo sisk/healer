@@ -1,24 +1,17 @@
 - content_for :title do
-  = "Patient record - #{@patient}"
+  Patient record
 - content_for :subnavigation do
   %ul.subnavigation
     %li= link_to "Patient Index", patients_path
     - if permitted_to? :edit, @patient
       %li= link_to "Edit #{@patient}", edit_patient_path(@patient)
-.section.basic_info
-  .image
-    = patient_image(@patient, :small)
-  .info
-    = render :partial => "patients/shared/demographic", :locals => { :patient => @patient }
-    .contact
-      = render :partial => "patients/contact", :locals => { :patient => @patient }
-
+.patient= render :partial => "patients/shared/snapshot", :locals => { :patient => @patient }
 .section
   %h2 Registrations
   - if @patient.registered?
     %ul.registrations
       - @patient.registrations.each do |registration|
-        %li= link_to registration, trip_registrations_path(registration.trip)
+        %li= link_to registration.trip, trip_registrations_path(registration.trip)
   - else
     %p= "#{@patient.short_name} has no registrations. Select a trip to register #{@patient.short_name} for."
     - semantic_form_for Registration.new(:patient_id => @patient.id), :html => { :multipart => true } do |f|
