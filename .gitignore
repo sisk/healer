@@ -1,6 +1,8 @@
 .rvmrc
 .idea
 .bundle/*
+*.dat
+*.gz
 public/system/*
 config/database.yml
 db/schema.rb
