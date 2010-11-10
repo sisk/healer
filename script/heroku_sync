@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+# custom script to pull heroku's DB source for local app sync
+
+# Note: run this script under ruby 1.8.7 as of 2010-11-07 to avoid problems with Date during the data conversion
+# > 1.8.7 will cause problems
+
+puts "Pulling DB from Heroku..."
+system("heroku db:pull")

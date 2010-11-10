@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+
+# custom script to pull S3 assets for local app sync
+# required: s3sync, configured ~/.s3conf/s3config.yml with AWS creds
+
+#example config:
+# AWS_ACCESS_KEY_ID: derpderpderp
+# AWS_SECRET_ACCESS_KEY: derpderpderp
+# S3SYNC_NATIVE_CHARSET: UTF-8
+
+s3sync_command = "~/bin/s3sync/s3sync.rb"
+
+puts "Syncing patient assets..."
+system("#{s3sync_command} -r -v -p --make-dirs --progress healer-production:patients public/system")
+puts "Syncing xray assets..."
+system("#{s3sync_command} -r -v -p --make-dirs --progress healer-production:xrays public/system")
