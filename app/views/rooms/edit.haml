@@ -1,0 +1,6 @@
+- content_for :title do
+  = "#{@facility} - #{@room}"
+- content_for :subnavigation do
+  %ul.subnavigation
+    %li= link_to "Back to facilities", facilities_path
+= render :partial => "form"

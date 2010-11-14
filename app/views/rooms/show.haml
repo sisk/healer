@@ -1,0 +1,6 @@
+- content_for :title do
+  = "#{@facility} - #{@room}"
+- content_for :subnavigation do
+  %ul.subnavigation
+    %li= link_to "Edit Room", edit_facility_room_path(@facility, @room)
+    %li= link_to "Back to #{@facility}", @facility
