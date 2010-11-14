@@ -39,6 +39,8 @@ class Operation < ActiveRecord::Base
   accepts_nested_attributes_for :hip_implant
   accepts_nested_attributes_for :patient
 
+  default_scope :order => 'operations.schedule_order'
+
   def to_s
     "#{procedure.to_s} - #{date}"
   end
@@ -54,5 +56,12 @@ class Operation < ActiveRecord::Base
     else
       self.implant = Implant.new(:operation => self, :body_part => self.body_part)
     end
+  end
+
+  def self.order(ids)
+    update_all(
+      ['schedule_order = FIND_IN_SET(id, ?)', ids.join(',')],
+      { :id => ids }
+    )
   end
 end
