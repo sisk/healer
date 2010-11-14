@@ -6,7 +6,12 @@ class OperationsController < InheritedResources::Base
   def update
     update! { patient_path(@patient) }
   end
-  
+  def sort
+    #  called via Ajax when sorting in UI
+    order = params[:operation]
+    Operation.order(order)
+    render :nothing => true
+  end
   private
   
   def build_resource 

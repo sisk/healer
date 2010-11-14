@@ -1,7 +1,24 @@
 table#schedule_edit {
   #unregistered td {
-    @include column($blueprint-grid-columns / 2);
     @include bordered;
     padding: 0;
+    @include column(5);
   }
+  .registration {
+  }
+  .connectedSortable {
+    width: auto;
+    height: auto;
+  }
+}
+
+.connectedSortable {
+  @include column(5);
+  height: 900px;
+}
+
+.registration_order_placeholder {
+  height: 100px;
+  background-color: $grey-very-light;
+  @include bordered(1px, $grey-dark);
 }

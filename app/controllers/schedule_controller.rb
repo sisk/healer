@@ -3,6 +3,11 @@ class ScheduleController < ApplicationController
 
   def edit
     @unregistered = @trip.registrations.unscheduled
+    @rooms = @trip.try(:facility).try(:rooms) || []
+  end
+  
+  def show
+    @registrations = @trip.registrations
   end
 
 private

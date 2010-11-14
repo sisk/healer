@@ -1,5 +1,25 @@
 - content_for :title do
   = "#{@trip} - Edit Schedule"
+
 %table#schedule_edit
-  %tr#unregistered
-    %td= render :partial => "registrations/registration_snapshot", :as => :registration, :collection => @unregistered
+  %tr#unregistered.connectedSortable
+    %td
+      %h2 Unscheduled
+      - @unregistered.each do |registration|
+        .sortable= render :partial => "registrations/registration_snapshot", :locals => { :registration => registration }
+    - @rooms.each do |room|
+      %td.connectedSortable.room[room]
+        %h2= room
+
+- content_for :script do
+  :javascript
+      $(document).ready(function() {
+        $(".connectedSortable").sortable({
+          items: ".sortable",
+          placeholder: "registration_order_placeholder",
+          connectWith: ".connectedSortable",
+          opacity: 0.7,
+          helper: "clone",
+          cursor: "move"
+        }).disableSelection();
+      });

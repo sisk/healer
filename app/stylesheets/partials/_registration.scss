@@ -27,6 +27,8 @@
     .contact { display: none; }
   }
   &.snapshot {
+    background-color: $white;
+    border-bottom: none;
     @include clearfix;
     &:hover {
       background-color: $light-yellow;
@@ -47,4 +49,5 @@
 form.registration {
   border-bottom: none;
 }
-
+.schedule.room {
+}
