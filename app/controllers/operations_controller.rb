@@ -1,5 +1,7 @@
 class OperationsController < InheritedResources::Base
-  belongs_to :patient
+  respond_to :html, :xml, :json
+  belongs_to :trip
+
   def create
     create! { patient_path(@patient) }
   end

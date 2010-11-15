@@ -20,7 +20,7 @@
       - diagnosis.operations.each do |operation|
         .operation
           - if permitted_to? :show, operation
-            = link_to operation, patient_operation_path(@patient,operation)
+            = link_to operation, operation_path(operation)
           - else
             = operation
     - else

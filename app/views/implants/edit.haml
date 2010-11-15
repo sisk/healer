@@ -3,7 +3,7 @@
 - content_for :subnavigation do
   %ul.subnavigation
     - if permitted_to? :edit, @operation
-      = link_to "Edit Operation", edit_patient_operation_path(@operation.patient, @operation)
+      = link_to "Edit Operation", edit_operation_path(@operation)
 
 -# TODO this is funky. make it more elegant and bulletproof, or consider revising the controller/view.
 = render :partial => "implants/forms/#{@implant.type.try(:underscore) || "unspecified"}"
