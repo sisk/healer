@@ -27,17 +27,16 @@ class Operation < ActiveRecord::Base
   has_many :xrays, :dependent => :destroy
   accepts_nested_attributes_for :xrays, :allow_destroy => true, :reject_if => proc { |attributes| attributes['photo'].blank? }
   
-  validates_presence_of :procedure
   validates_presence_of :patient
-  validates_presence_of :date
-  validates_presence_of :body_part
+  # validates_presence_of :date
+  # validates_presence_of :body_part
   validates_presence_of :registration
   validates_numericality_of :difficulty
   validates_inclusion_of :difficulty, :in => self.difficulty_table.keys
   validates_inclusion_of :approach, :in => self.approaches, :allow_nil => true, :allow_blank => true
   validates_inclusion_of :ambulatory_order, :in => self.ambulatory_orders, :allow_nil => true, :allow_blank => true
   
-  before_validation :set_trip_id
+  before_validation :set_trip_id, :set_patient_id
 
   accepts_nested_attributes_for :knee_implant
   accepts_nested_attributes_for :hip_implant
@@ -50,7 +49,7 @@ class Operation < ActiveRecord::Base
   }
 
   def to_s
-    "#{procedure.to_s} - #{date}"
+    [trip.try(:to_s), patient.try(:to_s), procedure.try(:to_s)].compact.join(" - ")
   end
   
   def build_implant(*args)
@@ -77,6 +76,9 @@ class Operation < ActiveRecord::Base
   
   def set_trip_id
     self.trip_id = self.registration.try(:trip_id) if (self.trip_id.nil? || self.registration.try(:trip_id) != self.trip_id)
+  end
+  def set_patient_id
+    self.patient_id = self.registration.try(:patient_id) if (self.patient_id.nil? || self.registration.try(:patient_id) != self.patient_id)
   end
   
 end

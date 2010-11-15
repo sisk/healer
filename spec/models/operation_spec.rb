@@ -35,11 +35,10 @@ describe Operation do
 
   should_have_many :xrays
 
-  should_validate_presence_of :procedure
   should_validate_presence_of :registration
   should_validate_presence_of :patient
-  should_validate_presence_of :body_part
-  should_validate_presence_of :date
+  # should_validate_presence_of :body_part
+  # should_validate_presence_of :date
 
   should_validate_numericality_of :difficulty
   should_validate_inclusion_of :difficulty, :in => Operation::difficulty_table.keys
@@ -66,11 +65,16 @@ describe Operation, ".difficulty_table" do
 end
 
 describe Operation, "#to_s" do
-  it "returns the procedure name followed by a formatted date" do
-    procedure = mock_model(Procedure)
-    procedure.stub(:to_s).and_return("Derp")
-    operation = Operation.new(:date => "2010-08-12".to_date, :procedure => procedure)
-    operation.to_s.should == "Derp - 2010-08-12"
+  before(:each) do
+    @operation = Operation.new(:patient => stub_model(Patient, :to_s => "El Hombre"), :trip => stub_model(Trip, :to_s => "The Place"))
+  end
+  it "returns the trip name plus patient name" do
+    @operation.to_s.should == "The Place - El Hombre"
+  end
+  it "adds the procedure if it exists" do
+    procedure = stub_model(Procedure, :to_s => "Derp")
+    @operation.procedure = procedure
+    @operation.to_s.should == "The Place - El Hombre - Derp"
   end
 end
 
@@ -110,9 +114,10 @@ describe Operation, "#build_implant" do
   end
 end
 
-describe Operation, "pre-validation" do
+describe Operation, "trip_id sync" do
   before(:each) do
     @operation = Operation.new(:registration => mock_model(Registration, :trip_id => 5))
+    @operation.stub(:set_patient_id)
   end
   it "sets trip_id to the registration's id if not set" do
     lambda { @operation.valid? }.should change { @operation.trip_id }.from(nil).to(5)
@@ -124,5 +129,23 @@ describe Operation, "pre-validation" do
   it "generally, leaves its trip_id alone" do
     @operation.trip_id = 5
     lambda { @operation.valid? }.should_not change { @operation.trip_id }
+  end
+end
+
+describe Operation, "patient_id sync" do
+  before(:each) do
+    @operation = Operation.new(:registration => mock_model(Registration, :patient_id => 5))
+    @operation.stub(:set_trip_id)
+  end
+  it "sets patient_id to the registration's id if not set" do
+    lambda { @operation.valid? }.should change { @operation.patient_id }.from(nil).to(5)
+  end
+  it "sets patient_id to the registration's if they differ" do
+    @operation.patient_id = 6
+    lambda { @operation.valid? }.should change { @operation.patient_id }.from(6).to(5)
+  end
+  it "generally, leaves its patient_id alone" do
+    @operation.patient_id = 5
+    lambda { @operation.valid? }.should_not change { @operation.patient_id }
   end
 end
