@@ -27,6 +27,7 @@ describe Operation do
   should_belong_to :anesthesiologist
   should_belong_to :room
   should_belong_to :registration
+  should_belong_to :trip
 
   should_have_one :implant
   should_have_one :knee_implant
@@ -35,6 +36,7 @@ describe Operation do
   should_have_many :xrays
 
   should_validate_presence_of :procedure
+  should_validate_presence_of :registration
   should_validate_presence_of :patient
   should_validate_presence_of :body_part
   should_validate_presence_of :date
@@ -105,5 +107,22 @@ describe Operation, "#build_implant" do
     @operation.stub(:body_part).and_return(part)
     @operation.build_implant
     @operation.implant.body_part.should == part
+  end
+end
+
+describe Operation, "pre-validation" do
+  before(:each) do
+    @operation = Operation.new(:registration => mock_model(Registration, :trip_id => 5))
+  end
+  it "sets trip_id to the registration's id if not set" do
+    lambda { @operation.valid? }.should change { @operation.trip_id }.from(nil).to(5)
+  end
+  it "sets trip_id to the registration's if they differ" do
+    @operation.trip_id = 6
+    lambda { @operation.valid? }.should change { @operation.trip_id }.from(6).to(5)
+  end
+  it "generally, leaves its trip_id alone" do
+    @operation.trip_id = 5
+    lambda { @operation.valid? }.should_not change { @operation.trip_id }
   end
 end

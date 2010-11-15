@@ -3,6 +3,7 @@ class Trip < ActiveRecord::Base
   belongs_to :facility
   validates_presence_of :country, :message => "can't be blank"
   has_many :registrations
+  has_many :operations
   has_many :patients, :through => :registrations
 
   default_scope order(:start)

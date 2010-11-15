@@ -10,6 +10,7 @@ describe Trip do
   should_have_and_belong_to_many :staff
   should_belong_to :facility
   should_have_many :registrations
+  should_have_many :operations
   should_have_many :patients, :through => :registrations
 end
 

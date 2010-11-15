@@ -15,6 +15,7 @@ class Operation < ActiveRecord::Base
   belongs_to :body_part
   belongs_to :room
   belongs_to :registration
+  belongs_to :trip
   belongs_to :primary_surgeon, :class_name => "User", :foreign_key => "primary_surgeon_id"
   belongs_to :secondary_surgeon, :class_name => "User", :foreign_key => "secondary_surgeon_id"
   belongs_to :anesthesiologist, :class_name => "User", :foreign_key => "anesthesiologist_id"
@@ -30,16 +31,23 @@ class Operation < ActiveRecord::Base
   validates_presence_of :patient
   validates_presence_of :date
   validates_presence_of :body_part
+  validates_presence_of :registration
   validates_numericality_of :difficulty
   validates_inclusion_of :difficulty, :in => self.difficulty_table.keys
   validates_inclusion_of :approach, :in => self.approaches, :allow_nil => true, :allow_blank => true
   validates_inclusion_of :ambulatory_order, :in => self.ambulatory_orders, :allow_nil => true, :allow_blank => true
+  
+  before_validation :set_trip_id
 
   accepts_nested_attributes_for :knee_implant
   accepts_nested_attributes_for :hip_implant
   accepts_nested_attributes_for :patient
 
   default_scope :order => 'operations.schedule_order'
+
+  scope :trip_id, lambda { |trip_id|
+    { :include => :registration, :conditions => ["registrations.trip_id = ?",trip_id ] } if trip_id.present?
+  }
 
   def to_s
     "#{procedure.to_s} - #{date}"
@@ -64,4 +72,11 @@ class Operation < ActiveRecord::Base
       { :id => ids }
     )
   end
+  
+  private
+  
+  def set_trip_id
+    self.trip_id = self.registration.try(:trip_id) if (self.trip_id.nil? || self.registration.try(:trip_id) != self.trip_id)
+  end
+  
 end
