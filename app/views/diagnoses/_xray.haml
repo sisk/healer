@@ -1,4 +1,4 @@
-- if xray.photo.file?
+- if xray.photo.exists?
   - f.semantic_fields_for :xrays, xray do |x|
     .enlarge
       = link_to image_tag(xray.photo.url(:thumb), :alt => xray.to_s, :class => "xray"), xray.photo.url, :rel => "group"
