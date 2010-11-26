@@ -2,8 +2,8 @@
   = "#{@trip} - Edit Schedule"
 
 %table#schedule_edit
-  %tr#unregistered.connectedSortable
-    %td
+  %tr#unregistered
+    %td.connectedSortable
       %h2 Unscheduled
       - @unregistered.each do |registration|
         .sortable= render :partial => "registrations/registration_snapshot", :locals => { :registration => registration }

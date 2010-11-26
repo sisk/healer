@@ -1,24 +1,34 @@
 table#schedule_edit {
+	@include showgrid;
   #unregistered td {
     @include bordered;
     padding: 0;
-    @include column(5);
+    @include column(6);
   }
   .registration {
-  }
-  .connectedSortable {
-    width: auto;
-    height: auto;
+		border-top: solid 1px $grey-very-light;
+		img {
+			@include column(1);
+			width: $blueprint-grid-width;
+			height: $blueprint-grid-width;
+			margin-right: 5px;
+		}
+		.details {
+			@include column(4, true);
+			h3 {
+				
+			}
+		}
   }
 }
 
 .connectedSortable {
-  @include column(5);
-  height: 900px;
+  @include column(6);
+  height: 400px;
+	overflow: auto;
 }
 
 .registration_order_placeholder {
-  height: 100px;
-  background-color: $grey-very-light;
-  @include bordered(1px, $grey-dark);
+  height: 2px;
+  background-color: $black;
 }
