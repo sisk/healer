@@ -149,3 +149,7 @@ describe Operation, "patient_id sync" do
     lambda { @operation.valid? }.should_not change { @operation.patient_id }
   end
 end
+
+describe Operation, ".order_schedule" do
+  
+end

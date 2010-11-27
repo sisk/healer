@@ -47,9 +47,16 @@ class Operation < ActiveRecord::Base
   scope :trip_id, lambda { |trip_id|
     { :include => :registration, :conditions => ["registrations.trip_id = ?",trip_id ] } if trip_id.present?
   }
+  scope :room_id, lambda { |room_id|
+    { :conditions => ["operations.room_id = ?",room_id ] } if room_id.present?
+  }
 
   def to_s
-    [trip.try(:to_s), patient.try(:to_s), procedure.try(:to_s)].compact.join(" - ")
+    [self.trip.try(:to_s), self.patient.try(:to_s), self.procedure.try(:to_s)].compact.join(" - ")
+  end
+  
+  def as_json(options={})
+    { :to_s => self.to_s }
   end
   
   def build_implant(*args)
@@ -65,11 +72,13 @@ class Operation < ActiveRecord::Base
     end
   end
 
-  def self.order(ids)
-    update_all(
-      ['schedule_order = FIND_IN_SET(id, ?)', ids.join(',')],
-      { :id => ids }
-    )
+  def self.order_schedule(registration_ids,trip_id,room_id)
+    logger.debug("\n\n\nORDER\n\n\n")
+    
+    # update_all(
+    #   ['schedule_order = FIND_IN_SET(id, ?)', registration_ids.join(',')],
+    #   { :id => registration_ids }
+    # )
   end
   
   private
