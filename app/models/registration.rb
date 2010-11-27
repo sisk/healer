@@ -38,6 +38,10 @@ class Registration < ActiveRecord::Base
     "#{patient.to_s} - #{trip.to_s}"
   end
 
+  def as_json(options={})
+    { :to_s => self.to_s }
+  end
+
   def authorize!(approved_by_id = nil)
     self.update_attributes(:approved_by_id => approved_by_id, :approved_at => Time.now, :status => "Registered")
   end
