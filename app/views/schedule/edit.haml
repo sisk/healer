@@ -2,24 +2,48 @@
   = "#{@trip} - Edit Schedule"
 
 %table#schedule_edit
-  %tr#unregistered
-    %td.connectedSortable
-      %h2 Unscheduled
-      - @unregistered.each do |registration|
-        .sortable= render :partial => "registrations/registration_snapshot", :locals => { :registration => registration }
-    - @rooms.each do |room|
-      %td.connectedSortable.room[room]
-        %h2= room
+  %thead
+    %tr
+      %th Unscheduled
+      - @rooms.each do |room|
+        %th.room_header= room
+  %tbody
+    %tr
+      %td.registrations.connectedSortable
+        - @unregistered.each do |registration|
+          .sortable= render :partial => "registrations/registration_snapshot", :locals => { :registration => registration }
+      - @rooms.each do |room|
+        %td.room.connectedSortable[room]
+          - room.operations.trip_id(@trip.id).each do |operation|
+            - registration = operation.registration
+            .sortable[registration]= render :partial => "registrations/registration_snapshot", :locals => { :registration => registration }
 
 - content_for :script do
   :javascript
       $(document).ready(function() {
-        $(".connectedSortable").sortable({
+
+        $(".registrations.connectedSortable").sortable({
           items: ".sortable",
           placeholder: "registration_order_placeholder",
           connectWith: ".connectedSortable",
           opacity: 0.7,
           helper: "clone",
-          cursor: "move"
+          cursor: "move",
+          update: function() {
+            alert("update registration list");
+          }
         }).disableSelection();
+
+        $(".room.connectedSortable").sortable({
+          items: ".sortable",
+          placeholder: "registration_order_placeholder",
+          connectWith: ".connectedSortable",
+          opacity: 0.7,
+          helper: "clone",
+          cursor: "move",
+          update: function() {
+            alert("update room list");
+          }
+        }).disableSelection();
+
       });
