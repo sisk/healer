@@ -1,6 +1,6 @@
 class Registration < ActiveRecord::Base
   def self.possible_statuses
-    ["Pre-Screen","Registered","Checked In","Scheduled","Preparation","Procedure","Recovery","Discharge","Checked Out"]
+    ["Pre-Screen","Registered","Checked In","Scheduled","Unscheduled","Preparation","Procedure","Recovery","Discharge","Checked Out"]
   end
 
   before_create :set_pre_screen
@@ -32,7 +32,7 @@ class Registration < ActiveRecord::Base
       end
     end
   }
-  scope :unscheduled, :conditions => [ "registrations.status in (?)", ["Registered","Checked In"] ]
+  scope :unscheduled, :conditions => [ "registrations.status in (?)", ["Registered","Unscheduled"] ]
 
   def to_s
     "#{patient.to_s} - #{trip.to_s}"
@@ -55,6 +55,14 @@ class Registration < ActiveRecord::Base
   
   def in_facility?
     ["Checked In","Preparation","Procedure","Recovery","Discharge"].include?(status)
+  end
+  
+  def schedule
+    self.status = "Scheduled" if ["Registered","Unscheduled"].include?(self.status)
+  end
+
+  def unschedule
+    self.status = "Unscheduled"
   end
 
 private

@@ -90,7 +90,7 @@ end
 describe Registration, ".possible_statuses" do
   # Pre-Screen -> Registered -> Checked In | Scheduled -> Preparation -> Procedure -> Recovery -> Discharge -> Checked Out
   it "returns an array of the expected values" do
-    Registration::possible_statuses.should == ["Pre-Screen","Registered","Checked In","Scheduled","Preparation","Procedure","Recovery","Discharge","Checked Out"]
+    Registration::possible_statuses.should == ["Pre-Screen","Registered","Checked In","Scheduled","Unscheduled","Preparation","Procedure","Recovery","Discharge","Checked Out"]
   end
 end
 
@@ -112,5 +112,37 @@ describe Registration, "in_facility?" do
   end
   it "is usually false" do
     @registration.in_facility?.should be_false
+  end
+end
+
+describe Registration, "schedule" do
+  # TODO state machine approach might be better for this.
+  before(:each) do
+    @registration = Registration.new
+  end
+  ["Registered","Unscheduled"].each do |status|
+    it "changes status from #{status} to 'Scheduled'" do
+      @registration.status = status
+      lambda { @registration.schedule }.should change { @registration.status }.to('Scheduled')
+    end
+  end
+  (Registration::possible_statuses - ["Registered","Unscheduled"]).each do |status|
+    it "does not change the status when set to #{status}" do
+      @registration.status = status
+      lambda { @registration.schedule }.should_not change { @registration.status }
+    end
+  end
+end
+
+describe Registration, "unschedule" do
+  # TODO state machine approach might be better for this.
+  before(:each) do
+    @registration = Registration.new
+  end
+  (Registration::possible_statuses - ["Unscheduled"]).each do |status|
+    it "changes status from #{status} to 'Unscheduled'" do
+      @registration.status = status
+      lambda { @registration.unschedule }.should change { @registration.status }.to('Unscheduled')
+    end
   end
 end
