@@ -90,6 +90,11 @@ class Patient < ActiveRecord::Base
   def available_risks
     Risk.all - self.risks
   end
+  
+  def displayed_photo(size)
+    return photo.url(size) if photo.exists?
+    (self.male.nil? || self.male?) ? "male-generic.gif" : "female-generic.gif"
+  end
 
 private
 

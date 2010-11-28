@@ -192,3 +192,28 @@ describe Patient, "unit conversion" do
     lambda { patient.save }.should_not change{ patient.weight_kg }
   end
 end
+
+describe Patient, "displayed_photo" do
+  before(:each) do
+    @patient = Patient.new
+    @patient.stub_chain(:photo, :url).with(:thumb).and_return("/path/to/photo_thumb")
+    @patient.stub_chain(:photo, :url).with(:small).and_return("/path/to/photo_small")
+    @patient.stub_chain(:photo, :url).with(:tiny).and_return("/path/to/photo_tiny")
+  end
+  it "returns proper photo url with size if it exists" do
+    @patient.stub_chain(:photo, :exists?).and_return(true)
+    @patient.displayed_photo(:thumb).should == "/path/to/photo_thumb"
+    @patient.displayed_photo(:small).should == "/path/to/photo_small"
+    @patient.displayed_photo(:tiny).should == "/path/to/photo_tiny"
+  end
+  it "returns a generic male image if patient has no photo" do
+    @patient.stub_chain(:photo, :exists?).and_return(false)
+    @patient.male = true
+    @patient.displayed_photo(:thumb).should == "male-generic.gif"
+  end
+  it "returns a generic female image if patient is female and has no photo" do
+    @patient.stub_chain(:photo, :exists?).and_return(false)
+    @patient.male = false
+    @patient.displayed_photo(:thumb).should == "female-generic.gif"
+  end
+end
