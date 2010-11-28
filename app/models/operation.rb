@@ -51,12 +51,14 @@ class Operation < ActiveRecord::Base
     { :conditions => ["operations.room_id = ?",room_id ] } if room_id.present?
   }
 
+  delegate :location, :location=, :to => :registration  
+
   def to_s
     [self.trip.try(:to_s), self.patient.try(:to_s), self.procedure.try(:to_s)].compact.join(" - ")
   end
   
   def as_json(options={})
-    { :to_s => self.to_s }
+    { :id => self.id, :registration_id => registration_id, :to_s => self.to_s, :photo => self.patient.displayed_photo(:tiny), :patient => self.patient.to_s, :location => self.location }
   end
   
   def build_implant(*args)

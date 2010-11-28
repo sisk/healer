@@ -98,10 +98,16 @@ describe Registration, "in_facility?" do
   before(:each) do
     @registration = Registration.new
   end
-  ["Checked In","Scheduled","Preparation","Procedure","Recovery","Discharge"].each do |status|
+  ["Checked In","Preparation","Procedure","Recovery","Discharge"].each do |status|
     it "is true if status is #{status}" do
       @registration.status = status
       @registration.in_facility?.should be_true
+    end
+  end
+  (Registration::possible_statuses - ["Checked In","Preparation","Procedure","Recovery","Discharge"]).each do |status|
+    it "is false if status is #{status}" do
+      @registration.status = status
+      @registration.in_facility?.should be_false
     end
   end
   it "is usually false" do

@@ -39,7 +39,7 @@ class Registration < ActiveRecord::Base
   end
 
   def as_json(options={})
-    { :to_s => self.to_s }
+    { :id => self.id, :to_s => self.to_s, :status => self.status, :photo => self.patient.displayed_photo(:tiny), :patient => self.patient.to_s, :location => self.location }
   end
 
   def authorize!(approved_by_id = nil)
@@ -54,7 +54,7 @@ class Registration < ActiveRecord::Base
   end
   
   def in_facility?
-    ["Checked In","Scheduled","Preparation","Procedure","Recovery","Discharge"].include?(status)
+    ["Checked In","Preparation","Procedure","Recovery","Discharge"].include?(status)
   end
 
 private
