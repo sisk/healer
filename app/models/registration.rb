@@ -9,6 +9,8 @@ class Registration < ActiveRecord::Base
   belongs_to :trip
   belongs_to :approved_by, :class_name => "User", :foreign_key => "approved_by_id"
   belongs_to :created_by, :class_name => "User", :foreign_key => "created_by_id"
+  has_many :operations
+
   validates_presence_of :patient
   validates_presence_of :trip
   validates_inclusion_of :status, :in => self.possible_statuses, :allow_nil => true
@@ -64,6 +66,7 @@ class Registration < ActiveRecord::Base
 
   def unschedule!
     self.status = "Unscheduled"
+    self.operations.destroy_all
     self.save if self.changed?
   end
 

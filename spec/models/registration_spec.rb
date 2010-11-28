@@ -16,6 +16,7 @@ describe Registration do
   should_belong_to :trip
   should_belong_to :approved_by
   should_belong_to :created_by
+  should_have_many :operations
   
   should_validate_presence_of :patient
   should_validate_presence_of :trip
@@ -166,5 +167,10 @@ describe Registration, "unschedule!" do
     @registration.stub(:changed?).and_return(false)
     @registration.should_not_receive(:save)
     @registration.unschedule!
+  end
+  it "destroys its operations" do
+    @registration.operations = [stub_model(Operation)]
+    @registration.unschedule!
+    @registration.operations.should be_empty
   end
 end
