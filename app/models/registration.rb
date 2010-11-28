@@ -57,12 +57,14 @@ class Registration < ActiveRecord::Base
     ["Checked In","Preparation","Procedure","Recovery","Discharge"].include?(status)
   end
   
-  def schedule
+  def schedule!
     self.status = "Scheduled" if ["Registered","Unscheduled"].include?(self.status)
+    self.save if self.changed?
   end
 
-  def unschedule
+  def unschedule!
     self.status = "Unscheduled"
+    self.save if self.changed?
   end
 
 private
