@@ -43,8 +43,6 @@ class Operation < ActiveRecord::Base
   accepts_nested_attributes_for :hip_implant
   accepts_nested_attributes_for :patient
 
-  default_scope :order => 'operations.schedule_order'
-
   scope :trip_id, lambda { |trip_id|
     { :include => :registration, :conditions => ["registrations.trip_id = ?",trip_id ] } if trip_id.present?
   }

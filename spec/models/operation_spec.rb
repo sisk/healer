@@ -16,7 +16,6 @@ describe Operation do
   should_have_column :ambulatory_order, :type => :string
   should_have_column :room_id, :type => :integer
   should_have_column :registration_id, :type => :integer
-  should_have_column :schedule_order, :type => :integer
 
   should_belong_to :procedure
   should_belong_to :patient

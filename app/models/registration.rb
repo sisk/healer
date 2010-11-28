@@ -17,7 +17,7 @@ class Registration < ActiveRecord::Base
 
   accepts_nested_attributes_for :patient
   
-  default_scope :include => :patient, :order => 'patients.name_last, patients.name_first'
+  default_scope :order => 'registrations.schedule_order'
   
   scope :authorized, :conditions => [ "registrations.approved_at is not ?", nil ]
   scope :unauthorized, :conditions => [ "registrations.approved_at is ?", nil ]  

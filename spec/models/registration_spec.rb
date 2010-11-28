@@ -11,6 +11,8 @@ describe Registration do
   should_have_column :checkout_at, :type => :datetime
   should_have_column :status, :type => :string
   should_have_column :location, :type => :string
+  should_have_column :schedule_order, :type => :integer
+  should_have_column :room_id, :type => :integer
 
   should_belong_to :patient
   should_belong_to :trip
