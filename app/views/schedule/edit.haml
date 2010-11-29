@@ -9,30 +9,19 @@
         %th.room_header= room
   %tbody
     %tr
-      %td.registrations.connectedSortable
-        - @unregistered.each do |registration|
-          .sortable= render :partial => "registrations/registration_snapshot", :locals => { :registration => registration }
-      - @rooms.each do |room|
-        %td.room.connectedSortable[room]
-          - room.operations.trip_id(@trip.id).each do |operation|
-            - registration = operation.registration
+      %td
+        .registrations.unscheduled.connectedSortable
+          - @unscheduled.each do |registration|
             .sortable[registration]= render :partial => "registrations/registration_snapshot", :locals => { :registration => registration }
+      - @rooms.each do |room|
+        %td
+          .room.connectedSortable[room]
+            - @trip.registrations.room_id(room.id).each do |registration|
+              .sortable[registration]= render :partial => "registrations/registration_snapshot", :locals => { :registration => registration }
 
 - content_for :script do
   :javascript
       $(document).ready(function() {
-
-        $(".registrations.connectedSortable").sortable({
-          items: ".sortable",
-          placeholder: "registration_order_placeholder",
-          connectWith: ".connectedSortable",
-          opacity: 0.7,
-          helper: "clone",
-          cursor: "move",
-          update: function() {
-            alert("update registration list");
-          }
-        }).disableSelection();
 
         $(".room.connectedSortable").sortable({
           items: ".sortable",
@@ -42,8 +31,55 @@
           helper: "clone",
           cursor: "move",
           update: function() {
-            alert("update room list");
+            var enclosure, room_id, params, template, url;
+            enclosure = $(this).closest(".room");
+            room_id = $(this).closest(".room").attr("id").match(/[^room_]/);
+            params = enclosure.sortable("serialize") + "&room_id=" + room_id;
+            template = Handlebars.compile($("script[name=registration_snapshot_template]").html());
+            url = "/trips/#{@trip.id}/schedule/sort_room.json";
+            $.getJSON(url, params, function(data) {
+              enclosure.html(template(data));
+            });
+          }
+        }).disableSelection();
+
+        $(".registrations.connectedSortable").sortable({
+          items: ".sortable",
+          placeholder: "registration_order_placeholder",
+          connectWith: ".connectedSortable",
+          opacity: 0.7,
+          helper: "clone",
+          cursor: "move",
+          update: function() {
+            var enclosure, params, template, url;
+            enclosure = $(this).closest(".registrations");
+            params = enclosure.sortable("serialize");
+            template = Handlebars.compile($("script[name=registration_snapshot_template]").html());
+            url = "/trips/#{@trip.id}/schedule/sort_unscheduled.json";
+            $.getJSON(url, params, function(data) {
+              enclosure.html(template(data));
+            });
           }
         }).disableSelection();
 
       });
+      
+- content_for :script do
+  %script{ :type => "text/html", :name => "registration_snapshot_template"}
+    {{#registrations}}
+    .registration.sortable{ :id => "registration_{{id}}" }
+      .registration.snapshot
+        .details
+          %h3 {{patient}} [ID {{id}}]
+          %dl
+            %dt Status
+            %dd {{status}}
+            {{#location}}
+            %dt Location
+            %dd {{location}}
+            {{/location}}
+    {{/registrations}}
+    {{^registrations}}
+    .registration
+      %span.no-results No registrations found.
+    {{/registrations}}

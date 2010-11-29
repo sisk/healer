@@ -8,6 +8,11 @@ class RegistrationsController < InheritedResources::Base
   def index
     @authorized_registrations = authorized_registrations
     @unauthorized_registrations = unauthorized_registrations
+    index! do |format|
+      format.json {
+        render :text => "{\"registrations\" : #{@authorized_registrations.to_json}}"
+      }
+    end
   end
 
   def create
