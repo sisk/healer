@@ -19,6 +19,7 @@ class ScheduleController < ApplicationController
 
     Registration.update_all("room_id = '#{params[:room_id]}'", :id => registration_ids)
     Registration.order(registration_ids)
+    logger.debug("\n\n\nUpdating registrations #{registration_ids} to room #{params[:room_id]}\n\n\n");
 
     respond_to do |format|
       format.json {
@@ -33,6 +34,7 @@ class ScheduleController < ApplicationController
     registration_ids = params[:registration.to_s]
     Registration.update_all({:status => 'Unscheduled', :room_id => nil}, :id => registration_ids)
     Registration.order(registration_ids)
+    logger.debug("\n\n\nUpdating registrations #{registration_ids} to NO room\n\n\n");
 
     @unscheduled = @trip.registrations.unscheduled
     respond_to do |format|
