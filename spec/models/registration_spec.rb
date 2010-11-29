@@ -118,7 +118,7 @@ describe Registration, "in_facility?" do
   end
 end
 
-describe Registration, "schedule!" do
+describe Registration, "schedule" do
   # TODO state machine approach might be better for this.
   before(:each) do
     @registration = Registration.new
@@ -126,29 +126,18 @@ describe Registration, "schedule!" do
   ["Registered","Unscheduled"].each do |status|
     it "changes status from #{status} to 'Scheduled'" do
       @registration.status = status
-      lambda { @registration.schedule! }.should change { @registration.status }.to('Scheduled')
+      lambda { @registration.schedule }.should change { @registration.status }.to('Scheduled')
     end
   end
   (Registration::possible_statuses - ["Registered","Unscheduled"]).each do |status|
     it "does not change the status when set to #{status}" do
       @registration.status = status
-      lambda { @registration.schedule! }.should_not change { @registration.status }
+      lambda { @registration.schedule }.should_not change { @registration.status }
     end
-  end
-  it "saves the registration if the record has changed" do
-    @registration.stub(:save)
-    @registration.stub(:changed?).and_return(true)
-    @registration.should_receive(:save)
-    @registration.schedule!
-  end
-  it "does not save the registration if the record has not changed" do
-    @registration.stub(:changed?).and_return(false)
-    @registration.should_not_receive(:save)
-    @registration.schedule!
   end
 end
 
-describe Registration, "unschedule!" do
+describe Registration, "unschedule" do
   # TODO state machine approach might be better for this.
   before(:each) do
     @registration = Registration.new
@@ -156,23 +145,7 @@ describe Registration, "unschedule!" do
   (Registration::possible_statuses - ["Unscheduled"]).each do |status|
     it "changes status from #{status} to 'Unscheduled'" do
       @registration.status = status
-      lambda { @registration.unschedule! }.should change { @registration.status }.to('Unscheduled')
+      lambda { @registration.unschedule }.should change { @registration.status }.to('Unscheduled')
     end
-  end
-  it "saves the registration if the record has changed" do
-    @registration.stub(:save)
-    @registration.stub(:changed?).and_return(true)
-    @registration.should_receive(:save)
-    @registration.unschedule!
-  end
-  it "does not save the registration if the record has not changed" do
-    @registration.stub(:changed?).and_return(false)
-    @registration.should_not_receive(:save)
-    @registration.unschedule!
-  end
-  it "destroys its operations" do
-    @registration.operations = [stub_model(Operation)]
-    @registration.unschedule!
-    @registration.operations.should be_empty
   end
 end

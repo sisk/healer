@@ -34,7 +34,11 @@ class Registration < ActiveRecord::Base
       end
     end
   }
-  scope :unscheduled, :conditions => [ "registrations.status in (?)", ["Registered","Unscheduled"] ]
+  scope :unscheduled, :conditions => [ "registrations.room_id is ?", nil ]
+
+  scope :room_id, lambda { |room_id|
+    { :conditions => ["registrations.room_id = ?",room_id ] } if room_id.present?
+  }
 
   def to_s
     "#{patient.to_s} - #{trip.to_s}"
@@ -59,15 +63,19 @@ class Registration < ActiveRecord::Base
     ["Checked In","Preparation","Procedure","Recovery","Discharge"].include?(status)
   end
   
-  def schedule!
+  def schedule
     self.status = "Scheduled" if ["Registered","Unscheduled"].include?(self.status)
-    self.save if self.changed?
   end
 
-  def unschedule!
+  def unschedule
     self.status = "Unscheduled"
-    self.operations.destroy_all
-    self.save if self.changed?
+  end
+
+  def self.order(ids)
+    update_all(
+      ['schedule_order = FIND_IN_SET(id, ?)', ids.join(',')],
+      { :id => ids }
+    )
   end
 
 private

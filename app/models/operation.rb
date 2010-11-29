@@ -37,7 +37,6 @@ class Operation < ActiveRecord::Base
   validates_inclusion_of :ambulatory_order, :in => self.ambulatory_orders, :allow_nil => true, :allow_blank => true
   
   before_validation :set_trip_id, :set_patient_id
-  before_save :schedule_registration
 
   accepts_nested_attributes_for :knee_implant
   accepts_nested_attributes_for :hip_implant
@@ -83,14 +82,6 @@ class Operation < ActiveRecord::Base
   end
   
   private
-  
-  def schedule_registration
-    registration.schedule!
-  end
-  
-  def unschedule_registration
-    registration.unschedule!
-  end
   
   def set_trip_id
     self.trip_id = self.registration.try(:trip_id) if (self.trip_id.nil? || self.registration.try(:trip_id) != self.trip_id)
