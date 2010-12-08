@@ -2,6 +2,8 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.0.0'
 
+gem 'heroku'
+gem 'taps'
 gem 'aws-s3'
 # gem 'sqlite3-ruby', :require => 'sqlite3'
 gem 'mysql', '2.8.1'
