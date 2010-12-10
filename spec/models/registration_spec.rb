@@ -149,3 +149,15 @@ describe Registration, "unschedule" do
     end
   end
 end
+
+# describe Registration, "bilateral?" do
+#   before(:each) do
+#     @registration = Registration.new(:patient => mock_model(Patient))
+#   end
+#   it "is true if patient has bilateral diagnoses" do
+#     @registration.patient.stub(:has_bilateral_diagnoses).and_return(true)
+#   end
+#   it "is true if patient has no bilateral diagnoses" do
+#     @registration.patient.stub(:has_bilateral_diagnoses).and_return(false)
+#   end
+# end

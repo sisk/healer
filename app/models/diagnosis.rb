@@ -24,7 +24,7 @@ class Diagnosis < ActiveRecord::Base
   
   def part_of_bilateral?
     return false if !body_part.present? || siblings.empty? || body_part.mirror.blank?
-    return siblings.select{ |diagnosis| self.body_part.mirror == diagnosis.body_part }.size > 0
+    return siblings.select{ |diagnosis| self.body_part.mirror.id == diagnosis.body_part_id }.size > 0
   end
   
   def siblings

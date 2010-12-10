@@ -12,20 +12,19 @@ class BodyPart < ActiveRecord::Base
   end
   
   def mirror
-    BodyPart.all_body_parts.select{ |bp| (bp.name == self.name && bp.side != self.side) }.first
+    BodyPart.all.select{ |bp| (bp.name == self.name && bp.side != self.side) }.first
   end
   
   private
   
-  class << self
-    extend ActiveSupport::Memoizable
-
-    def all_body_parts
-      BodyPart.all
-    end
-    memoize :all_body_parts
-  end
-  
+  # class << self
+  #   extend ActiveSupport::Memoizable
+  # 
+  #   def all_body_parts
+  #     self.all
+  #   end
+  #   memoize :all_body_parts
+  # end
   
 end
 

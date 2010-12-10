@@ -95,6 +95,11 @@ class Patient < ActiveRecord::Base
     return photo.url(size) if photo.exists?
     (self.male.nil? || self.male?) ? "male-generic.gif" : "female-generic.gif"
   end
+  
+  def has_bilateral_diagnoses
+    return false if diagnoses.empty?
+    return diagnoses.any?{ |diagnosis| diagnosis.part_of_bilateral? }
+  end
 
 private
 

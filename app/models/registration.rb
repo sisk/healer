@@ -40,6 +40,8 @@ class Registration < ActiveRecord::Base
     { :conditions => ["registrations.room_id = ?",room_id ] } if room_id.present?
   }
 
+  delegate :has_bilateral_diagnoses, :to => :patient
+
   def to_s
     "#{patient.to_s} - #{trip.to_s}"
   end

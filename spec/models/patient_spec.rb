@@ -217,3 +217,23 @@ describe Patient, "displayed_photo" do
     @patient.displayed_photo(:thumb).should == "female-generic.gif"
   end
 end
+
+describe Patient, "#has_bilateral_diagnoses" do
+  before(:each) do
+    @patient = Patient.new
+    @bilateral = stub_model(Diagnosis, :part_of_bilateral? => true)
+    @non_bilateral = stub_model(Diagnosis, :part_of_bilateral? => false)
+  end
+  it "is false if no diagnoses exist" do
+    @patient.diagnoses = []
+    @patient.has_bilateral_diagnoses.should be_false
+  end
+  it "is true if any of patient's diagnoses are part of bilateral" do
+    @patient.stub(:diagnoses).and_return([mock_model(Diagnosis, :part_of_bilateral? => true)])
+    @patient.has_bilateral_diagnoses.should be_true
+  end
+  it "is false if none of patient's diagnoses are part of bilateral" do
+    @patient.stub(:diagnoses).and_return([mock_model(Diagnosis, :part_of_bilateral? => false)])
+    @patient.has_bilateral_diagnoses.should be_false
+  end
+end
