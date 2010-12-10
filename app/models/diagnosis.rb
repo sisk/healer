@@ -21,4 +21,14 @@ class Diagnosis < ActiveRecord::Base
     str += ", #{body_part.to_s}" if body_part.present?
     str
   end
+  
+  def part_of_bilateral?
+    return false if !body_part.present? || siblings.empty? || body_part.mirror.blank?
+    return siblings.select{ |diagnosis| self.body_part.mirror == diagnosis.body_part }.size > 0
+  end
+  
+  def siblings
+    self.patient.diagnoses - [self]
+  end
+
 end

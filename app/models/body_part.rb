@@ -1,4 +1,5 @@
 class BodyPart < ActiveRecord::Base
+
   validates_presence_of :name, :message => "can't be blank"
   has_many :diagnoses
   validates_inclusion_of :side, :in => ["L", "R", ""], :allow_nil => true
@@ -9,6 +10,22 @@ class BodyPart < ActiveRecord::Base
     str += " (#{side})" unless side.blank?
     str
   end
+  
+  def mirror
+    BodyPart.all_body_parts.select{ |bp| (bp.name == self.name && bp.side != self.side) }.first
+  end
+  
+  private
+  
+  class << self
+    extend ActiveSupport::Memoizable
+
+    def all_body_parts
+      BodyPart.all
+    end
+    memoize :all_body_parts
+  end
+  
   
 end
 
