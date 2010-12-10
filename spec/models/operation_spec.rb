@@ -9,6 +9,8 @@ describe Operation do
   should_have_column :secondary_surgeon_id, :type => :integer
   should_have_column :anesthesiologist_id, :type => :integer
   should_have_column :date, :type => :date
+  should_have_column :start, :type => :datetime
+  should_have_column :end, :type => :datetime
   should_have_column :approach, :type => :string
   should_have_column :difficulty, :type => :integer, :default => 0
   should_have_column :graft, :type => :boolean

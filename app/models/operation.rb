@@ -48,6 +48,8 @@ class Operation < ActiveRecord::Base
   scope :room_id, lambda { |room_id|
     { :conditions => ["operations.room_id = ?",room_id ] } if room_id.present?
   }
+  scope :incomplete, :conditions => [ "operations.end is ?", nil ]  
+  scope :complete, :conditions => [ "operations.end is not ?", nil ]  
 
   delegate :location, :location=, :to => :registration  
 
