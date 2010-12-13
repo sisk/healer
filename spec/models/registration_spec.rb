@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 describe Registration do
+  before(:each) do
+    Registration.stub(:set_bilateral) # custom validation routine
+  end
   should_have_column :patient_id, :type => :integer
   should_have_column :approved_by_id, :type => :integer
   should_have_column :created_by_id, :type => :integer
@@ -13,6 +16,7 @@ describe Registration do
   should_have_column :location, :type => :string
   should_have_column :schedule_order, :type => :integer
   should_have_column :room_id, :type => :integer
+  should_have_column :likely_bilateral, :type => :boolean
 
   should_belong_to :patient
   should_belong_to :trip
@@ -27,7 +31,7 @@ end
 
 describe Registration, "authorize!" do
   before(:each) do
-    @registration = Registration.new
+    @registration = Registration.new(:patient => stub_model(Patient), :trip => mock_model(Trip))
   end
   it "sets registration's approved_at to now" do
     time = Time.now
@@ -50,7 +54,7 @@ describe Registration, "authorize!" do
 end
 describe Registration, "deauthorize!" do
   before(:each) do
-    @registration = Registration.new(:approved_by_id => 1, :approved_at => Time.now)
+    @registration = Registration.new(:patient => stub_model(Patient), :trip => mock_model(Trip), :approved_by_id => 1, :approved_at => Time.now)
   end
   it "sets registration's approved_at to nil" do
     @registration.deauthorize!
@@ -68,7 +72,7 @@ end
 
 describe Registration, "authorized?" do
   before(:each) do
-    @registration = Registration.new
+    @registration = Registration.new(:patient => stub_model(Patient), :trip => mock_model(Trip))
   end
   it "returns true if approved_at is set" do
     @registration.approved_at = Time.now
@@ -99,7 +103,7 @@ end
 
 describe Registration, "in_facility?" do
   before(:each) do
-    @registration = Registration.new
+    @registration = Registration.new(:patient => stub_model(Patient), :trip => mock_model(Trip))
   end
   ["Checked In","Preparation","Procedure","Recovery","Discharge"].each do |status|
     it "is true if status is #{status}" do
@@ -121,7 +125,7 @@ end
 describe Registration, "schedule" do
   # TODO state machine approach might be better for this.
   before(:each) do
-    @registration = Registration.new
+    @registration = Registration.new(:patient => stub_model(Patient), :trip => mock_model(Trip))
   end
   ["Registered","Unscheduled"].each do |status|
     it "changes status from #{status} to 'Scheduled'" do
@@ -140,7 +144,7 @@ end
 describe Registration, "unschedule" do
   # TODO state machine approach might be better for this.
   before(:each) do
-    @registration = Registration.new
+    @registration = Registration.new(:patient => stub_model(Patient), :trip => mock_model(Trip))
   end
   (Registration::possible_statuses - ["Unscheduled"]).each do |status|
     it "changes status from #{status} to 'Unscheduled'" do
@@ -150,14 +154,34 @@ describe Registration, "unschedule" do
   end
 end
 
+# describe Registration, "setting bilateral on save" do
+#   before(:each) do
+#     @registration = Registration.new(:patient => stub_model(Patient), :trip => mock_model(Trip))
+#   end
+#   it "sets likely_bilateral to false by default" do
+#     @registration.save?
+#     @registration.likely_bilateral.should be_false
+#   end
+#   it "sets likely_bilateral to true if patient has bilateral diagnoses" do
+#     @registration.stub(:bilateral_diagnosis?).and_return(true)
+#     @registration.save?
+#     @registration.likely_bilateral.should be_true
+#   end
+#   it "sets likely_bilateral to false if patient does not have bilateral diagnoses" do
+#     @registration.stub(:bilateral_diagnosis?).and_return(false)
+#     @registration.valid?
+#     @registration.likely_bilateral.should be_false
+#   end
+# end
+
 # describe Registration, "bilateral?" do
 #   before(:each) do
 #     @registration = Registration.new(:patient => mock_model(Patient))
 #   end
 #   it "is true if patient has bilateral diagnoses" do
-#     @registration.patient.stub(:has_bilateral_diagnoses).and_return(true)
+#     @registration.patient.stub(:bilateral_diagnosis?).and_return(true)
 #   end
 #   it "is true if patient has no bilateral diagnoses" do
-#     @registration.patient.stub(:has_bilateral_diagnoses).and_return(false)
+#     @registration.patient.stub(:bilateral_diagnosis?).and_return(false)
 #   end
 # end

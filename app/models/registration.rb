@@ -40,7 +40,9 @@ class Registration < ActiveRecord::Base
     { :conditions => ["registrations.room_id = ?",room_id ] } if room_id.present?
   }
 
-  delegate :has_bilateral_diagnoses, :to => :patient
+  delegate :bilateral_diagnosis?, :to => :patient
+
+  before_save :set_bilateral
 
   def to_s
     "#{patient.to_s} - #{trip.to_s}"
@@ -84,6 +86,10 @@ private
 
   def set_pre_screen
     status = "Pre-Screen"
+  end
+  
+  def set_bilateral
+    self.likely_bilateral = self.bilateral_diagnosis?
   end
   
 end

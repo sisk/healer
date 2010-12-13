@@ -96,9 +96,9 @@ class Patient < ActiveRecord::Base
     (self.male.nil? || self.male?) ? "male-generic.gif" : "female-generic.gif"
   end
   
-  def has_bilateral_diagnoses
+  def bilateral_diagnosis?
     return false if diagnoses.empty?
-    return diagnoses.any?{ |diagnosis| diagnosis.part_of_bilateral? }
+    return diagnoses.any?{ |diagnosis| diagnosis.has_mirror? }
   end
 
 private

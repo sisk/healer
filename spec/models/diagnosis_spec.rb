@@ -43,18 +43,32 @@ describe Diagnosis, ".severity_table" do
 end
 
 describe Diagnosis, "#siblings" do
-  it "returns an array of all diagnoses for the patient excluding itself" do
-    @patient = stub_model(Patient)
+  before(:each) do
     @diagnosis1 = Diagnosis.new
+    @diagnosis1.stub(:id).and_return(1)
+    @patient = stub_model(Patient)
     @diagnosis2 = Diagnosis.new
-    @diagnosis3 = Diagnosis.new
+    @diagnosis2.stub(:id).and_return(2)
+    @diagnosis3 = Diagnosis.new(:id => 3)
+    @diagnosis3.stub(:id).and_return(3)
+  end
+  it "returns an array of all diagnoses for the patient excluding itself" do
     @patient.stub(:diagnoses).and_return([@diagnosis1,@diagnosis2,@diagnosis3])
     @diagnosis1.patient = @patient
     @diagnosis1.siblings.should == [@diagnosis2,@diagnosis3]
   end
+  it "returns an empty array if no patient" do
+    puts @diagnosis1.class
+    @diagnosis1.siblings.should == []
+  end
+  it "returns an empty array if patient has no diagnoses" do
+    @patient.stub(:diagnoses).and_return([])
+    @diagnosis1.patient = @patient
+    @diagnosis1.siblings.should == []
+  end
 end
 
-describe Diagnosis, "part_of_bilateral?" do
+describe Diagnosis, "has_mirror?" do
   before(:each) do
     @patient = stub_model(Patient)
     @left_knee = stub_model(BodyPart,:name => "Knee", :side => "L")
@@ -67,22 +81,22 @@ describe Diagnosis, "part_of_bilateral?" do
     @diagnosis_n = Diagnosis.new(:body_part => @neck, :patient => @patient)
   end
   it "is false if no body part is set" do
-    Diagnosis.new.part_of_bilateral?.should be_false
+    Diagnosis.new.has_mirror?.should be_false
   end
   it "is false if body part is set but has no mirror" do
     @diagnosis = Diagnosis.new(:body_part => @neck, :patient => @patient)
-    @diagnosis.part_of_bilateral?.should be_false
+    @diagnosis.has_mirror?.should be_false
   end
   it "is false if no siblings" do
     @diagnosis.stub(:siblings).and_return([])
-    @diagnosis.part_of_bilateral?.should be_false
+    @diagnosis.has_mirror?.should be_false
   end
   it "is false if sibling diagnoses have no body part matching this one's mirror" do
     @diagnosis.stub(:siblings).and_return([@diagnosis_n])
-    @diagnosis.part_of_bilateral?.should be_false
+    @diagnosis.has_mirror?.should be_false
   end
   it "is true if sibling diagnoses have a body part matching this one's mirror" do
     @diagnosis.stub(:siblings).and_return([@diagnosis_r])
-    @diagnosis.part_of_bilateral?.should be_true
+    @diagnosis.has_mirror?.should be_true
   end
 end
