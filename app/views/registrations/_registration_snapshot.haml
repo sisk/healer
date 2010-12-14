@@ -1,8 +1,10 @@
-.registration.snapshot
+.registration.snapshot{ :class => (registration.likely_bilateral? ? "bilateral" : "") }
   =# patient_image(registration.patient, :tiny)
   .details
-    %h3= "#{registration.patient} [ID #{registration.id}]"
+    %h3= registration.patient
     %dl
+      %dt Registration #
+      %dd= registration.id
       %dt Status
       %dd= registration.status
       - unless registration.location.blank?

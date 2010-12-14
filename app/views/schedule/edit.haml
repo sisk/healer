@@ -22,6 +22,8 @@
 - content_for :script do
   :javascript
       $(document).ready(function() {
+      
+        markBilateral();
 
         $(".room.connectedSortable").sortable({
           items: ".sortable",
@@ -40,6 +42,7 @@
             $.getJSON(url, params, function(data) {
               enclosure.html(template(data));
               ui.item.remove();
+              markBilateral();
             });
           }
         }).disableSelection();
@@ -60,9 +63,15 @@
             $.getJSON(url, params, function(data) {
               enclosure.html(template(data));
               ui.item.remove();
+              markBilateral();
             });
           }
         }).disableSelection();
+
+        function markBilateral() {
+          $(".registration.bilateral").find("span.asterisk").remove();
+          $(".registration.bilateral h3").append('<span class="asterisk">[bilateral]</span>');
+        }
 
       });
       
@@ -70,10 +79,12 @@
   %script{ :type => "text/html", :name => "registration_snapshot_template"}
     {{#registrations}}
     .registration.sortable{ :id => "registration_{{id}}" }
-      .registration.snapshot
+      .registration.snapshot{ :class => "{{class}}" }
         .details
-          %h3 {{patient}} [ID {{id}}]
+          %h3 {{patient}}
           %dl
+            %dt Registration #
+            %dd {{id}}
             %dt Status
             %dd {{status}}
             {{#location}}

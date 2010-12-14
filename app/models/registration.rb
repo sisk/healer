@@ -49,7 +49,7 @@ class Registration < ActiveRecord::Base
   end
 
   def as_json(options={})
-    { :id => self.id, :to_s => self.to_s, :status => self.status, :photo => self.patient.displayed_photo(:tiny), :patient => self.patient.to_s, :location => self.location }
+    { :id => self.id, :to_s => self.to_s, :status => self.status, :photo => self.patient.displayed_photo(:tiny), :patient => self.patient.to_s, :location => self.location, :class => (self.likely_bilateral? ? "bilateral" : "") }
   end
 
   def authorize!(approved_by_id = nil)
