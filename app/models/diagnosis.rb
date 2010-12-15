@@ -15,6 +15,8 @@ class Diagnosis < ActiveRecord::Base
   validates_inclusion_of :severity, :in => self.severity_table.keys
 
   default_scope :order => 'diagnoses.assessed_date DESC'
+  scope :untreated, :conditions => [ "diagnoses.treated = ?", false ]  
+  scope :treated, :conditions => [ "diagnoses.treated = ?", true ]  
   
   def to_s
     str = disease.to_s
