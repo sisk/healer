@@ -5,9 +5,6 @@ table#schedule_edit {
     @include bordered;
   }
   .registration {
-    border-top: solid 1px $grey-very-light;
-    border-bottom: none;
-    margin-bottom: 0;
     img {
       @include column(1);
       width: $blueprint-grid-width;
@@ -15,7 +12,10 @@ table#schedule_edit {
       margin-right: 5px;
     }
     .details {
-      @include column(4, true);
+      @include column(6, true);
+      dl {
+        font-size: 0.75em;
+      }
     }
   }
 }
@@ -29,4 +29,11 @@ table#schedule_edit {
 .registration_order_placeholder {
   height: 2px;
   background-color: $black;
+}
+
+.moved1 {
+  @include bordered(2px, #f00);
+}
+.moved2 {
+  @include bordered(2px, #00f);
 }

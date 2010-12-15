@@ -10,6 +10,7 @@ class Registration < ActiveRecord::Base
   belongs_to :approved_by, :class_name => "User", :foreign_key => "approved_by_id"
   belongs_to :created_by, :class_name => "User", :foreign_key => "created_by_id"
   has_many :operations
+  has_many :diagnoses
 
   validates_presence_of :patient
   validates_presence_of :trip
@@ -40,23 +41,36 @@ class Registration < ActiveRecord::Base
     { :conditions => ["registrations.room_id = ?",room_id ] } if room_id.present?
   }
 
-  delegate :bilateral_diagnosis?, :to => :patient
-
   before_save :set_bilateral
 
   def to_s
+    # TODO there's a performance thing here where we query patients and trips table separately. improve it!
     "#{patient.to_s} - #{trip.to_s}"
   end
 
   def as_json(options={})
-    { :id => self.id, :to_s => self.to_s, :status => self.status, :photo => self.patient.displayed_photo(:tiny), :patient => self.patient.to_s, :location => self.location, :class => (self.likely_bilateral? ? "bilateral" : "") }
+    # serializable_hash(options.merge({ :only => ["id", "trip_id", "status"], :joins => [:patient] }))
+    {
+      :id => self.id,
+      :to_s => self.to_s,
+      :status => self.status,
+      :photo => self.patient.displayed_photo(:tiny),
+      :patient => self.patient.to_s,
+      :location => self.location,
+      :body_parts => self.diagnoses.map(&:body_part).map(&:to_s).join(", "),
+      :class => (self.likely_bilateral? ? "bilateral" : "")
+    }
   end
 
   def authorize!(approved_by_id = nil)
     self.update_attributes(:approved_by_id => approved_by_id, :approved_at => Time.now, :status => "Registered")
+    add_untreated_diagnoses
+    true
   end
   def deauthorize!
     self.update_attributes(:approved_by_id => nil, :approved_at => nil, :status => "Pre-Screen")
+    clear_diagnoses
+    true
   end
 
   def authorized?
@@ -82,6 +96,11 @@ class Registration < ActiveRecord::Base
     )
   end
 
+  def bilateral_diagnosis?
+    return false if diagnoses.empty?
+    return diagnoses.any?{ |diagnosis| diagnosis.has_mirror? }
+  end
+
 private
 
   def set_pre_screen
@@ -90,6 +109,14 @@ private
   
   def set_bilateral
     self.likely_bilateral = self.bilateral_diagnosis?
+  end
+  
+  def add_untreated_diagnoses
+    self.diagnoses = patient.diagnoses.untreated
+  end
+
+  def clear_diagnoses
+    self.diagnoses.clear
   end
   
 end

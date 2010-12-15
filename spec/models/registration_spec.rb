@@ -23,6 +23,7 @@ describe Registration do
   should_belong_to :approved_by
   should_belong_to :created_by
   should_have_many :operations
+  should_have_many :diagnoses
   
   should_validate_presence_of :patient
   should_validate_presence_of :trip
@@ -51,6 +52,18 @@ describe Registration, "authorize!" do
     @registration.authorize!
     @registration.status.should == "Registered"
   end
+  # temp - this is a workaround until UI elements join diagnoses to a registration.
+  it "sets all untreated diagnoses for patient to this registration" do
+    diag1 = stub_model(Diagnosis)
+    diag2 = stub_model(Diagnosis)
+    @registration.patient.stub_chain(:diagnoses, :untreated).and_return([diag1, diag2])
+    @registration.diagnoses = []
+    @registration.authorize!
+    @registration.diagnoses.should == [diag1,diag2]
+  end
+  it "returns true" do
+    @registration.authorize!.should == true
+  end
 end
 describe Registration, "deauthorize!" do
   before(:each) do
@@ -67,6 +80,17 @@ describe Registration, "deauthorize!" do
   it "sets status to 'Pre-Screen'" do
     @registration.deauthorize!
     @registration.status.should == "Pre-Screen"
+  end
+  # temp - this is a workaround until UI elements join diagnoses to a registration.
+  it "clears diagnoses" do
+    diag1 = stub_model(Diagnosis, :registration_id => @registration.id)
+    @registration.diagnoses = [diag1]
+    @registration.deauthorize!
+    @registration.diagnoses.should == []
+    diag1.registration_id.should be_nil
+  end
+  it "returns true" do
+    @registration.deauthorize!.should == true
   end
 end
 
@@ -151,6 +175,26 @@ describe Registration, "unschedule" do
       @registration.status = status
       lambda { @registration.unschedule }.should change { @registration.status }.to('Unscheduled')
     end
+  end
+end
+
+describe Registration, "#bilateral_diagnosis?" do
+  before(:each) do
+    @registration = Registration.new
+    @bilateral = stub_model(Diagnosis, :has_mirror? => true)
+    @non_bilateral = stub_model(Diagnosis, :has_mirror? => false)
+  end
+  it "is false if no diagnoses exist" do
+    @registration.diagnoses = []
+    @registration.bilateral_diagnosis?.should be_false
+  end
+  it "is true if any of registration's diagnoses are part of bilateral" do
+    @registration.diagnoses = [stub_model(Diagnosis, :has_mirror? => true)]
+    @registration.bilateral_diagnosis?.should be_true
+  end
+  it "is false if none of registration's diagnoses are part of bilateral" do
+    @registration.diagnoses = [stub_model(Diagnosis, :has_mirror? => false)]
+    @registration.bilateral_diagnosis?.should be_false
   end
 end
 

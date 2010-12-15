@@ -10,7 +10,7 @@
   %tbody
     %tr
       %td
-        .registrations.unscheduled.connectedSortable
+        #unscheduled.registrations.connectedSortable
           - @unscheduled.each do |registration|
             .sortable[registration]= render :partial => "registrations/registration_snapshot", :locals => { :registration => registration }
       - @rooms.each do |room|
@@ -20,60 +20,7 @@
               .sortable[registration]= render :partial => "registrations/registration_snapshot", :locals => { :registration => registration }
 
 - content_for :script do
-  :javascript
-      $(document).ready(function() {
-      
-        markBilateral();
-
-        $(".room.connectedSortable").sortable({
-          items: ".sortable",
-          placeholder: "registration_order_placeholder",
-          connectWith: ".connectedSortable",
-          opacity: 0.7,
-          helper: "clone",
-          cursor: "move",
-          update: function(event, ui) {
-            var enclosure, room_id, params, template, url;
-            enclosure = $(this).closest(".room");
-            room_id = $(this).closest(".room").attr("id").match(/[^room_]/);
-            params = enclosure.sortable("serialize") + "&room_id=" + room_id;
-            template = Handlebars.compile($("script[name=registration_snapshot_template]").html());
-            url = "/trips/#{@trip.id}/schedule/sort_room.json";
-            $.getJSON(url, params, function(data) {
-              enclosure.html(template(data));
-              ui.item.remove();
-              markBilateral();
-            });
-          }
-        }).disableSelection();
-
-        $(".unscheduled.connectedSortable").sortable({
-          items: ".sortable",
-          placeholder: "registration_order_placeholder",
-          connectWith: ".connectedSortable",
-          opacity: 0.7,
-          helper: "clone",
-          cursor: "move",
-          update: function(event, ui) {
-            var enclosure, params, template, url;
-            enclosure = $(this).closest(".registrations");
-            params = enclosure.sortable("serialize");
-            template = Handlebars.compile($("script[name=registration_snapshot_template]").html());
-            url = "/trips/#{@trip.id}/schedule/sort_unscheduled.json";
-            $.getJSON(url, params, function(data) {
-              enclosure.html(template(data));
-              ui.item.remove();
-              markBilateral();
-            });
-          }
-        }).disableSelection();
-
-        function markBilateral() {
-          $(".registration.bilateral").find("span.asterisk").remove();
-          $(".registration.bilateral h3").append('<span class="asterisk">[bilateral]</span>');
-        }
-
-      });
+  = javascript_include_tag "lib/schedule.js"
       
 - content_for :script do
   %script{ :type => "text/html", :name => "registration_snapshot_template"}
@@ -85,8 +32,8 @@
           %dl
             %dt Registration #
             %dd {{id}}
-            %dt Status
-            %dd {{status}}
+            %dt Body Part(s)
+            %dd {{body_parts}}
             {{#location}}
             %dt Location
             %dd {{location}}
