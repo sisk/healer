@@ -1,5 +1,8 @@
 table#schedule_edit {
-  @include showgrid;
+  th {
+    font-size: 1.5em;
+    background-color: $white;
+  }
   th, td { @include column(6); padding: 0; }
   td {
     @include bordered;

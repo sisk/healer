@@ -30,14 +30,14 @@
         .details
           %h3 {{patient}}
           %dl
-            %dt Registration #
-            %dd {{id}}
             %dt Body Part(s)
             %dd {{body_parts}}
             {{#location}}
             %dt Location
             %dd {{location}}
             {{/location}}
+            %dt Registration #
+            %dd {{id}}
     {{/registrations}}
     {{^registrations}}
     .registration
