@@ -27,7 +27,6 @@
     .contact { display: none; }
   }
   &.snapshot {
-    background-color: $white;
     border-bottom: none;
     @include clearfix;
     &:hover {

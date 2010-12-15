@@ -10,7 +10,8 @@ $(document).ready(function() {
     helper: "clone",
     cursor: "move",
     update: function(event, ui) {
-      var enclosure, room_id, params, template, url, new_items, item_id;
+      var enclosure, room_id, params, template, url, item_id;
+      item_id = ui.item.attr("id");
       enclosure = $(this).closest(".room");
       room_id = $(this).closest(".room").attr("id").match(/[^room_]/);
       params = enclosure.sortable("serialize") + "&room_id=" + room_id;
@@ -21,10 +22,12 @@ $(document).ready(function() {
         enclosure.html(template(data));
 
         // ugly hack to stop moved items from re-rendering in the source column
-        //$("#room_"+room_id).find("#"+ui.item.attr("id")).remove();
-
+        if (ui.sender) {
+          ui.sender.find("#"+ui.item.attr("id")).remove();
+        }
         markBilateral();
       });
+      $("#"+item_id).flash();
     }
   }).disableSelection();
 
@@ -36,7 +39,8 @@ $(document).ready(function() {
     helper: "clone",
     cursor: "move",
     update: function(event, ui) {
-      var enclosure, params, template, url;
+      var enclosure, params, template, url, item_id;
+      item_id = ui.item.attr("id");
       enclosure = $(this).closest(".registrations");
       params = enclosure.sortable("serialize");
       template = Handlebars.compile($("script[name=registration_snapshot_template]").html());
@@ -46,10 +50,12 @@ $(document).ready(function() {
         enclosure.html(template(data));
 
         // ugly hack to stop moved items from re-rendering in the source column
-        // $("#unscheduled").find("#"+ui.item.attr("id")).remove();
-
+        if (ui.sender) {
+          ui.sender.find("#"+ui.item.attr("id")).remove();
+        }
         markBilateral();
       });
+      $("#"+item_id).flash();
     }
   }).disableSelection();
 

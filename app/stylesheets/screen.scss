@@ -34,6 +34,10 @@
 @import "partials/schedule";
 @import "partials/sortables";
 
+.debug {
+  @include debug;
+}
+
 .ui-icon-grip-dotted-vertical {
   @include float-left;
 }

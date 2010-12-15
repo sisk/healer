@@ -37,12 +37,11 @@ class ScheduleController < ApplicationController
     Registration.update_all({:status => 'Unscheduled', :room_id => nil}, :id => registration_ids)
     Registration.order(registration_ids)
 
-    @unscheduled = @trip.registrations.authorized.unscheduled
-    @trip.reload
+    registrations = Registration.find(registration_ids)
 
     respond_to do |format|
       format.json {
-        render :text => "{\"registrations\" : #{@unscheduled.to_json}}"
+        render :text => "{\"registrations\" : #{registrations.to_json}}"
       }
     end
   end
