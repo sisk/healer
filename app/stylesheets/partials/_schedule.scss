@@ -1,11 +1,30 @@
-table#schedule_edit {
-  th {
-    font-size: 1.5em;
-    background-color: $white;
-  }
-  th, td { @include column(6); padding: 0; }
-  td {
+#schedule_edit {
+  .wrapper {
     @include bordered;
+    @include float-left;
+    @include column(6);
+    margin-top: $margin-increment * 3;
+    margin-bottom: $margin-increment * 3;
+    .header {
+      @include clearfix;
+      background-color: $grey-dark;
+      padding: $margin-increment;
+      h2 {
+        font-size: 1.5em;
+        color: $grey-light;
+      }
+      h2, p {
+        @include float-left;
+        margin-bottom: 0;
+      }
+      p {
+        padding-top: .5em;
+        margin-left: 1em;
+        a {
+          color: $white;
+        }
+      }
+    }
   }
   .registration {
     img {
@@ -20,6 +39,17 @@ table#schedule_edit {
         font-size: 0.75em;
       }
     }
+  }
+}
+
+#room_toggle {
+  @include horizontal-list;
+  padding-left: 0 !important;
+  a.inactive {
+    &:after {
+      /*content: " [show]";*/
+    }
+    color: $grey-light;
   }
 }
 

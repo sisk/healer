@@ -1,24 +1,29 @@
 - content_for :title do
   = "#{@trip} - Edit Schedule"
 
-%table#schedule_edit
-  %thead
-    %tr
-      %th Unscheduled
-      - @rooms.each do |room|
-        %th.room_header= room
-  %tbody
-    %tr
-      %td
-        #unscheduled.registrations.connectedSortable
-          - @unscheduled.each do |registration|
-            .sortable[registration]= render :partial => "registrations/registration_snapshot", :locals => { :registration => registration }
-      - @rooms.each do |room|
-        %td
-          .room.connectedSortable[room]
-            - @trip.registrations.room_id(room.id).each do |registration|
-              .sortable[registration]= render :partial => "registrations/registration_snapshot", :locals => { :registration => registration }
-
+%ul#room_toggle
+  %li.header Show:
+  %li#show_unscheduled.hide= link_to_function 'Unscheduled', "$('#unscheduled').closest('.wrapper').toggle(); $('#unscheduled').closest('.wrapper').toggleClass('hide'); $('#show_unscheduled').addClass('hide');"
+  - @rooms.each do |room|
+    %li{ :id => "show_#{dom_id(room)}" }= link_to_function room, "$('##{dom_id(room)}').closest('.wrapper').toggle(); $('##{dom_id(room)}').closest('.wrapper').toggleClass('hide'); $('#show_#{dom_id(room)}').addClass('hide')"
+    
+#schedule_edit
+  .wrapper.visible
+    .header
+      %h2 Unscheduled
+      %p= link_to_function 'hide', "$(this).closest('.wrapper').addClass('hide'); $('#show_unscheduled').toggleClass('hide');"
+    #unscheduled.registrations.connectedSortable
+      - @unscheduled.each do |registration|
+        .sortable[registration]= render :partial => "registrations/registration_snapshot", :locals => { :registration => registration }
+  - @rooms.each do |room|
+    .wrapper.hide
+      .header
+        %h2= room
+        %p= link_to_function 'hide', "$(this).closest('.wrapper').addClass('hide'); $('#show_#{dom_id(room)}').toggleClass('hide');"
+      .room.connectedSortable[room]
+        - @trip.registrations.room_id(room.id).each do |registration|
+          .sortable[registration]= render :partial => "registrations/registration_snapshot", :locals => { :registration => registration }
+  
 - content_for :script do
   = javascript_include_tag "lib/schedule.js"
       
