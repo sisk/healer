@@ -31,6 +31,7 @@ form {
   }
 
   fieldset.inputs .complex {
+    @include showgrid();
     @include clearfix;
     li {
       &.supplemented {
@@ -38,7 +39,7 @@ form {
         @include column(6);
         input {
           @include float-left;
-          @include column(4);
+          @include column(3);
         }
       }
       &.supplemental {
@@ -53,3 +54,5 @@ form {
   }
 
 }
+
+.ui-datepicker { width: auto; padding: .2em .2em 0; }

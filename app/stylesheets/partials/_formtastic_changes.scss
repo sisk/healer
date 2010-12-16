@@ -1,0 +1,24 @@
+form.formtastic {
+  input, textarea, select {
+    @include bordered(1px, $grey-light);
+    font-size: 1.1em;
+    padding: 6px;
+  }
+  fieldset > ol > li label {
+    padding-top: .5em;
+  }
+  .buttons {
+    input {
+      @include bordered(1px, $black);
+      background-color: $grey-dark;
+      font-size: 1em;
+      padding: 6px;
+      color: $grey-very-light;
+      text-transform: uppercase;
+      &:hover {
+        background-color: $grey-medium;
+        color: $white;
+      }
+    }
+  }
+}
