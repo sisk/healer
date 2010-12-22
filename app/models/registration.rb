@@ -2,6 +2,9 @@ class Registration < ActiveRecord::Base
   def self.possible_statuses
     ["Pre-Screen","Registered","Checked In","Scheduled","Unscheduled","Preparation","Procedure","Recovery","Discharge","Checked Out"]
   end
+  def self.complexity_units
+    [1,2,3,4,5,6,7,8,9,10]
+  end
 
   before_create :set_pre_screen
 

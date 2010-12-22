@@ -17,6 +17,8 @@ describe Registration do
   should_have_column :schedule_order, :type => :integer
   should_have_column :room_id, :type => :integer
   should_have_column :likely_bilateral, :type => :boolean
+  should_have_column :revision, :type => :boolean
+  should_have_column :complexity, :type => :integer
 
   should_belong_to :patient
   should_belong_to :trip
@@ -65,6 +67,7 @@ describe Registration, "authorize!" do
     @registration.authorize!.should == true
   end
 end
+
 describe Registration, "deauthorize!" do
   before(:each) do
     @registration = Registration.new(:patient => stub_model(Patient), :trip => mock_model(Trip), :approved_by_id => 1, :approved_at => Time.now)
@@ -115,6 +118,12 @@ describe Registration, "to_s" do
     patient.stub(:to_s).and_return("Elvis Presley")
     registration = Registration.new(:trip => trip, :patient => patient)
     registration.to_s.should == "Elvis Presley - Las Vegas 2008"
+  end
+end
+
+describe Registration, ".complexity_units" do
+  it "returns an array of the expected values" do
+    Registration::complexity_units.should == [1,2,3,4,5,6,7,8,9,10]
   end
 end
 
@@ -215,17 +224,5 @@ end
 #     @registration.stub(:bilateral_diagnosis?).and_return(false)
 #     @registration.valid?
 #     @registration.likely_bilateral.should be_false
-#   end
-# end
-
-# describe Registration, "bilateral?" do
-#   before(:each) do
-#     @registration = Registration.new(:patient => mock_model(Patient))
-#   end
-#   it "is true if patient has bilateral diagnoses" do
-#     @registration.patient.stub(:bilateral_diagnosis?).and_return(true)
-#   end
-#   it "is true if patient has no bilateral diagnoses" do
-#     @registration.patient.stub(:bilateral_diagnosis?).and_return(false)
 #   end
 # end
