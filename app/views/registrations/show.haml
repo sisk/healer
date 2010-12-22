@@ -23,7 +23,7 @@
       = f.input :checkout_at, :as => :datepicker, :label => "Check Out"
     - f.inputs do
       - from_time = Time.now
-      = f.input :complexity, :as => :select, :collection => Registration::complexity_units.map{ |cu| [distance_of_time_in_words(from_time, from_time + (@registration.complexity_minutes * cu.to_i).minutes, false, { :two_words_connector => ", " }), cu] }
+      = f.input :complexity, :as => :select, :collection => Registration::complexity_units.map{ |cu| [distance_of_time_in_words(from_time, from_time + (@registration.complexity_minutes * cu.to_i).to_i.minutes, false, { :two_words_connector => ", " }), cu] }
       = f.input :revision, :label => "This is a revision"
       
     - f.buttons do
