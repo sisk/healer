@@ -1,3 +1,5 @@
+@import "compass/css3/border-radius";
+
 form.formtastic {
   input, textarea, select {
     @include bordered(1px, $grey-light);
@@ -9,10 +11,11 @@ form.formtastic {
   }
   .buttons {
     input {
-      @include bordered(1px, $black);
+      border: none;
+      @include border-radius(6px);
       background-color: $grey-dark;
       font-size: 1em;
-      padding: 6px;
+      padding: 8px;
       color: $grey-very-light;
       text-transform: uppercase;
       &:hover {

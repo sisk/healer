@@ -31,7 +31,6 @@ form {
   }
 
   fieldset.inputs .complex {
-    @include showgrid();
     @include clearfix;
     li {
       &.supplemented {
