@@ -1,5 +1,7 @@
-.registration
+.registration[registration]{ :class => registration.revision? ? "revision" : "" }
   = render :partial => "patients/inline_summary", :locals => { :patient => registration.patient }
+  - if registration.revision?
+    /%p.asterisk (Revision)
   %ul.nav
     - if permitted_to? :authorize, registration
       %li= link_to "Approve", authorize_trip_registration_path(@trip, registration), :method => :put if !registration.authorized?
