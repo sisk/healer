@@ -57,8 +57,8 @@ jQuery(function ($) {
 (function($){
   $.fn.choice_toggle = function() {
     $(this).find(".choice .toggle").bind('click', function(event) {
-      $(this).parent(".choice").siblings().find(".data").hide();
-      $(this).parent(".choice").find(".data").fadeIn();
+      $(this).closest(".choice").siblings().find(".data").addClass("hide");
+      $(this).closest(".choice").find(".data").removeClass("hide");
     });
     return this;
   }
