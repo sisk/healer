@@ -6,5 +6,6 @@
     = f.input :start, :as => :date, :label => 'Trip Begins'
     = f.input :end, :as => :date, :label => 'Trip Ends'
     = f.input :facility_id, :label => 'Facility', :collection => Facility.all
+    = f.input :complexity_minutes, :as => :select, :label => 'Registration Complexity Metric', :collection => [["15 minutes",15],["30 minutes",30],["60 minutes",60]]
   - f.buttons do
     = f.commit_button

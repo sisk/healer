@@ -23,6 +23,8 @@ class Registration < ActiveRecord::Base
   
   default_scope :order => 'registrations.schedule_order'
   
+  delegate :complexity_minutes, :to => :trip
+  
   scope :authorized, :conditions => [ "registrations.approved_at is not ?", nil ]
   scope :unauthorized, :conditions => [ "registrations.approved_at is ?", nil ]  
   scope :search, Proc.new { |term|
