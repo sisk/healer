@@ -114,6 +114,7 @@ private
   
   def set_bilateral
     self.likely_bilateral = self.bilateral_diagnosis?
+    true
   end
   
   def add_untreated_diagnoses
