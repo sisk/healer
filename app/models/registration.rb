@@ -20,16 +20,15 @@ class Registration < ActiveRecord::Base
   validates_inclusion_of :status, :in => self.possible_statuses, :allow_nil => true
 
   accepts_nested_attributes_for :patient
-  
+
   default_scope :order => 'registrations.schedule_order'
-  
+
   delegate :complexity_minutes, :to => :trip
-  
+
   scope :authorized, :conditions => [ "registrations.approved_at is not ?", nil ]
-  scope :unauthorized, :conditions => [ "registrations.approved_at is ?", nil ]  
+  scope :unauthorized, :conditions => [ "registrations.approved_at is ?", nil ]
   scope :search, Proc.new { |term|
     query = term.strip.gsub(',', '')
-    logger.debug(query.inspect)
     first_last = query.split(" ")
     if query.present?
       if first_last.size == 2
@@ -81,11 +80,11 @@ class Registration < ActiveRecord::Base
   def authorized?
     !approved_at.blank?
   end
-  
+
   def in_facility?
     ["Checked In","Preparation","Procedure","Recovery","Discharge"].include?(status)
   end
-  
+
   def schedule
     self.status = "Scheduled" if ["Registered","Unscheduled"].include?(self.status)
   end
@@ -111,12 +110,12 @@ private
   def set_pre_screen
     status = "Pre-Screen"
   end
-  
+
   def set_bilateral
     self.likely_bilateral = self.bilateral_diagnosis?
     true
   end
-  
+
   def add_untreated_diagnoses
     self.diagnoses = patient.diagnoses.untreated
   end
@@ -124,5 +123,5 @@ private
   def clear_diagnoses
     Diagnosis.update_all("registration_id = NULL", :registration_id => self.id)
   end
-  
+
 end

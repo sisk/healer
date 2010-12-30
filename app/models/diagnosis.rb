@@ -28,20 +28,20 @@ class Diagnosis < ActiveRecord::Base
   def as_json(options={})
     # serializable_hash(options.merge({ :only => ["id", "trip_id", "status"], :joins => [:patient] }))
     {
-      :id => self.id,
-      :to_s => self.to_s,
-      :severity => self.severity
+      :id => id,
+      :to_s => to_s,
+      :severity => severity
     }
   end
 
   def has_mirror?
-    return false if !body_part.present? || siblings.empty? || body_part.mirror.blank?
-    return siblings.select{ |diagnosis| self.body_part.mirror.id == diagnosis.body_part_id }.size > 0
+    return false if !body_part.present? || siblings.empty? || !body_part.has_mirror?
+    return siblings.select{ |diagnosis| body_part.mirror.id == diagnosis.body_part_id }.size > 0
   end
 
   def siblings
-    return [] unless self.patient.present?
-    self.patient.diagnoses.reject{ |diagnosis| diagnosis.id == self.id }
+    return [] unless patient.present?
+    patient.diagnoses.reject{ |diagnosis| diagnosis.id == id }
   end
 
 end

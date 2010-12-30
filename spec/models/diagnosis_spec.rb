@@ -76,7 +76,7 @@ describe Diagnosis, "has_mirror?" do
     @left_knee = stub_model(BodyPart,:name => "Knee", :side => "L")
     @right_knee = stub_model(BodyPart,:name => "Knee", :side => "R")
     @neck = stub_model(BodyPart,:name => "Neck")
-    @neck.stub(:mirror).and_return(nil)
+    @neck.stub(:has_mirror?).and_return(false)
     @left_knee.stub(:mirror).and_return(@right_knee)
     @diagnosis = Diagnosis.new(:body_part => @left_knee, :patient => @patient)
     @diagnosis_r = Diagnosis.new(:body_part => @right_knee, :patient => @patient)
@@ -85,7 +85,7 @@ describe Diagnosis, "has_mirror?" do
   it "is false if no body part is set" do
     Diagnosis.new.has_mirror?.should be_false
   end
-  it "is false if body part is set but has no mirror" do
+  it "is false if body part has no mirror" do
     @diagnosis = Diagnosis.new(:body_part => @neck, :patient => @patient)
     @diagnosis.has_mirror?.should be_false
   end

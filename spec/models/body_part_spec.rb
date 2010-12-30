@@ -32,12 +32,21 @@ describe BodyPart, "#mirror" do
     @left_knee.mirror.should == @right_knee
   end
   it "returns only one bilateral part if +1 exist" do
-    BodyPart.stub(:all).and_return([@left_knee, @right_knee, @another_left_knee])
+    BodyPart.stub(:all_body_parts).and_return([@left_knee, @right_knee, @another_left_knee])
     @right_knee.mirror.should == @left_knee
   end
   it "returns nil if no bilateral part exists" do
-    BodyPart.stub(:all).and_return([@left_knee, @neck])
+    BodyPart.stub(:all_body_parts).and_return([@left_knee, @neck])
     @left_knee.mirror.should be_nil
+  end
+end
+
+describe BodyPart, "#has_mirror?" do
+  it "is false if side is blank" do
+    BodyPart.new(:side => nil).has_mirror?.should == false
+  end
+  it "is true if side is set" do
+    BodyPart.new(:side => "R").has_mirror?.should == true
   end
 end
 

@@ -4,28 +4,37 @@ class BodyPart < ActiveRecord::Base
   has_many :diagnoses
   validates_inclusion_of :side, :in => ["L", "R", ""], :allow_nil => true
   default_scope :order => 'body_parts.name, body_parts.side'
-  
+
   def to_s
     str = name
     str += " (#{side})" unless side.blank?
     str
   end
-  
-  def mirror
-    BodyPart.all.select{ |bp| (bp.name == self.name && bp.side != self.side) }.first
+
+  def has_mirror?
+    side.present?
   end
-  
+
+  def mirror
+    BodyPart.all_body_parts.select{ |bp| (bp.name == name && bp.side != side) }.first
+  end
+
   private
-  
+
+  def self.all_body_parts
+    @all_body_parts ||= all
+    @all_body_parts
+  end
+
   # class << self
   #   extend ActiveSupport::Memoizable
-  # 
+  #
   #   def all_body_parts
   #     self.all
   #   end
   #   memoize :all_body_parts
   # end
-  
+
 end
 
 # == Schema Information
