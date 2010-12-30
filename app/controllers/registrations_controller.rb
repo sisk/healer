@@ -19,7 +19,15 @@ class RegistrationsController < InheritedResources::Base
     create! { trip_registrations_path(@registration.trip_id) }
   end
   def update
-    update! { trip_registrations_path(@registration.trip) }
+    @registration = Registration.find(params["id"])
+
+    if @registration.update_attributes(params["registration"])
+      flash[:notice] = "Registration updated."
+    end
+    respond_with(@registration) do |format|
+      format.html { redirect_to trip_registrations_path(@registration.trip) }
+      format.js { render :template => "registrations/update.js.erb", :layout => nil }
+    end
   end
   def destroy
     destroy! {
@@ -38,7 +46,7 @@ class RegistrationsController < InheritedResources::Base
     flash[:notice] = "Moved registration for #{@registration.patient} to waiting."
     redirect_to trip_registrations_path(@registration.trip, :anchor => "approved")
   end
-  
+
 private
 
   def build_resource
@@ -46,7 +54,7 @@ private
     @registration.build_patient(params[:patient]) unless @registration.patient.present?
     @registration
   end
-  
+
   def set_unregistered_patients
     @all_patients = Patient.all
   end

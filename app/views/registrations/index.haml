@@ -39,4 +39,8 @@
         return false;
       });
 
+      $(".submit_registration_complexity").live('change', function(event) {
+        $(this).closest("form").submit();
+      });
+
     });

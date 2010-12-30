@@ -10,3 +10,5 @@ $(".enlarge a").fancybox({
   'hideOnContentClick': true,
   'titlePosition': 'over'
 });
+$("#<%= dom_id(@diagnosis) %>").find(".nav").append('<span class="updated asterisk">Updated</span');
+$("#<%= dom_id(@diagnosis) %>").find(".nav .updated").fadeToggle(3000);

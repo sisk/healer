@@ -14,7 +14,7 @@ class DiagnosesController < InheritedResources::Base
       flash[:notice] = "Diagnosis updated."
     end
     respond_with(@diagnosis) do |format|
-      format.html { redirect_to patient_path(@diagnosis.patient) }
+      format.html {redirect_to patient_path(@diagnosis.patient) }
       format.js { render :template => "diagnoses/update.js.erb", :layout => nil }
     end
   end
