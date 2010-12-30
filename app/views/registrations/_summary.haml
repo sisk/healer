@@ -36,9 +36,9 @@
       %p.asterisk (Revision)
 
     - semantic_form_for registration, :remote => true do |f|
-      - f.inputs do
+      - f.inputs :class => "registration_complexity" do
         - from_time = Time.now
-        = f.input :complexity, :as => :select, :collection => Registration::complexity_units.map{ |cu| [distance_of_time_in_words(from_time, from_time + (registration.complexity_minutes * cu.to_i).to_i.minutes, false, { :two_words_connector => ", " }), cu] }, :input_html => { :id => nil, :class => "submit_registration_complexity" }, :wrapper_html => { :id => "#{dom_id(registration)}_complexity" }
+        = f.input :complexity, :as => :select, :label => "Time", :collection => Registration::complexity_units.map{ |cu| [distance_of_time_in_words(from_time, from_time + (registration.complexity_minutes * cu.to_i).to_i.minutes, false, { :two_words_connector => ", " }), cu] }, :input_html => { :id => nil, :class => "submit_registration_complexity" }, :wrapper_html => { :id => "#{dom_id(registration)}_complexity" }
 
 
     %ul.nav
