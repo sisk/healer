@@ -1,4 +1,5 @@
 class DiagnosesController < InheritedResources::Base
+  respond_to :html, :xml, :json
   before_filter :authenticate_user!
   filter_resource_access
 
@@ -8,7 +9,14 @@ class DiagnosesController < InheritedResources::Base
     create! { patient_path(@patient) }
   end
   def update
-    update! { patient_path(@patient) }
+    @diagnosis = Diagnosis.find(params[:id])
+    if @diagnosis.update_attributes(params[:diagnosis])
+      flash[:notice] = "Diagnosis updated."
+    end
+    respond_with(@diagnosis) do |format|
+      format.html { redirect_to patient_path(@diagnosis.patient) }
+      format.js { render :template => "diagnoses/update.js.erb", :layout => nil }
+    end
   end
   def destroy
     destroy! { patient_path(@patient) }

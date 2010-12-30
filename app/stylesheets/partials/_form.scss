@@ -49,9 +49,13 @@ form {
       }
       @include float-left;
     }
-    
   }
-
 }
 
-.ui-datepicker { width: auto; padding: .2em .2em 0; }
+.datepicker {
+  input { width: auto; }
+}
+
+.dialog-form {
+  @include showgrid;
+}

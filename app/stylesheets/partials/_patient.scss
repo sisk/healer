@@ -1,9 +1,13 @@
 @import "compass/css3/inline-block";
 
+#patient_edit {
+  @include showgrid;
+}
+
 .patient .snapshot {
   padding-top: 0;
   @include column(12);
-  dl { @include inline_dl; }
+  dl { @include inline_dl(8,2); }
   .info {
     @include clearfix;
     img { @include column(3); }
@@ -103,7 +107,7 @@ form.patient {
         padding-left: 0;
         @include inline-block;
       }
-    } 
+    }
     a.inline {
       @include float-left;
     }

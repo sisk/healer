@@ -1,6 +1,21 @@
 #diagnosis_list {
   @include clearfix;
 }
+.diagnosis {
+  &.unremarkable img {
+    @include bordered(2px, $black);
+  }
+  &.mild img {
+    @include bordered(2px, $green);
+  }
+  &.moderate img {
+    @include bordered(2px, $yellow);
+  }
+  &.severe img {
+    @include bordered(2px, $red);
+  }
+
+}
 .diagnoses {
   ul {
     list-style-type: none;
@@ -43,5 +58,13 @@
   }
   ul.nav {
     @include horizontal-list;
+  }
+}
+
+.review_diagnosis {
+  .xrays { @include column(6); }
+  form {
+    @include column(12,true);
+    ol { padding-left: 0; }
   }
 }

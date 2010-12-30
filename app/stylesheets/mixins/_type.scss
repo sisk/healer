@@ -2,8 +2,17 @@
   font-size: 1.2em;
   margin-bottom: 0.5em;
 }
-@mixin inline_dl {
+@mixin inline_dl($cols: 10, $dt_cols: 3) {
   @include clearfix;
+  @include column($cols);
   dt, dd { @include float-left; }
-  dt { clear: left; }
+  dt {
+    clear: left;
+    @include column($dt_cols);
+    text-align: right;
+  }
+  dd {
+    margin-left: auto;
+    @include column(($cols - $dt_cols), true);
+  }
 }

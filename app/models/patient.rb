@@ -100,6 +100,10 @@ class Patient < ActiveRecord::Base
     return false if diagnoses.empty?
     return diagnoses.any?{ |diagnosis| diagnosis.has_mirror? }
   end
+  
+  def has_medical_detail?
+    return (risk_factors.present? || other_diseases.present? || medications.present? || allergies.present?)
+  end
 
 private
 

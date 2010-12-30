@@ -13,7 +13,7 @@ $(document).ready(function() {
       var enclosure, room_id, params, template, url, item_id;
       item_id = ui.item.attr("id");
       enclosure = $(this).closest(".room");
-      room_id = $(this).closest(".room").attr("id").match(/[^room_]/);
+      room_id = $(this).closest(".room").attr("id").match(/[^room_].*/);
       params = enclosure.sortable("serialize") + "&room_id=" + room_id;
       template = Handlebars.compile($("script[name=registration_snapshot_template]").html());
       //url = "/trips/#{@trip.id}/schedule/sort_room.json";

@@ -1,52 +1,56 @@
 #registration_list {
-  height: 500px;
-  overflow: auto;
-}
-.registration {
-  border-bottom: solid 1px $grey-light;
-  margin-bottom: $margin-increment * 2;
-  .list_item {
-    border-bottom: none;
-  }
-  ul.nav {
-    @include horizontal-list(1em);
-    @include prepend(5);
-    padding-top: 0;
-    margin-top: 0;
-    margin-left: 0;
-    margin-bottom: $margin-increment * 3;
-    font-size: 1.1em;
-  }
-  .patient {
-    .section { border-top: none; }
-    h2 { font-size: 1.5em; line-height: 1.5em; }
-    .info {
-      img { @include column(2); }
-      .demographic { @include column(10, true); }
-    }
-    .contact { display: none; }
-  }
-  &.snapshot {
-    border-bottom: none;
-    @include clearfix;
-    &:hover {
-      background-color: $light-yellow;
-    }
-    margin-bottom: 0;
+  /*height: 500px;*/
+  /*overflow: auto;*/
+  .ui-tabs-panel {
     padding: $margin-increment;
-    p, dl { margin: 0; }
-    h3 { @include widget_title; }
-    img {
-      height: 50px;
-      @include float-left;
-      margin-right: $margin-increment;
-    }
-    .details { @include float-left; }
-    dl { @include inline_dl; }
   }
-}
-form.registration {
-  border-bottom: none;
-}
-.schedule.room {
+
+  .registration {
+    @include clearfix;
+    padding-bottom: $margin-increment;
+    border-bottom: solid 1px $grey-very-light;
+    margin-bottom: $margin-increment;
+    .patient {
+      @include column($blueprint-grid-columns - 6);
+      .info {
+        @include column($blueprint-grid-columns - 14);
+        dl { @include inline_dl(6,2); }
+      }
+      .diagnoses {
+        @include column(8, true);
+        img {
+          @include column(1);
+          margin-top: 4px;
+        }
+        .diagnosis {
+          p { margin-bottom: 0; }
+          margin-bottom: $margin-increment;
+        }
+      }
+      img {
+        @include column(3);
+        @include float-left;
+      }
+      dl.demographic {
+        @include float-left;
+      }
+    }
+    .medical_details {
+      clear: both;
+      .category {
+        @include column(($blueprint-grid-columns - 6)/4);
+        &.allergies {
+          @include column((($blueprint-grid-columns - 6)/4), true);
+        }
+        h4 { font-size: 1em; }
+        ul {
+          padding-left: 1.6em;
+          font-size: 0.8em;
+        }
+      }
+    }
+    .action {
+      @include column(5, true);
+    }
+  }
 }

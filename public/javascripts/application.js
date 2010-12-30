@@ -1,3 +1,7 @@
+jQuery.ajaxSetup({
+  'beforeSend': function (xhr) {xhr.setRequestHeader("Accept", "text/javascript")}
+});
+
 $(document).ready(function() {
   // hack to fix the way Rails does authenticity_token output in form_for
   $("input[name=authenticity_token]").parent("div").hide();
@@ -31,7 +35,7 @@ $(document).ready(function() {
 
   $(".enlarge a").fancybox({
     'hideOnContentClick': true,
-    'titlePosition': 'inside'
+    'titlePosition': 'over'
   });
 
   $("#registration_list").tabs();
@@ -42,7 +46,7 @@ $(document).ready(function() {
   $(".risk_factor .record_delete").live('click', function(event){
     $(this).parents(".risk_factor").remove();
   });
-  
+
 });
 
 jQuery(function ($) {
@@ -69,7 +73,7 @@ jQuery(function ($) {
   $.fn.supplementable = function() {
     var toggle_trigger = $(this).find(".toggle");
     toggle_trigger.bind('click', function(event) {
-      $(this).parent(".supplemental").find(".details").slideToggle("fast");
+      $(this).closest(".supplemental").find(".details").slideToggle("fast");
     });
     return this;
   }

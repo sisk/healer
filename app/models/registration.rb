@@ -122,7 +122,7 @@ private
   end
 
   def clear_diagnoses
-    self.diagnoses.clear
+    Diagnosis.update_all("registration_id = NULL", :registration_id => self.id)
   end
   
 end

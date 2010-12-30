@@ -237,3 +237,21 @@ describe Patient, "#bilateral_diagnosis?" do
     @patient.bilateral_diagnosis?.should be_false
   end
 end
+
+describe Patient, "#has_medical_detail?" do
+  it "is true if patient has risk_factors" do
+    Patient.new(:risk_factors => [stub_model(RiskFactor)]).has_medical_detail?.should be_true
+  end
+  it "is true if patient has allergies" do
+    Patient.new(:allergies => "derp").has_medical_detail?.should be_true
+  end
+  it "is true if patient has medications" do
+    Patient.new(:medications => "derp").has_medical_detail?.should be_true
+  end
+  it "is true if patient has other_diseases" do
+    Patient.new(:other_diseases => "derp").has_medical_detail?.should be_true
+  end
+  it "is false generally" do
+    Patient.new.has_medical_detail?.should be_false
+  end
+end

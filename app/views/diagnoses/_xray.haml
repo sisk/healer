@@ -7,7 +7,7 @@
       = x.input :_destroy, :as => :boolean, :label => "Delete x-ray"
 - else
   - f.semantic_fields_for :xrays, xray do |x|
-    = x.input :diagnosis_id, :as => :hidden, :input_html => { :value => @diagnosis.id }
+    = x.input :diagnosis_id, :as => :hidden
     - x.inputs do
       = x.input :photo, :as => :file, :label => "Photo"
       =# x.input :date_time, :as => :datepicker, :label => "When Taken"

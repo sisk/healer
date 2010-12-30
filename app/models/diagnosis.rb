@@ -9,27 +9,36 @@ class Diagnosis < ActiveRecord::Base
   has_many :operations # might just be has_one. TBD.
   has_many :xrays, :dependent => :destroy
   accepts_nested_attributes_for :xrays, :allow_destroy => true, :reject_if => proc { |attributes| attributes['photo'].blank? }
-  
+
   validates_presence_of :patient
   validates_presence_of :disease
   validates_numericality_of :severity
   validates_inclusion_of :severity, :in => self.severity_table.keys
 
   default_scope :order => 'diagnoses.assessed_date DESC'
-  scope :untreated, :conditions => [ "diagnoses.treated = ?", false ]  
-  scope :treated, :conditions => [ "diagnoses.treated = ?", true ]  
-  
+  scope :untreated, :conditions => [ "diagnoses.treated = ?", false ]
+  scope :treated, :conditions => [ "diagnoses.treated = ?", true ]
+
   def to_s
     str = disease.to_s
     str += ", #{body_part.to_s}" if body_part.present?
     str
   end
-  
+
+  def as_json(options={})
+    # serializable_hash(options.merge({ :only => ["id", "trip_id", "status"], :joins => [:patient] }))
+    {
+      :id => self.id,
+      :to_s => self.to_s,
+      :severity => self.severity
+    }
+  end
+
   def has_mirror?
     return false if !body_part.present? || siblings.empty? || body_part.mirror.blank?
     return siblings.select{ |diagnosis| self.body_part.mirror.id == diagnosis.body_part_id }.size > 0
   end
-  
+
   def siblings
     return [] unless self.patient.present?
     self.patient.diagnoses.reject{ |diagnosis| diagnosis.id == self.id }

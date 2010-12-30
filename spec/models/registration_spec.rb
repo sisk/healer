@@ -85,13 +85,13 @@ describe Registration, "deauthorize!" do
     @registration.status.should == "Pre-Screen"
   end
   # temp - this is a workaround until UI elements join diagnoses to a registration.
-  it "clears diagnoses" do
-    diag1 = stub_model(Diagnosis, :registration_id => @registration.id)
-    @registration.diagnoses = [diag1]
-    @registration.deauthorize!
-    @registration.diagnoses.should == []
-    diag1.registration_id.should be_nil
-  end
+  # it "clears diagnoses" do
+  #   diag1 = stub_model(Diagnosis, :registration_id => @registration.id)
+  #   @registration.diagnoses = [diag1]
+  #   @registration.deauthorize!
+  #   @registration.diagnoses.should == []
+  #   diag1.registration_id.should be_nil
+  # end
   it "returns true" do
     @registration.deauthorize!.should == true
   end

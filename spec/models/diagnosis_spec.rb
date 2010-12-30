@@ -18,10 +18,10 @@ describe Diagnosis do
 
   should_validate_presence_of :patient
   should_validate_presence_of :disease
-  
+
   should_validate_numericality_of :severity
   should_validate_inclusion_of :severity, :in => Diagnosis::severity_table.keys
-  
+
 end
 
 describe Diagnosis, "#to_s" do
@@ -61,7 +61,6 @@ describe Diagnosis, "#siblings" do
     @diagnosis1.siblings.should == [@diagnosis2,@diagnosis3]
   end
   it "returns an empty array if no patient" do
-    puts @diagnosis1.class
     @diagnosis1.siblings.should == []
   end
   it "returns an empty array if patient has no diagnoses" do

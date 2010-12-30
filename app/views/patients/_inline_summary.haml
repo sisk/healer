@@ -19,37 +19,10 @@
     %p.fake_link.toggle= "Toggle more details for #{patient}"
     - if permitted_to? :show, patient
       = link_to "Full record", patient_path(patient), :class => "full_record"
-    .details.hide
-      .risk_factors
-        - if patient.risk_factors.present?
-          %h4.alert Risk Factors
-          %ul
-            - patient.risk_factors.each do |risk_factor|
-              %li= risk_factor
-      .diseases
-        - if patient.other_diseases.present?
-          %h4 Chronic & Other Diseases
-          %ul
-            - chronics = free_text_list_to_array(patient.other_diseases)
-            - chronics.each do |chronic|
-              %li= chronic
-      .medications
-        - if patient.medications.present?
-          %h4 Medications
-          %ul
-            - medications = free_text_list_to_array(patient.medications)
-            - medications.each do |medication|
-              %li= medication
-      .allergies
-        - if patient.allergies.present?
-          %h4 Allergies
-          %ul
-            - allergies = free_text_list_to_array(patient.allergies)
-            - allergies.each do |allergy|
-              %li= allergy
-      - if patient.operations.present?
-        .operations
-          %h4 Operations
-          %ul
-          - patient.operations.each do |operation|
-            %li= link_to operation, operation_path(operation)
+    = render :partial => "patients/medical_details", :locals => { :patient => patient }
+    - if patient.operations.present?
+      .operations
+        %h4 Operations
+        %ul
+        - patient.operations.each do |operation|
+          %li= link_to operation, operation_path(operation)

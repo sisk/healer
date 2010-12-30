@@ -1,0 +1,23 @@
+.category.risk_factors
+  %h4.alert Risk Factors
+  %ul
+    - patient.risk_factors.each do |risk_factor|
+      %li= risk_factor
+.category.diseases
+  %h4 Chronic & Other Diseases
+  %ul
+    - chronics = free_text_list_to_array(patient.other_diseases)
+    - chronics.each do |chronic|
+      %li= chronic
+.category.medications
+  %h4 Medications
+  %ul
+    - medications = free_text_list_to_array(patient.medications)
+    - medications.each do |medication|
+      %li= medication
+.category.allergies
+  %h4 Allergies
+  %ul
+    - allergies = free_text_list_to_array(patient.allergies)
+    - allergies.each do |allergy|
+      %li= allergy

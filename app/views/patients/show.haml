@@ -40,29 +40,9 @@
     Medical History
     - if permitted_to? :edit, @patient
       %span.inline_nav= link_to "edit", edit_patient_path(@patient, :anchor => "history")
-  .diseases
-    - if @patient.other_diseases.present?
-      - chronics = free_text_list_to_array(@patient.other_diseases)
-      %h3 Chronic & Other Diseases
-      %ul
-        - chronics.each do |chronic|
-          %li= chronic
-  .medications
-    - if @patient.medications.present?
-      - medications = free_text_list_to_array(@patient.medications)
-      %h3 Medications
-      %ul
-        - medications.each do |medication|
-          %li= medication
-  .allergies
-    - if @patient.allergies.present?
-      - allergies = free_text_list_to_array(@patient.allergies)
-      %h3 Allergies
-      %ul
-        - allergies.each do |allergy|
-          %li= allergy
+  = render :partial => "patients/medical_details", :locals => { :patient => @patient }
 
-/ 
+/
 / .section
 /   %h2= "#{@patient.short_name}'s Operations"
 /   %ul.subnavigation

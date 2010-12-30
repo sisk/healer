@@ -2,5 +2,16 @@
   border: $size $color $type;
 }
 @mixin debug {
-  border: 1px #f00 dotted !important;
+  background-color: #faa !important;
+  /*border: 1px #f00 dotted !important;*/
+}
+@mixin sortable {
+  @include clearfix;
+  padding: 3px;
+  border-bottom: solid 1px $grey-very-light;
+  background-color: $white;
+  margin-bottom: 0;
+  &:hover {
+    cursor: move;
+  }
 }

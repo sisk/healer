@@ -28,11 +28,12 @@
 @import "partials/images";
 @import "partials/tabs";
 
+@import "partials/blueprint_overrides";
+
 @import "partials/patient";
 @import "partials/diagnosis";
 @import "partials/registration";
 @import "partials/schedule";
-@import "partials/sortables";
 
 .hide {
   display: none !important;
