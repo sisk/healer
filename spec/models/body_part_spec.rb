@@ -26,17 +26,16 @@ describe BodyPart, "#mirror" do
     @right_knee = BodyPart.new(:name => "Knee", :side => "R")
     @another_left_knee = BodyPart.new(:name => "Knee", :side => "L")
   end
-  it "returns the bilateral part if one exists" do
-    BodyPart.stub(:all).and_return([@left_knee, @right_knee, @neck])
+  it "returns the bilateral part if one exists in all body parts" do
     @left_knee.stub(:all_body_parts).and_return([@left_knee, @right_knee, @neck])
     @left_knee.mirror.should == @right_knee
   end
   it "returns only one bilateral part if +1 exist" do
-    BodyPart.stub(:all_body_parts).and_return([@left_knee, @right_knee, @another_left_knee])
+    @right_knee.stub(:all_body_parts).and_return([@left_knee, @right_knee, @another_left_knee])
     @right_knee.mirror.should == @left_knee
   end
   it "returns nil if no bilateral part exists" do
-    BodyPart.stub(:all_body_parts).and_return([@left_knee, @neck])
+    @left_knee.stub(:all_body_parts).and_return([@left_knee, @neck])
     @left_knee.mirror.should be_nil
   end
 end
