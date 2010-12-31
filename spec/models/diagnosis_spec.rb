@@ -8,6 +8,7 @@ describe Diagnosis do
   should_have_column :severity, :type => :integer, :default => 0
   should_have_column :assessed_date, :type => :date
   should_have_column :treated, :type => :boolean
+  should_have_column :revision, :type => :boolean
 
   should_belong_to :patient
   should_belong_to :registration

@@ -1,5 +1,5 @@
 - patient = registration.patient
-.registration[registration]{ :class => registration.revision? ? "revision" : "" }
+.registration[registration]
   %h2= "##{registration.id} - #{patient}"
   .patient
     .info
@@ -32,9 +32,6 @@
           = render :partial => "patients/medical_details", :locals => { :patient => patient, :hide => true }
 
   .action
-    - if registration.revision?
-      %p.asterisk (Revision)
-
     - semantic_form_for registration, :remote => true do |f|
       - f.inputs :class => "registration_complexity" do
         - from_time = Time.now

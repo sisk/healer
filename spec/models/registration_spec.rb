@@ -17,7 +17,6 @@ describe Registration do
   should_have_column :schedule_order, :type => :integer
   should_have_column :room_id, :type => :integer
   should_have_column :likely_bilateral, :type => :boolean
-  should_have_column :revision, :type => :boolean
   should_have_column :complexity, :type => :integer
 
   should_belong_to :patient
