@@ -18,9 +18,9 @@
     %li= link_to "Approved (#{@authorized_registrations.size})", "#approved"
     %li= link_to "Waiting (#{@unauthorized_registrations.size})", "#waiting"
   #approved
-    = render :partial => "registrations/sortable/column", :collection => @authorized_registrations, :as => :registration
+    = render :partial => "registrations/summary/record", :collection => @authorized_registrations, :as => :registration
   #waiting
-    = render :partial => "registrations/sortable/column", :collection => @unauthorized_registrations, :as => :registration
+    = render :partial => "registrations/summary/record", :collection => @unauthorized_registrations, :as => :registration
 
 - content_for :script do
   = javascript_include_tag "lib/jquery.fancybox.overrides"
