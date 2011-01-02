@@ -35,6 +35,11 @@ class Trip < ActiveRecord::Base
     return country_name
   end
   
+  def daily_complexity_units
+    return 0 if [complexity_minutes, daily_hours].any?{ |i| i.blank? }
+    (60/complexity_minutes) * daily_hours
+  end
+  
 end
 
 # == Schema Information

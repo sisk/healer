@@ -7,6 +7,7 @@ describe Trip do
   should_have_column :city, :type => :string
   should_have_column :facility_id, :type => :integer
   should_have_column :complexity_minutes, :type => :integer
+  should_have_column :daily_hours, :type => :integer
   should_validate_presence_of :country
   should_have_and_belong_to_many :staff
   should_belong_to :facility
@@ -53,6 +54,19 @@ describe Trip, "#destination" do
     it "returns the city and country concatenated with a comma" do
       @trip.destination.should == "Moscow, Russia"
     end
+  end
+end
+
+describe Trip, "#daily_complexity_units" do
+  it "returns the correct product of complexity minutes and daily hours" do
+    Trip.new(:complexity_minutes => 30, :daily_hours => 8).daily_complexity_units.should == 16
+    Trip.new(:complexity_minutes => 15, :daily_hours => 1).daily_complexity_units.should == 4
+  end
+  it "is zero if complexity_minutes is blank" do
+    Trip.new(:complexity_minutes => nil, :daily_hours => 8).daily_complexity_units.should == 0
+  end
+  it "is zero if daily_hours is blank" do
+    Trip.new(:complexity_minutes => 30, :daily_hours => nil).daily_complexity_units.should == 0
   end
 end
 
