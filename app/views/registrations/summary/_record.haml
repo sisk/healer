@@ -3,7 +3,7 @@
   %h2= "##{registration.id} - #{patient}"
   .patient
     .info
-      = render :partial => "registrations/sortable/patient", :locals => { :patient => patient }
+      = render :partial => "registrations/summary/patient", :locals => { :patient => patient }
     .diagnoses
       %h3 Diagnoses
       -# show a list of up to 3 individual diagnoses. link-off to patient/show if longer.
@@ -23,4 +23,4 @@
           = render :partial => "patients/medical_details", :locals => { :patient => patient, :hide => true }
 
   .action
-    = render :partial => "registrations/sortable/action", :locals => { :registration => registration }
+    = render :partial => "registrations/summary/action", :locals => { :registration => registration }
