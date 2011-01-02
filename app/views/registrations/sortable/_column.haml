@@ -1,0 +1,26 @@
+- patient = registration.patient
+.registration[registration]
+  %h2= "##{registration.id} - #{patient}"
+  .patient
+    .info
+      = render :partial => "registrations/sortable/patient", :locals => { :patient => patient }
+    .diagnoses
+      %h3 Diagnoses
+      -# show a list of up to 3 individual diagnoses. link-off to patient/show if longer.
+      - for i in 0..registration.diagnoses.size - 1 do
+        - diagnosis = registration.diagnoses[i]
+        - break if i > 2
+
+        = render :partial => "diagnoses/editable_snapshot", :locals => { :diagnosis => diagnosis }
+        -# TODO investigate how this view renders out when > 3 xrays exist.
+
+      - if registration.diagnoses.size > 3
+        = link_to "+ #{registration.diagnoses.size - 3} more", patient_path(patient), :class => "more"
+    - if patient.has_medical_detail?
+      .medical_details.supplemental
+        %p.fake_link.toggle= "Toggle full detail"
+        .details{ :style => "display: none;" }
+          = render :partial => "patients/medical_details", :locals => { :patient => patient, :hide => true }
+
+  .action
+    = render :partial => "registrations/sortable/action", :locals => { :registration => registration }

@@ -1,0 +1,10 @@
+= patient_image(patient, :small)
+%dl.demographic
+  %dt Gender:
+  %dd= patient_gender(patient)
+  %dt Birth:
+  %dd= birth_date_and_age(patient)
+  %dt Height:
+  %dd= "#{patient_height(patient, false)} (#{patient_height(patient, true)})"
+  %dt Weight:
+  %dd= "#{patient_weight(patient, false)} (#{patient_weight(patient, true)})"
