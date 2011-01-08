@@ -25,8 +25,8 @@ class Registration < ActiveRecord::Base
 
   delegate :complexity_minutes, :to => :trip
 
-  scope :authorized, :conditions => [ "registrations.approved_at is not ?", nil ]
-  scope :unauthorized, :conditions => [ "registrations.approved_at is ?", nil ]
+  scope :authorized, where("registrations.approved_at is not ?", nil)
+  scope :unauthorized, where("registrations.approved_at is ?", nil)
   scope :search, Proc.new { |term|
     query = term.strip.gsub(',', '')
     first_last = query.split(" ")
@@ -39,11 +39,11 @@ class Registration < ActiveRecord::Base
       end
     end
   }
-  scope :unscheduled, :conditions => [ "registrations.room_id is ?", nil ]
+  scope :unscheduled, where("registrations.room_id is ?", nil)
+  scope :scheduled, where("registrations.room_id is not ?", nil)
 
-  scope :room_id, lambda { |room_id|
-    { :conditions => ["registrations.room_id = ?",room_id ] } if room_id.present?
-  }
+  scope :room, lambda { |room_id| where("registrations.room_id = ?",room_id) if room_id.present? }
+  scope :day, lambda { |num| where("registrations.scheduled_day = ?",num) if num.present? }
 
   before_save :set_bilateral
 

@@ -42,14 +42,12 @@ class Operation < ActiveRecord::Base
   accepts_nested_attributes_for :hip_implant
   accepts_nested_attributes_for :patient
 
-  scope :trip_id, lambda { |trip_id|
+
+  scope :trip, lambda { |trip_id|
     { :include => :registration, :conditions => ["registrations.trip_id = ?",trip_id ] } if trip_id.present?
   }
-  scope :room_id, lambda { |room_id|
-    { :conditions => ["operations.room_id = ?",room_id ] } if room_id.present?
-  }
-  scope :incomplete, :conditions => [ "operations.end is ?", nil ]  
-  scope :complete, :conditions => [ "operations.end is not ?", nil ]  
+  scope :incomplete, where("operations.end is ?", nil)
+  scope :complete, where("operations.end is not ?", nil)
 
   delegate :location, :location=, :to => :registration  
 

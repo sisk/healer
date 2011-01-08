@@ -20,12 +20,12 @@ class ScheduleController < ApplicationController
     Registration.update_all("room_id = '#{params[:room_id]}'", :id => registration_ids)
     Registration.order(registration_ids)
 
-    room_registrations = @trip.registrations.room_id(params[:room_id].to_s)
+    room_registrations = @trip.registrations.room(params[:room_id].to_s)
     @trip.reload
 
     respond_to do |format|
       format.json {
-        registrations_json = @trip.registrations.authorized.room_id(params[:room_id].to_s).to_json
+        registrations_json = @trip.registrations.authorized.room(params[:room_id].to_s).to_json
         render :text => "{\"registrations\" : #{registrations_json}}"
       }
     end
