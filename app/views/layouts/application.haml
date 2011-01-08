@@ -3,9 +3,7 @@
   %head
     %meta{ :content => "text/html;charset=utf-8", "http-equiv" => "Content-Type" }
     = csrf_meta_tag
-    = include_stylesheets "common", "screen", "print"
-    /[if lt IE 8]
-      = include_stylesheets "ie"
+    = render :partial => "layouts/shared/default_css"
     = yield :head
     %title<
       Healer
@@ -26,5 +24,5 @@
         = yield :subnavigation
         = render :partial => "layouts/shared/alerts"
         = yield
-    = include_javascripts "lib", "healer"
+    = render :partial => "layouts/shared/default_javascript"
     = yield :script
