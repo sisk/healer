@@ -30,6 +30,7 @@ group :development, :test do
   gem "rspec-rails", ">= 2.0.0.beta.17"
   gem "remarkable_activerecord", ">= 4.0.0.alpha4"
   gem "factory_girl_rails"
+  gem "newrelic_rpm"
 end
 
 # Use unicorn as the web server
