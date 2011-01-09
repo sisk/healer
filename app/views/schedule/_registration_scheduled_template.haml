@@ -1,0 +1,14 @@
+{{#registrations}}
+.registration.sortable{ :id => "registration_{{id}}" }
+  .patient
+    %h3 {{patient}}
+    %p Registration {{id}}
+  .procedure
+    /
+      .unschedule= link_to_function "Unschedule", ""
+    .part {{body_parts}}
+{{/registrations}}
+{{^registrations}}
+.registration
+  %span.no-results No registrations found.
+{{/registrations}}

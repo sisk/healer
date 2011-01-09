@@ -62,7 +62,7 @@ class Registration < ActiveRecord::Base
       :photo => self.patient.displayed_photo(:tiny),
       :patient => self.patient.to_s,
       :location => self.location,
-      :body_parts => self.diagnoses.map(&:body_part).map(&:to_s).join(", "),
+      :body_parts => self.body_part_list,
       :class => (self.likely_bilateral? ? "bilateral" : "")
     }
   end
@@ -105,6 +105,26 @@ class Registration < ActiveRecord::Base
   def bilateral_diagnosis?
     return false if diagnoses.empty?
     return diagnoses.any?{ |diagnosis| diagnosis.has_mirror? }
+  end
+
+  
+  def body_part_list
+    if likely_bilateral?
+      body_parts = diagnoses.map(&:body_part)
+      body_part_names = body_parts.map(&:name)
+      # part_counts = body_parts.map(&:name).inject(Hash.new(0)) {|h,x| h[x]+=1;h}
+      p = []
+      body_parts.each do |body_part|
+        if body_part_names.count(body_part.name) > 1
+          p << body_part.name + " (Bilateral)"
+        else
+          p << body_part.to_s
+        end
+      end
+      return p.uniq.join(", ")
+    else
+      diagnoses.map(&:body_part).map(&:to_s).join(", ")
+    end
   end
 
 private

@@ -1,0 +1,7 @@
+.demographic
+  %h3= registration.patient
+  %p= "Registration #{registration.id}"
+.medical
+  .part= registration.body_part_list
+  /
+    .xray= link_to_function "Review x-ray", ""

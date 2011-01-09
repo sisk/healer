@@ -1,0 +1,14 @@
+{{#registrations}}
+.registration.sortable{ :id => "registration_{{id}}" }
+  .demographic
+    %h3 {{patient}}
+    %p Registration {{id}}
+  .medical
+    .part {{body_parts}}
+    /
+      .xray= link_to_function "Review x-ray", ""
+{{/registrations}}
+{{^registrations}}
+.registration
+  %span.no-results No registrations found.
+{{/registrations}}

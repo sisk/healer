@@ -3,48 +3,48 @@
 
 %ul#room_toggle
   %li.header Show:
-  %li#show_unscheduled.hide= link_to_function 'Unscheduled', "$('#unscheduled').closest('.wrapper').toggle(); $('#unscheduled').closest('.wrapper').toggleClass('hide'); $('#show_unscheduled').addClass('hide');"
   - @rooms.each do |room|
-    %li{ :id => "show_#{dom_id(room)}" }= link_to_function room, "$('##{dom_id(room)}').closest('.wrapper').toggle(); $('##{dom_id(room)}').closest('.wrapper').toggleClass('hide'); $('#show_#{dom_id(room)}').addClass('hide')"
-    
+    %li{ :id => "show_#{dom_id(room)}" }= link_to_function room, "$('#schedule').find('.#{dom_id(room)}').removeClass('hide'); $(this).closest('li').addClass('hide');"
+
 #schedule_edit
-  .wrapper.visible
+
+  #source
     .header
-      %h2 Unscheduled
-      %p= link_to_function 'hide', "$(this).closest('.wrapper').addClass('hide'); $('#show_unscheduled').toggleClass('hide');"
+      %h2= "Unscheduled (#{@to_schedule.size})"
     #unscheduled.registrations.connectedSortable
-      - @unscheduled.each do |registration|
-        .sortable[registration]= render :partial => "registrations/registration_snapshot", :locals => { :registration => registration }
-  - @rooms.each do |room|
-    .wrapper.hide
-      .header
-        %h2= room
-        %p= link_to_function 'hide', "$(this).closest('.wrapper').addClass('hide'); $('#show_#{dom_id(room)}').toggleClass('hide');"
-      .room.connectedSortable[room]
-        - @trip.registrations.room_id(room.id).each do |registration|
-          .sortable[registration]= render :partial => "registrations/registration_snapshot", :locals => { :registration => registration }
+      - @to_schedule.each do |registration|
+        .sortable[registration]
+          = render :partial => "schedule/registration_unscheduled", :locals => { :registration => registration }
+
+  %table#schedule
+    %thead
+      %tr
+      %th &nbsp;
+      - @rooms.each do |room|
+        %th{ :id => "#{dom_id(room)}_header", :class => "#{dom_id(room)} hide" }
+          = room
+          %span.fake_link.toggle
+            = link_to_function "hide", "$('#show_#{dom_id(room)}').removeClass('hide'); $('#schedule').find('.#{dom_id(room)}').addClass('hide');"
+    %tbody
+      - @number_of_days.times do |i|
+        - day_num = i + 1
+        %tr.day
+          %td.indicator
+            = "Day #{day_num}"
+          - @rooms.each do |room|
+            - registrations = @trip.registrations.room(room.id).day(day_num)
+            %td{ :class => "day_#{day_num} #{dom_id(room)} hide" }
+              .room.connectedSortable{ :class => "day_#{day_num} #{dom_id(room)}", :id => "day_#{day_num}_#{dom_id(room)}" }
+                - registrations.each do |registration|
+                  .sortable[registration]
+                    = render :partial => "schedule/registration_scheduled", :locals => { :registration => registration }
+
+- content_for :script do
+  %script{ :type => "text/html", :name => "registration_unscheduled_template"}
+    = render :partial => "schedule/registration_unscheduled_template"
   
+  %script{ :type => "text/html", :name => "registration_scheduled_template"}
+    = render :partial => "schedule/registration_scheduled_template"
+
 - content_for :script do
   = javascript_include_tag "lib/schedule.js"
-      
-- content_for :script do
-  %script{ :type => "text/html", :name => "registration_snapshot_template"}
-    {{#registrations}}
-    .registration.sortable{ :id => "registration_{{id}}" }
-      .registration.snapshot{ :class => "{{class}}" }
-        .details
-          %h3 {{patient}}
-          %dl
-            %dt Body Part(s)
-            %dd {{body_parts}}
-            {{#location}}
-            %dt Location
-            %dd {{location}}
-            {{/location}}
-            %dt Registration #
-            %dd {{id}}
-    {{/registrations}}
-    {{^registrations}}
-    .registration
-      %span.no-results No registrations found.
-    {{/registrations}}

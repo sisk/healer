@@ -1,7 +1,5 @@
 $(document).ready(function() {
 
-  markBilateral();
-
   $(".room.connectedSortable").sortable({
     items: ".sortable",
     placeholder: "registration_order_placeholder",
@@ -9,59 +7,89 @@ $(document).ready(function() {
     opacity: 0.7,
     helper: "clone",
     cursor: "move",
+    receive: function(event, ui) {
+      // stop moved items from re-rendering in the source column
+      ui.sender.find("#"+ui.item.attr("id")).remove();
+      //alert("sender:" + ui.sender.attr("id"));
+    },
     update: function(event, ui) {
-      var enclosure, room_id, params, template, url, item_id;
+      var enclosure, room_id, day_num, params, template, url, item_id;
       item_id = ui.item.attr("id");
       enclosure = $(this).closest(".room");
-      room_id = $(this).closest(".room").attr("id").match(/[^room_].*/);
-      params = enclosure.sortable("serialize") + "&room_id=" + room_id;
-      template = Handlebars.compile($("script[name=registration_snapshot_template]").html());
+      
+      room_id = $(this).closest(".room").attr("class").match(/room_(\d+)/)[1];
+      day_num = $(this).closest(".room").attr("class").match(/day_(\d+)/)[1];
+      
+      params = enclosure.sortable("serialize") + "&room_id=" + room_id + "&day=" + day_num;
+      template = Handlebars.compile($("script[name=registration_scheduled_template]").html());
       //url = "/trips/#{@trip.id}/schedule/sort_room.json";
       url = "/trips/1/schedule/sort_room.json";
+
+      // alert("updating room: " + room_id + ", day: " + day_num);
+      enclosure.html('<img class="ajax_loader" src="/images/ajax-loader.gif" />');
+
       $.getJSON(url, params, function(data) {
         enclosure.html(template(data));
-
-        // ugly hack to stop moved items from re-rendering in the source column
         if (ui.sender) {
-          ui.sender.find("#"+ui.item.attr("id")).remove();
+          // alert("there was a sender:" + ui.sender.attr("id"));
+          // stop moved items from re-rendering in the source column
         }
-        markBilateral();
       });
       $("#"+item_id).flash();
     }
   }).disableSelection();
 
-  $("#unscheduled.connectedSortable").sortable({
+  $("#unscheduled").sortable({
     items: ".sortable",
     placeholder: "registration_order_placeholder",
     connectWith: ".connectedSortable",
     opacity: 0.7,
     helper: "clone",
     cursor: "move",
+    receive: function(event, ui) {
+      // stop moved items from re-rendering in the source column
+      ui.sender.find("#"+ui.item.attr("id")).remove();
+      //alert("sender:" + ui.sender.attr("id"));
+    },
     update: function(event, ui) {
       var enclosure, params, template, url, item_id;
       item_id = ui.item.attr("id");
       enclosure = $(this).closest(".registrations");
       params = enclosure.sortable("serialize");
-      template = Handlebars.compile($("script[name=registration_snapshot_template]").html());
+
+      // alert("updating unscheduled");
+      enclosure.html('<img class="ajax_loader" src="/images/ajax-loader.gif" />');
+
+      template = Handlebars.compile($("script[name=registration_unscheduled_template]").html());
       //url = "/trips/#{@trip.id}/schedule/sort_unscheduled.json";
       url = "/trips/1/schedule/sort_unscheduled.json";
       $.getJSON(url, params, function(data) {
         enclosure.html(template(data));
-
-        // ugly hack to stop moved items from re-rendering in the source column
         if (ui.sender) {
+          // stop moved items from re-rendering in the source column
           ui.sender.find("#"+ui.item.attr("id")).remove();
         }
-        markBilateral();
       });
+
       $("#"+item_id).flash();
     }
   }).disableSelection();
 
-  function markBilateral() {
-    $(".registration.bilateral").find("span.asterisk").remove();
-    $(".registration.bilateral h3").append('<span class="asterisk">[bilateral]</span>');
-  }
+  /*
+  $(".registration").find(".unschedule").live("click", function(event) {
+    var registration, enclosure, loader;
+    loader = '<img class="ajax_loader" src="/images/ajax-loader.gif" />';
+    registration = $(this).closest(".registration");
+    enclosure = $(this).closest(".room");
+    $("#unscheduled").html(loader);
+    enclosure.html(loader);
+    
+    unscheduled_template = Handlebars.compile($("script[name=registration_unscheduled_template]").html());
+    scheduled_template = Handlebars.compile($("script[name=registration_scheduled_template]").html());
+    
 
+    alert("un:" + registration.attr("id"));
+    event.preventDefault();
+  });
+  */
 });

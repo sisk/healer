@@ -1,0 +1,50 @@
+- content_for :title do
+  = "#{@trip} - Edit Schedule"
+
+%ul#room_toggle
+  %li.header Show:
+  %li#show_unscheduled.hide= link_to_function 'Unscheduled', "$('#unscheduled').closest('.wrapper').toggle(); $('#unscheduled').closest('.wrapper').toggleClass('hide'); $('#show_unscheduled').addClass('hide');"
+  - @rooms.each do |room|
+    %li{ :id => "show_#{dom_id(room)}" }= link_to_function room, "$('##{dom_id(room)}').closest('.wrapper').toggle(); $('##{dom_id(room)}').closest('.wrapper').toggleClass('hide'); $('#show_#{dom_id(room)}').addClass('hide')"
+    
+#schedule_edit
+  .wrapper.visible
+    .header
+      %h2 Unscheduled
+      %p= link_to_function 'hide', "$(this).closest('.wrapper').addClass('hide'); $('#show_unscheduled').toggleClass('hide');"
+    #unscheduled.registrations.connectedSortable
+      - @unscheduled.each do |registration|
+        .sortable[registration]= render :partial => "registrations/registration_snapshot", :locals => { :registration => registration }
+  - @rooms.each do |room|
+    .wrapper.hide
+      .header
+        %h2= room
+        %p= link_to_function 'hide', "$(this).closest('.wrapper').addClass('hide'); $('#show_#{dom_id(room)}').toggleClass('hide');"
+      .room.connectedSortable[room]
+        - @trip.registrations.room(room.id).each do |registration|
+          .sortable[registration]= render :partial => "registrations/registration_snapshot", :locals => { :registration => registration }
+  
+- content_for :script do
+  = javascript_include_tag "lib/schedule.js"
+      
+- content_for :script do
+  %script{ :type => "text/html", :name => "registration_snapshot_template"}
+    {{#registrations}}
+    .registration.sortable{ :id => "registration_{{id}}" }
+      .registration.snapshot{ :class => "{{class}}" }
+        .details
+          %h3 {{patient}}
+          %dl
+            %dt Body Part(s)
+            %dd {{body_parts}}
+            {{#location}}
+            %dt Location
+            %dd {{location}}
+            {{/location}}
+            %dt Registration #
+            %dd {{id}}
+    {{/registrations}}
+    {{^registrations}}
+    .registration
+      %span.no-results No registrations found.
+    {{/registrations}}
