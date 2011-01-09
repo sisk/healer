@@ -44,6 +44,7 @@ class Registration < ActiveRecord::Base
 
   scope :room, lambda { |room_id| where("registrations.room_id = ?",room_id) if room_id.present? }
   scope :day, lambda { |num| where("registrations.scheduled_day = ?",num) if num.present? }
+  scope :no_day, where("registrations.scheduled_day = ?",0)
 
   before_save :set_bilateral
 
@@ -94,6 +95,7 @@ class Registration < ActiveRecord::Base
   end
 
   def self.order(ids)
+    return if ids.blank?
     update_all(
       ['schedule_order = FIND_IN_SET(id, ?)', ids.join(',')],
       { :id => ids }
