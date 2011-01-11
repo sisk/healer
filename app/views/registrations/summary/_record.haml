@@ -7,15 +7,16 @@
     .diagnoses
       %h3 Diagnoses
       -# show a list of up to 3 individual diagnoses. link-off to patient/show if longer.
-      - for i in 0..registration.diagnoses.size - 1 do
-        - diagnosis = registration.diagnoses[i]
+      - diagnoses = registration.authorized? ? registration.diagnoses : registration.patient.diagnoses
+      - for i in 0..diagnoses.size - 1 do
+        - diagnosis = diagnoses[i]
         - break if i > 2
 
         = render :partial => "diagnoses/editable_snapshot", :locals => { :diagnosis => diagnosis }
         -# TODO investigate how this view renders out when > 3 xrays exist.
 
-      - if registration.diagnoses.size > 3
-        = link_to "+ #{registration.diagnoses.size - 3} more", patient_path(patient), :class => "more"
+      - if diagnoses.size > 3
+        = link_to "+ #{diagnoses.size - 3} more", patient_path(patient), :class => "more"
     - if patient.has_medical_detail?
       .medical_details.supplemental
         %p.fake_link.toggle= "Toggle full detail"

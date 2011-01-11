@@ -62,9 +62,12 @@
 }
 
 .review_diagnosis {
-  .xrays { @include column(6); }
+  .xrays {
+    @include float-left;
+    margin-right: $margin-increment * 2;
+  }
   form {
-    @include column(12,true);
+    @include float-left;
     ol { padding-left: 0; }
   }
 }
