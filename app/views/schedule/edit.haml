@@ -11,6 +11,8 @@
   #source
     .header
       %h2= "Unscheduled (#{@to_schedule.size})"
+      = label_tag :filter, "Filter"
+      = text_field_tag :filter, nil, :id => "unscheduled_filter"
     #unscheduled.registrations.connectedSortable
       - @to_schedule.each do |registration|
         .sortable[registration]

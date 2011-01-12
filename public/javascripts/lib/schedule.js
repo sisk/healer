@@ -1,3 +1,8 @@
+jQuery.expr[':'].contains = function(a,i,m){
+  // override jQuery.contains for case-insensitivity
+  return $(a).text().toUpperCase().indexOf(m[3].toUpperCase())>=0;
+};
+
 $(document).ready(function() {
 
   $(".room.connectedSortable").sortable({
@@ -75,6 +80,15 @@ $(document).ready(function() {
     }
   }).disableSelection();
 
+  $("#unscheduled_filter").keyup(function(){
+    var query;
+    query = $(this).val();
+    $("#source .registration").hide();
+    $("#source .registration:contains('"+query+"')").show();
+    //$("#generated_fld").val($(this).val()).keyup();
+    // $("div:contains('John')")
+  });
+     
   /*
   $(".registration").find(".unschedule").live("click", function(event) {
     var registration, enclosure, loader;
