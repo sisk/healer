@@ -17,10 +17,10 @@
   %h2 Manage
   - semantic_form_for @registration do |f|
     - f.inputs do
-      = f.input :status, :as => :select, :collection => Registration::possible_statuses
-      = f.input :location
-      = f.input :checkin_at, :as => :datepicker, :label => "Check In"
-      = f.input :checkout_at, :as => :datepicker, :label => "Check Out"
+      =# f.input :status, :as => :select, :collection => Registration::possible_statuses
+      =# f.input :location
+      =# f.input :checkin_at, :as => :datepicker, :label => "Check In"
+      =# f.input :checkout_at, :as => :datepicker, :label => "Check Out"
     - f.inputs do
       - from_time = Time.now
       = f.input :complexity, :as => :select, :collection => Registration::complexity_units.map{ |cu| [distance_of_time_in_words(from_time, from_time + (@registration.complexity_minutes * cu.to_i).to_i.minutes, false, { :two_words_connector => ", " }), cu] }
