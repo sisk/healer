@@ -2,7 +2,7 @@ class ScheduleController < ApplicationController
   before_filter :authenticate_user!, :setup_trip
 
   def edit
-    @to_schedule = (@trip.registrations.authorized.unscheduled + @trip.registrations.authorized.no_day).uniq
+    @to_schedule = @trip.registrations.authorized.unscheduled
     @rooms = @trip.try(:facility).try(:rooms) || []
     @number_of_days = @trip.number_of_operation_days || 0
   end
@@ -23,7 +23,10 @@ class ScheduleController < ApplicationController
     registration_ids = params[:registration.to_s]
 
     Registration.update_all("room_id = #{params[:room_id].to_i}, scheduled_day = #{params[:day].to_i}", :id => registration_ids )
-    Registration.order(registration_ids)
+
+    params[:registration].each_with_index do |id, index|
+      Registration.update_all(['schedule_order = ?', index + 1], ['id = ?', id])
+    end
 
     @trip.reload
 
@@ -39,7 +42,9 @@ class ScheduleController < ApplicationController
     # registration_ids passed here should become "unscheduled"
     registration_ids = params[:registration.to_s]
     Registration.update_all({:status => 'Unscheduled', :room_id => nil, :scheduled_day => 0}, :id => registration_ids)
-    Registration.order(registration_ids)
+    params[:registration].each_with_index do |id, index|
+      Registration.update_all(['schedule_order = ?', index + 1], ['id = ?', id])
+    end
 
     registrations = Registration.find(registration_ids)
 

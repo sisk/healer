@@ -39,8 +39,8 @@ class Registration < ActiveRecord::Base
       end
     end
   }
-  scope :unscheduled, where("registrations.room_id is ?", nil)
-  scope :scheduled, where("registrations.room_id is not ?", nil)
+  scope :unscheduled, where("registrations.room_id is ? or registrations.scheduled_day = ?", nil, 0)
+  scope :scheduled, where("registrations.room_id is not ? and registrations.scheduled_day != ?", nil, 0)
 
   scope :room, lambda { |room_id| where("registrations.room_id = ?",room_id) if room_id.present? }
   scope :day, lambda { |num| where("registrations.scheduled_day = ?",num) if num.present? }
@@ -94,6 +94,7 @@ class Registration < ActiveRecord::Base
     self.status = "Unscheduled"
   end
 
+  # This only works for MySQL...and ergo not Heroku
   def self.order(ids)
     return if ids.blank?
     update_all(
