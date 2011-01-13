@@ -5,7 +5,7 @@
     - if permitted_to? :create, Registration.new(:trip => @trip)
       %li= link_to "Add registration", new_trip_registration_path(@trip)
     -# if permitted_to? (TODO: edit schedule auth mechanism)
-    %li= link_to "Edit schedule", edit_trip_schedule_path(@trip)
+    %li= link_to "Schedule", trip_schedule_path(@trip)
 .list_nav
   - form_tag(trip_registrations_path(@trip), {:method => :get, :class => "list_search"}) do
     = label_tag :search, "Search"

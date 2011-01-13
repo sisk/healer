@@ -67,26 +67,18 @@
     border-bottom: solid 1px $grey-light;
   }
 }
-table#schedule {
+table.schedule {
   @include border-radius(6px);
-  overflow: auto;
   th {
     background-color: $grey-dark;
     color: $white;
-    a {
-      color: $grey-very-light;
-    }
+    a { color: $grey-very-light; }
   }
-  @include column($blueprint-grid-columns - 8, true);
   tr.day {
-    td {
-      border-bottom: solid 2px $grey-dark;
-    }
+    td { border-bottom: solid 2px $grey-dark; }
   }
   td {
-    h3 {
-      font-size: 1.1em;
-    }
+    h3 { font-size: 1.1em; }
     vertical-align: top;
     border-left: solid 1px $grey-very-light;
     &.indicator {
@@ -96,6 +88,16 @@ table#schedule {
       white-space: nowrap;
     }
     white-space: nowrap;
+    .registration {
+      margin-bottom: $margin-increment;
+      p { margin: 0px; }
+    } 
+  }
+}
+table#schedule {
+  overflow: auto;
+  @include column($blueprint-grid-columns - 8, true);
+  td {
     .patient, .procedure { white-space: normal; }
     .patient {
       @include column(3);
