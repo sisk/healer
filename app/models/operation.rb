@@ -71,15 +71,6 @@ class Operation < ActiveRecord::Base
       self.implant = Implant.new(:operation => self, :body_part => self.body_part)
     end
   end
-
-  def self.order_schedule(registration_ids,trip_id,room_id)
-    logger.debug("\n\n\nORDER\n\n\n")
-    
-    # update_all(
-    #   ['schedule_order = FIND_IN_SET(id, ?)', registration_ids.join(',')],
-    #   { :id => registration_ids }
-    # )
-  end
   
   private
   

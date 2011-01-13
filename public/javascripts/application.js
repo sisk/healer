@@ -11,7 +11,11 @@ $(document).ready(function() {
     containment:'parent',
     axis:'y',
     update: function() {
-      $.post('/diseases/sort', '_method=put&authenticity_token=meta[name=csrf-token]&'+$(this).sortable('serialize'));
+      $.ajax({
+        url: '/diseases/sort',
+        data: 'authenticity_token=meta[name=csrf-token]&'+$(this).sortable('serialize'),
+        type: 'PUT'
+      });
     }
   });
   $('#risk_list').sortable({
@@ -19,7 +23,11 @@ $(document).ready(function() {
     containment:'parent',
     axis:'y',
     update: function() {
-      $.post('/risks/sort', '_method=put&authenticity_token=meta[name=csrf-token]&'+$(this).sortable('serialize'));
+      $.ajax({
+        url: '/risks/sort',
+        data: 'authenticity_token=meta[name=csrf-token]&'+$(this).sortable('serialize'),
+        type: 'PUT'
+      });
     }
   });
   $('#procedure_list').sortable({
@@ -27,7 +35,11 @@ $(document).ready(function() {
     containment:'parent',
     axis:'y',
     update: function() {
-      $.post('/procedures/sort', '_method=put&authenticity_token=meta[name=csrf-token]&'+$(this).sortable('serialize'));
+      $.ajax({
+        url: '/procedures/sort',
+        data: 'authenticity_token=meta[name=csrf-token]&'+$(this).sortable('serialize'),
+        type: 'PUT'
+      });
     }
   });
 

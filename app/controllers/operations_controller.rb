@@ -1,6 +1,7 @@
 class OperationsController < InheritedResources::Base
   respond_to :html, :xml, :json
   belongs_to :trip
+  filter_resource_access
 
   def index
     index! do |format|
@@ -18,13 +19,6 @@ class OperationsController < InheritedResources::Base
     update! { patient_path(@patient) }
   end
 
-  def sort
-    #  called via Ajax when sorting in UI
-    order = params[:operation]
-    Operation.order(order)
-    render :nothing => true
-  end
-  
   private
   
   def build_resource 

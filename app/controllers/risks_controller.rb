@@ -1,17 +1,21 @@
 class RisksController < InheritedResources::Base
+  actions :all, :except => [ :sort ]
   before_filter :authenticate_user!
-  filter_resource_access
+  filter_resource_access :collection => :sort
+
   def create
     create! { risks_path }
   end
+
   def update
     update! { risks_path }
   end
+
   def sort
-    # FIXME something is busted here.
-    #  called via Ajax when sorting in UI
-    order = params[:risk]
-    Risk.order(order)
+    params[:risk].each_with_index do |id, index|
+      Risk.update_all(['display_order = ?', index + 1], ['id = ?', id.to_i])
+    end
     render :nothing => true
   end
+
 end

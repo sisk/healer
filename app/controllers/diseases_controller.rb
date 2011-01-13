@@ -1,19 +1,21 @@
 class DiseasesController < InheritedResources::Base
-  # actions :all, :except => [ :sort ]
+  actions :all, :except => [ :sort ]
   before_filter :authenticate_user!
-  filter_resource_access
+  filter_resource_access :collection => :sort
+
   def create
     create! { diseases_path }
   end
+
   def update
     update! { diseases_path }
   end
+
   def sort
-    # FIXME something is busted here. inherited_resources exception above doesn't sem to solve it.
-    #  called via Ajax when sorting in UI
-    logger.debug("-------------------XXXXXXXXXXXXX--------------------")
-    order = params[:disease]
-    Disease.order(order)
+    params[:disease].each_with_index do |id, index|
+      Disease.update_all(['display_order = ?', index + 1], ['id = ?', id.to_i])
+    end
     render :nothing => true
   end
+
 end
