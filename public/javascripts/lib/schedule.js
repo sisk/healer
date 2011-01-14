@@ -61,11 +61,11 @@ $(document).ready(function() {
     // $("div:contains('John')")
   });
   
-  $("#schedule .unschedule").live("click", function() {
-    var registration;
-    registration = $(this).closest(".registration");
-    alert(registration.attr("id"));
-  });
+  // $("#schedule .unschedule").live("click", function() {
+  //   var registration;
+  //   registration = $(this).closest(".registration");
+  //   alert(registration.attr("id"));
+  // });
      
   /*
   $(".registration").find(".unschedule").live("click", function(event) {
