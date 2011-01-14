@@ -100,6 +100,9 @@ table#schedule {
     .procedure {
       @include column(2,true);
     }
+    .registration {
+      padding-bottom: $margin-increment;
+    }
   }
   .room {
    @include min-height(50px); 
@@ -107,8 +110,7 @@ table#schedule {
 }
 table#show_schedule {
   .registration {
-    /*border-bottom: solid 1px $grey-very-light;*/
-    padding-bottom: $margin-increment;
+    border-bottom: solid 1px $grey-very-light;
     .body_part {
       color: $grey-medium;
       font-weight: bold;
