@@ -5,9 +5,9 @@
     %li= link_to @trip, trip_path(@trip)
     %li= link_to "Edit Schedule", edit_trip_schedule_path(@trip)
 
-%table.schedule
+%table.schedule#show_schedule
   %thead
-    %th Day
+    %th
     - @rooms.each do |room|
       %th= room
   %tbody
@@ -19,7 +19,8 @@
         - @rooms.each do |room|
           - registrations = @trip.registrations.room(room.id).day(day_num)
           %td{ :class => "day_#{day_num} #{dom_id(room)}" }
-            - registrations.each do |registration|
-              .registration
-                %p= registration.patient
-                %p= registration.body_part_list
+            %ol.registrations
+              - registrations.each do |registration|
+                %li.registration
+                  %p= registration.patient
+                  %p.body_part= registration.body_part_list

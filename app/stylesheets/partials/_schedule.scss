@@ -69,11 +69,6 @@
 }
 table.schedule {
   @include border-radius(6px);
-  th {
-    background-color: $grey-dark;
-    color: $white;
-    a { color: $grey-very-light; }
-  }
   tr.day {
     td { border-bottom: solid 2px $grey-dark; }
   }
@@ -108,6 +103,16 @@ table#schedule {
   }
   .room {
    @include min-height(50px); 
+  }
+}
+table#show_schedule {
+  .registration {
+    /*border-bottom: solid 1px $grey-very-light;*/
+    padding-bottom: $margin-increment;
+    .body_part {
+      color: $grey-medium;
+      font-weight: bold;
+    }
   }
 }
 
