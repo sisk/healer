@@ -60,7 +60,9 @@ Healer::Application.routes.draw do
     resources :xrays
     resource :implant
   end
-  resources :registrations
+  resources :registrations do
+    resources :operations
+  end
 
   resources :facilities do
     resources :rooms

@@ -9,7 +9,7 @@
   %thead
     %th
     - @rooms.each do |room|
-      %th= room
+      %th= "#{room} #{link_to "room schedule", trip_schedule_path(@trip, :room => room.id)}".html_safe
   %tbody
     - @number_of_days.times do |i|
       - day_num = i + 1

@@ -62,3 +62,12 @@
     }
   }
 }
+
+#room_registrations {
+  .registration {
+    @include clearfix;
+    @include showgrid;
+    border-bottom: solid 1px $grey-very-light;
+    margin-bottom: $margin-increment;
+  }
+}

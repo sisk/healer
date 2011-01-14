@@ -1,0 +1,9 @@
+.registration
+  = patient_image(registration.patient)
+  %h3= registration.patient
+  %p.body_part= registration.body_part_list
+  %ul
+    - if registration.operations.empty?
+      %li= link_to "Add Operation", new_registration_operation_path(registration)
+    - else
+      %li= link_to "Edit Operation", registration_operation_path(registration.operations.first)

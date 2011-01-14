@@ -8,9 +8,14 @@ class ScheduleController < ApplicationController
   end
   
   def show
-    @registrations = @trip.registrations.authorized
-    @rooms = @trip.try(:facility).try(:rooms) || []
     @number_of_days = @trip.number_of_operation_days || 0
+    if params[:room].present?
+      @room = Room.find(params[:room])
+      render :template => "schedule/show_room"
+    else
+      @registrations = @trip.registrations.authorized
+      @rooms = @trip.try(:facility).try(:rooms) || []
+    end
   end
   
   def sort_room
