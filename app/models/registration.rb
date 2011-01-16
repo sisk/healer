@@ -5,6 +5,8 @@ class Registration < ActiveRecord::Base
   def self.complexity_units
     [1,2,3,4,5,6,7,8,9,10]
   end
+  
+  @registration_join = 'left outer join `trips` ON `trips`.`id` = `registrations`.`trip_id` left outer join `diagnoses` ON `diagnoses`.`registration_id` = `registrations`.`id` left outer join `patients` ON `patients`.`id` = `registrations`.`patient_id` left outer join `risk_factors` ON `risk_factors`.`patient_id` = `patients`.`id`'
 
   before_create :set_pre_screen
 
@@ -25,8 +27,10 @@ class Registration < ActiveRecord::Base
 
   delegate :complexity_minutes, :to => :trip
 
-  scope :authorized, where("registrations.approved_at is not ?", nil).joins(:trip, :diagnoses, :patient => [:risk_factors])
-  scope :unauthorized, where("registrations.approved_at is ?", nil).joins(:trip, :patient => [:diagnoses, :risk_factors])
+  # scope :authorized, where("registrations.approved_at is not ?", nil).joins(:trip, :diagnoses, :patient => [:risk_factors])
+  # scope :unauthorized, where("registrations.approved_at is ?", nil).joins(:trip, :patient => [:diagnoses, :risk_factors])
+  scope :authorized, where("registrations.approved_at is not ?", nil)
+  scope :unauthorized, where("registrations.approved_at is ?", nil)
   scope :search, Proc.new { |term|
     query = term.strip.gsub(',', '')
     first_last = query.split(" ")
@@ -146,5 +150,5 @@ private
   def clear_diagnoses
     Diagnosis.update_all("registration_id = NULL", :registration_id => self.id)
   end
-
+  
 end
