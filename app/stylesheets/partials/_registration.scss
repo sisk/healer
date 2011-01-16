@@ -66,8 +66,17 @@
 #room_registrations {
   .registration {
     @include clearfix;
-    @include showgrid;
     border-bottom: solid 1px $grey-very-light;
     margin-bottom: $margin-increment;
+    .patient {
+      @include column(10);
+    }
+    .procedure {
+      @include column($blueprint-grid-columns - 10, true);
+    }
+    img.patient_image {
+      @include float-left;
+      margin-right: $margin-increment;
+    }
   }
 }

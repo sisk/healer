@@ -1,7 +1,7 @@
 module PatientsHelper
   
   def patient_image(patient, size = :thumb)
-    image_tag(patient.displayed_photo(size), :alt => "Photo of #{patient.to_s}")
+    image_tag(patient.displayed_photo(size), :alt => "Photo of #{patient.to_s}", :class => "patient_image")
   end
 
   def patient_gender(patient)
