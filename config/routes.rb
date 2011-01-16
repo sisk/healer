@@ -48,7 +48,7 @@ Healer::Application.routes.draw do
         get :sort_unscheduled, :sort_room
       end
     end
-    resource :staff, :controller => :staff
+    # resource :staff, :controller => :staff
   end
   resources :patients do
     resources :risk_factors
