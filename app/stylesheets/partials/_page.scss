@@ -26,6 +26,7 @@ body.bp {
   padding: $blueprint-grid-outer-width;
 }
 .section {
+  clear: both;
   @include clearfix;
   border-top: 1px solid $grey-very-light;
   padding-top: $margin-increment;

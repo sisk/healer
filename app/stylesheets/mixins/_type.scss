@@ -5,9 +5,7 @@
 @mixin inline_dl($cols: 10, $dt_cols: 3) {
   @include clearfix;
   @include column($cols);
-  dt, dd { @include float-left; }
   dt {
-    clear: left;
     @include column($dt_cols);
     text-align: right;
   }

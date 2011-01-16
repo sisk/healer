@@ -53,7 +53,10 @@ form {
 }
 
 .datepicker {
-  input { width: auto; }
+  input { width: auto; display: block; }
+}
+body.bp .ui-datepicker td, body.bp .ui-datepicker th {
+  padding: 0;
 }
 
 .dialog-form {

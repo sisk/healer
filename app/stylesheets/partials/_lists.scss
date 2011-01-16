@@ -1,3 +1,9 @@
+dl {
+  @include clearfix;
+  dt, dd { @include float-left; }
+  dt { clear: left; }
+}
+
 .list_item {
   @include clearfix;
   position: relative;
