@@ -12,10 +12,7 @@
   %body.bp
     #wrapper
       #head
-        %ul#trip_nav
-          - Trip.next.each do |trip|
-            - if permitted_to? :show, trip
-              %li= link_to_unless_current trip, trip_registrations_path(trip)
+        = render :partial => "layouts/shared/trip_nav"
         - if current_user.has_role_admin
           = render :partial => "layouts/shared/system_settings"
         = render :partial => "layouts/shared/session"

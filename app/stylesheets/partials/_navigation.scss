@@ -3,8 +3,12 @@
   background-color: $header-background-color;
   @include clearfix;
 }
-ul#trip_nav {
+#trip_nav {
   @include float-left;
+  font-size: 1.2em;
+  .trip_name {
+    font-weight : bold;
+  }
 }
 ul#session {
   @include float-right;
@@ -17,7 +21,7 @@ ul.subnavigation {
   @include horizontal-list;
   padding-left: 0 !important;
 }
-ul#session, ul#trip_nav {
+ul#session, #trip_nav ul {
   @include horizontal-list;
   color: $white;
   a { color: $white; }
@@ -28,9 +32,6 @@ ul.subnavigation {
 ul.nav {
   clear: both;
   padding-top: $margin-increment * 2;
-}
-#trip_nav {
-  font-size: 1.5em;
 }
 span.inline_nav {
   font-size: .65em;
