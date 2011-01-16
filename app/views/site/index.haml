@@ -1,0 +1,11 @@
+- content_for :title do
+  Welcome
+%h2 Active Trips
+%ul
+- Trip.current.each do |trip|
+  %li= link_to trip, trip
+
+%h2 Upcoming Trips
+%ul
+- Trip.future.each do |trip|
+  %li= link_to trip, trip
