@@ -241,6 +241,27 @@ describe Registration, "#body_part_list" do
   end
 end
 
+describe Registration, "#time_in_words" do
+  before(:each) do
+    @registration = Registration.new
+    @now = Time.now
+    Time.stub(:now).and_return(@now)
+  end
+  it "returns text of complexity unit" do
+    @registration.stub(:complexity_minutes).and_return(10)
+    @registration.complexity = 3
+    @registration.time_in_words.should == "30 minutes"
+  end
+  it "returns text of complexity unit (check 2)" do
+    @registration.stub(:complexity_minutes).and_return(15)
+    @registration.complexity = 6
+    @registration.time_in_words.should == "1 hour, 30 minutes"
+  end
+  it "returns unknown if complexity is not set" do
+    @registration.time_in_words.should == "Time Unknown"
+  end
+end
+
 # describe Registration, "setting bilateral on save" do
 #   before(:each) do
 #     @registration = Registration.new(:patient => stub_model(Patient), :trip => mock_model(Trip))

@@ -1,4 +1,8 @@
 class Registration < ActiveRecord::Base
+
+  # time_in_words needs this
+  include ActionView::Helpers::DateHelper
+
   def self.possible_statuses
     ["Pre-Screen","Registered","Checked In","Scheduled","Unscheduled","Preparation","Procedure","Recovery","Discharge","Checked Out"]
   end
@@ -67,6 +71,7 @@ class Registration < ActiveRecord::Base
       :patient => self.patient.to_s,
       :location => self.location,
       :body_parts => self.body_part_list,
+      :time_in_words => self.time_in_words,
       :class => (self.likely_bilateral? ? "bilateral" : "")
     }
   end
@@ -130,6 +135,13 @@ class Registration < ActiveRecord::Base
     else
       diagnoses.map(&:body_part).map(&:to_s).join(", ")
     end
+  end
+
+  def time_in_words
+    # TODO - see if using partials instead of JSON objects improves performance and kludges like this one
+    return "Time Unknown" if complexity.blank?
+    str = distance_of_time_in_words(Time.now, Time.now + (complexity_minutes * complexity.to_i).to_i.minutes, false, { :two_words_connector => ", " })
+    return str.blank? ? "Time Unknown" : str
   end
 
 private

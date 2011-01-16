@@ -3,5 +3,6 @@
   %p= "Registration #{registration.id}"
 .medical
   .part= registration.body_part_list
+  .complexity= registration.time_in_words
   /
     .xray= link_to_function "Review x-ray", ""
