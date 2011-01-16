@@ -1,9 +1,26 @@
-#nav, #admin_nav, ul.subnavigation {
+#head {
+  padding: 1em;
+  background-color: $header-background-color;
+  @include clearfix;
+}
+ul#trip_nav {
+  @include float-left;
+}
+ul#session {
+  @include float-right;
+}
+#system_settings {
+  @include float-right;
+}
+
+ul.subnavigation {
   @include horizontal-list;
   padding-left: 0 !important;
 }
-ul#session {
+ul#session, ul#trip_nav {
   @include horizontal-list;
+  color: $white;
+  a { color: $white; }
 }
 ul.subnavigation {
   @include horizontal-list(.65em);
@@ -12,14 +29,59 @@ ul.nav {
   clear: both;
   padding-top: $margin-increment * 2;
 }
-#nav, #admin_nav {
-  color: #fff;
-  a { color: #fff; }
-}
-#nav {
+#trip_nav {
   font-size: 1.5em;
 }
 span.inline_nav {
   font-size: .65em;
   padding-left: 1em;
 }
+
+#system_settings {
+  @include span(3);
+  background-color: $header-background-color;
+  color: $white;
+  padding: 3px;
+  margin-left: $margin-increment * 2;
+  h3 {
+    font-size: 1em;
+    text-decoration: underline;
+    color: $white;
+    margin-bottom: 3px;
+  }
+  ul {
+    @include span(3);
+    @include no-bullets;
+    background-color: $header-background-color;
+    position: absolute;
+    z-index: 9999;
+    margin: 3px 0;
+    padding: 10px 0;
+    li {
+      color: $white;
+      a {
+        color: $white;
+        display: block;
+        width: 100%;
+      }
+      padding: 3px 6px;
+      display: block;
+      float: none;
+      &:hover {
+        background-color: $grey-medium;
+      }
+    }
+  }
+}
+
+/*
+.menu_select {
+  position: relative;
+  .menu {
+    position: absolute;
+    top: 1.5em;
+    left: 0;
+    z-index: 99999;
+  }
+}
+*/

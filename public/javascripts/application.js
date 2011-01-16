@@ -59,6 +59,13 @@ $(document).ready(function() {
     $(this).parents(".risk_factor").remove();
   });
 
+  $(".menu_select .toggle").click(function(event){
+    $(this).siblings(".menu").slideToggle(100);
+  });
+  $(".menu_select").mouseleave(function(event){
+    $(this).find(".menu").slideUp(100);
+  });
+
 });
 
 jQuery(function ($) {
