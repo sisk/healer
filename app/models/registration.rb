@@ -25,8 +25,8 @@ class Registration < ActiveRecord::Base
 
   delegate :complexity_minutes, :to => :trip
 
-  scope :authorized, where("registrations.approved_at is not ?", nil).includes([:trip, :diagnoses, :patient => [:diagnoses, :risk_factors]])
-  scope :unauthorized, where("registrations.approved_at is ?", nil).includes([:trip, :diagnoses, :patient => [:diagnoses, :risk_factors]])
+  scope :authorized, where("registrations.approved_at is not ?", nil).joins([:trip, :diagnoses, :patient => [:risk_factors]])
+  scope :unauthorized, where("registrations.approved_at is ?", nil).joins([:trip, :patient => [:diagnoses, :risk_factors]])
   scope :search, Proc.new { |term|
     query = term.strip.gsub(',', '')
     first_last = query.split(" ")
