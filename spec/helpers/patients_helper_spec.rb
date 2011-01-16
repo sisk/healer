@@ -7,7 +7,7 @@ describe PatientsHelper, "patient_image" do
     @patient.stub(:displayed_photo).with(:thumb).and_return("/path/to/photo")
   end
   it "outputs image tag with alt" do
-    helper.patient_image(@patient).should == image_tag("/path/to/photo", :alt => "Photo of Joe Derp")
+    helper.patient_image(@patient).should == image_tag("/path/to/photo", :alt => "Photo of Joe Derp", :class => "patient_image")
   end
 end
 
