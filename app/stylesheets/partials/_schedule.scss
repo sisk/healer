@@ -157,3 +157,9 @@ table#show_schedule {
 .moved2 {
   @include bordered(2px, #00f);
 }
+
+#show_schedule {
+  .day .registration a {
+    color: $grey-dark;
+  }
+}

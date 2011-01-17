@@ -1,33 +1,18 @@
 - content_for :title do
   = "#{@registration}"
-.patient
+.section.patient
   = render :partial => "patients/shared/snapshot", :locals => { :patient => @registration.patient }
-.status
-  %dl
-    %dt Registration Status
-    %dd= @registration.status
-    %dt Location
-    %dd= @registration.location
-    %dt Check In
-    %dd= @registration.checkin_at
-    %dt Check Out
-    %dd= @registration.checkout_at
+.section
+  %h2 Diagnoses
+  - @registration.diagnoses.each do |diagnosis|
+    .diagnosis
+      %p= diagnosis
 
-.manage
-  %h2 Manage
-  - semantic_form_for @registration do |f|
-    - f.inputs do
-      =# f.input :status, :as => :select, :collection => Registration::possible_statuses
-      =# f.input :location
-      =# f.input :checkin_at, :as => :datepicker, :label => "Check In"
-      =# f.input :checkout_at, :as => :datepicker, :label => "Check Out"
-    - f.inputs do
-      - from_time = Time.now
-      = f.input :complexity, :as => :select, :collection => Registration::complexity_units.map{ |cu| [distance_of_time_in_words(from_time, from_time + (@registration.complexity_minutes * cu.to_i).to_i.minutes, false, { :two_words_connector => ", " }), cu] }
-
-    - f.buttons do
-      = f.commit_button 'Make Changes'
-
-.notes
-  %h2 Notes
-  %p= @registration.notes
+.section
+  %h2 Operation
+  - if @registration.operations.empty?
+    %p= link_to "Add Operation", new_registration_operation_path(@registration)
+  - else
+    %ul
+      - @registration.operations.each do |operation|
+        %li= link_to "Edit Operation", registration_operation_path(operation)

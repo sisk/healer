@@ -22,5 +22,5 @@
             %ol.registrations
               - registrations.each do |registration|
                 %li.registration
-                  %p= registration.patient
+                  %p= link_to registration.patient, registration
                   %p.body_part= registration.body_part_list
