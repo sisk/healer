@@ -1,5 +1,5 @@
 - content_for :title do
-  = "Edit #{@patient} - #{@operation}"
+  = "#{@diagnosis.patient} - Edit #{@operation}"
 - content_for :subnavigation do
   %ul.subnavigation
     - if @operation.implant.present?

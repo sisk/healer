@@ -1,5 +1,5 @@
 - content_for :title do
-  = "#{@patient} - #{@operation}"
+  = "#{@diagnosis.patient} - #{@operation}"
 - content_for :subnavigation do
   %ul.subnavigation
     - if permitted_to? :edit, @operation

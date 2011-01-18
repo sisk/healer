@@ -62,6 +62,9 @@ Healer::Application.routes.draw do
   resources :registrations do
     resources :operations
   end
+  resources :diagnoses do
+    resources :operations
+  end
 
   resources :facilities do
     resources :rooms

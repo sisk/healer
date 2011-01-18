@@ -7,12 +7,9 @@
   - @registration.diagnoses.each do |diagnosis|
     .diagnosis
       %p= diagnosis
-
-.section
-  %h2 Operation
-  - if @registration.operations.empty?
-    %p= link_to "Add Operation", new_registration_operation_path(@registration)
-  - else
-    %ul
-      - @registration.operations.each do |operation|
-        %li= link_to "Edit Operation", registration_operation_path(operation)
+      - if diagnosis.operations.empty?
+        %p= link_to "Add Operation", new_diagnosis_operation_path(diagnosis)
+      - else
+        %ul
+          - diagnosis.operations.each do |operation|
+            %li= link_to "Edit Operation", diagnosis_operation_path(diagnosis,operation)

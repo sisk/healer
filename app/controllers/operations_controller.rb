@@ -1,6 +1,6 @@
 class OperationsController < InheritedResources::Base
   respond_to :html, :xml, :json
-  belongs_to :registration
+  belongs_to :diagnosis
   filter_resource_access
 
   def index
