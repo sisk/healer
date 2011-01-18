@@ -42,7 +42,6 @@ Healer::Application.routes.draw do
         put :authorize, :deauthorize
       end
     end
-    resources :operations
     resource :schedule, :controller => :schedule do
       member do
         get :sort_unscheduled, :sort_room

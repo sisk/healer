@@ -17,3 +17,6 @@
       %li= link_to_unless_current "Risks", risks_path
     - if permitted_to? :index, User.new
       %li= link_to_unless_current "Users", users_path
+    - if permitted_to? :index, Procedure.new
+      %li= link_to_unless_current "Procedures", procedures_path
+  
