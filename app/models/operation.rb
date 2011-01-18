@@ -30,7 +30,8 @@ class Operation < ActiveRecord::Base
   validates_presence_of :patient
   # validates_presence_of :date
   # validates_presence_of :body_part
-  validates_presence_of :registration
+  # validates_presence_of :registration
+  validates_presence_of :diagnosis
   validates_numericality_of :difficulty
   validates_inclusion_of :difficulty, :in => self.difficulty_table.keys
   validates_inclusion_of :approach, :in => self.approaches, :allow_nil => true, :allow_blank => true

@@ -1,17 +1,18 @@
-- semantic_form_for [@trip,@operation] do |operation|
-  = operation.input :trip_id, :as => :hidden
-  = operation.input :diagnosis_id, :as => :hidden, :input_html => { :value => params[:diagnosis_id] }
-  - operation.inputs do
-    = operation.input :body_part_id, :as => :select, :label => 'Body Part', :collection => BodyPart.all.collect{ |bp| [bp.to_s, bp.id] }
-    = operation.input :procedure_id, :as => :select, :label => 'Procedure', :collection => Procedure.all.collect{ |p| [p.to_s, p.id] }
-    = operation.input :primary_surgeon_id, :as => :select, :label => 'Primary Surgeon', :collection => User.doctor
-    = operation.input :secondary_surgeon_id, :as => :select, :label => 'Secondary Surgeon', :collection => User.doctor
-    = operation.input :anesthesiologist_id, :as => :select, :label => 'Anesthesiologist', :collection => User.doctor
-    = operation.input :date, :as => :datepicker, :label => "Operation Date"
-    = operation.input :approach, :as => :select, :label => 'Approach', :collection => Operation::approaches
-    = operation.input :difficulty, :as => :radio, :label => "Difficulty", :collection => Operation::difficulty_table.invert
-    = operation.input :graft, :label => 'Graft'
-    = operation.input :notes, :label => 'Notes'
-    = operation.input :ambulatory_order, :as => :select, :label => 'Ambulatory Order', :collection => Operation::ambulatory_orders
-  - operation.buttons do
-    = operation.commit_button
+= semantic_form_for [@diagnosis,@operation] do |f|
+  = f.semantic_errors
+  = f.input :trip_id, :as => :hidden
+  = f.input :patient_id, :as => :hidden
+  = f.inputs do
+    = f.input :body_part_id, :as => :select, :label => 'Body Part', :collection => BodyPart.all.collect{ |bp| [bp.to_s, bp.id] }
+    = f.input :procedure_id, :as => :select, :label => 'Procedure', :collection => Procedure.all.collect{ |p| [p.to_s, p.id] }
+    = f.input :primary_surgeon_id, :as => :select, :label => 'Primary Surgeon', :collection => User.doctor
+    = f.input :secondary_surgeon_id, :as => :select, :label => 'Secondary Surgeon', :collection => User.doctor
+    = f.input :anesthesiologist_id, :as => :select, :label => 'Anesthesiologist', :collection => User.doctor
+    = f.input :date, :as => :datepicker, :label => "Operation Date"
+    = f.input :approach, :as => :select, :label => 'Approach', :collection => Operation::approaches
+    = f.input :difficulty, :as => :radio, :label => "Difficulty", :collection => Operation::difficulty_table.invert
+    = f.input :graft, :label => 'Graft'
+    = f.input :notes, :label => 'Notes'
+    = f.input :ambulatory_order, :as => :select, :label => 'Ambulatory Order', :collection => Operation::ambulatory_orders
+  = f.buttons do
+    = f.commit_button

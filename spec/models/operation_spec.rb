@@ -36,8 +36,9 @@ describe Operation do
 
   should_have_many :xrays
 
-  should_validate_presence_of :registration
+  # should_validate_presence_of :registration
   should_validate_presence_of :patient
+  should_validate_presence_of :diagnosis
   # should_validate_presence_of :body_part
   # should_validate_presence_of :date
 

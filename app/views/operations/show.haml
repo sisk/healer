@@ -1,9 +1,9 @@
 - content_for :title do
-  = "#{@diagnosis.patient} - #{@operation}"
+  = "#{@operation}"
 - content_for :subnavigation do
   %ul.subnavigation
     - if permitted_to? :edit, @operation
-      = link_to "Edit", edit_operation_path(@operation)
+      = link_to "Edit", edit_diagnosis_operation_path(@diagnosis,@operation)
 %h2 Implant
 - if @operation.implant.blank?
   %ul.subnavigation

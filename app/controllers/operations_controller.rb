@@ -12,24 +12,25 @@ class OperationsController < InheritedResources::Base
   end
 
   def create
-    create! { patient_path(@patient) }
+    create! { diagnosis_operation_path(diagnosis,@operation) }
   end
 
   def update
-    update! { patient_path(@patient) }
+    update! { diagnosis_operation_path(diagnosis,@operation) }
   end
 
   private
   
   def build_resource 
      super
-     @operation.diagnosis ||= diagnosis_by_param
+     @operation.diagnosis ||= diagnosis
      @operation.body_part = @operation.diagnosis.try(:body_part)
+     @operation.patient = @operation.diagnosis.try(:patient)
      @operation
   end
   
-  def diagnosis_by_param
-    Diagnosis.find(params[:diagnosis_id]) if params[:diagnosis_id].present?
+  def diagnosis
+    @diagnosis ||= Diagnosis.find(params[:diagnosis_id]) if params[:diagnosis_id].present?
   end
   
 end
