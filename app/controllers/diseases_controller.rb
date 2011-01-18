@@ -1,7 +1,7 @@
 class DiseasesController < InheritedResources::Base
   actions :all, :except => [ :sort ]
   before_filter :authenticate_user!
-  filter_resource_access :collection => :sort
+  filter_resource_access :collection => [:index, :sort]
 
   def create
     create! { diseases_path }
