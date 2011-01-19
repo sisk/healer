@@ -262,6 +262,47 @@ describe Registration, "#time_in_words" do
   end
 end
 
+describe Registration, "revision?" do
+  before(:each) do
+    @registration = Registration.new
+    @diag1 = stub_model(Diagnosis, :revision => true)
+    @diag2 = stub_model(Diagnosis, :revision => false)
+    @patient = stub_model(Patient)
+    @patient.stub_chain(:diagnoses, :untreated).and_return([])
+  end
+  context "registration has diagnoses itself" do
+    before(:each) do
+      @registration.stub(:patient).and_return(@patient)
+    end
+    it "is true if any diagnoses are revisions" do
+      @registration.diagnoses = [@diag1]
+      @registration.revision?.should be_true
+    end
+    it "is false if no diagnoses are revisions" do
+      @registration.diagnoses = [@diag2]
+      @registration.revision?.should be_false
+    end
+  end
+  context "registration has diagnoses only through the patient" do
+    it "is true if any untreated patient diagnoses are revisions" do
+      @patient.stub_chain(:diagnoses, :untreated).and_return([@diag1])
+      @registration.stub(:patient).and_return(@patient)
+      @registration.revision?.should be_true
+    end
+    it "is false if no untreated patient diagnoses are revisions" do
+      @patient.stub_chain(:diagnoses, :untreated).and_return([@diag2])
+      @registration.stub(:patient).and_return(@patient)
+      @registration.revision?.should be_false
+    end
+  end
+  context "registration has no idea what diagnoses it has" do
+    it "is false" do
+      @registration.stub(:patient).and_return(@patient)
+      @registration.revision?.should be_false
+    end
+  end
+end
+
 # describe Registration, "setting bilateral on save" do
 #   before(:each) do
 #     @registration = Registration.new(:patient => stub_model(Patient), :trip => mock_model(Trip))

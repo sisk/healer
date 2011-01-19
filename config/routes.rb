@@ -44,7 +44,7 @@ Healer::Application.routes.draw do
     end
     resource :schedule, :controller => :schedule do
       member do
-        get :sort_unscheduled, :sort_room
+        put :sort_unscheduled, :sort_room
       end
     end
     # resource :staff, :controller => :staff

@@ -1,0 +1,5 @@
+<% if @registrations.present? %>
+  $('#unscheduled').html('<%= escape_javascript(render :partial => "schedule/registration_unscheduled", :collection => @registrations, :as => :registration) %>');
+<% else %>
+  $("#unscheduled").html("");
+<% end %>

@@ -61,59 +61,30 @@ $(document).ready(function() {
     // $("div:contains('John')")
   });
   
-  // $("#schedule .unschedule").live("click", function() {
-  //   var registration;
-  //   registration = $(this).closest(".registration");
-  //   alert(registration.attr("id"));
-  // });
-     
-  /*
-  $(".registration").find(".unschedule").live("click", function(event) {
-    var registration, enclosure, loader;
-    loader = '<img class="ajax_loader" src="/images/ajax-loader.gif" />';
-    registration = $(this).closest(".registration");
-    enclosure = $(this).closest(".room");
-    $("#unscheduled").html(loader);
-    enclosure.html(loader);
-    
-    unscheduled_template = Handlebars.compile($("script[name=registration_unscheduled_template]").html());
-    scheduled_template = Handlebars.compile($("script[name=registration_scheduled_template]").html());
-    
-
-    alert("un:" + registration.attr("id"));
-    event.preventDefault();
-  });
-  */
 });
 
 function updateUnscheduled() {
   var params, template, url;
   params = $("#unscheduled").sortable("serialize");
-
-  $("#unscheduled").html('<img class="ajax_loader" src="/images/ajax-loader.gif" />');
-
-  template = Handlebars.compile($("script[name=registration_unscheduled_template]").html());
-  url = "/trips/1/schedule/sort_unscheduled.json";
-  $.getJSON(url, params, function(data) {
-    $("#unscheduled").html(template(data));
+  // $("#unscheduled").html('<img class="ajax_loader" src="/images/ajax-loader.gif" />');
+  $.ajax({
+    url: "/trips/1/schedule/sort_unscheduled",
+    type: "PUT",
+    data: params
   });
 }
 
 function updateRoom(element) {
   var enclosure, room_id, day_num, params, template, url;
   enclosure = element.closest(".room");
-  
   room_id = element.closest(".room").attr("class").match(/room_(\d+)/)[1];
   day_num = element.closest(".room").attr("class").match(/day_(\d+)/)[1];
 
-  url = "/trips/1/schedule/sort_room.json";
-  
   params = enclosure.sortable("serialize") + "&room_id=" + room_id + "&day=" + day_num;
-  template = Handlebars.compile($("script[name=registration_scheduled_template]").html());
-
-  enclosure.html('<img class="ajax_loader" src="/images/ajax-loader.gif" />');
-
-  $.getJSON(url, params, function(data) {
-    enclosure.html(template(data));
+  // enclosure.html('<img class="ajax_loader" src="/images/ajax-loader.gif" />');
+  $.ajax({
+    url: "/trips/1/schedule/sort_room",
+    type: "PUT",
+    data: params
   });
 }

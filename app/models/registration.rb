@@ -72,6 +72,7 @@ class Registration < ActiveRecord::Base
       :location => self.location,
       :body_parts => self.body_part_list,
       :time_in_words => self.time_in_words,
+      :revision => self.revision?,
       :class => (self.likely_bilateral? ? "bilateral" : "")
     }
   end
@@ -142,6 +143,11 @@ class Registration < ActiveRecord::Base
     return "Time Unknown" if complexity.blank?
     str = distance_of_time_in_words(Time.now, Time.now + (complexity_minutes * complexity.to_i).to_i.minutes, false, { :two_words_connector => ", " })
     return str.blank? ? "Time Unknown" : str
+  end
+  
+  def revision?
+    return true if diagnoses.any?{ |d| d.revision }
+    return patient.diagnoses.untreated.any?{ |d| d.revision }
   end
 
 private

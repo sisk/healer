@@ -27,38 +27,36 @@ class ScheduleController < ApplicationController
       flash[:error] = "You must specify a day."
       return
     end
-    registration_ids = params[:registration.to_s]
-
-    Registration.update_all("room_id = #{params[:room_id].to_i}, scheduled_day = #{params[:day].to_i}", :id => registration_ids )
-
-    params[:registration].each_with_index do |id, index|
-      Registration.update_all(['schedule_order = ?', index + 1], ['id = ?', id])
+    @room_id = params[:room_id].to_i
+    @day_num = params[:day].to_i
+    if params[:registration].present?
+      registration_ids = params[:registration.to_s]
+      Registration.update_all("room_id = #{@room_id}, scheduled_day = #{@day_num}", :id => registration_ids )
+      params[:registration].each_with_index do |id, index|
+        Registration.update_all(['schedule_order = ?', index + 1], ['id = ?', id])
+      end
+      @registrations = Registration.find(registration_ids)
     end
 
-    @trip.reload
-
     respond_to do |format|
-      format.json {
-        registrations_json = @trip.registrations.authorized.room(params[:room_id].to_s).day(params[:day].to_s).to_json
-        render :text => "{\"registrations\" : #{registrations_json}}"
-      }
+      format.js { render :template => "schedule/sort_room.js.erb", :layout => nil }
     end
   end
 
   def sort_unscheduled
     # registration_ids passed here should become "unscheduled"
-    registration_ids = params[:registration.to_s]
-    Registration.update_all({:status => 'Unscheduled', :room_id => nil, :scheduled_day => 0}, :id => registration_ids)
-    params[:registration].each_with_index do |id, index|
-      Registration.update_all(['schedule_order = ?', index + 1], ['id = ?', id])
+    if params[:registration].present?
+      registration_ids = params[:registration.to_s]
+      Registration.update_all({:status => 'Unscheduled', :room_id => nil, :scheduled_day => 0}, :id => registration_ids)
+      params[:registration].each_with_index do |id, index|
+        Registration.update_all(['schedule_order = ?', index + 1], ['id = ?', id])
+      end
+
+      @registrations = Registration.find(registration_ids)
     end
 
-    registrations = Registration.find(registration_ids)
-
     respond_to do |format|
-      format.json {
-        render :text => "{\"registrations\" : #{registrations.to_json}}"
-      }
+      format.js { render :template => "schedule/sort_unscheduled.js.erb", :layout => nil }
     end
   end
 

@@ -1,8 +1,12 @@
-.demographic
-  %h3= registration.patient
-  %p= "Registration #{registration.id}"
-.medical
-  .part= registration.body_part_list
-  .complexity= registration.time_in_words
-  /
-    .xray= link_to_function "Review x-ray", ""
+.sortable[registration]
+  .demographic
+    %h3= registration.patient
+    %p= link_to "Registration #{registration.id}", edit_trip_registration_path(registration.trip, registration)
+  .medical
+    .part
+      = registration.body_part_list
+      - if registration.revision?
+        %span.asterisk [Revision]
+    .complexity= registration.time_in_words
+    /
+      .xray= link_to_function "Review x-ray", ""

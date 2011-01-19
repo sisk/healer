@@ -14,9 +14,7 @@
       = label_tag :filter, "Filter"
       = text_field_tag :filter, nil, :id => "unscheduled_filter"
     #unscheduled.registrations.connectedSortable
-      - @to_schedule.each do |registration|
-        .sortable[registration]
-          = render :partial => "schedule/registration_unscheduled", :locals => { :registration => registration }
+      = render :partial => "schedule/registration_unscheduled", :collection => @to_schedule, :as => :registration
 
   %table.schedule#schedule
     %thead
@@ -37,16 +35,7 @@
             - registrations = @trip.registrations.room(room.id).day(day_num)
             %td{ :class => "day_#{day_num} #{dom_id(room)} hide" }
               .room.connectedSortable{ :class => "day_#{day_num} #{dom_id(room)}", :id => "day_#{day_num}_#{dom_id(room)}" }
-                - registrations.each do |registration|
-                  .sortable[registration]
-                    = render :partial => "schedule/registration_scheduled", :locals => { :registration => registration }
-
-- content_for :script do
-  %script{ :type => "text/html", :name => "registration_unscheduled_template"}
-    = render :partial => "schedule/registration_unscheduled_template"
-  
-  %script{ :type => "text/html", :name => "registration_scheduled_template"}
-    = render :partial => "schedule/registration_scheduled_template"
+                = render :partial => "schedule/registration_scheduled", :collection => registrations, :as => :registration
 
 - content_for :script do
   = javascript_include_tag "lib/schedule.js"
