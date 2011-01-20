@@ -22,5 +22,8 @@
             %ol.registrations
               - registrations.each do |registration|
                 %li.registration
-                  %p= link_to registration.patient, registration
+                  %p
+                    = link_to registration.patient, registration
+                    - if registration.revision?
+                      %span.asterisk [Revision]
                   %p.body_part= registration.body_part_list
