@@ -4,8 +4,15 @@
   %ul.subnavigation
     - if permitted_to? :create, Room.new(:facility => @facility)
       %li= link_to "Add room", new_facility_room_path(@facility)
-- @facility.rooms.each do |room|
-  .room
-    %h2
-      = room
-      %span.inline_nav= link_to "Edit", edit_facility_room_path(@facility,room)
+#room_list
+  - @facility.rooms.each do |room|
+    .orderable.room{ :id => "#{dom_id(room)}" }
+      %span.ui-icon.ui-icon-grip-dotted-vertical
+      %span.name= room
+      %span.nav
+        = link_to "Edit", edit_facility_room_path(@facility,room)
+        = link_to("Delete", facility_room_path(@facility,room), :method => :delete, :confirm => "Are you sure? All operations scheduled for this room will become unscheduled.")
+
+- content_for :script do
+  :javascript
+    $('#room_list').orderable('#{sort_facility_rooms_path(@facility)}');

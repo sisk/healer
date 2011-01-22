@@ -7,7 +7,7 @@
 
 #procedure_list
   - @procedures.each do |procedure|
-    .procedure{ :id => "procedure_#{procedure.id}" }
+    .orderable.procedure{ :id => "procedure_#{procedure.id}" }
       %span.ui-icon.ui-icon-grip-dotted-vertical
       %span.name= procedure
       %span.code= "(#{procedure.code})" unless procedure.code.blank?

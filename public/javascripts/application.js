@@ -6,43 +6,10 @@ $(document).ready(function() {
   // hack to fix the way Rails does authenticity_token output in form_for
   $("input[name=authenticity_token]").parent("div").hide();
 
-  $('#disease_list').sortable({
-    items:'.disease',
-    containment:'parent',
-    axis:'y',
-    update: function() {
-      $.ajax({
-        url: '/diseases/sort',
-        data: 'authenticity_token=meta[name=csrf-token]&'+$(this).sortable('serialize'),
-        type: 'PUT'
-      });
-    }
-  });
-  $('#risk_list').sortable({
-    items:'.risk',
-    containment:'parent',
-    axis:'y',
-    update: function() {
-      $.ajax({
-        url: '/risks/sort',
-        data: 'authenticity_token=meta[name=csrf-token]&'+$(this).sortable('serialize'),
-        type: 'PUT'
-      });
-    }
-  });
-  $('#procedure_list').sortable({
-    items:'.procedure',
-    containment:'parent',
-    axis:'y',
-    update: function() {
-      $.ajax({
-        url: '/procedures/sort',
-        data: 'authenticity_token=meta[name=csrf-token]&'+$(this).sortable('serialize'),
-        type: 'PUT'
-      });
-    }
-  });
-
+  $('#disease_list').orderable('/diseases/sort');
+  $('#risk_list').orderable('/diseases/sort');
+  $('#procedure_list').orderable('/diseases/sort');
+  
   $('input.ui-datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
 
   $(".enlarge a").fancybox({
@@ -93,6 +60,25 @@ jQuery(function ($) {
     var toggle_trigger = $(this).find(".toggle");
     toggle_trigger.bind('click', function(event) {
       $(this).closest(".supplemental").find(".details").slideToggle("fast");
+    });
+    return this;
+  }
+}(jQuery));
+
+// custom function for sortable lists
+(function($){
+  $.fn.orderable = function(sort_url) {
+    $(this).sortable({
+      items: ".orderable",
+      containment: "parent",
+      axis: "y",
+      update: function() {
+        $.ajax({
+          url: sort_url,
+          data: 'authenticity_token=meta[name=csrf-token]&'+$(this).sortable('serialize'),
+          type: 'PUT'
+        });
+      }
     });
     return this;
   }

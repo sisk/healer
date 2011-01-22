@@ -7,7 +7,7 @@
 
 #disease_list
   - @diseases.each do |disease|
-    .disease{ :id => "disease_#{disease.id}" }
+    .orderable.disease{ :id => "disease_#{disease.id}" }
       %span.ui-icon.ui-icon-grip-dotted-vertical
       %span.name= disease
       %span.code= "(#{disease.code})" unless disease.code.blank?

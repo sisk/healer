@@ -8,7 +8,7 @@ authorization do
   role :superuser do
     has_permission_on [:trips, :facilities, :rooms, :users, :patients, :body_parts, :diagnoses, :diseases, :risks, :risk_factors, :registrations, :implants, :operations, :procedures], :to => :everything
     has_permission_on :registrations, :to => [:authorize, :deauthorize]
-    has_permission_on [:diseases, :procedures, :risks], :to => [:sort]
+    has_permission_on [:diseases, :procedures, :risks, :rooms], :to => [:sort]
   end
   role :admin do
     has_permission_on [:patients, :diseases, :diagnoses, :risks, :risk_factors, :registrations, :implants, :operations], :to => :everything

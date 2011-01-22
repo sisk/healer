@@ -67,7 +67,11 @@ Healer::Application.routes.draw do
   end
 
   resources :facilities do
-    resources :rooms
+    resources :rooms do
+      collection do
+        put :sort
+      end
+    end
   end
 
   # Sample resource route with options:

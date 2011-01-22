@@ -7,7 +7,7 @@
 
 #risk_list
   - @risks.each do |risk|
-    .risk{ :id => "risk_#{risk.id}" }
+    .orderable.risk{ :id => "risk_#{risk.id}" }
       %span.ui-icon.ui-icon-grip-dotted-vertical
       %span.name= risk
       %span.nav
