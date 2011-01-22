@@ -14,3 +14,7 @@
       %span.nav
         = link_to("Edit", edit_procedure_path(procedure))
         = link_to("Delete", procedure_path(procedure), :method => :delete, :confirm => "Are you sure? This may have rippling effects and cannot be undone.")
+
+- content_for :script do
+  :javascript
+    $('#procedure_list').orderable('/procedures/sort');

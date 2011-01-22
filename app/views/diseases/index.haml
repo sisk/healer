@@ -13,3 +13,7 @@
       %span.code= "(#{disease.code})" unless disease.code.blank?
       %span.nav
         = link_to("Edit", edit_disease_path(disease))
+
+- content_for :script do
+  :javascript
+    $('#disease_list').orderable('/diseases/sort');

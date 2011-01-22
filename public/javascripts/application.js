@@ -6,10 +6,6 @@ $(document).ready(function() {
   // hack to fix the way Rails does authenticity_token output in form_for
   $("input[name=authenticity_token]").parent("div").hide();
 
-  $('#disease_list').orderable('/diseases/sort');
-  $('#risk_list').orderable('/diseases/sort');
-  $('#procedure_list').orderable('/diseases/sort');
-  
   $('input.ui-datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
 
   $(".enlarge a").fancybox({

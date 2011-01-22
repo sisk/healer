@@ -12,3 +12,7 @@
       %span.name= risk
       %span.nav
         = link_to("Edit", edit_risk_path(risk))
+
+- content_for :script do
+  :javascript
+    $('#risk_list').orderable('/risks/sort');
