@@ -1,4 +1,6 @@
-class DiagnosesController < InheritedResources::Base
+class DiagnosesController < ApplicationController
+  inherit_resources
+  
   respond_to :html, :xml, :json
   before_filter :authenticate_user!
   filter_resource_access

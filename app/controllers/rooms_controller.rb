@@ -1,4 +1,6 @@
-class RoomsController < InheritedResources::Base
+class RoomsController < ApplicationController
+  inherit_resources
+  
   before_filter :authenticate_user!
   filter_resource_access :collection => [:index, :sort]
   

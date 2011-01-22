@@ -1,4 +1,6 @@
-class RiskFactorsController < InheritedResources::Base
+class RiskFactorsController < ApplicationController
+  inherit_resources
+  
   respond_to :html, :xml, :json
   respond_to :js, :only => :destroy
   before_filter :authenticate_user!

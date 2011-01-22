@@ -1,4 +1,6 @@
-class FacilitiesController < InheritedResources::Base
+class FacilitiesController < ApplicationController
+  inherit_resources
+  
   before_filter :authenticate_user!
   filter_resource_access
   def create

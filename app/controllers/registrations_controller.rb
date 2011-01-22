@@ -1,4 +1,6 @@
-class RegistrationsController < InheritedResources::Base
+class RegistrationsController < ApplicationController
+  inherit_resources
+  
   before_filter :authenticate_user!
   before_filter :set_unregistered_patients, :only => :new
   filter_resource_access

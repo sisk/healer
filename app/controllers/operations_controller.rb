@@ -1,4 +1,6 @@
-class OperationsController < InheritedResources::Base
+class OperationsController < ApplicationController
+  inherit_resources
+  
   respond_to :html, :xml, :json
   belongs_to :diagnosis
   filter_resource_access

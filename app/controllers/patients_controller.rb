@@ -1,4 +1,6 @@
-class PatientsController < InheritedResources::Base
+class PatientsController < ApplicationController
+  inherit_resources
+  
   before_filter :authenticate_user!
   filter_resource_access
 

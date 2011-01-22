@@ -1,4 +1,6 @@
-class ImplantsController < InheritedResources::Base
+class ImplantsController < ApplicationController
+  inherit_resources
+  
   belongs_to :operation, :singleton => true
   
   private
