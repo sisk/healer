@@ -4,3 +4,8 @@
   %ul.subnavigation
     - if permitted_to? :create, Room.new(:facility => @facility)
       %li= link_to "Add room", new_facility_room_path(@facility)
+- @facility.rooms.each do |room|
+  .room
+    %h2
+      = room
+      %span.inline_nav= link_to "Edit", edit_facility_room_path(@facility,room)
