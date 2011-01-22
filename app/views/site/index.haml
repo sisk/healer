@@ -1,5 +1,5 @@
 - content_for :title do
-  Welcome
+  = I18n.t 'hello'
 %h2 Active Trips
 %ul
 - Trip.current.each do |trip|
