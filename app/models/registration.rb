@@ -122,7 +122,7 @@ class Registration < ActiveRecord::Base
   def body_part_list
     if likely_bilateral?
       body_parts = diagnoses.map(&:body_part)
-      body_part_names = body_parts.map(&:name)
+      body_part_names = body_parts.map(&:name_en)
       # part_counts = body_parts.map(&:name).inject(Hash.new(0)) {|h,x| h[x]+=1;h}
       p = []
       body_parts.each do |body_part|
