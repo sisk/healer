@@ -2,14 +2,15 @@ class BodyPart < ActiveRecord::Base
 
   @@all_body_parts ||= all
 
-  validates_presence_of :name, :message => "can't be blank"
+  validates_presence_of :name_en, :message => "can't be blank"
   has_many :diagnoses
   validates_inclusion_of :side, :in => ["L", "R", ""], :allow_nil => true
-  default_scope :order => 'body_parts.name, body_parts.side'
+  default_scope :order => 'body_parts.name_en, body_parts.side'
 
   def to_s
-    str = name
-    str += " (#{side})" unless side.blank?
+    str = name_en
+    str = name_es if I18n.locale.to_sym == :es && name_es.present?
+    str += " (#{I18n.locale.to_sym == :es ? side_es : side})" unless side.blank?
     str
   end
 
@@ -18,7 +19,7 @@ class BodyPart < ActiveRecord::Base
   end
 
   def mirror
-    all_body_parts.select{ |bp| (bp.name == name && bp.side != side) }.first
+    all_body_parts.select{ |bp| (bp.name_en == name_en && bp.side != side) }.first
   end
 
   private
@@ -26,7 +27,13 @@ class BodyPart < ActiveRecord::Base
   def all_body_parts
     @@all_body_parts
   end
-
+  
+  def side_es
+    return "Z" if side.downcase == "l" # zurdo
+    return "D" if side.downcase == "r" # diestro
+    nil
+  end
+  
 end
 
 # == Schema Information
