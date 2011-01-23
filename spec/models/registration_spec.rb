@@ -209,9 +209,9 @@ end
 
 describe Registration, "#body_part_list" do
   before(:each) do
-    @left_knee = stub_model(BodyPart, :to_s => "Knee (L)", :name => "Knee")
-    @right_knee = stub_model(BodyPart, :to_s => "Knee (R)", :name => "Knee")
-    @right_hip = stub_model(BodyPart, :to_s => "Hip (R)", :name => "Hip")
+    @left_knee = stub_model(BodyPart, :to_s => "Knee (L)", :name_en => "Knee")
+    @right_knee = stub_model(BodyPart, :to_s => "Knee (R)", :name_en => "Knee")
+    @right_hip = stub_model(BodyPart, :to_s => "Hip (R)", :name_en => "Hip")
   end
   it "outputs a formatted date string of body parts for its diagnoses" do
     registration = Registration.new(:diagnoses => [
