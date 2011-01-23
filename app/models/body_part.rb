@@ -8,10 +8,13 @@ class BodyPart < ActiveRecord::Base
   default_scope :order => 'body_parts.name_en, body_parts.side'
 
   def to_s
-    str = name_en
-    str = name_es if I18n.locale.to_sym == :es && name_es.present?
+    str = display_name
     str += " (#{I18n.locale.to_sym == :es ? side_es : side})" unless side.blank?
     str
+  end
+
+  def display_name
+    (I18n.locale.to_sym == :es && name_es.present?) ? name_es : name_en
   end
 
   def has_mirror?

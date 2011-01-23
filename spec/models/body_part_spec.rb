@@ -10,13 +10,16 @@ describe BodyPart do
 end
 
 describe BodyPart, "#to_s" do
+  before(:each) do
+    @body_part = BodyPart.new(:name_en => "Lung")
+    @body_part.stub(:display_name).and_return("Lung")
+  end
+  it "contains its display_name" do
+    @body_part.to_s.should == "Lung"
+  end
   context "English" do
     before(:each) do
       set_english
-      @body_part = BodyPart.new(:name_en => "Lung")
-    end
-    it "returns its name" do
-      @body_part.to_s.should == "Lung"
     end
     it "appends '(side)' if side is set" do
       @body_part.side = "L"
@@ -26,20 +29,38 @@ describe BodyPart, "#to_s" do
   context "Spanish" do
     before(:each) do
       set_spanish
-      @body_part = BodyPart.new(:name_en => "Lung")
-    end
-    it "returns its Spanish name if it exists" do
-      @body_part.name_es = "Pulmonar"
-      @body_part.to_s.should == "Pulmonar"
-    end
-    it "returns English if no Spanish equivalent is set" do
-      @body_part.to_s.should == "Lung"
     end
     it "appends proper language '(side)' if side is set" do
       @body_part.side = "L"
       @body_part.to_s.should == "Lung (Z)"
       @body_part.side = "R"
       @body_part.to_s.should == "Lung (D)"
+    end
+  end
+end
+
+describe BodyPart, "#display_name" do
+  before(:each) do
+    @body_part = BodyPart.new(:name_en => "Lung")
+  end
+  context "English" do
+    before(:each) do
+      set_english
+    end
+    it "returns its name" do
+      @body_part.display_name.should == "Lung"
+    end
+  end
+  context "Spanish" do
+    before(:each) do
+      set_spanish
+    end
+    it "returns its Spanish name if it exists" do
+      @body_part.name_es = "Pulmonar"
+      @body_part.display_name.should == "Pulmonar"
+    end
+    it "returns English if no Spanish equivalent is set" do
+      @body_part.display_name.should == "Lung"
     end
   end
 end

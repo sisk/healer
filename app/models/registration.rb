@@ -126,8 +126,8 @@ class Registration < ActiveRecord::Base
       # part_counts = body_parts.map(&:name).inject(Hash.new(0)) {|h,x| h[x]+=1;h}
       p = []
       body_parts.each do |body_part|
-        if body_part_names.count(body_part.name) > 1
-          p << body_part.name + " (Bilateral)"
+        if body_part_names.count(body_part.name_en) > 1
+          p << body_part.display_name + " (Bilateral)"
         else
           p << body_part.to_s
         end
