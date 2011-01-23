@@ -1,4 +1,9 @@
+# encoding: UTF-8
 class User < ActiveRecord::Base
+  def self.languages
+    {"en" => "English", "es" => "Español"}
+  end
+
   # acts_as_authorization_subject
 
   # Include default devise modules. Others available are:
@@ -6,7 +11,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :recoverable, :rememberable, :trackable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :name_last, :name_first
+  attr_accessible :email, :password, :password_confirmation, :name_last, :name_first, :language
 
   validates :email, :presence => true, 
                     :length => {:minimum => 3, :maximum => 254},

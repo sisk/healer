@@ -1,9 +1,17 @@
+# encoding: UTF-8
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe User do
   should_validate_presence_of :email
   should_validate_presence_of :name_first
   should_validate_presence_of :name_last
+  should_have_column :language, :type => :string
+end
+
+describe User, ".languages" do
+  it "returns expected values" do
+    User::languages.should == {"en" => "English", "es" => "Español"}
+  end
 end
 
 describe User do

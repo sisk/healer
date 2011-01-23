@@ -4,9 +4,14 @@ class ApplicationController < ActionController::Base
   before_filter :set_locale
   def set_locale
     # if params[:locale] is nil then I18n.default_locale will be used
-    I18n.locale = params[:locale]
+    if user_signed_in?
+      I18n.locale = params[:locale] || current_user.language
+    end
   end
-  
+  # def default_url_options(options={})
+  #   { :locale => I18n.locale }
+  # end
+    
   protect_from_forgery
   layout :layout_by_resource
 
