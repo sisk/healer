@@ -2,6 +2,7 @@
   = f.semantic_errors
   = f.input :trip_id, :as => :hidden
   = f.input :patient_id, :as => :hidden
+  = f.input :registration_id, :as => :hidden
   = f.inputs do
     = f.input :body_part_id, :as => :select, :label => 'Body Part', :collection => BodyPart.all.collect{ |bp| [bp.to_s, bp.id] }
     = f.input :procedure_id, :as => :select, :label => 'Procedure', :collection => Procedure.all.collect{ |p| [p.to_s, p.id] }
@@ -12,7 +13,7 @@
     = f.input :approach, :as => :select, :label => 'Approach', :collection => Operation::approaches
     = f.input :difficulty, :as => :radio, :label => "Difficulty", :collection => Operation::difficulty_table.invert
     = f.input :graft, :label => 'Graft'
-    = f.input :notes, :label => 'Notes'
     = f.input :ambulatory_order, :as => :select, :label => 'Ambulatory Order', :collection => Operation::ambulatory_orders
+    = f.input :notes, :label => 'Notes'
   = f.buttons do
     = f.commit_button

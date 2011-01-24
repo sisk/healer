@@ -63,7 +63,7 @@ class Operation < ActiveRecord::Base
   def build_implant(*args)
     # override method to deal with STI
     return implant if implant.present?
-    case body_part.try(:name).try(:downcase)
+    case body_part.try(:name_en).try(:downcase)
     when "knee"
       self.implant = KneeImplant.new(:operation => self, :body_part => self.body_part)
     when "hip"

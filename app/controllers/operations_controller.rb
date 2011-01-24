@@ -23,10 +23,15 @@ class OperationsController < ApplicationController
 
   private
   
+  # def begin_of_association_chain
+  #   diagnosis
+  # end
+  
   def build_resource 
      super
      @operation.diagnosis ||= diagnosis
      @operation.body_part = @operation.diagnosis.try(:body_part)
+     @operation.registration = @operation.diagnosis.try(:registration)
      @operation.patient = @operation.diagnosis.try(:patient)
      @operation
   end

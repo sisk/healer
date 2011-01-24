@@ -6,10 +6,10 @@
   %h2 Diagnoses
   - @registration.diagnoses.each do |diagnosis|
     .diagnosis
-      %p= diagnosis
-      - if diagnosis.operations.empty?
-        %p= link_to "Add Operation", new_diagnosis_operation_path(diagnosis)
-      - else
-        %ul
+      %p
+        = "#{diagnosis} - "
+        - if diagnosis.operations.empty?
+          = link_to "Add Operation", new_diagnosis_operation_path(diagnosis)
+        - else
           - diagnosis.operations.each do |operation|
-            %li= link_to "Edit Operation", diagnosis_operation_path(diagnosis,operation)
+            = link_to operation, diagnosis_operation_path(diagnosis,operation)
