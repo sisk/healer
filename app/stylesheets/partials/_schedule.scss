@@ -111,9 +111,11 @@ table#schedule {
 table#show_schedule {
   .registration {
     border-bottom: solid 1px $grey-very-light;
+    .name {
+      font-size: 1.1em;
+    }
     .body_part {
       color: $grey-medium;
-      font-weight: bold;
     }
   }
 }

@@ -12,7 +12,7 @@ class OperationsController < ApplicationController
       }
     end
   end
-
+  
   def create
     create! { diagnosis_operation_path(diagnosis,@operation) }
   end
@@ -21,6 +21,10 @@ class OperationsController < ApplicationController
     update! { diagnosis_operation_path(diagnosis,@operation) }
   end
 
+  def destroy
+    destroy! { registration_path(@operation.registration) }
+  end
+  
   private
   
   # def begin_of_association_chain

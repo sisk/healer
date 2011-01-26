@@ -22,7 +22,7 @@
             %ol.registrations
               - registrations.each do |registration|
                 %li.registration
-                  %p
+                  %p.name
                     = link_to registration.patient, registration
                     - if registration.revision?
                       %span.asterisk [Revision]

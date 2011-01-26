@@ -6,33 +6,38 @@
       %li= link_to "Edit operation details", edit_diagnosis_operation_path(@diagnosis,@operation)
     - if @operation.registration.present?
       %li= link_to "Return to registration", registration_path(@operation.registration)
+    - if permitted_to? :destroy, @operation
+      %li= link_to "Delete operation", diagnosis_operation_path(@diagnosis,@operation), :method => :delete, :confirm => "Are you sure? This will remove all data and xray records for this operation. This action cannot be undone."
       
-.operation_summary
-  %dl
-    %dt Registration ID
-    %dd= @operation.registration_id
-    %dt Body Part
-    %dd= @operation.body_part
-    %dt Procedure
-    %dd= @operation.procedure
-    %dt Primary Surgeon
-    %dd= @operation.primary_surgeon
-    %dt Secondary Surgeon
-    %dd= @operation.secondary_surgeon
-    %dt Anesthesiologist
-    %dd= @operation.anesthesiologist
-    %dt Date
-    %dd= @operation.date
-    %dt Approach
-    %dd= @operation.approach
-    %dt Difficulty
-    %dd= @operation.difficulty
-    %dt Graft
-    %dd= @operation.graft
-    %dt Ambulatory Order
-    %dd= @operation.ambulatory_order
-  %h3 Notes
-  %p= simple_format(@operation.notes)
+.operation
+  .summary
+    %h2 Operation Summary
+    %dl
+      %dt Registration ID
+      %dd= @operation.registration_id
+      %dt Body Part
+      %dd= @operation.body_part
+      %dt Procedure
+      %dd= @operation.procedure
+      %dt Primary Surgeon
+      %dd= @operation.primary_surgeon
+      %dt Secondary Surgeon
+      %dd= @operation.secondary_surgeon
+      %dt Anesthesiologist
+      %dd= @operation.anesthesiologist
+      %dt Date
+      %dd= @operation.date
+      %dt Approach
+      %dd= @operation.approach
+      %dt Difficulty
+      %dd= @operation.difficulty
+      %dt Graft
+      %dd= @operation.graft
+      %dt Ambulatory Order
+      %dd= @operation.ambulatory_order
+  .notes
+    %h2 Notes
+    %p= simple_format(@operation.notes)
 
 
 .section
