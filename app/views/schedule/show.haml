@@ -27,6 +27,7 @@
       %tr.day
         %td.indicator
           = "Day #{day_num}"
+          = link_to "day schedule", trip_schedule_path(@trip, :day => day_num)
         - @rooms.each do |room|
           - registrations = @trip.registrations.room(room.id).day(day_num)
           %td{ :class => "day_#{day_num} #{dom_id(room)}" }

@@ -1,6 +1,6 @@
 .registration
   .patient
-    = patient_image(registration.patient)
+    = patient_image(registration.patient, :small)
     %h3= registration.patient
   .procedure
     %p.body_part= registration.body_part_list

@@ -63,7 +63,7 @@
   }
 }
 
-#room_registrations {
+.registration_list {
   .registration {
     @include clearfix;
     border-bottom: solid 1px $grey-very-light;

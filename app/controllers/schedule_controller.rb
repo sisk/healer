@@ -12,6 +12,10 @@ class ScheduleController < ApplicationController
     if params[:room].present?
       @room = Room.find(params[:room])
       render :template => "schedule/show_room"
+    elsif params[:day].present?
+      @day = params[:day]
+      @rooms = @trip.try(:facility).try(:rooms) || []
+      render :template => "schedule/show_day"
     else
       @registrations = @trip.registrations.authorized
       @rooms = @trip.try(:facility).try(:rooms) || []

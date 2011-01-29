@@ -11,7 +11,6 @@ body.bp {
   @include blueprint-utilities;
   @include blueprint-debug;
   @include blueprint-interaction;
-  @include showgrid;
 }
 
 $content-columns: $blueprint-grid-columns - 2;
@@ -24,7 +23,6 @@ $content-columns: $blueprint-grid-columns - 2;
 }
 #content {
   @include column($content-columns);
-  @include debug;
   padding: $blueprint-grid-outer-width;
 }
 .section {

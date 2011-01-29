@@ -1,12 +1,11 @@
 - content_for :title do
-  = "#{@trip} - Schedule - #{@room}"
+  = "#{@trip} - Schedule - Day #{@day}"
 - content_for :subnavigation do
   %ul.subnavigation
     %li= link_to "Full schedule", trip_schedule_path(@trip)
 
-- @number_of_days.times do |i|
-  - day_num = i + 1
-  - registrations = @trip.registrations.room(@room.id).day(day_num)
+- @rooms.each do |room|
+  - registrations = @trip.registrations.room(room.id).day(@day)
   .registration_list.day
-    %h2= "Day #{day_num}"
+    %h2= room
     = render :partial => "schedule/inline_registration", :as => :registration, :collection => registrations
