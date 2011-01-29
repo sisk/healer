@@ -72,6 +72,7 @@ function updateUnscheduled() {
     type: "PUT",
     data: params
   });
+  $("#unscheduled").toggle_empty_class();
 }
 
 function updateRoom(element) {
@@ -87,4 +88,5 @@ function updateRoom(element) {
     type: "PUT",
     data: params
   });
+  enclosure.toggle_empty_class();
 }

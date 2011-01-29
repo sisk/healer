@@ -29,6 +29,13 @@ $(document).ready(function() {
     $(this).find(".menu").slideUp(100);
   });
 
+  $("#ipad_hint").dialog({
+    buttons: { "OK": function() { $(this).dialog("close"); } },
+    dialogClass: 'instructions',
+    modal: true,
+    width: 500
+  });
+
 });
 
 jQuery(function ($) {
@@ -46,6 +53,17 @@ jQuery(function ($) {
       $(this).closest(".choice").siblings().find(".data").addClass("hide");
       $(this).closest(".choice").find(".data").removeClass("hide");
     });
+    return this;
+  }
+}(jQuery));
+
+(function($){
+  $.fn.toggle_empty_class = function() {
+    if ($(this).children().length == 0) {
+      $(this).addClass("empty");
+    } else {
+      $(this).removeClass("empty");
+    }
     return this;
   }
 }(jQuery));
