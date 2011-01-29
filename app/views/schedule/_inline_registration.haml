@@ -27,8 +27,8 @@
       - else
         %li= link_to "Edit Operation", registration_operation_path(registration.operations.first)
       %li= link_to "Summary Report", "#"
-  -# if patient.has_medical_detail?
-  .medical_details.supplemental
-    %p.fake_link.toggle= "Full medical detail"
-    .details{ :style => "display: none;" }
-      = render :partial => "patients/medical_details", :locals => { :patient => patient, :hide => true }
+  - if patient.has_medical_detail?
+    .medical_details.supplemental
+      %p.fake_link.toggle= "Full medical detail"
+      .details{ :style => "display: none;" }
+        = render :partial => "patients/medical_details", :locals => { :patient => patient, :hide => true }
