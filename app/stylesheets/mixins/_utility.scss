@@ -2,8 +2,8 @@
   border: $size $color $type;
 }
 @mixin debug {
-  background-color: #faa !important;
-  /*border: 1px #f00 dotted !important;*/
+/*  background-color: #faa !important;*/
+  border: 1px #f00 dotted !important;
 }
 @mixin sortable {
   @include clearfix;

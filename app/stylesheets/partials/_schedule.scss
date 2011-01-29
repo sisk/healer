@@ -52,6 +52,9 @@
 #schedule_edit {
   @include clearfix;
   font-size: 0.8em;
+  .empty {
+    @include min-height(50px); 
+  }
 }
 
 #source {
@@ -68,6 +71,7 @@
   }
 }
 table.schedule {
+  overflow: auto;
   @include border-radius(6px);
   tr.day {
     td { border-bottom: solid 2px $grey-dark; }
@@ -90,8 +94,7 @@ table.schedule {
   }
 }
 table#schedule {
-  overflow: auto;
-  @include column($blueprint-grid-columns - 8, true);
+  @include column($content-columns - 6, true);
   td {
     .patient, .procedure { white-space: normal; }
     .patient {
@@ -104,11 +107,9 @@ table#schedule {
       padding-bottom: $margin-increment;
     }
   }
-  .room {
-   @include min-height(50px); 
-  }
 }
 table#show_schedule {
+  @include column($content-columns);
   .registration {
     border-bottom: solid 1px $grey-very-light;
     .name {

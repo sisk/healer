@@ -11,9 +11,10 @@ body.bp {
   @include blueprint-utilities;
   @include blueprint-debug;
   @include blueprint-interaction;
-  $content-columns: ceil(2 * $blueprint-grid-columns / 3);
+  @include showgrid;
 }
 
+$content-columns: $blueprint-grid-columns - 2;
 // Remove the scaffolding when you're ready to start doing visual design.
 // Or leave it in if you're happy with how blueprint looks out-of-the-box
 @include blueprint-scaffolding("body.bp");
@@ -22,7 +23,8 @@ body.bp {
   position: relative;
 }
 #content {
-  @include column($blueprint-grid-columns);
+  @include column($content-columns);
+  @include debug;
   padding: $blueprint-grid-outer-width;
 }
 .section {

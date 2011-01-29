@@ -22,10 +22,10 @@
 }
 .section.medical_history {
   .medications, .diseases {
-    @include column($blueprint-grid-columns / 3);
+    @include column($content-columns / 3);
   }
   .allergies {
-    @include column($blueprint-grid-columns / 3, true);
+    @include column($content-columns / 3, true);
   }
 }
 .supplemental {
@@ -67,7 +67,7 @@ form.patient {
         /*@include prepend(5);*/
       }
       &#allergy_list {
-        @include column(($blueprint-grid-columns) / 3, true);
+        @include column(($content-columns) / 3, true);
       }
     }
   }

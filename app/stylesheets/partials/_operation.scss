@@ -3,6 +3,6 @@
     @include column(8);
   }
   .notes {
-    @include column($blueprint-grid-columns - 8, true);
+    @include column($content-columns - 8, true);
   }
 }

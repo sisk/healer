@@ -9,7 +9,7 @@ dl {
   position: relative;
   padding-top: $margin-increment * 2;
   padding-bottom: $margin-increment * 2;
-  @include column($blueprint-grid-columns - 1);
+  @include column($content-columns - 1);
   border-bottom: solid 1px $grey-light;
   h3, h4 { margin-bottom: $margin-increment; }
   dt {
@@ -45,12 +45,12 @@ dl {
   padding: 1em;
   @include clearfix;
   margin-bottom: $margin-increment;
-  @include column($blueprint-grid-columns);
+  @include column($content-columns);
   form.list_search {
-    @include column($blueprint-grid-columns / 2);
+    @include column($content-columns / 2);
   }
   .pagination {
-    @include column($blueprint-grid-columns / 2, true);
+    @include column($content-columns / 2, true);
     text-align: right;
   }
 }
