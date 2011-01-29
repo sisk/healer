@@ -1,27 +1,26 @@
 - patient = registration.patient
 .registration[registration]
-  %h2= "##{registration.id} - #{patient}"
+  .image= patient_image(patient, :small)
   .patient
-    .info
-      = render :partial => "registrations/summary/patient", :locals => { :patient => patient }
-    .diagnoses
-      %h3 Diagnoses
+    %h3= patient
+    %h4= "Registration ##{registration.id}"
+    = render :partial => "patients/shared/patient_demographic", :locals => { :patient => patient }
+  .treatment
+    .inline_diagnosis_list
+      %h4 Diagnoses
       -# show a list of up to 3 individual diagnoses. link-off to patient/show if longer.
       - diagnoses = registration.authorized? ? registration.diagnoses : registration.patient.diagnoses
       - for i in 0..diagnoses.size - 1 do
         - diagnosis = diagnoses[i]
         - break if i > 2
-
         = render :partial => "diagnoses/editable_snapshot", :locals => { :diagnosis => diagnosis }
         -# TODO investigate how this view renders out when > 3 xrays exist.
-
       - if diagnoses.size > 3
         = link_to "+ #{diagnoses.size - 3} more", patient_path(patient), :class => "more"
-    - if patient.has_medical_detail?
-      .medical_details.supplemental
-        %p.fake_link.toggle= "Toggle full detail"
-        .details{ :style => "display: none;" }
-          = render :partial => "patients/medical_details", :locals => { :patient => patient, :hide => true }
-
-  .action
+  .navigation.noprint
     = render :partial => "registrations/summary/action", :locals => { :registration => registration }
+  - if patient.has_medical_detail?
+    .medical_details.supplemental
+      %p.fake_link.toggle= "Full medical detail"
+      .details{ :style => "display: none;" }
+        = render :partial => "patients/medical_details", :locals => { :patient => patient, :hide => true }

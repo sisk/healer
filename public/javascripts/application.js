@@ -13,7 +13,7 @@ $(document).ready(function() {
     'titlePosition': 'over'
   });
 
-  $("#registration_list").tabs();
+  $("#registrations").tabs();
   $("form#patient_edit").tabs();
   $(".choice_toggle").choice_toggle();
   $(".supplemental").supplementable();

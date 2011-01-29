@@ -71,3 +71,13 @@
     ol { padding-left: 0; }
   }
 }
+
+.inline_diagnosis_list {
+  .diagnosis {
+    @include clearfix;
+    .xrays { @include float-left; }
+    .xrays {
+      margin-right: $margin-increment;
+    }
+  }
+}
