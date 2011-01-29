@@ -11,7 +11,7 @@
         = "- #{yield :title}"
   %body.bp
     #wrapper
-      #head
+      #head.noprint
         = render :partial => "layouts/shared/trip_nav"
         - if current_user.has_role_admin
           = render :partial => "layouts/shared/system_settings"

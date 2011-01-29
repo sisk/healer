@@ -1,8 +1,47 @@
-@import "blueprint";
+@import "blueprint/print";
+@import "constants/colors";
 
 // To generate css equivalent to the blueprint css but with your configuration applied, uncomment:
 // +blueprint-print
 
 //Recommended Blueprint configuration with scoping and semantic layout:
 body.bp {
-  @include blueprint-print(true); }
+  @include blueprint-print(true);
+  a {
+    color: $black;
+    text-decoration: none;
+  }
+}
+
+.noprint, ul.subnavigation { display: none; }
+.asterisk { color: $red; }
+
+table {
+  thead {
+    th {
+      padding: 10pt;
+      text-align: left;
+      border-left: dotted 1px $grey-very-light;
+      font-size: 12pt;
+      line-height: 12pt;
+      font-weight: normal;
+    }
+  }
+  tbody {
+    tr.day {
+      td {
+        vertical-align: top;
+        padding: 10pt 10pt 10pt 0;
+        border-left: dotted 1px $grey-very-light;
+        border-bottom: solid 1px $grey-medium;
+        &.indicator { white-space: nowrap; font-size: 14pt; padding-left: 10pt; }
+        ol {
+          margin-top: 0;
+          font-size: 8pt;
+          line-height: 9pt;
+          list-style-position: outside;
+        }
+      }
+    }
+  }
+}

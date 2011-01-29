@@ -73,6 +73,9 @@
 table.schedule {
   overflow: auto;
   @include border-radius(6px);
+  th p, td.indicator p {
+    margin: 0;
+  }
   tr.day {
     td { border-bottom: solid 2px $grey-dark; }
   }
@@ -83,8 +86,10 @@ table.schedule {
     &.indicator {
       border-left: none;
       background-color: $grey-very-light;
-      font-weight: bold;
-      white-space: nowrap;
+      .day_num {
+        font-weight: bold;
+        white-space: nowrap;
+      }
     }
     white-space: nowrap;
     .registration {
@@ -111,9 +116,8 @@ table#schedule {
 table#show_schedule {
   @include column($content-columns);
   .registration {
-    border-bottom: solid 1px $grey-very-light;
     .name {
-      font-size: 1.1em;
+      font-size: 1.2em;
     }
     .body_part {
       color: $grey-medium;
@@ -125,7 +129,6 @@ table#show_schedule {
   @include horizontal-list;
   padding-left: 0 !important;
   margin-bottom: $margin-increment * 2;
-  @include prepend(6);
   a.inactive {
     &:after {
       /*content: " [show]";*/
