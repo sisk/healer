@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   # def default_url_options(options={})
   #   { :locale => I18n.locale }
   # end
-    
+
   protect_from_forgery
   layout :layout_by_resource
 
@@ -24,6 +24,10 @@ class ApplicationController < ActionController::Base
 
   # TODO implement the Rails 3 version of this.
   # filter_parameter_logging :password
+  
+  def request_ipad?
+    request.user_agent.match(/iPad/)
+  end
 
   protected
 

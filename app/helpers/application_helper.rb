@@ -3,4 +3,7 @@ module ApplicationHelper
   # def permitted_to?(obj,action)
   #   true
   # end
+  def request_ipad?
+    request.user_agent.match(/iPad/)
+  end
 end
