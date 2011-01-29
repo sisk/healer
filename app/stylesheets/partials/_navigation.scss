@@ -39,7 +39,7 @@ span.inline_nav {
 }
 
 #system_settings {
-  @include span(3);
+  /*@include span(3);*/
   background-color: $header-background-color;
   color: $white;
   padding: 3px;

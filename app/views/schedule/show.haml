@@ -4,12 +4,23 @@
   %ul.subnavigation
     %li= link_to @trip, trip_path(@trip)
     %li= link_to "Edit Schedule", edit_trip_schedule_path(@trip)
+- content_for :ipad_hint do
+  %p Use two fingers to scroll left and right through the schedule table to see more rooms.
+
+%ul#room_toggle
+  %li.header Show:
+  - @rooms.each do |room|
+    %li.hide{ :id => "show_#{dom_id(room)}" }= link_to_function room, "$('#show_schedule').find('.#{dom_id(room)}').removeClass('hide'); $(this).closest('li').addClass('hide');"
 
 %table.schedule#show_schedule
   %thead
     %th
     - @rooms.each do |room|
-      %th= "#{room} #{link_to "room schedule", trip_schedule_path(@trip, :room => room.id)}".html_safe
+      %th{ :id => "#{dom_id(room)}_header", :class => "#{dom_id(room)}" }
+        = room
+        %span.fake_link.toggle
+          = link_to "room schedule", trip_schedule_path(@trip, :room => room.id)
+          = link_to_function "hide", "$('#show_#{dom_id(room)}').removeClass('hide'); $('#show_schedule').find('.#{dom_id(room)}').addClass('hide');"
   %tbody
     - @number_of_days.times do |i|
       - day_num = i + 1

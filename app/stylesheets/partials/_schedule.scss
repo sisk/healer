@@ -166,3 +166,11 @@ table#show_schedule {
     color: $grey-dark;
   }
 }
+
+.horizontal_scroller {
+  height: 150px;
+  background-color: $grey-dark;
+  color: $white;
+  padding: 1em;
+  font-size: 3em;
+}

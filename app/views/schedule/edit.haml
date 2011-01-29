@@ -4,7 +4,7 @@
 %ul#room_toggle
   %li.header Show:
   - @rooms.each do |room|
-    %li{ :id => "show_#{dom_id(room)}" }= link_to_function room, "$('#schedule').find('.#{dom_id(room)}').removeClass('hide'); $(this).closest('li').addClass('hide');"
+    %li{ :id => "show_#{dom_id(room)}" }= link_to_function room, "$('#schedule').find('.#{dom_id(room)}').removeClass('hide'); $(this).closest('li').addClass('hide'); toggleScroller();"
 
 #schedule_edit
 
@@ -13,7 +13,7 @@
       %h2= "Unscheduled (#{@to_schedule.size})"
       = label_tag :filter, "Filter"
       = text_field_tag :filter, nil, :id => "unscheduled_filter"
-    #unscheduled.registrations.connectedSortable
+    #unscheduled.registrations.connectedSortable{ :class => "#{@to_schedule.empty? ? "empty" : ""}" }
       = render :partial => "schedule/registration_unscheduled", :collection => @to_schedule, :as => :registration
 
   %table.schedule#schedule
@@ -24,7 +24,12 @@
         %th{ :id => "#{dom_id(room)}_header", :class => "#{dom_id(room)} hide" }
           = room
           %span.fake_link.toggle
-            = link_to_function "hide", "$('#show_#{dom_id(room)}').removeClass('hide'); $('#schedule').find('.#{dom_id(room)}').addClass('hide');"
+            = link_to_function "hide", "$('#show_#{dom_id(room)}').removeClass('hide'); $('#schedule').find('.#{dom_id(room)}').addClass('hide'); toggleScroller();"
+      - if request_ipad?
+        %tr.scroller
+          %td{ :colspan => "#{@trip.registrations.size + 1}" }
+            .horizontal_scroller.hide
+              %p [Use two fingers here to scroll left and right]
     %tbody
       - @number_of_days.times do |i|
         - day_num = i + 1
@@ -34,8 +39,16 @@
           - @rooms.each do |room|
             - registrations = @trip.registrations.room(room.id).day(day_num)
             %td{ :class => "day_#{day_num} #{dom_id(room)} hide" }
-              .room.connectedSortable{ :class => "day_#{day_num} #{dom_id(room)}", :id => "day_#{day_num}_#{dom_id(room)}" }
+              .room.connectedSortable{ :class => "day_#{day_num} #{dom_id(room)} #{registrations.empty? ? "empty" : ""}", :id => "day_#{day_num}_#{dom_id(room)}" }
                 = render :partial => "schedule/registration_scheduled", :collection => registrations, :as => :registration
 
 - content_for :script do
   = javascript_include_tag "lib/schedule.js"
+  :javascript
+    function toggleScroller() {
+      if ($("#schedule tbody").width() > $("#content").width()) {
+        $(".horizontal_scroller").removeClass("hide");
+      } else {
+        $(".horizontal_scroller").addClass("hide");
+      }
+    }
