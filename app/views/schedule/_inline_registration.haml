@@ -6,8 +6,20 @@
     %h4= "Registration ##{registration.id}"
     = render :partial => "patients/shared/patient_demographic", :locals => { :patient => patient }
   .treatment
-    .info
-      %p.body_part= registration.body_part_list
+    %h4 Diagnoses
+    - for i in 0..registration.diagnoses.size - 1 do
+      - diagnosis = registration.diagnoses[i]
+      .diagnosis.snapshot[diagnosis]{ :class => "#{severity(diagnosis).downcase}" }
+        - if diagnosis.xrays.present?
+          .xrays
+            - diagnosis.xrays.each do |xray|
+              %span.enlarge
+                = link_to image_tag(xray.photo.url(:tiny), :alt => xray.to_s, :class => "xray"), xray.photo.url, :rel => "group", :title => xray.to_s
+        %p.name
+          = diagnosis
+          - if diagnosis.revision?
+            %span.asterisk (Revision)
+          
   .navigation.noprint
     %ul
       - if registration.operations.empty?
@@ -20,23 +32,3 @@
     %p.fake_link.toggle= "Full medical detail"
     .details{ :style => "display: none;" }
       = render :partial => "patients/medical_details", :locals => { :patient => patient, :hide => true }
-
-
-/
-  .diagnoses
-    -# show a list of up to 3 individual diagnoses. link-off to patient/show if longer.
-    - diagnoses = registration.authorized? ? registration.diagnoses : registration.patient.diagnoses
-    - for i in 0..diagnoses.size - 1 do
-      - diagnosis = diagnoses[i]
-      .diagnosis.snapshot[diagnosis]{ :class => "#{severity(diagnosis).downcase}" }
-        = render :partial => "diagnoses/modal_form", :locals => { :diagnosis => diagnosis }
-        - if diagnosis.xrays.present?
-          .xrays
-            - diagnosis.xrays.each do |xray|
-              %span.enlarge
-                = link_to image_tag(xray.photo.url(:tiny), :alt => xray.to_s, :class => "xray"), xray.photo.url, :rel => "group", :title => xray.to_s
-        %p.name
-          = diagnosis
-          - if diagnosis.revision?
-            %span.asterisk (Revision)
-        .nav= link_to("Review", edit_patient_diagnosis_path(diagnosis.patient,diagnosis), :class => "review", :id => "review_#{dom_id(diagnosis)}" )
