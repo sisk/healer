@@ -4,8 +4,12 @@
   = render :partial => "devise/shared/subnav"
 = semantic_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
   - f.inputs do
-    = f.input :email, :label => 'Email'
-    = f.input :password, :as => :password, :label => 'Password'
+    - if Rails.env == "development"
+      = f.input :email, :label => 'Email', :input_html => { :value => "jasonmsisk@gmail.com" }
+      = f.input :password, :as => :password, :label => 'Password', :input_html => { :value => "111111" }
+    - else
+      = f.input :email, :label => 'Email'
+      = f.input :password, :as => :password, :label => 'Password'
     - if devise_mapping.rememberable?
       = f.input :remember_me, :label => 'Remember Me', :as => :boolean
   - f.buttons do
