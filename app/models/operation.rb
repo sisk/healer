@@ -20,9 +20,9 @@ class Operation < ActiveRecord::Base
   belongs_to :secondary_surgeon, :class_name => "User", :foreign_key => "secondary_surgeon_id"
   belongs_to :anesthesiologist, :class_name => "User", :foreign_key => "anesthesiologist_id"
 
-  has_one :implant
-  has_one :knee_implant
-  has_one :hip_implant
+  has_one :implant, :dependent => :destroy
+  has_one :knee_implant, :dependent => :destroy
+  has_one :hip_implant, :dependent => :destroy
 
   has_many :xrays, :dependent => :destroy
   accepts_nested_attributes_for :xrays, :allow_destroy => true, :reject_if => proc { |attributes| attributes['photo'].blank? }
