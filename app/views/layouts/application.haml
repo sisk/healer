@@ -7,7 +7,7 @@
     = yield :head
     %title<
       Healer
-      - if yield :title
+      - if content_for?(:title)
         = "- #{yield :title}"
   %body.bp
     #wrapper
@@ -17,9 +17,12 @@
           = render :partial => "layouts/shared/system_settings"
         = render :partial => "layouts/shared/session"
       #content
-        - if yield :title
+        - if content_for?(:title)
           %h1= yield :title
         = yield :subnavigation
+        - if request_ipad? && content_for?(:ipad_hint)
+          #ipad_hint{ :title => "iPad Hint:" }
+            = yield :ipad_hint
         = render :partial => "layouts/shared/alerts"
         = yield
     = render :partial => "layouts/shared/default_javascript"
