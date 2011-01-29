@@ -91,12 +91,12 @@ describe Operation, "#build_implant" do
     @operation.implant.should == implant
   end
   it "builds and sets a KneeImplant if Operation's body part is a knee" do
-    @operation.stub(:body_part).and_return(mock_model(BodyPart, :name => "Knee"))
+    @operation.stub(:body_part).and_return(mock_model(BodyPart, :name_en => "Knee"))
     @operation.build_implant
     @operation.implant.should be_a_kind_of(KneeImplant)
   end
   it "builds and sets a HipImplant if Operation's body part is a hip" do
-    @operation.stub(:body_part).and_return(mock_model(BodyPart, :name => "Hip"))
+    @operation.stub(:body_part).and_return(mock_model(BodyPart, :name_en => "Hip"))
     @operation.build_implant
     @operation.implant.should be_a_kind_of(HipImplant)
   end
@@ -109,7 +109,7 @@ describe Operation, "#build_implant" do
     @operation.implant.operation.should == @operation
   end
   it "implant body part is set to self's" do
-    part = mock_model(BodyPart, :name => "Whatevs, yo.")
+    part = mock_model(BodyPart, :name_en => "Whatevs, yo.")
     @operation.stub(:body_part).and_return(part)
     @operation.build_implant
     @operation.implant.body_part.should == part
