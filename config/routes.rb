@@ -51,9 +51,7 @@ Healer::Application.routes.draw do
   end
   resources :patients do
     resources :risk_factors
-    resources :diagnoses do
-      resources :xrays
-    end
+    resources :diagnoses
   end
   resources :operations do
     resources :xrays
@@ -64,6 +62,7 @@ Healer::Application.routes.draw do
   end
   resources :diagnoses do
     resources :operations
+    resources :xrays
   end
 
   resources :facilities do
