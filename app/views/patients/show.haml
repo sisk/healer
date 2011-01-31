@@ -1,12 +1,28 @@
 - content_for :title do
-  Patient record
+  ="#{@patient} - Patient record"
 - content_for :subnavigation do
   %ul.subnavigation
     %li= link_to "Patient Index", patients_path
     - if permitted_to? :edit, @patient
-      %li= link_to "Edit #{@patient}", edit_patient_path(@patient)
-.patient= render :partial => "patients/shared/snapshot", :locals => { :patient => @patient }
-.section
+      %li= link_to "Edit record", edit_patient_path(@patient)
+.section.basic
+  %h2 Basic Information
+  = patient_image(@patient, :small)
+  = render :partial => "patients/shared/patient_demographic", :locals => { :patient => @patient }
+  - if @patient.has_contact?
+    .contact
+      %h3 Contact Information
+      %dl
+        - if @patient.inline_address.present?
+          %dt Address:
+          %dd= @patient.inline_address("<br />").html_safe
+        - if @patient.phone.present?
+          %dt Phone:
+          %dd= @patient.phone
+        - if @patient.email.present?
+          %dt Email:
+          %dd= mail_to @patient.email
+.section.registrations
   %h2 Registrations
   - if @patient.registered?
     %ul.registrations
@@ -20,28 +36,19 @@
         = f.input :trip_id, :as => :select, :label => 'Trip', :collection => Trip.all
       - f.buttons do
         = f.commit_button 'Go'
-.section
+.section.diagnoses
   %h2 Diagnoses
   %ul.subnavigation
     - if permitted_to? :create, Diagnosis.new(:patient => @patient)
       = link_to "New Diagnosis", new_patient_diagnosis_path(@patient)
   #diagnosis_list
     = render :partial => "diagnosis_summary", :collection => @patient.diagnoses, :as => :diagnosis
-.section.risk_factors
-  %h2
-    Risk Factors
-    - if permitted_to? :edit, @patient
-      %span.inline_nav= link_to "edit", edit_patient_path(@patient, :anchor => "risks")
-  %ul#risk_factor_list
-    - @patient.risk_factors.each do |risk_factor|
-      %li= risk_factor
-.section.medical_history
+.section.medical_detail
   %h2
     Medical History
     - if permitted_to? :edit, @patient
       %span.inline_nav= link_to "edit", edit_patient_path(@patient, :anchor => "history")
   = render :partial => "patients/medical_details", :locals => { :patient => @patient }
-
 /
 / .section
 /   %h2= "#{@patient.short_name}'s Operations"
