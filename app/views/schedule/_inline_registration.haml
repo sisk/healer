@@ -6,27 +6,32 @@
     %h4= "Registration ##{registration.id}"
     = render :partial => "patients/shared/patient_demographic", :locals => { :patient => patient }
   .treatment
-    %h4 Diagnoses
-    - for i in 0..registration.diagnoses.size - 1 do
-      - diagnosis = registration.diagnoses[i]
-      .diagnosis.snapshot[diagnosis]{ :class => "#{severity(diagnosis).downcase}" }
-        - if diagnosis.xrays.present?
-          .xrays
-            - diagnosis.xrays.each do |xray|
-              %span.enlarge
-                = link_to image_tag(xray.photo.url(:tiny), :alt => xray.to_s, :class => "xray"), xray.photo.url, :rel => "group", :title => xray.to_s
-        %p.name
-          = diagnosis
-          - if diagnosis.revision?
-            %span.asterisk (Revision)
+    .inline_diagnosis_list
+      %h4 Diagnoses (Pre-op)
+      - for i in 0..registration.diagnoses.size - 1 do
+        - diagnosis = registration.diagnoses[i]
+        .diagnosis.snapshot[diagnosis]{ :class => "#{severity(diagnosis).downcase}" }
+          - if diagnosis.xrays.present?
+            .xrays
+              - diagnosis.xrays.each do |xray|
+                %span.enlarge
+                  = link_to image_tag(xray.photo.url(:tiny), :alt => xray.to_s, :class => "xray"), xray.photo.url, :rel => "group", :title => xray.to_s
+          %p.name
+            = diagnosis
+            - if diagnosis.revision?
+              %span.asterisk (Revision)
+          .nav
+          - if diagnosis.operations.empty?
+            = link_to "Add Operation", new_diagnosis_operation_path(diagnosis)
+          - else
+            - diagnosis.operations.each do |operation|
+              = link_to "Edit Operation", edit_diagnosis_operation_path(diagnosis, operation)
+
           
   .navigation.noprint
     %ul
-      - if registration.operations.empty?
-        %li= link_to "Add Operation", new_registration_operation_path(registration)
-      - else
-        %li= link_to "Edit Operation", registration_operation_path(registration.operations.first)
-      %li= link_to "Summary Report", "#"
+      - if registration.operations.present?
+        %li= link_to "Summary Report", registration
   - if patient.has_medical_detail?
     .medical_details.supplemental
       %p.fake_link.toggle= "Full medical detail"
