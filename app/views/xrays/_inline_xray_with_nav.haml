@@ -1,0 +1,5 @@
+.xray.thumbnail
+  = image_tag(xray.photo.url(:thumb), :alt => xray.to_s)
+  .nav{ :style => "display: none;" }
+    .zoom= link_to "<span>Zoom</span>".html_safe, xray.photo.url, :rel => "group"
+    .delete= link_to "<span>Delete x-ray</span>".html_safe, xray_path(xray), :method => :delete, :confirm => "Are you sure you want to delete this x-ray? You cannot undo this!"

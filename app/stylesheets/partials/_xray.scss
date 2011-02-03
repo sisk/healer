@@ -1,0 +1,44 @@
+.xray {
+  &.thumbnail {
+    width: 100px;
+    height: 100px;
+    & > .nav {
+      /*
+      display: none;
+      &:hover {
+        display: block;
+      }
+      */
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100px;
+      height: 100px;
+      z-index: 5;
+      .zoom, .delete {
+        a { display: block; width: 13px; }
+        z-index: 10;
+        position: absolute;
+        width: 13px;
+        right: 8px;
+      }
+      .zoom span, .delete span {
+        display: none;
+      }
+      .zoom {
+        background-image: url('/images/xray_zoom.png');
+        height: 11px;
+        top: 8px;
+        a { height: 11px; }
+      }
+      .delete {
+        background-image: url('/images/xray_trash.png');
+        height: 12px;
+        bottom: 8px;
+        a { height: 12px; }
+      }
+    }
+  }
+  position: relative;
+  margin: 0 $margin-increment 0 0;
+}

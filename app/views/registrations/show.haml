@@ -13,3 +13,7 @@
         - else
           - diagnosis.operations.each do |operation|
             = link_to operation, diagnosis_operation_path(diagnosis,operation)
+      - if diagnosis.xrays.present?
+        %span.xrays
+          - diagnosis.xrays.each do |xray|
+            = xray_thumbnail(xray)

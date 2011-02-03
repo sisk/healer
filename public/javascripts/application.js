@@ -8,7 +8,7 @@ $(document).ready(function() {
 
   $('input.ui-datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
 
-  $(".enlarge a").fancybox({
+  $(".zoom a").fancybox({
     'hideOnContentClick': true,
     'titlePosition': 'over'
   });
@@ -34,6 +34,13 @@ $(document).ready(function() {
     dialogClass: 'instructions',
     modal: true,
     width: 500
+  });
+  
+  $(".xray.thumbnail").mouseover(function(event) {
+    $(this).find(".nav").fadeIn();
+  });
+  $(".xray.thumbnail").mouseleave(function(event) {
+    $(this).find(".nav").fadeOut();
   });
 
 });

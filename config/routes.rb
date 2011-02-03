@@ -64,6 +64,7 @@ Healer::Application.routes.draw do
     resources :operations
     resources :xrays
   end
+  resources :xrays
 
   resources :facilities do
     resources :rooms do
