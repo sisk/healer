@@ -28,7 +28,6 @@ class Patient < ActiveRecord::Base
   scope :no_registrations, :conditions => ["patients.id NOT IN (SELECT patient_id FROM registrations)"]
   scope :search, Proc.new { |term|
     query = term.strip.gsub(',', '')
-    logger.debug(query.inspect)
     first_last = query.split(" ")
     if query.present?
       if first_last.size == 2
