@@ -14,8 +14,7 @@
           - if diagnosis.xrays.present?
             .xrays
               - diagnosis.xrays.each do |xray|
-                %span.enlarge
-                  = link_to image_tag(xray.photo.url(:tiny), :alt => xray.to_s, :class => "xray"), xray.photo.url, :rel => "group", :title => xray.to_s
+                = xray_thumbnail(xray)
           %p.name
             = diagnosis
             - if diagnosis.revision?

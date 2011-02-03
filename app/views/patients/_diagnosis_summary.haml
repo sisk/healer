@@ -10,10 +10,7 @@
       .xrays
         %h4 Pre-op X-ray(s)
         - diagnosis.xrays.each do |xray|
-          .enlarge
-            = link_to image_tag(xray.photo.url(:tiny), :alt => xray.to_s, :class => "xray"), xray.photo.url, :rel => "group"
-            %p [click to enlarge]
-          =# image_tag(xray.photo.url(:thumb))
+          = xray_thumbnail(xray)
   .operations.supplemental
     - if diagnosis.operations.present?
       %h4 Operations for this diagnosis

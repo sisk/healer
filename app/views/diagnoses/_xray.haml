@@ -1,8 +1,6 @@
 - if xray.photo.exists?
   - f.semantic_fields_for :xrays, xray do |x|
-    .enlarge
-      = link_to image_tag(xray.photo.url(:thumb), :alt => xray.to_s, :class => "xray"), xray.photo.url, :rel => "group"
-      %p [click to enlarge]
+    = xray_thumbnail(xray)
     - x.inputs do
       = x.input :_destroy, :as => :boolean, :label => "Delete x-ray"
 - else
