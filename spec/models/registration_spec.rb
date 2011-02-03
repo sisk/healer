@@ -224,6 +224,13 @@ describe Registration, "#body_part_list" do
     registration = Registration.new(:diagnoses => [])
     registration.body_part_list.should == ""
   end
+  it "ignores nil body parts in diagnoses" do
+    registration = Registration.new(:likely_bilateral => true, :diagnoses => [
+      stub_model(Diagnosis, :body_part => @left_knee),
+      stub_model(Diagnosis, :body_part => nil)
+    ])
+    registration.body_part_list.should == "Knee (L)"
+  end
   it "outputs bilateral if registration is likely bilateral and body parts are the same" do
     registration = Registration.new(:likely_bilateral => true, :diagnoses => [
       stub_model(Diagnosis, :body_part => @left_knee),
