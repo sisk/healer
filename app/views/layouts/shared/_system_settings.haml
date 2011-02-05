@@ -1,19 +1,11 @@
 #system_settings.menu_select
   %h3.toggle System Settings
   %ul.menu{ :style => "display: none;" }
-    - if permitted_to? :index, Patient.new
-      %li= link_to_unless_current "Patients", patients_path
-    - if permitted_to? :index, Trip.new
-      %li= link_to_unless_current "Trips", trips_path
-    - if permitted_to? :index, Facility.new
-      %li= link_to_unless_current "Facilities", facilities_path
-    - if permitted_to? :index, BodyPart.new
-      %li= link_to_unless_current "Body Parts", body_parts_path
-    - if permitted_to? :index, Disease.new
-      %li= link_to_unless_current "Diseases", diseases_path
-    - if permitted_to? :index, Procedure.new
-      %li= link_to_unless_current "Procedures", procedures_path
-    - if permitted_to? :index, Risk.new
-      %li= link_to_unless_current "Risks", risks_path
-    - if permitted_to? :index, User.new
-      %li= link_to_unless_current "Users", users_path  
+    %li= link_to_unless_current "Patients", patients_path
+    %li= link_to_unless_current "Trips", trips_path
+    %li= link_to_unless_current "Facilities", facilities_path
+    %li= link_to_unless_current "Body Parts", body_parts_path
+    %li= link_to_unless_current "Diseases", diseases_path
+    %li= link_to_unless_current "Procedures", procedures_path
+    %li= link_to_unless_current "Risks", risks_path
+    %li= link_to_unless_current "Users", users_path
