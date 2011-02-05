@@ -21,14 +21,14 @@
           = room
           %span.fake_link.toggle.noprint
             = link_to_function "hide", "$('#show_#{dom_id(room)}').removeClass('hide'); $('#show_schedule').find('.#{dom_id(room)}').addClass('hide');"
-        %p= link_to "Room schedule", trip_schedule_path(@trip, :room => room.id)
+        %p.noprint= link_to "Room schedule", trip_schedule_path(@trip, :room => room.id)
   %tbody
     - @number_of_days.times do |i|
       - day_num = i + 1
       %tr.day
         %td.indicator
           %p.day_num= "Day #{day_num}"
-          %p= link_to "Day schedule", trip_schedule_path(@trip, :day => day_num), :class => "noprint"
+          %p.noprint= link_to "Day schedule", trip_schedule_path(@trip, :day => day_num)
         - @rooms.each do |room|
           - registrations = @trip.registrations.room(room.id).day(day_num)
           %td{ :class => "day_#{day_num} #{dom_id(room)}" }

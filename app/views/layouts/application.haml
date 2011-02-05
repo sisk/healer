@@ -26,5 +26,7 @@
               = yield :ipad_hint
         = render :partial => "layouts/shared/alerts"
         = yield
+      #footer
+        %p.as_of.print_only= "As of: #{Time.now}"
     = render :partial => "layouts/shared/default_javascript"
     = yield :script
