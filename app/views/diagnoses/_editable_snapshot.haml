@@ -3,7 +3,7 @@
     .xrays
       - diagnosis.xrays.each do |xray|
         = xray_preview(xray)
-  %p.name
+  %h3
     = diagnosis
     - if diagnosis.revision?
       %span.asterisk (Revision)

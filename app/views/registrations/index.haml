@@ -21,7 +21,6 @@
     = render :partial => "registrations/summary/record", :collection => @authorized_registrations, :as => :registration
   #waiting
     = render :partial => "registrations/summary/record", :collection => @unauthorized_registrations, :as => :registration
-#diagnosis_inline_edit
 
 - content_for :script do
   = javascript_include_tag "lib/jquery.fancybox.overrides"

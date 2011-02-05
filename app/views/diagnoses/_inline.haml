@@ -1,8 +1,13 @@
-.diagnosis
-  %span.name= diagnosis
-  %span.nav= link_to("Edit", edit_patient_diagnosis_path(diagnosis.patient,diagnosis))
-  -# TODO investigate how this view renders out when > 3 xrays exist.
+- html_class = severity(diagnosis).downcase
+- html_class << " revision" if diagnosis.revision?
+.diagnosis[diagnosis]{ :class => html_class }
   - if diagnosis.xrays.present?
-    %span.xrays
+    .xrays
       - diagnosis.xrays.each do |xray|
         = xray_preview(xray)
+  %h3
+    = diagnosis
+    - if diagnosis.revision?
+      %span.asterisk (Revision)
+  .nav
+    = link_to "Edit diagnosis", edit_patient_diagnosis_path(diagnosis.patient,diagnosis), :remote => true
