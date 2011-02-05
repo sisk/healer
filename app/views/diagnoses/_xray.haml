@@ -1,6 +1,6 @@
 - if xray.photo.exists?
   - f.semantic_fields_for :xrays, xray do |x|
-    = xray_thumbnail(xray)
+    = xray_preview(xray)
     - x.inputs do
       = x.input :_destroy, :as => :boolean, :label => "Delete x-ray"
 - else

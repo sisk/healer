@@ -35,11 +35,11 @@ $(document).ready(function() {
     modal: true,
     width: 500
   });
-  
-  $(".xray.thumbnail").mouseover(function(event) {
+
+  $(".xray.preview").mouseover(function(event) {
     $(this).find(".nav").fadeIn();
   });
-  $(".xray.thumbnail").mouseleave(function(event) {
+  $(".xray.preview").mouseleave(function(event) {
     $(this).find(".nav").fadeOut();
   });
 

@@ -3,10 +3,10 @@
   - if diagnosis.xrays.present?
     .xrays
       - diagnosis.xrays.each do |xray|
-        = xray_thumbnail(xray)
+        = xray_preview(xray)
   %p.name
     = diagnosis
     - if diagnosis.revision?
       %span.asterisk (Revision)
-    
+
   .nav= link_to("Review", edit_patient_diagnosis_path(diagnosis.patient,diagnosis), :class => "review", :id => "review_#{dom_id(diagnosis)}" )

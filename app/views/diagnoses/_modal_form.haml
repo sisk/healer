@@ -2,10 +2,7 @@
   - if diagnosis.xrays.present?
     .xrays
       - diagnosis.xrays.each do |xray|
-        - if xray.photo.exists?
-          .enlarge
-            = link_to image_tag(xray.photo.url(:small), :alt => xray.to_s, :class => "xray"), xray.photo.url, :rel => "group", :title => xray.to_s
-            %p [click to enlarge]
+        = xray_preview(xray, :size => :small)
 
       =# render :partial => 'diagnoses/xray', :collection => diagnosis.xrays, :locals => { :f => f }
   - semantic_form_for [diagnosis.patient,diagnosis], :html => { :multipart => true }, :remote => true do |f|
