@@ -42,7 +42,7 @@
     - if permitted_to? :create, Diagnosis.new(:patient => @patient)
       = link_to "New Diagnosis", new_patient_diagnosis_path(@patient)
   #diagnosis_list
-    = render :partial => "diagnosis_summary", :collection => @patient.diagnoses, :as => :diagnosis
+    = render :partial => "diagnoses/inline", :collection => @patient.diagnoses, :as => :diagnosis
 .section.medical_detail
   %h2
     Medical History

@@ -4,16 +4,4 @@
   = render :partial => "patients/shared/snapshot", :locals => { :patient => @registration.patient }
 .section
   %h2 Diagnoses
-  - @registration.diagnoses.each do |diagnosis|
-    .diagnosis
-      %p
-        = "#{diagnosis} - "
-        - if diagnosis.operations.empty?
-          = link_to "Add Operation", new_diagnosis_operation_path(diagnosis)
-        - else
-          - diagnosis.operations.each do |operation|
-            = link_to operation, diagnosis_operation_path(diagnosis,operation)
-      - if diagnosis.xrays.present?
-        %span.xrays
-          - diagnosis.xrays.each do |xray|
-            = xray_thumbnail(xray)
+  = render :partial => "diagnoses/inline", :collection => @registration.diagnoses, :as => :diagnosis, :locals => { :options => { :context => :operation, :size => :small } }
