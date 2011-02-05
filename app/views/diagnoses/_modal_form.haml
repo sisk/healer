@@ -3,8 +3,6 @@
     .xrays
       - diagnosis.xrays.each do |xray|
         = xray_preview(xray, :size => :small)
-
-      =# render :partial => 'diagnoses/xray', :collection => diagnosis.xrays, :locals => { :f => f }
   - semantic_form_for [diagnosis.patient,diagnosis], :html => { :multipart => true }, :remote => true do |f|
     = f.semantic_errors
     = f.input :patient_id, :as => :hidden
