@@ -7,6 +7,5 @@
     = diagnosis
     - if diagnosis.revision?
       %span.asterisk (Revision)
-
   .nav
-    = link_to "Edit", edit_patient_diagnosis_path(diagnosis.patient,diagnosis)
+    = link_to "Edit diagnosis", edit_patient_diagnosis_path(diagnosis.patient,diagnosis), :remote => true

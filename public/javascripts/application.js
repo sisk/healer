@@ -44,10 +44,10 @@ $(document).ready(function() {
     hide: "fade"
   });
 
-  $(".xray.preview").mouseover(function(event) {
+  $(".xray.preview").live('mouseover', function(event) {
     $(this).find(".nav").fadeIn();
   });
-  $(".xray.preview").mouseleave(function(event) {
+  $(".xray.preview").live('mouseleave', function(event) {
     $(this).find(".nav").fadeOut();
   });
 
