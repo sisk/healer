@@ -9,26 +9,18 @@
     width: 25px;
     height: 50px;
     .zoom, .delete {
-      a { display: block; width: 13px; }
+      @include bordered(1px, #fff);
       z-index: 10;
       position: absolute;
-      width: 13px;
       left: 5px
     }
-    .zoom span, .delete span {
-      display: none;
-    }
     .zoom {
-      background-image: url('/images/xray_zoom.png');
-      height: 11px;
+      @include sprite-zoom;
       top: 8px;
-      a { height: 11px; }
     }
     .delete {
-      background-image: url('/images/xray_trash.png');
-      height: 12px;
+      @include sprite-trash;
       top: 30px;
-      a { height: 12px; }
     }
   }
 }

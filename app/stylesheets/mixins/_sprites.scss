@@ -1,0 +1,24 @@
+$sprite-default-size: 16px;
+@import "compass/utilities/sprites/sprite-img";
+
+$sprite_file: "/stylesheets/healer/images/ui-icons_ffffff_256x240.png";
+
+@mixin sprite-default {
+  a { display: block; width: 16px; height: 16px; }
+  span { display: none; }
+}
+
+@mixin sprite-trash {
+  @include sprite-default;
+  @include sprite-img($sprite_file, 12, 7);
+}
+
+@mixin sprite-zoom {
+  @include sprite-default;
+  @include sprite-img($sprite_file, 9, 8);
+}
+
+@mixin sprite-edit {
+  @include sprite-default;
+  @include sprite-img($sprite_file, 12, 8);
+}
