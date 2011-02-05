@@ -35,6 +35,14 @@ $(document).ready(function() {
     modal: true,
     width: 500
   });
+  $("#diagnosis_inline_edit").dialog({
+    autoOpen: false,
+    height: 500,
+    width: 750,
+    modal: true,
+    show: "fade",
+    hide: "fade"
+  });
 
   $(".xray.preview").mouseover(function(event) {
     $(this).find(".nav").fadeIn();

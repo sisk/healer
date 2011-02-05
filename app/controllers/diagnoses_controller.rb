@@ -1,6 +1,6 @@
 class DiagnosesController < ApplicationController
   inherit_resources
-  
+
   respond_to :html, :xml, :json
   before_filter :authenticate_user!
   filter_resource_access
@@ -10,6 +10,7 @@ class DiagnosesController < ApplicationController
   def create
     create! { patient_path(@patient) }
   end
+
   def update
     @diagnosis = Diagnosis.find(params[:id])
     if @diagnosis.update_attributes(params[:diagnosis])
@@ -20,7 +21,15 @@ class DiagnosesController < ApplicationController
       format.js { render :template => "diagnoses/update.js.erb", :layout => nil }
     end
   end
+
+  def edit
+    index! do |format|
+      format.js { render :template => "diagnoses/edit.js.erb", :layout => nil }
+    end
+  end
+
   def destroy
     destroy! { patient_path(@patient) }
   end
+
 end

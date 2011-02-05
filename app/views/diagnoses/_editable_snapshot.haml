@@ -1,5 +1,4 @@
 .diagnosis.snapshot[diagnosis]{ :class => "#{severity(diagnosis).downcase}" }
-  = render :partial => "diagnoses/modal_form", :locals => { :diagnosis => diagnosis }
   - if diagnosis.xrays.present?
     .xrays
       - diagnosis.xrays.each do |xray|
@@ -9,4 +8,5 @@
     - if diagnosis.revision?
       %span.asterisk (Revision)
 
-  .nav= link_to("Review", edit_patient_diagnosis_path(diagnosis.patient,diagnosis), :class => "review", :id => "review_#{dom_id(diagnosis)}" )
+  .nav
+    = link_to "Edit", edit_patient_diagnosis_path(diagnosis.patient,diagnosis)

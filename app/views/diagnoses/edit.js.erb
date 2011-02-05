@@ -1,0 +1,2 @@
+$('#diagnosis_inline_edit').html('<%= escape_javascript(render :partial => "diagnoses/modal_form", :as => :diagnosis, :object => @diagnosis) %>');
+$("#diagnosis_inline_edit").dialog('open');

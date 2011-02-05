@@ -1,15 +1,5 @@
-$("#form_<%= dom_id(@diagnosis) %>").dialog("close");
+$("#diagnosis_inline_edit").dialog("close");
+$("#diagnosis_inline_edit").html("");
 $('#<%= dom_id(@diagnosis) %>').replaceWith('<%= escape_javascript(render :partial => "diagnoses/editable_snapshot", :locals => { :diagnosis => @diagnosis }) %>');
-$("#<%= dom_id(@diagnosis) %> .dialog-form").dialog({
-  autoOpen: false,
-  height: 400,
-  width: 750,
-  modal: true
-});
-$(".enlarge a").fancybox({
-  'hideOnContentClick': true,
-  'titlePosition': 'over'
-});
 $("#<%= dom_id(@diagnosis) %>").find(".nav").append('<span class="updated asterisk">Updated</span');
 $("#<%= dom_id(@diagnosis) %>").find(".nav .updated").fadeToggle(3000);
-//$("#<%= dom_id(@diagnosis) %>").find(".nav .updated").detach();

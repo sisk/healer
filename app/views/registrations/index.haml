@@ -21,26 +21,13 @@
     = render :partial => "registrations/summary/record", :collection => @authorized_registrations, :as => :registration
   #waiting
     = render :partial => "registrations/summary/record", :collection => @unauthorized_registrations, :as => :registration
+#diagnosis_inline_edit
 
 - content_for :script do
   = javascript_include_tag "lib/jquery.fancybox.overrides"
   :javascript
     $(document).ready(function(){
-      $(".dialog-form").dialog({
-        autoOpen: false,
-        height: 400,
-        width: 750,
-        modal: true
-      });
-
-      $(".diagnosis .nav .review").live('click', function(event) {
-        diagnosis = $(this).attr("id").match(/[^review_].*/);
-        $("#form_" + diagnosis).dialog("open");
-        return false;
-      });
-
       $(".submit_registration_complexity").live('change', function(event) {
         $(this).closest("form").submit();
       });
-
     });
