@@ -9,7 +9,7 @@ class Registration < ActiveRecord::Base
   def self.complexity_units
     [1,2,3,4,5,6,7,8,9,10]
   end
-  
+
   @registration_join = 'left outer join `trips` ON `trips`.`id` = `registrations`.`trip_id` left outer join `diagnoses` ON `diagnoses`.`registration_id` = `registrations`.`id` left outer join `patients` ON `patients`.`id` = `registrations`.`patient_id` left outer join `risk_factors` ON `risk_factors`.`patient_id` = `patients`.`id`'
 
   before_create :set_pre_screen
@@ -33,8 +33,8 @@ class Registration < ActiveRecord::Base
 
   # scope :authorized, where("registrations.approved_at is not ?", nil).joins(:trip, :diagnoses, :patient => [:risk_factors])
   # scope :unauthorized, where("registrations.approved_at is ?", nil).joins(:trip, :patient => [:diagnoses, :risk_factors])
-  scope :authorized, where("registrations.approved_at is not ?", nil)
-  scope :unauthorized, where("registrations.approved_at is ?", nil)
+  scope :authorized, includes([:patient, :trip]).where("registrations.approved_at is not ?", nil)
+  scope :unauthorized, includes([:patient, :trip]).where("registrations.approved_at is ?", nil)
   scope :search, Proc.new { |term|
     query = term.strip.gsub(',', '')
     first_last = query.split(" ")
@@ -118,7 +118,7 @@ class Registration < ActiveRecord::Base
     return diagnoses.any?{ |diagnosis| diagnosis.has_mirror? }
   end
 
-  
+
   def body_part_list
     if likely_bilateral?
       body_parts = diagnoses.map(&:body_part).compact
@@ -144,7 +144,7 @@ class Registration < ActiveRecord::Base
     str = distance_of_time_in_words(Time.now, Time.now + (complexity_minutes * complexity.to_i).to_i.minutes, false, { :two_words_connector => ", " })
     return str.blank? ? "Time Unknown" : str
   end
-  
+
   def revision?
     return true if diagnoses.any?{ |d| d.revision }
     return patient.diagnoses.untreated.any?{ |d| d.revision }
@@ -168,5 +168,5 @@ private
   def clear_diagnoses
     Diagnosis.update_all("registration_id = NULL", :registration_id => self.id)
   end
-  
+
 end
