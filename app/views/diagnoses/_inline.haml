@@ -12,7 +12,7 @@
       %span.asterisk (Revision)
   - if permitted_to? :edit, diagnosis
     .nav
-      = link_to "Edit diagnosis", edit_patient_diagnosis_path(diagnosis.patient,diagnosis), :remote => true
+      = link_to "Edit diagnosis", edit_patient_diagnosis_path(diagnosis.patient,diagnosis), :remote => !!options[:remote]
       - if options[:context] == :operation
         - if diagnosis.operations.empty?
           = link_to "Add operation", new_diagnosis_operation_path(diagnosis)

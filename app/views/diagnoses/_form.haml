@@ -9,11 +9,11 @@
     = f.input :revision, :as => :boolean
   #xrays
     %h3 X-Rays
-    = render :partial => 'xray', :collection => @diagnosis.xrays, :locals => { :f => f }
+    = render :partial => 'xrays/fields', :collection => @diagnosis.xrays, :as => :xray, :locals => { :f => f }
   #new_xrays
   - if @diagnosis.new_record?
-    = render :partial => 'xray', :object => Xray.new(:diagnosis => @diagnosis), :locals => { :f => f }
+    = render :partial => 'xrays/fields', :object => Xray.new(:diagnosis => @diagnosis), :as => :xray, :locals => { :f => f }
   - else
-    = link_to_function 'Add x-ray', "$('#new_xrays').append('#{escape_javascript render :partial => 'xray', :object => Xray.new(:diagnosis => @diagnosis), :locals => { :f => f }}'); $(this).hide();"
+    = link_to_function 'Add x-ray', "$('#new_xrays').append('#{escape_javascript render :partial => 'xrays/fields', :object => Xray.new(:diagnosis => @diagnosis), :as => :xray, :locals => { :f => f }}'); $(this).hide();"
   - f.buttons do
     = f.commit_button

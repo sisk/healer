@@ -4,4 +4,4 @@
   = render :partial => "patients/shared/snapshot", :locals => { :patient => @registration.patient }
 .section
   %h2 Diagnoses
-  = render :partial => "diagnoses/inline", :collection => @registration.diagnoses, :as => :diagnosis, :locals => { :options => { :context => :operation, :size => :small } }
+  = render :partial => "diagnoses/inline", :collection => @registration.diagnoses, :as => :diagnosis, :locals => { :options => { :context => :operation, :size => :small, :remote => true } }
