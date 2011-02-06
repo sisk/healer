@@ -19,7 +19,7 @@
       - for i in 0..registration.diagnoses.size - 1 do
         - diagnosis = registration.diagnoses[i]
         - break if i > 2
-        = render :partial => "diagnoses/inline", :locals => { :diagnosis => diagnosis }
+        = render :partial => "diagnoses/inline", :object => diagnosis, :as => :diagnosis
         -# TODO investigate how this view renders out when > 3 xrays exist.
 
       - if registration.diagnoses.size > 3

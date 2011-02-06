@@ -1,5 +1,5 @@
 $("#diagnosis_inline_edit").dialog("close");
 $("#diagnosis_inline_edit").html("");
-$('#<%= dom_id(@diagnosis) %>').replaceWith('<%= escape_javascript(render :partial => "diagnoses/inline", :locals => { :diagnosis => @diagnosis }) %>');
+$('#<%= dom_id(@diagnosis) %>').replaceWith('<%= escape_javascript(render :partial => "diagnoses/inline", :object => @diagnosis, :as => :diagnosis, :locals => { :options => { :remote => true } }) %>');
 $("#<%= dom_id(@diagnosis) %>").children(".nav").append('<span class="updated asterisk">Updated</span');
 $("#<%= dom_id(@diagnosis) %>").children(".nav").find(".updated").fadeToggle(3000);
