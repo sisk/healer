@@ -3,7 +3,7 @@ class Role < ActiveRecord::Base
   validates_presence_of :name, :message => "can't be blank"
 
   def self.available
-    [:admin, :doctor, :nurse, :superuser]
+    [:admin, :doctor, :nurse, :superuser, :anesthesiologist]
   end
 
   has_and_belongs_to_many :users

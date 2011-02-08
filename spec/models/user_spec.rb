@@ -49,12 +49,12 @@ describe User do
       @user.role_symbols.should == [:admin, :super_duper]
     end
   end
-  %w(admin doctor nurse superuser).each do |role|
+  Role.available.map{ |rr| rr.to_s }.each do |role|
     describe "#has_role_#{role}" do
       it "returns true if user has #{role} role" do
         @roles = [mock_model(Role, :name => role)]
         @user.stub(:roles).and_return(@roles)
-        @user.send("has_role_#{role}".to_sym).should be_true
+        @user.send("has_role_#{role}").should be_true
       end
       it "returns false if user does not have #{role} role" do
         @roles = [mock_model(Role, :name => "Not #{role}")]
@@ -78,10 +78,4 @@ describe User do
     end
   end
 
-end
-
-describe User, ".valid_roles" do
-  it "returns an array of the expected values" do
-    User::valid_roles.should == %w(admin doctor nurse superuser)
-  end
 end

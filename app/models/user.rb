@@ -3,9 +3,6 @@ class User < ActiveRecord::Base
   def self.languages
     {"en" => "English", "es" => "Español"}
   end
-  def self.valid_roles
-    %w(admin doctor nurse superuser)
-  end
 
   # acts_as_authorization_subject
 
@@ -43,10 +40,7 @@ class User < ActiveRecord::Base
     (roles || []).map {|r| r.name.dehumanize.to_sym}
   end
   
-  # TODO refactor below
-  attr_accessible :has_role_admin, :has_role_superuser, :has_role_doctor, :has_role_nurse
-
-  valid_roles.each do |r|
+  Role.available.map{ |rr| rr.to_s }.each do |r|
     attr_accessible "has_role_#{r}".to_sym
     scope r.to_sym, :include => :roles, :conditions => [ "roles.name = ?", r ]
     define_method("has_role_#{r}") do
