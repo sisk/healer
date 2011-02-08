@@ -1,3 +1,4 @@
 %ul.subnavigation
   - if permitted_to? :create, User.new
     %li= link_to_unless_current "New User", new_user_path
+  %li= link_to_unless_current "Inactive Users", users_path(:inactive => true)

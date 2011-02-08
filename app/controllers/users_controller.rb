@@ -21,6 +21,10 @@ private
   def set_selectable_roles
     @selectable_roles = Role::available
   end
+  
+  def collection
+    @users ||= params[:inactive].present? ? end_of_association_chain.cant_login : end_of_association_chain.can_login
+  end
   # def update_resource(user, attributes)
   #   user.update_with_password(attributes)
   # end

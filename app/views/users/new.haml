@@ -1,6 +1,7 @@
 - content_for :title do
   = "New User"
 = semantic_form_for(@user) do |f|
+  = f.input :authorized, :as => :hidden, :value => true
   =# devise_error_messages!
   - f.inputs do
     = f.input :name_first, :label => 'First Name'
@@ -11,5 +12,7 @@
   - f.inputs :name => "Roles" do
     - @selectable_roles.each do |role|
       = f.input "has_role_#{role}", :as => :boolean, :label => "#{role.to_s.titlecase}"
+  - f.inputs :name => "Preferences" do
+    = f.input :language, :as => :select, :collection => User::languages.invert
   - f.buttons do
     = f.commit_button

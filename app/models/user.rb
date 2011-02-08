@@ -3,6 +3,9 @@ class User < ActiveRecord::Base
   def self.languages
     {"en" => "English", "es" => "Español"}
   end
+  def self.valid_roles
+    %w(admin doctor nurse superuser)
+  end
 
   # acts_as_authorization_subject
 
@@ -11,7 +14,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :recoverable, :rememberable, :trackable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :name_last, :name_first, :language
+  attr_accessible :email, :password, :password_confirmation, :name_last, :name_first, :language, :authorized
 
   validates :email, :presence => true, 
                     :length => {:minimum => 3, :maximum => 254},
@@ -24,10 +27,8 @@ class User < ActiveRecord::Base
 
   has_and_belongs_to_many :roles
 
-  scope :doctor, :include => :roles, :conditions => [ "roles.name = ?", "doctor" ]
-  scope :nurse, :include => :roles, :conditions => [ "roles.name = ?", "nurse" ]
-  scope :admin, :include => :roles, :conditions => [ "roles.name = ?", "admin" ]
-  scope :superuser, :include => :roles, :conditions => [ "roles.name = ?", "superuser" ]
+  scope :can_login, where("users.authorized = ?", true)
+  scope :cant_login, where("users.authorized = ?", false)
 
   default_scope :order => 'users.name_last, users.name_first'
 
@@ -38,23 +39,6 @@ class User < ActiveRecord::Base
     [*args].flatten.include?(:last_first) ? [name_last, name_first].join(", ") : [name_first, name_last].join(" ")
   end
 
-  # def self.roles(*syms)
-  #   # uses methods for Acl9 to grant roles via form
-  #   return @roles if syms.empty?
-  #   syms = syms.collect(&:to_s).collect(&:downcase).collect(&:underscore).collect(&:to_sym)
-  #   syms.each { |sym|
-  #     attr_accessor "has_role_#{sym}".to_sym
-  #     self.send(:define_method, "has_role_#{sym}") do
-  #       has_role? sym.to_s
-  #     end
-  #     self.send(:define_method, "has_role_#{sym}=") do |args|
-  #       args == "1" ? has_role!(sym.to_s) : has_no_role!(sym.to_s) 
-  #     end
-  #   }
-  #   @roles = syms
-  # end
-  # roles :admin, :doctor, :nurse
-
   def role_symbols
     (roles || []).map {|r| r.name.dehumanize.to_sym}
   end
@@ -62,29 +46,15 @@ class User < ActiveRecord::Base
   # TODO refactor below
   attr_accessible :has_role_admin, :has_role_superuser, :has_role_doctor, :has_role_nurse
 
-  def has_role_admin
-    has_role?("admin")
-  end
-  def has_role_doctor
-    has_role?("doctor")
-  end
-  def has_role_nurse
-    has_role?("nurse")
-  end
-  def has_role_superuser
-    has_role?("superuser")
-  end
-  def has_role_admin=(args)
-    args == "1" ? self.grant_role!("admin") : self.revoke_role!("admin")
-  end
-  def has_role_doctor=(args)
-    args == "1" ? self.grant_role!("doctor") : self.revoke_role!("doctor")
-  end
-  def has_role_nurse=(args)
-    args == "1" ? self.grant_role!("nurse") : self.revoke_role!("nurse")
-  end
-  def has_role_superuser=(args)
-    args == "1" ? self.grant_role!("superuser") : self.revoke_role!("superuser")
+  valid_roles.each do |r|
+    attr_accessible "has_role_#{r}".to_sym
+    scope r.to_sym, :include => :roles, :conditions => [ "roles.name = ?", r ]
+    define_method("has_role_#{r}") do
+      has_role?(r)
+    end
+    define_method("has_role_#{r}=") do |args|
+      args == "1" ? self.grant_role!(r) : self.revoke_role!(r)
+    end
   end
 
   def grant_role!(role_name)
