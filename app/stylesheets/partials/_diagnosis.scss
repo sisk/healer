@@ -1,5 +1,5 @@
 #diagnosis_list {
-  @include clearfix;
+  /*@include clearfix;*/
 }
 .diagnosis {
   &.unremarkable img {
@@ -63,15 +63,21 @@
   }
 }
 
-.inline_diagnosis_list {
-  .diagnosis {
+.diagnosis {
+  &.inline {
     @include clearfix;
-    .xrays { @include float-left; }
-    .xrays {
-      margin-right: $margin-increment;
+    margin-bottom: $margin-increment;
+    .xrays, .info {
+      @include float-left;
     }
-  }
-  ul.nav {
-    @include horizontal-list;
+    .info {
+      @include span(6);
+    }
+    h4 { font-size: 1.5em; margin-bottom: 0; }
+    &.tiny {
+      ul.nav {
+        @include horizontal-list;
+      }
+    }
   }
 }

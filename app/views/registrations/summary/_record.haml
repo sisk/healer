@@ -13,7 +13,7 @@
       - for i in 0..diagnoses.size - 1 do
         - diagnosis = diagnoses[i]
         - break if i > 2
-        = render :partial => "diagnoses/inline", :object => diagnosis, :as => :diagnosis, :locals => { :options => { :remote => true } }
+        = render :partial => "diagnoses/inline", :object => diagnosis, :as => :diagnosis, :locals => { :options => { :remote => true, :size => :tiny } }
         -# TODO investigate how this view renders out when > 3 xrays exist.
       - if diagnoses.size > 3
         = link_to "+ #{diagnoses.size - 3} more", patient_path(patient), :class => "more"

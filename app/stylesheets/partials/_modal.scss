@@ -1,3 +1,13 @@
+$default-box-shadow-blur: 200px;
+$default-box-shadow-spread: 20px;
+$default-box-shadow-color: $grey-medium;
+
+@import "compass/css3/box-shadow";
+
+.ui-dialog {
+  @include bordered(1px, $grey-very-light);
+  @include box-shadow;
+}
 .ui-dialog.instructions {
   font-size: 2em;
 }

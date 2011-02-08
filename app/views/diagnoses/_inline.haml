@@ -1,21 +1,23 @@
+- options ||= {}
 - html_class = severity(diagnosis).downcase
 - html_class << " revision" if diagnosis.revision?
-- options ||= {}
-.diagnosis[diagnosis]{ :class => html_class }
+- html_class << " #{options[:size]}" if options[:size].present?
+.diagnosis.inline[diagnosis]{ :class => html_class }
   - if diagnosis.xrays.present?
     .xrays
       - diagnosis.xrays.each do |xray|
         = xray_preview(xray, options)
-  %h4
-    = diagnosis
-    - if diagnosis.revision?
-      %span.asterisk (Revision)
-  - if permitted_to? :edit, diagnosis
-    .nav
-      = link_to "Edit diagnosis", edit_patient_diagnosis_path(diagnosis.patient,diagnosis), :remote => !!options[:remote]
-      - if options[:context] == :operation
-        - if diagnosis.operations.empty?
-          = link_to "Add operation", new_diagnosis_operation_path(diagnosis)
-        - else
-          - diagnosis.operations.each do |operation|
-            = link_to operation, diagnosis_operation_path(diagnosis,operation)
+  .info
+    %h4
+      = diagnosis
+      - if diagnosis.revision?
+        %span.asterisk (Revision)
+    - if permitted_to? :edit, diagnosis
+      %ul.nav
+        %li= link_to "Edit diagnosis", edit_patient_diagnosis_path(diagnosis.patient,diagnosis), :remote => !!options[:remote]
+        - if options[:context] == :operation
+          - if diagnosis.operations.empty?
+            %li= link_to "Add operation", new_diagnosis_operation_path(diagnosis)
+          - else
+            - diagnosis.operations.each do |operation|
+              %li= link_to operation, diagnosis_operation_path(diagnosis,operation)
