@@ -2,7 +2,7 @@
 - html_class = severity(diagnosis).downcase
 - html_class << " revision" if diagnosis.revision?
 - html_class << " #{options[:size]}" if options[:size].present?
-.diagnosis.inline[diagnosis]{ :class => html_class }
+.diagnosis.inline[diagnosis]{ :class => html_class, :context => options[:context] }
   - if diagnosis.xrays.present?
     .xrays
       - diagnosis.xrays.each do |xray|
