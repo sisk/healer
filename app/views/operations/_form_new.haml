@@ -5,14 +5,6 @@
   = f.input :diagnosis_id, :as => :hidden
   = f.input :registration_id, :as => :hidden
   = f.inputs do
-    = f.input :approach, :as => :select, :label => 'Approach', :collection => Operation::approaches
-    = f.input :difficulty, :as => :radio, :label => "Difficulty", :collection => Operation::difficulty_table.invert
-    = f.input :graft, :label => 'Graft'
-    = f.input :ambulatory_order, :as => :select, :label => 'Ambulatory Order', :collection => Operation::ambulatory_orders
-    = f.input :notes, :label => 'Notes'
-  = f.buttons do
-    = f.commit_button
-  = f.inputs do
     = f.input :body_part_id, :as => :select, :label => 'Body Part', :collection => BodyPart.all.collect{ |bp| [bp.to_s, bp.id] }
     = f.input :procedure_id, :as => :select, :label => 'Procedure', :collection => Procedure.all.collect{ |p| [p.to_s, p.id] }
     = f.input :primary_surgeon_id, :as => :select, :label => 'Primary Surgeon', :collection => User.doctor
@@ -20,4 +12,4 @@
     = f.input :anesthesiologist_id, :as => :select, :label => 'Anesthesiologist', :collection => User.anesthesiologist
     = f.input :date, :as => :datepicker, :label => "Operation Date"
   = f.buttons do
-    = f.commit_button
+    = f.commit_button "Next &rarr;".html_safe

@@ -14,15 +14,15 @@ class OperationsController < ApplicationController
   end
   
   def create
-    create! { diagnosis_operation_path(diagnosis,@operation) }
+    create! { edit_resource_url }
   end
 
   def update
-    update! { diagnosis_operation_path(diagnosis,@operation) }
+    update! { parent_url }
   end
 
   def destroy
-    destroy! { registration_path(@operation.registration) }
+    destroy! { parent_url }
   end
   
   private
@@ -37,6 +37,8 @@ class OperationsController < ApplicationController
      @operation.body_part = @operation.diagnosis.try(:body_part)
      @operation.registration = @operation.diagnosis.try(:registration)
      @operation.patient = @operation.diagnosis.try(:patient)
+     @operation.patient = @operation.diagnosis.try(:patient)
+     @operation.date = Date.today if @operation.new_record?
      @operation
   end
   

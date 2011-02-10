@@ -3,11 +3,11 @@
 - content_for :subnavigation do
   %ul.subnavigation
     - if permitted_to? :edit, @operation
-      %li= link_to "Edit operation details", edit_diagnosis_operation_path(@diagnosis,@operation)
+      %li= link_to "Edit operation details", edit_resource_path
     - if @operation.registration.present?
       %li= link_to "Return to registration", registration_path(@operation.registration)
     - if permitted_to? :destroy, @operation
-      %li= link_to "Delete operation", diagnosis_operation_path(@diagnosis,@operation), :method => :delete, :confirm => "Are you sure? This will remove all data and xray records for this operation. This action cannot be undone."
+      %li= link_to "Delete operation", resource_path, :method => :delete, :confirm => "Are you sure? This will remove all data and xray records for this operation. This action cannot be undone."
       
 .operation
   .summary

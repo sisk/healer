@@ -20,4 +20,7 @@
             %li= link_to "Add operation", new_diagnosis_operation_path(diagnosis)
           - else
             - diagnosis.operations.each do |operation|
-              %li= link_to operation, diagnosis_operation_path(diagnosis,operation)
+              - if operation.registration.present?
+                %li= link_to operation, registration_operation_path(operation.registration,operation)
+              - else
+                %li= link_to operation, diagnosis_operation_path(diagnosis,operation)
