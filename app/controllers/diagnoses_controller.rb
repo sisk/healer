@@ -1,12 +1,12 @@
 class DiagnosesController < ApplicationController
   inherit_resources
 
+  belongs_to :patient
+
   respond_to :html, :xml, :json
   before_filter :authenticate_user!
   filter_resource_access
-
-  belongs_to :patient
-
+  
   def create
     create! { patient_path(@patient) }
   end

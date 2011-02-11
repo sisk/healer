@@ -10,7 +10,7 @@ describe Trip do
   should_have_column :daily_hours, :type => :integer
   should_have_column :number_of_operation_days, :type => :integer
   should_validate_presence_of :country
-  should_have_and_belong_to_many :staff
+  # should_have_and_belong_to_many :staff
   should_belong_to :facility
   should_have_many :registrations
   should_have_many :operations

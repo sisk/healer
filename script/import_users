@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+require File.expand_path('../../config/environment',  __FILE__)
+
+require "csv"
+
+filename = "/Users/jsisk/Desktop/opwalk_people.csv"
+csv = CSV.open(filename, 'r', ?,, ?\r)
+csv.each do |row|
+  full_name = row[0]
+  role = row[2]
+  email = row[3]
+  
+  name_parts = full_name.split(/, ?/)
+  name_first = name_parts.size > 1 ? name_parts[1].split(" ").first : nil
+  name_last = name_parts.first
+  p name_parts
+  p "#{name_first} #{name_last}"
+end

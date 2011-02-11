@@ -10,7 +10,7 @@
       %th Name
       %th &nbsp;
   %tbody
-    - @body_parts.each do |body_part|
+    - collection.each do |body_part|
       %tr.body_part
         %td= body_part
         %td
