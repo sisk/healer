@@ -8,10 +8,9 @@
       - diagnosis.xrays.each do |xray|
         = xray_preview(xray, options)
   .info
-    %h4
-      = diagnosis
-      - if diagnosis.revision?
-        %span.asterisk (Revision)
+    = formatted_title(diagnosis).html_safe
+    - if diagnosis.revision?
+      %p.asterisk (Revision)
     - if permitted_to? :edit, diagnosis
       %ul.nav
         %li= link_to "Edit diagnosis", edit_patient_diagnosis_path(diagnosis.patient,diagnosis), :remote => !!options[:remote]
@@ -21,6 +20,6 @@
           - else
             - diagnosis.operations.each do |operation|
               - if operation.registration.present?
-                %li= link_to operation, registration_operation_path(operation.registration,operation)
+                %li= link_to "Edit operation", registration_operation_path(operation.registration,operation)
               - else
-                %li= link_to operation, diagnosis_operation_path(diagnosis,operation)
+                %li= link_to "Edit operation", diagnosis_operation_path(diagnosis,operation)
