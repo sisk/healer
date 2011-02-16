@@ -7,8 +7,9 @@ class PatientsController < ApplicationController
   def create
     create! { patients_path }
   end
+
   def update
-    update! { patient_path(@patient) }
+    update! { resource_path }
   end
 
 private

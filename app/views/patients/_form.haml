@@ -9,7 +9,9 @@
       = f.input :name_first, :label => 'First Name'
       = f.input :name_middle, :label => 'Middle Name'
       = f.input :name_last, :label => 'Last Name'
-      = f.input :photo, :as => :file, :label => "Photo"
+      - if @patient.photo.present?
+        = patient_image(@patient, :small)
+      = f.input :photo, :as => :file, :label => "Change Photo"
     = f.inputs :name => "Demographics" do
       = f.input :male, :as => :radio, :label => "Gender", :collection => [["Male", true], ["Female", false]]
       = f.input :birth, :as => :date, :label => "Birth", :start_year => 1900, :end_year => Time.now.year
