@@ -1,7 +1,7 @@
 - semantic_form_for [@patient,@risk_factor], :html => { :multipart => true } do |f|
   = f.semantic_errors
   = f.input :patient_id, :as => :hidden, :input_html => { :value => @patient.id }
-  - f.inputs do
+  = f.inputs do
     = f.input :risk_id, :as => :select, :label => 'Risk', :collection => Risk.all.collect{ |r| [r.to_s, r.id] }
     = f.input :severity, :as => :radio, :label => "Severity", :collection => RiskFactor::severity_table.invert
   - f.buttons do

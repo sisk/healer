@@ -1,6 +1,6 @@
 - semantic_form_for [@facility,@room], :html => { :multipart => true } do |f|
   = f.input :facility_id, :as => :hidden, :input_html => { :value => @facility.id }
-  - f.inputs do
+  = f.inputs do
     = f.input :title, :label => 'Title'
     = f.input :location, :label => 'Location/Room Number'
     %h3 Notes

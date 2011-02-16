@@ -3,7 +3,7 @@
 - content_for :subnavigation do
   = render :partial => "devise/shared/subnav"
 = semantic_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
-  - f.inputs do
+  = f.inputs do
     - if Rails.env == "development"
       = f.input :email, :label => 'Email', :input_html => { :value => "jasonmsisk@gmail.com" }
       = f.input :password, :as => :password, :label => 'Password', :input_html => { :value => "111111" }

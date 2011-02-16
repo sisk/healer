@@ -32,7 +32,7 @@
     %p= "#{@patient.short_name} has no registrations. Select a trip to register #{@patient.short_name} for."
     - semantic_form_for Registration.new(:patient_id => @patient.id), :html => { :multipart => true } do |f|
       = f.input :patient_id, :as => :hidden, :input_html => { :value => @patient.id }
-      - f.inputs do
+      = f.inputs do
         = f.input :trip_id, :as => :select, :label => 'Trip', :collection => Trip.all
       - f.buttons do
         = f.commit_button 'Go'

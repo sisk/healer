@@ -1,5 +1,5 @@
 - semantic_form_for resource do |f|
-  - f.inputs do
+  = f.inputs do
     = f.input :name_en, :as => :string, :label => 'Name'
     = f.input :name_es, :as => :string, :label => 'Nombre (Español)'
     = f.input :side, :as => :radio, :label => "Side", :collection => [["Left", "L"], ["Right", "R"], ["N/A", ""]]

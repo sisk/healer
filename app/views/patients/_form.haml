@@ -5,12 +5,12 @@
     %li= link_to "Medical History", "#history"
     %li= link_to "Contact", "#contact"
   #basic
-    - f.inputs :name => "Name & Photo" do
+    = f.inputs :name => "Name & Photo" do
       = f.input :name_first, :label => 'First Name'
       = f.input :name_middle, :label => 'Middle Name'
       = f.input :name_last, :label => 'Last Name'
       = f.input :photo, :as => :file, :label => "Photo"
-    - f.inputs :name => "Demographics" do
+    = f.inputs :name => "Demographics" do
       = f.input :male, :as => :radio, :label => "Gender", :collection => [["Male", true], ["Female", false]]
       = f.input :birth, :as => :date, :label => "Birth", :start_year => 1900, :end_year => Time.now.year
       =# f.input :death, :as => :date, :label => "Death"
@@ -27,14 +27,14 @@
       #new_risk_factors
       = link_to_function 'Add a risk factor', "$('#new_risk_factors').append('#{escape_javascript render :partial => 'new_risk_factor', :object => RiskFactor.new(:patient => @patient), :locals => { :f => f }}');$(this).remove();", :id => "add_risk_factor"
   #history.section.medical_history
-    - f.inputs :name => "Medications", :id => "medications_list" do
+    = f.inputs :name => "Medications", :id => "medications_list" do
       = f.input :medications, :label => false, :hint => "Separate entries with commas or return."
-    - f.inputs :name => "Chronic & Other Diseases", :id => "disease_list" do
+    = f.inputs :name => "Chronic & Other Diseases", :id => "disease_list" do
       = f.input :other_diseases, :label => false, :hint => "Separate entries with commas or return."
-    - f.inputs :name => "Allergies", :id => "allergy_list" do
+    = f.inputs :name => "Allergies", :id => "allergy_list" do
       = f.input :allergies, :label => false, :hint => "Separate entries with commas or return."
   #contact
-    - f.inputs :name => "Contact" do
+    = f.inputs :name => "Contact" do
       = f.input :address1, :label => 'Address 1'
       = f.input :address2, :label => 'Address 2'
       = f.input :city, :label => 'City'

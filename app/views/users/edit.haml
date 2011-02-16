@@ -6,17 +6,17 @@
 
 = semantic_form_for(@user) do |f|
   = f.semantic_errors
-  - f.inputs do
+  = f.inputs do
     = f.input :name_first, :label => 'First Name'
     = f.input :name_last, :label => 'Last Name'
     = f.input :email, :label => 'Email'
     = f.input :password, :as => :password, :label => 'Password', :hint => "leave blank if you don't want to change password"
     = f.input :password_confirmation, :as => :password, :label => 'Confirm Password'
     = f.input :authorized, :as => :boolean, :label => "System login authorized"
-  - f.inputs :name => "Roles" do
+  = f.inputs :name => "Roles" do
     - @selectable_roles.each do |role|
       = f.input "has_role_#{role}", :as => :boolean, :label => "#{role.to_s.titlecase}"
-  - f.inputs :name => "Preferences" do
+  = f.inputs :name => "Preferences" do
     = f.input :language, :as => :select, :collection => User::languages.invert
   - f.buttons do
     = f.commit_button

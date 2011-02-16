@@ -6,7 +6,7 @@
   - semantic_form_for [diagnosis.patient,diagnosis], :html => { :multipart => true }, :remote => true do |f|
     = f.semantic_errors
     = f.input :patient_id, :as => :hidden
-    - f.inputs do
+    = f.inputs do
       = f.input :body_part_id, :as => :select, :label => 'Body Part', :collection => BodyPart.all.collect{ |bp| [bp.to_s, bp.id] }, :input_html => { :id => "body_part_#{dom_id(diagnosis)}" }
       = f.input :disease_id, :as => :select, :label => 'Disease', :collection => Disease.all.collect{ |d| [d.to_s, d.id] }, :input_html => { :id => "disease_#{dom_id(diagnosis)}" }
       = f.input :severity, :as => :radio, :label => "Severity", :collection => Diagnosis::severity_table.invert

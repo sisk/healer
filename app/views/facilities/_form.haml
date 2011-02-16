@@ -1,5 +1,5 @@
 - semantic_form_for @facility, :html => { :multipart => true, :id => "facility_edit" } do |f|
-  - f.inputs do
+  = f.inputs do
     = f.input :name, :label => 'Name'
     = f.input :address1, :label => 'Address 1'
     = f.input :address2, :label => 'Address 2'

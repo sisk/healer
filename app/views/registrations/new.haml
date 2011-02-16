@@ -39,7 +39,7 @@
         = f.semantic_errors
         = f.input :trip_id, :as => :hidden, :input_html => { :value => @trip.id }
         = f.input :created_by_id, :as => :hidden, :input_html => { :value => current_user.id }
-        - f.inputs do
+        = f.inputs do
           = f.input :patient_id, :as => :select, :label => 'Existing Patients', :collection => @all_patients
         - f.buttons do
           = f.commit_button
