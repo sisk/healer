@@ -1,6 +1,5 @@
 .operation {
   @include clearfix;
-  @include showgrid;
   .summary {
     @include column(6);
   }
