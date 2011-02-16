@@ -12,42 +12,6 @@
       %li= link_to "Edit implant details", edit_operation_implant_path(resource)
       
 .operation
-  .summary
-    %h2 Operation
-    %dl
-      %dt Registration ID
-      %dd= resource.registration_id
-      %dt Body Part
-      %dd= resource.body_part
-      %dt Procedure
-      %dd= resource.procedure
-      %dt Primary Surgeon
-      %dd= resource.primary_surgeon
-      %dt Secondary Surgeon
-      %dd= resource.secondary_surgeon
-      %dt Anesthesiologist
-      %dd= resource.anesthesiologist
-      %dt Date
-      %dd= resource.date
-      %dt Approach
-      %dd= resource.approach
-      %dt Difficulty
-      %dd= resource.difficulty
-      %dt Graft
-      %dd= resource.graft
-      %dt Ambulatory Order
-      %dd= resource.ambulatory_order
-  .notes
-    %h2 Surgery Notes
-    %p= simple_format(resource.notes)
-    - if resource.implant.present?
-      %h2 Implant Notes
-      %p= simple_format(resource.implant.notes)
-  .implant
-    %h2 Implant Summary
-    - if resource.implant.present?
-      = render :partial => "implants/summary/#{output_type(resource.implant)}", :object => resource.implant, :as => :implant
-
   .section
     .pre_op
       %h2 Pre-Operation
@@ -62,3 +26,39 @@
             = xray_preview(xray, :size => :tiny)
       %ul.subnavigation
         %li= link_to "Add an x-ray", new_operation_xray_path(resource)
+  .section
+    .summary
+      %h2 Operation
+      %dl
+        %dt Registration ID
+        %dd= resource.registration_id
+        %dt Body Part
+        %dd= resource.body_part
+        %dt Procedure
+        %dd= resource.procedure
+        %dt Primary Surgeon
+        %dd= resource.primary_surgeon
+        %dt Secondary Surgeon
+        %dd= resource.secondary_surgeon
+        %dt Anesthesiologist
+        %dd= resource.anesthesiologist
+        %dt Date
+        %dd= resource.date
+        %dt Approach
+        %dd= resource.approach
+        %dt Difficulty
+        %dd= resource.difficulty
+        %dt Graft
+        %dd= resource.graft
+        %dt Ambulatory Order
+        %dd= resource.ambulatory_order
+    .notes
+      %h2 Surgery Notes
+      %p= simple_format(resource.notes)
+      - if resource.implant.present?
+        %h2 Implant Notes
+        %p= simple_format(resource.implant.notes)
+    .implant
+      %h2 Implant Summary
+      - if resource.implant.present?
+        = render :partial => "implants/summary/#{output_type(resource.implant)}", :object => resource.implant, :as => :implant
