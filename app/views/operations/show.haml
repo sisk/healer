@@ -11,7 +11,7 @@
       
 .operation
   .summary
-    %h2 Operation Summary
+    %h2 Operation
     %dl
       %dt Registration ID
       %dd= @operation.registration_id
@@ -38,17 +38,19 @@
   .notes
     %h2 Notes
     %p= simple_format(@operation.notes)
-
-
-.section
-  %h2 Implant
-  %ul.subnavigation
-    - if @operation.implant.blank?
-      %li= link_to "Add implant", new_operation_implant_path(@operation)
-    - else
-      %li= link_to "Edit implant details", operation_implant_path(@operation)
-
-.section
-  %h2 X-Rays
-  %ul.subnavigation
-    %li= link_to "Add an x-ray", new_operation_xray_path(@operation)
+  .implant
+    %h2 Implant
+    %ul.subnavigation
+      - if @operation.implant.blank?
+        %li= link_to "Add implant", new_operation_implant_path(@operation)
+      - else
+        %li= link_to "Edit implant details", operation_implant_path(@operation)
+  .section
+    .diagnosis
+      %h2 Pre-Op
+      #diagnosis_list
+        = render :partial => "diagnoses/inline", :object => @operation.diagnosis, :as => :diagnosis, :locals => { :options => { :size => :tiny, :remote => true } }
+    .xrays
+      %h2 Post-Op
+      %ul.subnavigation
+        %li= link_to "Add an x-ray", new_operation_xray_path(@operation)
