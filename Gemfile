@@ -21,6 +21,7 @@ gem 'inherited_resources', '~> 1.2.1'
 gem "will_paginate", '3.0.pre2'
 # gem "ruby-debug19"
 gem "dotiw"
+gem 'jquery-rails', '>= 0.2.6'
 
 # gem 'hoptoad_notifier'
 
@@ -40,7 +41,7 @@ end
 # gem 'capistrano'
 
 # To use debugger
-# gem 'ruby-debug19', :require => 'ruby-debug'
+gem 'ruby-debug19', :require => 'ruby-debug'
 
 # Bundle the extra gems:
 # gem 'bj'

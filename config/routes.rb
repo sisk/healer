@@ -1,19 +1,4 @@
 Healer::Application.routes.draw do
-
-  # The priority is based upon order of creation:
-  # first created -> highest priority.
-
-  # Sample of regular route:
-  #   match 'products/:id' => 'catalog#view'
-  # Keep in mind you can assign values other than :controller and :action
-
-  # Sample of named route:
-  #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
-  # This route can be invoked with purchase_url(:id => product.id)
-
-  # Sample resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
-
   # match "login" => "user_sessions#new"
   # match "logout" => "user_sessions#destroy"
 
@@ -74,15 +59,29 @@ Healer::Application.routes.draw do
     end
   end
 
+  # The priority is based upon order of creation:
+  # first created -> highest priority.
+
+  # Sample of regular route:
+  #   match 'products/:id' => 'catalog#view'
+  # Keep in mind you can assign values other than :controller and :action
+
+  # Sample of named route:
+  #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
+  # This route can be invoked with purchase_url(:id => product.id)
+
+  # Sample resource route (maps HTTP verbs to controller actions automatically):
+  #   resources :products
+
   # Sample resource route with options:
   #   resources :products do
   #     member do
-  #       get :short
-  #       post :toggle
+  #       get 'short'
+  #       post 'toggle'
   #     end
   #
   #     collection do
-  #       get :sold
+  #       get 'sold'
   #     end
   #   end
 
@@ -96,7 +95,7 @@ Healer::Application.routes.draw do
   #   resources :products do
   #     resources :comments
   #     resources :sales do
-  #       get :recent, :on => :collection
+  #       get 'recent', :on => :collection
   #     end
   #   end
 
