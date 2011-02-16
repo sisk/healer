@@ -10,5 +10,5 @@
     = f.input :email, :label => 'Email'
     = f.input :password, :as => :password, :label => 'Password'
     = f.input :password_confirmation, :as => :password, :label => 'Confirm Password'
-  - f.buttons do
+  = f.buttons do
     = f.commit_button 'Sign up'

@@ -12,5 +12,5 @@
       = f.input :password, :as => :password, :label => 'Password'
     - if devise_mapping.rememberable?
       = f.input :remember_me, :label => 'Remember Me', :as => :boolean
-  - f.buttons do
+  = f.buttons do
     = f.commit_button 'Log In'

@@ -1,5 +1,5 @@
 %h2 Knee Implant
-- semantic_form_for :knee_implant, @implant do |implant|
+= semantic_form_for :knee_implant, @implant do |implant|
   - implant.inputs do
     = implant.input :knee_type, :as => :select, :label => 'Knee Type', :collection => KneeImplant::knee_types
     = implant.input :knee_thickness, :as => :select, :label => 'Knee Thickness', :collection => KneeImplant::knee_thicknesses

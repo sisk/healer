@@ -1,5 +1,5 @@
-- semantic_form_for @risk do |f|
+= semantic_form_for @risk do |f|
   = f.inputs do
     = f.input :name, :as => :string, :label => 'Description'
-  - f.buttons do
+  = f.buttons do
     = f.commit_button

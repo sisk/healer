@@ -11,5 +11,5 @@
     = f.input :password, :as => :password, :label => 'Password', :hint => "leave blank if you don't want to change password"
     = f.input :password_confirmation, :as => :password, :label => 'Confirm Password'
     = f.input :current_password, :as => :password, :label => 'Current Password', :hint => "current password needed to confirm changes"
-  - f.buttons do
+  = f.buttons do
     = f.commit_button 'Update'

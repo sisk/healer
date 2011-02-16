@@ -1,7 +1,7 @@
-- semantic_form_for @procedure do |f|
+= semantic_form_for @procedure do |f|
   = f.inputs do
     = f.input :name_en, :as => :string, :label => 'Name'
     = f.input :name_es, :as => :string, :label => 'Nombre (Español)'
     = f.input :code, :as => :string, :label => 'ICD-9 Code'
-  - f.buttons do
+  = f.buttons do
     = f.commit_button

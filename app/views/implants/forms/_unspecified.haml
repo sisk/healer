@@ -1,8 +1,8 @@
 %h2 Unspecified Implant
-- semantic_form_for :implant, @implant do |implant|
-  - implant.inputs do
+= semantic_form_for :implant, @implant do |implant|
+  = implant.inputs do
     = implant.input :cement_used, :as => :boolean, :label => 'Cement Used'
     = implant.input :spacer_used, :as => :boolean, :label => 'Spacer Used'
     = implant.input :notes, :as => :text, :label => 'Notes'
-  - implant.buttons do
+  = implant.buttons do
     = implant.commit_button

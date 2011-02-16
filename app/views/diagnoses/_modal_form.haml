@@ -3,7 +3,7 @@
     .xrays
       - diagnosis.xrays.each do |xray|
         = xray_preview(xray, :size => :small)
-  - semantic_form_for [diagnosis.patient,diagnosis], :html => { :multipart => true }, :remote => true do |f|
+  = semantic_form_for [diagnosis.patient,diagnosis], :html => { :multipart => true }, :remote => true do |f|
     = f.semantic_errors
     = f.input :patient_id, :as => :hidden
     = f.inputs do
@@ -11,5 +11,5 @@
       = f.input :disease_id, :as => :select, :label => 'Disease', :collection => Disease.all.collect{ |d| [d.to_s, d.id] }, :input_html => { :id => "disease_#{dom_id(diagnosis)}" }
       = f.input :severity, :as => :radio, :label => "Severity", :collection => Diagnosis::severity_table.invert
       = f.input :revision, :as => :boolean
-    - f.buttons do
+    = f.buttons do
       = f.commit_button
