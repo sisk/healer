@@ -6,9 +6,16 @@ class DiagnosesController < ApplicationController
   respond_to :html, :xml, :json
   before_filter :authenticate_user!
   filter_resource_access
-  
+
   def create
-    create! { patient_path(@patient) }
+    # HACK: this shouldn't be necessary, but it's the only way xrays save right now. :-(
+    resource.patient ||= parent
+    resource.save if resource.valid?
+    # /HACK
+    create! do |success, failure|
+      success.html { redirect_to parent_path, :notice => "Diagnosis added." }
+      failure.html { redirect_to parent_path, :error => "Error adding diagnosis." }
+    end
   end
 
   def update
@@ -29,7 +36,12 @@ class DiagnosesController < ApplicationController
   end
 
   def destroy
-    destroy! { patient_path(@patient) }
+    destroy! do |format|
+      format.js { render :template => "diagnoses/destroy.js.erb", :layout => nil }
+      format.html { redirect_to parent_path }
+    end
   end
+
+  private
 
 end

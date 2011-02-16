@@ -1,4 +1,4 @@
-= semantic_form_for [@patient,resource], :html => { :multipart => true } do |f|
+= semantic_form_for [parent,resource], :html => { :multipart => true } do |f|
   = f.semantic_errors
   = f.inputs do
     = f.input :body_part_id, :as => :select, :label => 'Body Part', :collection => BodyPart.all.collect{ |bp| [bp.to_s, bp.id] }

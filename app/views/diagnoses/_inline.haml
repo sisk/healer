@@ -14,6 +14,7 @@
     - if permitted_to? :edit, diagnosis
       %ul.nav
         %li= link_to "Edit diagnosis", edit_patient_diagnosis_path(diagnosis.patient,diagnosis), :remote => !!options[:remote]
+        %li= link_to "Delete diagnosis", patient_diagnosis_url(diagnosis.patient,diagnosis), :method => :delete, :remote => true, :confirm => "Are you sure? This cannot be undone."
         - if options[:context] == :operation
           - if diagnosis.operations.empty?
             %li= link_to "Add operation", new_diagnosis_operation_path(diagnosis)
