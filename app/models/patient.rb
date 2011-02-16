@@ -1,7 +1,7 @@
 class Patient < ActiveRecord::Base
   
   attr_accessor :weight_unit, :height_unit
-  before_save :set_weight, :set_height
+  before_save :set_weight, :set_height, :set_diagnoses_on_future_registrations
   
   validates_presence_of :name_first, :message => "can't be blank"
   validates_presence_of :name_last, :message => "can't be blank"
@@ -120,6 +120,16 @@ private
 
   def to_cm(inches)
     ((inches / 0.393700787) * 100).round.to_f / 100
+  end
+
+  def set_diagnoses_on_future_registrations
+    # ensure any untreated diagnoses are assigned to future registrations that are authorized
+    # (TODO this is a data sync issue and reeks of poor design. Might need to refactor.)
+    diagnoses.untreated.each do |diagnosis|
+      registrations.authorized.future.each do |registration|
+        diagnosis.update_attributes(:registration => registration)
+      end
+    end
   end
   
 end
