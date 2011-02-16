@@ -1,4 +1,4 @@
 - content_for :title do
   = "#{@operation} - New Implant"
 -# TODO this is funky. make it more elegant and bulletproof, or consider revising the controller/view.
-= render :partial => "implants/forms/#{@implant.type.try(:underscore) || "unspecified"}"
+= render :partial => "implants/forms/#{resource.class.name.underscore || "unspecified"}"

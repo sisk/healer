@@ -1,4 +1,4 @@
-= semantic_form_for [parent,@xray] do |f|
+= semantic_form_for [parent,@xray], :html => { :multipart => true } do |f|
   = f.semantic_errors
   = f.input :operation_id, :as => :hidden
   = f.input :diagnosis_id, :as => :hidden

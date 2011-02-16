@@ -1,9 +1,9 @@
 - if xray.photo.exists?
   - options ||= {}
   - size = options[:size].present? ? options[:size].to_sym : :thumb
-  .xray.preview{ :class => size.to_s }
+  .xray.preview{ :class => size.to_s }[xray]
     = image_tag(xray.photo.url(size), :alt => xray.to_s)
     .nav{ :style => "display: none;" }
       .zoom= link_to "<span>Zoom</span>".html_safe, xray.photo.url, :rel => "group"
       - if permitted_to? :destroy, xray
-        .delete= link_to "<span>Delete x-ray</span>".html_safe, xray_path(xray), :method => :delete, :confirm => "Are you sure you want to delete this x-ray? You cannot undo this!"
+        .delete= link_to "<span>Delete x-ray</span>".html_safe, xray_path(xray), :method => :delete, :remote => true, :confirm => "Are you sure you want to delete this x-ray? You cannot undo this!"

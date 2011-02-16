@@ -1,12 +1,12 @@
 - content_for :title do
-  = "#{@operation}"
+  = "#{resource}"
 - content_for :subnavigation do
   %ul.subnavigation
-    - if permitted_to? :edit, @operation
+    - if permitted_to? :edit, resource
       %li= link_to "Edit operation details", edit_resource_path
-    - if @operation.registration.present?
-      %li= link_to "Return to registration", registration_path(@operation.registration)
-    - if permitted_to? :destroy, @operation
+    - if resource.registration.present?
+      %li= link_to "Return to registration", registration_path(resource.registration)
+    - if permitted_to? :destroy, resource
       %li= link_to "Delete operation", resource_path, :method => :delete, :confirm => "Are you sure? This will remove all data and xray records for this operation. This action cannot be undone."
       
 .operation
@@ -14,43 +14,48 @@
     %h2 Operation
     %dl
       %dt Registration ID
-      %dd= @operation.registration_id
+      %dd= resource.registration_id
       %dt Body Part
-      %dd= @operation.body_part
+      %dd= resource.body_part
       %dt Procedure
-      %dd= @operation.procedure
+      %dd= resource.procedure
       %dt Primary Surgeon
-      %dd= @operation.primary_surgeon
+      %dd= resource.primary_surgeon
       %dt Secondary Surgeon
-      %dd= @operation.secondary_surgeon
+      %dd= resource.secondary_surgeon
       %dt Anesthesiologist
-      %dd= @operation.anesthesiologist
+      %dd= resource.anesthesiologist
       %dt Date
-      %dd= @operation.date
+      %dd= resource.date
       %dt Approach
-      %dd= @operation.approach
+      %dd= resource.approach
       %dt Difficulty
-      %dd= @operation.difficulty
+      %dd= resource.difficulty
       %dt Graft
-      %dd= @operation.graft
+      %dd= resource.graft
       %dt Ambulatory Order
-      %dd= @operation.ambulatory_order
+      %dd= resource.ambulatory_order
   .notes
     %h2 Notes
-    %p= simple_format(@operation.notes)
+    %p= simple_format(resource.notes)
   .implant
     %h2 Implant
     %ul.subnavigation
-      - if @operation.implant.blank?
-        %li= link_to "Add implant", new_operation_implant_path(@operation)
+      - if resource.implant.blank?
+        %li= link_to "Add implant", new_operation_implant_path(resource)
       - else
-        %li= link_to "Edit implant details", operation_implant_path(@operation)
+        %li= link_to "Edit implant details", operation_implant_path(resource)
   .section
-    .diagnosis
-      %h2 Pre-Op
-      #diagnosis_list
-        = render :partial => "diagnoses/inline", :object => @operation.diagnosis, :as => :diagnosis, :locals => { :options => { :size => :tiny, :remote => true } }
-    .xrays
-      %h2 Post-Op
+    .pre_op
+      %h2 Pre-Operation
+      .diagnosis
+        #diagnosis_list
+          = render :partial => "diagnoses/inline", :object => resource.diagnosis, :as => :diagnosis, :locals => { :options => { :size => :tiny, :remote => true } }
+    .post_op
+      %h2 Post-Operation
       %ul.subnavigation
-        %li= link_to "Add an x-ray", new_operation_xray_path(@operation)
+        %li= link_to "Add an x-ray", new_operation_xray_path(resource)
+      - if resource.xrays.present?
+        .xrays
+          - resource.xrays.each do |xray|
+            = xray_preview(xray, :size => :tiny)

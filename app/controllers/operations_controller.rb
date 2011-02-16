@@ -2,7 +2,7 @@ class OperationsController < ApplicationController
   inherit_resources
   
   respond_to :html, :xml, :json
-  belongs_to :registration, :diagnosis, :polymorphic => true
+  belongs_to :registration, :diagnosis, :polymorphic => true, :optional => true
   filter_resource_access
 
   def index

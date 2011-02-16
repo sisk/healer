@@ -4,6 +4,9 @@ form.formtastic {
   input, textarea {
     font-size: 1.1em;
   }
+  textarea {
+    height: 1.1em * 6;
+  }
   input, textarea, select {
     @include bordered(1px, $grey-light);
     @include border-radius(6px);

@@ -1,8 +1,20 @@
 .operation {
+  @include clearfix;
+  @include showgrid;
   .summary {
-    @include column(8);
+    @include column(6);
   }
   .notes {
-    @include column($content-columns - 8, true);
+    @include column($content-columns - 14);
+  }
+  .implant {
+    @include column(8, true);
+  }
+  .pre_op {
+    clear: left;
+    @include column($content-columns/2);
+  }
+  .post_op {
+    @include column($content-columns/2, true);
   }
 }
