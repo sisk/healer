@@ -9,16 +9,16 @@ class Xray < ActiveRecord::Base
       :tiny=> "60x60#",
       :thumb=> "100x100#",
       :small  => "200x200>" },
-    :storage => ENV['S3_BUCKET'] ? :s3 : :filesystem,
+    :storage => ENV['S3_BUCKET'].present? ? :s3 : :filesystem,
     :s3_credentials => {
       :access_key_id => ENV['S3_KEY'],
       :secret_access_key => ENV['S3_SECRET']
     },
     :bucket => ENV['S3_BUCKET'],
-    :path => ENV['S3_BUCKET'] ? "xrays/:attachment/:id/:style/:basename.:extension" : ":rails_root/public/system/xrays/:attachment/:id/:style/:basename.:extension",
-    :url => ENV['S3_BUCKET'] ? "xrays/:attachment/:id/:style/:basename.:extension" : "/system/xrays/:attachment/:id/:style/:basename.:extension"
+    :path => ENV['S3_BUCKET'].present? ? "xrays/:attachment/:id/:style/:basename.:extension" : ":rails_root/public/system/xrays/:attachment/:id/:style/:basename.:extension",
+    :url => ENV['S3_BUCKET'].present? ? "xrays/:attachment/:id/:style/:basename.:extension" : "/system/xrays/:attachment/:id/:style/:basename.:extension"
 
-    validates_attachment_presence :photo
+  validates_attachment_presence :photo
 
   def patient
     diagnosis.try(:patient) || operation.try(:patient)
