@@ -10,9 +10,6 @@
       %li= link_to "Add implant", new_operation_implant_path(resource)
     - else
       %li= link_to "Edit implant details", edit_operation_implant_path(resource)
-    - if permitted_to? :destroy, resource
-      %li= link_to "Delete operation", resource_path, :method => :delete, :confirm => "Are you sure? This will remove all data and xray records for this operation. This action cannot be undone."
-
       
 .operation
   .summary

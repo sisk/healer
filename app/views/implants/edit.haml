@@ -2,6 +2,7 @@
   = "#{@operation} - Edit Implant"
 - content_for :subnavigation do
   %ul.subnavigation
+    %li= link_to "Operation overview", operation_path(@operation)
     - if permitted_to? :edit, @operation
       = link_to "Edit Operation", edit_operation_path(@operation)
 
