@@ -10,17 +10,17 @@ describe HipImplant do
   should_have_column :femur_head_size, :type => :integer
   should_have_column :neck_length, :type => :integer
 
-  should_validate_numericality_of :femur_diameter, :allow_nil => true
-  should_validate_numericality_of :femur_length, :allow_nil => true
-  should_validate_numericality_of :acetabulum_size, :allow_nil => true
-  should_validate_numericality_of :femur_head_size, :allow_nil => true
-  should_validate_numericality_of :neck_length, :allow_nil => true
+  should_validate_numericality_of :femur_diameter, :allow_blank => true
+  should_validate_numericality_of :femur_length, :allow_blank => true
+  should_validate_numericality_of :acetabulum_size, :allow_blank => true
+  should_validate_numericality_of :femur_head_size, :allow_blank => true
+  should_validate_numericality_of :neck_length, :allow_blank => true
 
-  should_validate_inclusion_of :femur_diameter, :in => HipImplant::femur_diameters, :allow_nil => true
-  should_validate_inclusion_of :femur_length, :in => HipImplant::femur_lengths, :allow_nil => true
-  should_validate_inclusion_of :acetabulum_size, :in => HipImplant::acetabulum_sizes, :allow_nil => true
-  should_validate_inclusion_of :femur_head_size, :in => HipImplant::femur_head_sizes, :allow_nil => true
-  should_validate_inclusion_of :neck_length, :in => HipImplant::neck_lengths, :allow_nil => true
+  should_validate_inclusion_of :femur_diameter, :in => HipImplant::femur_diameters, :allow_blank => true
+  should_validate_inclusion_of :femur_length, :in => HipImplant::femur_lengths, :allow_blank => true
+  should_validate_inclusion_of :acetabulum_size, :in => HipImplant::acetabulum_sizes, :allow_blank => true
+  should_validate_inclusion_of :femur_head_size, :in => HipImplant::femur_head_sizes, :allow_blank => true
+  should_validate_inclusion_of :neck_length, :in => HipImplant::neck_lengths, :allow_blank => true
 
 end
 

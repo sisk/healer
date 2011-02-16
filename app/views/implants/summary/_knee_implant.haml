@@ -1,0 +1,20 @@
+.implant_summary
+  %h3 Knee Implant
+  %dl
+    %dt Knee Type
+    %dd= implant.knee_type
+    %dt Knee Thickness
+    %dd= implant.knee_thickness
+    %dt Tibia Type
+    %dd= implant.tibia_type
+    %dt Tibia Diameter
+    %dd= implant.tibia_diameter
+    %dt Patella Size
+    %dd= KneeImplant::patella_sizes[implant.patella_size]
+  %ul
+    - if implant.patella_resurfaced
+      %li Patella Resurfaced
+    - if implant.cement_used
+      %li Cement Used
+    - if implant.spacer_used
+      %li Spacer Used

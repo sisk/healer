@@ -15,16 +15,16 @@ class HipImplant < Implant
     [-6,-3,0,3,6,9,12]
   end
 
-  validates_numericality_of :femur_diameter, :allow_nil => true
-  validates_numericality_of :femur_length, :allow_nil => true
-  validates_numericality_of :acetabulum_size, :allow_nil => true
-  validates_numericality_of :femur_head_size, :allow_nil => true
-  validates_numericality_of :neck_length, :allow_nil => true
+  validates_numericality_of :femur_diameter, :allow_blank => true
+  validates_numericality_of :femur_length, :allow_blank => true
+  validates_numericality_of :acetabulum_size, :allow_blank => true
+  validates_numericality_of :femur_head_size, :allow_blank => true
+  validates_numericality_of :neck_length, :allow_blank => true
 
-  validates_inclusion_of :femur_diameter, :in => self.femur_diameters, :allow_nil => true
-  validates_inclusion_of :femur_length, :in => self.femur_lengths, :allow_nil => true
-  validates_inclusion_of :acetabulum_size, :in => self.acetabulum_sizes, :allow_nil => true
-  validates_inclusion_of :femur_head_size, :in => self.femur_head_sizes, :allow_nil => true
-  validates_inclusion_of :neck_length, :in => self.neck_lengths, :allow_nil => true
+  validates_inclusion_of :femur_diameter, :in => self.femur_diameters, :allow_blank => true
+  validates_inclusion_of :femur_length, :in => self.femur_lengths, :allow_blank => true
+  validates_inclusion_of :acetabulum_size, :in => self.acetabulum_sizes, :allow_blank => true
+  validates_inclusion_of :femur_head_size, :in => self.femur_head_sizes, :allow_blank => true
+  validates_inclusion_of :neck_length, :in => self.neck_lengths, :allow_blank => true
 
 end

@@ -1,0 +1,18 @@
+.implant_summary
+  %h3 Hip Implant
+  %dl
+    %dt Femur Diameter
+    %dd= implant.femur_diameter
+    %dt Femur Length
+    %dd= implant.femur_length
+    %dt Femur Head Size
+    %dd= implant.femur_head_size
+    %dt Neck Length
+    %dd= implant.neck_length
+    %dt Acetabulum Size
+    %dd= implant.acetabulum_size
+  %ul
+    - if implant.cement_used
+      %li Cement Used
+    - if implant.spacer_used
+      %li Spacer Used

@@ -60,18 +60,18 @@ class Operation < ActiveRecord::Base
     { :id => self.id, :registration_id => registration_id, :to_s => self.to_s, :photo => self.patient.displayed_photo(:tiny), :patient => self.patient.to_s, :location => self.location }
   end
   
-  def build_implant(*args)
-    # override method to deal with STI
-    return implant if implant.present?
-    case body_part.try(:name_en).try(:downcase)
-    when "knee"
-      self.implant = KneeImplant.new(:operation => self, :body_part => self.body_part)
-    when "hip"
-      self.implant = HipImplant.new(:operation => self, :body_part => self.body_part)
-    else
-      self.implant = Implant.new(:operation => self, :body_part => self.body_part)
-    end
-  end
+  # def build_implant(*args)
+  #   # override method to deal with STI
+  #   return implant if implant.present?
+  #   case body_part.try(:name_en).try(:downcase)
+  #   when "knee"
+  #     self.implant = KneeImplant.new(:operation => self, :body_part => self.body_part)
+  #   when "hip"
+  #     self.implant = HipImplant.new(:operation => self, :body_part => self.body_part)
+  #   else
+  #     self.implant = Implant.new(:operation => self, :body_part => self.body_part)
+  #   end
+  # end
   
   private
   

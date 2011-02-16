@@ -18,16 +18,16 @@ class KneeImplant < Implant
     ["CR","PS","CC","Hinge"]
   end
 
-  validates_numericality_of :femur_diameter, :allow_nil => true
-  validates_numericality_of :tibia_diameter, :allow_nil => true
-  validates_numericality_of :knee_thickness, :allow_nil => true
-  validates_numericality_of :patella_size, :allow_nil => true
+  validates_numericality_of :femur_diameter, :allow_blank => true
+  validates_numericality_of :tibia_diameter, :allow_blank => true
+  validates_numericality_of :knee_thickness, :allow_blank => true
+  validates_numericality_of :patella_size, :allow_blank => true
 
-  validates_inclusion_of :femur_diameter, :in => self.femur_diameters, :allow_nil => true
-  validates_inclusion_of :tibia_type, :in => self.tibia_types, :allow_nil => true
-  validates_inclusion_of :tibia_diameter, :in => self.tibia_diameters, :allow_nil => true
-  validates_inclusion_of :knee_thickness, :in => self.knee_thicknesses, :allow_nil => true
-  validates_inclusion_of :patella_size, :in => self.patella_sizes.keys, :allow_nil => true
-  validates_inclusion_of :knee_type, :in => self.knee_types, :allow_nil => true
+  validates_inclusion_of :femur_diameter, :in => self.femur_diameters, :allow_blank => true
+  validates_inclusion_of :tibia_type, :in => self.tibia_types, :allow_blank => true
+  validates_inclusion_of :tibia_diameter, :in => self.tibia_diameters, :allow_blank => true
+  validates_inclusion_of :knee_thickness, :in => self.knee_thicknesses, :allow_blank => true
+  validates_inclusion_of :patella_size, :in => self.patella_sizes.keys, :allow_blank => true
+  validates_inclusion_of :knee_type, :in => self.knee_types, :allow_blank => true
 
 end

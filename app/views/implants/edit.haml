@@ -6,4 +6,4 @@
       = link_to "Edit Operation", edit_operation_path(@operation)
 
 -# TODO this is funky. make it more elegant and bulletproof, or consider revising the controller/view.
-= render :partial => "implants/forms/#{@implant.type.try(:underscore) || "unspecified"}"
+= render :partial => "implants/forms/#{output_type(@implant)}", :object => @implant, :as => :implant

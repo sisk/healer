@@ -1,8 +1,9 @@
 %h2 Unspecified Implant
-= semantic_form_for :implant, @implant do |implant|
-  = implant.inputs do
-    = implant.input :cement_used, :as => :boolean, :label => 'Cement Used'
-    = implant.input :spacer_used, :as => :boolean, :label => 'Spacer Used'
-    = implant.input :notes, :as => :text, :label => 'Notes'
-  = implant.buttons do
-    = implant.commit_button
+= semantic_form_for implant, :url => operation_implant_path(@operation) do |f|
+  = f.input :operation_id, :as => :hidden
+  = f.inputs do
+    = f.input :cement_used, :as => :boolean, :label => 'Cement Used'
+    = f.input :spacer_used, :as => :boolean, :label => 'Spacer Used'
+    = f.input :notes, :as => :text, :label => 'Notes'
+  = f.buttons do
+    = f.commit_button
