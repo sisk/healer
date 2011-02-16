@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.0'
+gem 'rails', '3.0.4'
 
 gem 'heroku'
 gem 'taps'
@@ -17,7 +17,7 @@ gem "validation_reflection"
 gem "carmen", :git => "http://github.com/grobie/carmen.git"
 gem "paperclip"
 gem "test-unit"
-gem 'inherited_resources', '1.1.2'
+gem 'inherited_resources', '~> 1.2.1'
 gem "will_paginate", '3.0.pre2'
 # gem "ruby-debug19"
 gem "dotiw"
@@ -40,7 +40,7 @@ end
 # gem 'capistrano'
 
 # To use debugger
-gem 'ruby-debug19', :require => 'ruby-debug'
+# gem 'ruby-debug19', :require => 'ruby-debug'
 
 # Bundle the extra gems:
 # gem 'bj'
