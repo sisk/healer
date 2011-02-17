@@ -1,10 +1,12 @@
 - content_for :title do
-  = "#{@operation} - Edit Implant"
+  = @operation
+- content_for :subtitle do
+  Edit Implant
 - content_for :subnavigation do
   %ul.subnavigation
     %li= link_to "Operation overview", operation_path(@operation)
     - if permitted_to? :edit, @operation
       = link_to "Edit Operation", edit_operation_path(@operation)
-
--# TODO this is funky. make it more elegant and bulletproof, or consider revising the controller/view.
-= render :partial => "implants/forms/#{output_type(@implant)}", :object => @implant, :as => :implant
+.section
+  -# TODO this is funky. make it more elegant and bulletproof, or consider revising the controller/view.
+  = render :partial => "implants/forms/#{output_type(@implant)}", :object => @implant, :as => :implant

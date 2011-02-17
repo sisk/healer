@@ -1,4 +1,7 @@
 - content_for :title do
-  = "#{@operation} - New Implant"
--# TODO this is funky. make it more elegant and bulletproof, or consider revising the controller/view.
-= render :partial => "implants/forms/#{output_type(@implant)}", :object => @implant, :as => :implant
+  = @operation
+- content_for :subtitle do
+  New Implant
+.section
+  -# TODO this is funky. make it more elegant and bulletproof, or consider revising the controller/view.
+  = render :partial => "implants/forms/#{output_type(@implant)}", :object => @implant, :as => :implant

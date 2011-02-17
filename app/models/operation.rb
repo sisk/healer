@@ -53,7 +53,7 @@ class Operation < ActiveRecord::Base
   delegate :location, :location=, :to => :registration  
 
   def to_s
-    [self.trip.try(:to_s), self.patient.try(:to_s), self.procedure.try(:to_s)].compact.join(" - ")
+    [self.patient.try(:to_s), self.procedure.try(:to_s)].compact.join(" - ")
   end
   
   def as_json(options={})

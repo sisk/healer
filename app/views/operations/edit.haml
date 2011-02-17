@@ -1,5 +1,7 @@
 - content_for :title do
-  = "Edit Operation - #{resource}"
+  = resource
+- content_for :subtitle do
+  Edit Operation
 - content_for :subnavigation do
   %ul.subnavigation
     %li= link_to "Operation overview", resource_path
@@ -9,4 +11,5 @@
       %li= link_to "Add Implant", new_operation_implant_path(resource)
     - if permitted_to? :destroy, resource
       %li= link_to "Delete operation", resource_path, :method => :delete, :confirm => "Are you sure? This will remove all data and xray records for this operation. This action cannot be undone."
-= render :partial => "form"
+.section
+  = render :partial => "form"

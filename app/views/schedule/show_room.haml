@@ -1,5 +1,7 @@
 - content_for :title do
-  = "#{@trip} - Schedule - #{@room}"
+  = "Schedule - #{@room}"
+- content_for :subtitle do
+  = @trip
 - content_for :subnavigation do
   %ul.subnavigation
     %li= link_to "Full schedule", trip_schedule_path(@trip)

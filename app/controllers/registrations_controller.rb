@@ -20,6 +20,7 @@ class RegistrationsController < ApplicationController
   def create
     create! { trip_registrations_path(@registration.trip_id) }
   end
+  
   def update
     @registration = Registration.find(params["id"])
 
@@ -31,6 +32,7 @@ class RegistrationsController < ApplicationController
       format.js { render :template => "registrations/update.js.erb", :layout => nil }
     end
   end
+
   def destroy
     destroy! {
       @trip.present? ? trip_registrations_path(@trip) : registrations_path

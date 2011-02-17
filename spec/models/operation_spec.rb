@@ -68,15 +68,15 @@ end
 
 describe Operation, "#to_s" do
   before(:each) do
-    @operation = Operation.new(:patient => stub_model(Patient, :to_s => "El Hombre"), :trip => stub_model(Trip, :to_s => "The Place"))
+    @operation = Operation.new(:patient => stub_model(Patient, :to_s => "El Hombre"))
   end
-  it "returns the trip name plus patient name" do
-    @operation.to_s.should == "The Place - El Hombre"
+  it "returns the patient name" do
+    @operation.to_s.should == "El Hombre"
   end
   it "adds the procedure if it exists" do
     procedure = stub_model(Procedure, :to_s => "Derp")
     @operation.procedure = procedure
-    @operation.to_s.should == "The Place - El Hombre - Derp"
+    @operation.to_s.should == "El Hombre - Derp"
   end
 end
 

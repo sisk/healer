@@ -1,7 +1,8 @@
-#trip_nav
+#trip_nav.noprint
   - Trip.next.each do |trip|
     - if permitted_to? :show, trip
       %ul
         %li.trip_name= "#{trip}:"
+        %li= link_to_unless_current "Home", trip_path(trip)
         %li= link_to_unless_current "Schedule", trip_schedule_path(trip)
         %li= link_to_unless_current "Registrations", trip_registrations_path(trip)

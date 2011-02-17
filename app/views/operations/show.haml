@@ -1,5 +1,7 @@
 - content_for :title do
-  = "#{resource}"
+  = resource
+- content_for :subtitle do
+  Operation Summary
 - content_for :subnavigation do
   %ul.subnavigation
     - if resource.registration.present?
@@ -10,6 +12,7 @@
       %li= link_to "Add implant", new_operation_implant_path(resource)
     - else
       %li= link_to "Edit implant details", edit_operation_implant_path(resource)
+    %li= link_to "Certificado de la Cirugía", resource_path(:locale => "es")
       
 .operation
   .section

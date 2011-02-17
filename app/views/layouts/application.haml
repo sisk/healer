@@ -18,7 +18,9 @@
         = render :partial => "layouts/shared/session"
       #content
         - if content_for?(:title)
-          %h1= yield :title
+          %h1.title= yield :title
+        - if content_for?(:subtitle)
+          %h2.subtitle= yield :subtitle
         = yield :subnavigation
         - if request_ipad?
           - if content_for?(:ipad_hint)

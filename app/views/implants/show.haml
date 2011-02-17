@@ -2,19 +2,21 @@
   - if @implant.present?
     = "#{@implant.type.titleize} - #{@operation.patient} - #{@operation.date}"
   - else
-    = "#{@operation} - Implant"
-
+    = @operation
+- content_for :subtitle do
+  Implant Summary
 - content_for :subnavigation do
   %ul.subnavigation
     - if @implant.present?
       = link_to "Edit Implant", edit_operation_implant_path(@operation)
-- if @implant.present?
-  = render :partial => "implants/summary/#{output_type(@implant)}", :object => @implant, :as => :implant
-  .notes
-    %h2 Notes
-    %p= simple_format(@implant.notes)
+.section
+  - if @implant.present?
+    = render :partial => "implants/summary/#{output_type(@implant)}", :object => @implant, :as => :implant
+    .notes
+      %h2 Notes
+      %p= simple_format(@implant.notes)
   
 
-- else
-  %p There is no implant on file for this operation.
-  %p= "Would you like to #{link_to "add one", new_operation_implant_path(@operation)}?".html_safe
+  - else
+    %p There is no implant on file for this operation.
+    %p= "Would you like to #{link_to "add one", new_operation_implant_path(@operation)}?".html_safe

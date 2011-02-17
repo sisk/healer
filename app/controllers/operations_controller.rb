@@ -12,6 +12,16 @@ class OperationsController < ApplicationController
       }
     end
   end
+
+  def show
+    show! {
+      if I18n.locale == :es
+        # Patient certificate
+        render :layout => "patient_certificate"
+        return true
+      end
+    }
+  end
   
   def create
     create! { edit_resource_url }

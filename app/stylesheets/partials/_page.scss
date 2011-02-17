@@ -7,11 +7,56 @@
 // when you're using a single/combined stylesheet.
 
 body.bp {
+  /*$blueprint-font-size: 12px;*/
   @include blueprint-typography(true);
   @include blueprint-utilities;
   @include blueprint-debug;
   @include blueprint-interaction;
+
+  /*
+  h1 {
+    font-size: 3em
+    line-height: 1
+    margin-bottom: 0.50em
+  }
+  h2 {
+    font-size: 2em
+    margin-bottom: 0.75em
+  }
+  h3 {
+    font-size: 1.5em
+    line-height: 1
+    margin-bottom: 1.00em
+  }
+  h4 {
+    font-size: 1.2em
+    line-height: 1.25
+    margin-bottom: 1.25em
+  }
+  h5 {
+    font-size: 1em
+    font-weight: bold
+    margin-bottom: 1.50em
+  }
+  h6 {
+    font-size: 1em
+    font-weight: bold}
+  }
+  */
+
+  h1.title {
+    font-size: 2.5em;
+    margin-bottom: 0.30em
+  }
+  h2.subtitle {
+    color: $grey-medium;
+    font-size: 1.6em;
+    margin-top: -0.50em;
+    margin-bottom: 0.50em;
+  }
+
 }
+
 
 $content-columns: $blueprint-grid-columns - 2;
 // Remove the scaffolding when you're ready to start doing visual design.
@@ -29,7 +74,7 @@ $content-columns: $blueprint-grid-columns - 2;
   clear: both;
   @include clearfix;
   border-top: 1px solid $grey-very-light;
-  padding-top: $margin-increment;
+  padding-top: 20px;
   margin-bottom: $margin-increment * 3;
 
   h2 + .subnavigation { margin-top: -10px }

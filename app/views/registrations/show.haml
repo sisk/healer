@@ -3,6 +3,7 @@
 - content_for :subnavigation do
   %ul.subnavigation
     %li= link_to "Patient Record", patient_path(@registration.patient)
+
 .section.patient
   = render :partial => "patients/shared/snapshot", :locals => { :patient => @registration.patient }
 .section

@@ -1,3 +1,6 @@
 - content_for :title do
+  = "#{parent.patient} - #{parent}"
+- content_for :subtitle do
   New Operation
-= render :partial => "form_new"
+.section
+  = render :partial => "form_new"

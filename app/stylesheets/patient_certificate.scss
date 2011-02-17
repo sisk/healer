@@ -1,0 +1,62 @@
+@import "partials/base";
+@import "compass/utilities/general/clearfix";
+@import "blueprint";
+@import "blueprint/typography";
+@import "blueprint/grid";
+@import "partials/two_col";
+@import "partials/page";
+
+body.patient_certificate {
+  #summary_header {
+    @include clearfix;
+    margin-bottom: 15px;
+    #org_logo {
+      @include column(6);
+      height: 80px;
+      background-image: url('/images/organization/operation_walk_logo.jpg');
+      background-repeat: no-repeat;
+    }
+    #org_credentials {
+      @include column(5, true);
+    }
+    .title_section {
+      margin-top: 10px;
+      text-align: center;
+      @include column($content-columns - 11);
+      .subtitle {
+        margin-bottom: 0;
+      }
+    }
+  }
+  
+  .summary {
+    @include column($content-columns - 6);
+    dl {
+      @include inline_dl($content-columns - 6, 6);
+      font-size: 1.4em;
+    }
+  }
+  .photo {
+    @include column(6, true);
+    img { @include bordered(1px, #000); }
+  }
+  
+  .xrays {
+    h3 { text-align: center; text-decoration: underline; }
+    .xray {
+      @include prepend(2);
+      @include append(2);
+      img {
+        @include span(($content-columns / 2) - 4);
+        @include bordered(1px, #000);
+      }
+    }
+    .before {
+      @include column($content-columns / 2);
+    }
+    .after {
+      @include column($content-columns / 2, true);
+    }
+  }
+  
+}
