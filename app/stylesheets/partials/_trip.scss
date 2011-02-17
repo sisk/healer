@@ -1,0 +1,8 @@
+.trip {
+  .glance {
+    @include column($content-columns / 2);
+  }
+  .scehdule {
+    @include column($content-columns / 2, true);
+  }
+}

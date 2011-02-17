@@ -3,7 +3,11 @@
   .image= patient_image(patient, :small)
   .patient
     %h3= patient
-    %h4= "Registration ##{registration.id}"
+    %h4
+      - if permitted_to? :show, registration
+        = link_to "Registration ##{registration.id}", trip_registration_path(registration.trip, registration)
+      - else
+        = "Registration ##{registration.id}"
     = render :partial => "patients/shared/patient_demographic", :locals => { :patient => patient }
   .treatment
     .inline_diagnosis_list

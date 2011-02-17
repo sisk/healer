@@ -4,9 +4,15 @@
   %ul.subnavigation
     %li= link_to "Full schedule", trip_schedule_path(@trip)
 
-- @number_of_days.times do |i|
-  - day_num = i + 1
-  - registrations = @trip.registrations.room(@room.id).day(day_num)
-  .registration_list.day
-    %h2= "Day #{day_num}"
-    = render :partial => "schedule/inline_registration", :as => :registration, :collection => registrations
+#show_schedule_list
+  %ul
+    - @number_of_days.times do |i|
+      - day_num = i + 1
+      %li= link_to "Day #{day_num}", "#day_#{day_num}"
+  - @number_of_days.times do |i|
+    - day_num = i + 1
+    - registrations = @trip.registrations.room(@room.id).day(day_num)
+    .registration_list.day{ :id => "day_#{day_num}" }
+      %h2= "Day #{day_num}"
+      %p= link_to "Show all rooms for Day #{day_num}", trip_schedule_path(@trip, :day => day_num)
+      = render :partial => "schedule/inline_registration", :as => :registration, :collection => registrations

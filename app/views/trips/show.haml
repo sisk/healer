@@ -16,11 +16,19 @@
   %dt Facility
   %dd= link_to @trip.facility, @trip.facility
 
-.section
-  %h2 At-a-glance
-  %ul
-    %li= pluralize(@authorized_registrations.size, "authorized registration")
-    %li
-      %ul
-        %li= "#{@authorized_registrations.scheduled.size} scheduled"
-        %li= "#{@authorized_registrations.unscheduled.size} unscheduled"
+.section.trip
+  .glance
+    %h2 At-a-glance
+    %ul
+      - @trip.number_of_operation_days
+      %li= pluralize(@authorized_registrations.size, "authorized registration")
+      %li
+        %ul
+          %li= "#{@authorized_registrations.scheduled.size} scheduled"
+          %li= "#{@authorized_registrations.unscheduled.size} unscheduled"
+  .schedule
+    %h2 Daily Schedules
+    %ul
+      - @trip.number_of_operation_days.times do |i|
+        - day_num = i + 1
+        %li= link_to "Day #{day_num} Schedule", trip_schedule_path(@trip, :day => day_num)
