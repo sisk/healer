@@ -52,7 +52,7 @@ end
 
 describe Operation, ".approaches" do
   it "returns an array of the expected values" do
-    Operation::approaches.should == ["Anterior","Lateral","Medial","Posterior","Dorsal","Lateral Transfibular"]
+    Operation::approaches.should == ["Anterior","Lateral","Medial","Posterior","Dorsal","Planter","Lateral Transfibular"]
   end
 end
 describe Operation, ".ambulatory_orders" do

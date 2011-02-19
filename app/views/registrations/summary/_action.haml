@@ -12,7 +12,5 @@
       %li= link_to "Return to waiting", deauthorize_trip_registration_path(@trip, registration), :method => :put
   - if permitted_to? :destroy, registration.patient
     %li.delete= link_to "Edit patient record", edit_patient_path(registration.patient)
-  - if permitted_to? :edit, registration
-    %li= link_to "Edit registration", trip_registration_path(@trip, registration)
   - if permitted_to? :destroy, registration
     %li.delete= link_to "Delete registration", trip_registration_path(@trip, registration), :method => :delete, :confirm => "Are you sure?"

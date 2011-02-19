@@ -31,11 +31,11 @@ class OperationsController < ApplicationController
     update! do |format|
       format.html {
         # if we got here via anything that responds to a registration, redirect to the registration path
-        if parent.respond_to?(:registration) && parent.registration.present?
-          redirect_to trip_registration_path(parent.registration.trip, parent.registration), :notice => "Operation updated."
-        else
-          redirect_to parent_path, :notice => "Operation updated."
-        end
+        # if parent.respond_to?(:registration) && parent.registration.present?
+        #   redirect_to trip_registration_path(parent.registration.trip, parent.registration), :notice => "Operation updated."
+        # else
+        redirect_to resource_path, :notice => "Operation updated."
+        # end
       }
     end
   end

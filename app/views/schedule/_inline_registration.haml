@@ -28,13 +28,13 @@
             = link_to "Add Operation", new_diagnosis_operation_path(diagnosis)
           - else
             - diagnosis.operations.each do |operation|
-              = link_to "Edit Operation", edit_diagnosis_operation_path(diagnosis, operation)
+              = link_to "Operation Summary", diagnosis_operation_path(diagnosis, operation)
 
           
   .navigation.noprint
-    %ul
-      - if registration.operations.present?
-        %li= link_to "Summary Report", registration
+    / %ul
+    /   - if registration.operations.present?
+    /     %li= link_to "Summary Report", registration
   - if patient.has_medical_detail?
     .medical_details.supplemental
       %p.fake_link.toggle= "Full medical detail"

@@ -1,6 +1,6 @@
 class Operation < ActiveRecord::Base
   def self.approaches
-    ["Anterior","Lateral","Medial","Posterior","Dorsal","Lateral Transfibular"]
+    ["Anterior","Lateral","Medial","Posterior","Dorsal","Planter","Lateral Transfibular"]
   end
   def self.difficulty_table
     { 0 => "Routine", 1 => "Moderate", 2 => "Severe" }
