@@ -80,41 +80,41 @@ describe Operation, "#to_s" do
   end
 end
 
-describe Operation, "#build_implant" do
-  before(:each) do
-    @operation = Operation.new
-  end
-  it "does not set implant if one already exists" do
-    implant = mock_model(Implant)
-    @operation.stub(:implant).and_return(implant)
-    @operation.build_implant
-    @operation.implant.should == implant
-  end
-  it "builds and sets a KneeImplant if Operation's body part is a knee" do
-    @operation.stub(:body_part).and_return(mock_model(BodyPart, :name_en => "Knee"))
-    @operation.build_implant
-    @operation.implant.should be_a_kind_of(KneeImplant)
-  end
-  it "builds and sets a HipImplant if Operation's body part is a hip" do
-    @operation.stub(:body_part).and_return(mock_model(BodyPart, :name_en => "Hip"))
-    @operation.build_implant
-    @operation.implant.should be_a_kind_of(HipImplant)
-  end
-  it "builds and sets an Implant if Operation's body part is not known" do
-    @operation.build_implant
-    @operation.implant.should be_a_kind_of(Implant)
-  end
-  it "implant operation is set to self" do
-    @operation.build_implant
-    @operation.implant.operation.should == @operation
-  end
-  it "implant body part is set to self's" do
-    part = mock_model(BodyPart, :name_en => "Whatevs, yo.")
-    @operation.stub(:body_part).and_return(part)
-    @operation.build_implant
-    @operation.implant.body_part.should == part
-  end
-end
+# describe Operation, "#build_implant" do
+#   before(:each) do
+#     @operation = Operation.new
+#   end
+#   it "does not set implant if one already exists" do
+#     implant = mock_model(Implant)
+#     @operation.stub(:implant).and_return(implant)
+#     @operation.build_implant
+#     @operation.implant.should == implant
+#   end
+#   it "builds and sets a KneeImplant if Operation's body part is a knee" do
+#     @operation.stub(:body_part).and_return(mock_model(BodyPart, :name_en => "Knee"))
+#     @operation.build_implant
+#     @operation.implant.should be_a_kind_of(KneeImplant)
+#   end
+#   it "builds and sets a HipImplant if Operation's body part is a hip" do
+#     @operation.stub(:body_part).and_return(mock_model(BodyPart, :name_en => "Hip"))
+#     @operation.build_implant
+#     @operation.implant.should be_a_kind_of(HipImplant)
+#   end
+#   it "builds and sets an Implant if Operation's body part is not known" do
+#     @operation.build_implant
+#     @operation.implant.should be_a_kind_of(Implant)
+#   end
+#   it "implant operation is set to self" do
+#     @operation.build_implant
+#     @operation.implant.operation.should == @operation
+#   end
+#   it "implant body part is set to self's" do
+#     part = mock_model(BodyPart, :name_en => "Whatevs, yo.")
+#     @operation.stub(:body_part).and_return(part)
+#     @operation.build_implant
+#     @operation.implant.body_part.should == part
+#   end
+# end
 
 describe Operation, "trip_id sync" do
   before(:each) do
