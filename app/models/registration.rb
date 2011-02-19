@@ -85,7 +85,7 @@ class Registration < ActiveRecord::Base
     true
   end
   def deauthorize!
-    self.update_attributes(:approved_by_id => nil, :approved_at => nil, :status => "Pre-Screen")
+    self.update_attributes(:approved_by_id => nil, :approved_at => nil, :room_id => nil, :scheduled_day => nil, :status => "Pre-Screen")
     clear_diagnoses
     true
   end

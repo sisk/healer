@@ -70,7 +70,7 @@ end
 
 describe Registration, "deauthorize!" do
   before(:each) do
-    @registration = Registration.new(:patient => stub_model(Patient), :trip => mock_model(Trip), :approved_by_id => 1, :approved_at => Time.now)
+    @registration = Registration.new(:patient => stub_model(Patient), :trip => mock_model(Trip), :approved_by_id => 1, :approved_at => Time.now, :room_id => 2, :scheduled_day => 3)
   end
   it "sets registration's approved_at to nil" do
     @registration.deauthorize!
@@ -83,6 +83,14 @@ describe Registration, "deauthorize!" do
   it "sets status to 'Pre-Screen'" do
     @registration.deauthorize!
     @registration.status.should == "Pre-Screen"
+  end
+  it "clears any room" do
+    @registration.deauthorize!
+    @registration.room_id.should be_nil
+  end
+  it "clears any day" do
+    @registration.deauthorize!
+    @registration.scheduled_day.should be_nil
   end
   # temp - this is a workaround until UI elements join diagnoses to a registration.
   # it "clears diagnoses" do
