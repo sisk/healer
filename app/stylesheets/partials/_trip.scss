@@ -1,8 +1,8 @@
-.trip {
-  .glance {
+.trip, .trips {
+  .glance, .active {
     @include column($content-columns / 2);
   }
-  .scehdule {
+  .schedule, .upcoming {
     @include column($content-columns / 2, true);
   }
 }

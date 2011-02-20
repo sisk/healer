@@ -1,11 +1,27 @@
 - content_for :title do
-  = I18n.t 'hello'
-%h2 Active Trips
-%ul
-- Trip.current.each do |trip|
-  %li= link_to trip, trip
-
-%h2 Upcoming Trips
-%ul
-- Trip.future.each do |trip|
-  %li= link_to trip, trip
+  Home
+.section.trips
+  .active
+    %h2 Active Trips
+    - Trip.current.each do |trip|
+      .trip
+        %h3= trip
+        %ul
+          - if permitted_to? :create, Registration.new(:trip => trip)
+            %li= link_to "New Registration", new_trip_registration_path(trip)
+          %li= link_to "Schedule", trip_schedule_path(trip)
+          %li= link_to "Review Registrations", trip_registrations_path(trip)
+          - if permitted_to? :edit, trip
+            %li= link_to "Edit trip details", edit_trip_path(trip)
+  .upcoming
+    %h2 Upcoming Trips
+    - Trip.future.each do |trip|
+      .trip
+        %h3= trip
+        %ul
+          - if permitted_to? :create, Registration.new(:trip => trip)
+            %li= link_to "New Registration", new_trip_registration_path(trip)
+          %li= link_to "Schedule", trip_schedule_path(trip)
+          %li= link_to "Review Registrations", trip_registrations_path(trip)
+          - if permitted_to? :edit, trip
+            %li= link_to "Edit trip details", edit_trip_path(trip)
