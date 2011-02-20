@@ -42,15 +42,17 @@ dl {
 }
 .list_nav {
   background-color: $grey-very-light;
-  padding: 1em;
   @include clearfix;
   margin-bottom: $margin-increment;
   @include column($content-columns);
-  form.list_search {
-    @include column($content-columns / 2);
+  form.list_search, .pages {
+    margin: $margin-increment * 2;
   }
-  .pagination {
-    @include column($content-columns / 2, true);
+  form.list_search {
+    @include float-left;
+  }
+  .pages {
+    @include float-right;
     text-align: right;
   }
 }

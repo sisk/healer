@@ -3,7 +3,7 @@ class PatientsController < ApplicationController
   
   before_filter :authenticate_user!
   filter_resource_access
-
+  
   def create
     create! { patients_path }
   end
@@ -22,11 +22,16 @@ private
 protected
 
   def collection
-    if params[:search].present?
-      @patients ||= end_of_association_chain.search(params[:search]).paginate(:page => params[:page], :per_page => 5)
-    else
-      @patients ||= end_of_association_chain.paginate(:page => params[:page], :per_page => 5)
+    start = end_of_association_chain
+    if params[:no_registrations]
+      logger.debug("\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF\n\n")
+      start = start.no_registrations
     end
+    if params[:search].present?
+      logger.debug("\n\nUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU\n\n")
+      start = start.search(params[:search])
+    end
+    @patients ||= start.paginate(:page => params[:page], :per_page => 5)
   end
   
 end

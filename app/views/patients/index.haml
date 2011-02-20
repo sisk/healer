@@ -3,14 +3,18 @@
 - content_for :subnavigation do
   %ul.subnavigation
     - if permitted_to? :create, Patient.new
-      %li= link_to_unless_current "New Patient", new_patient_path
+      %li= link_to "New Patient", new_patient_path
 .list_nav
   - form_tag(patients_path, {:method => :get, :class => "list_search"}) do
     = label_tag :search, "Search"
     = text_field_tag :search, params[:search]
+    = label_tag :no_registrations, "No registration"
+    = check_box_tag :no_registrations, true, params[:no_registrations]
     = submit_tag "Go"
     - if params[:search].present?
       = link_to "Clear search", patients_path
-  = will_paginate @patients
-#patient_list
+  .pages
+    = page_entries_info(@patients)
+    = will_paginate @patients
+.section
   = render :partial => "inline_summary", :collection => @patients, :as => :patient
