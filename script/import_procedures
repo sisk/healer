@@ -1,0 +1,31 @@
+#!/usr/bin/env ruby
+require File.expand_path('../../config/environment',  __FILE__)
+
+require "csv"
+require "aws/s3"
+
+raise "S3_KEY must be set in ENV" unless ENV['S3_KEY'].present?
+raise "S3_SECRET must be set in ENV" unless ENV['S3_SECRET'].present?
+
+AWS::S3::Base.establish_connection!(
+  :access_key_id     => ENV['S3_KEY'],
+  :secret_access_key => ENV['S3_SECRET']
+)
+
+bucket = 'healer-production'
+filename = 'procedures.txt'
+
+if AWS::S3::S3Object.exists?("data/#{filename}", bucket)
+  file = AWS::S3::S3Object.find("data/#{filename}", bucket)
+  contents = file.value
+  i = 0
+  contents.each do |row|
+    i += 1
+    row_vals = row.split("|")
+    en = row_vals[0].strip.humanize
+    es = row_vals[1].strip.humanize
+    Procedure.create(:name_en => en, :name_es => es, :display_order => i)
+  end
+else
+  raise "File does not exist at #{bucket}:data/#{filename}"
+end
