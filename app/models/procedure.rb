@@ -1,5 +1,8 @@
 class Procedure < ActiveRecord::Base
+
   validates_presence_of :name_en
+  validates_uniqueness_of :name_en
+  
   has_many :operations
   default_scope :order => 'procedures.display_order'
 

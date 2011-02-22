@@ -7,6 +7,7 @@ describe Procedure do
   should_have_column :display_order, :type => :integer
   
   should_validate_presence_of :name_en
+  should_validate_uniqueness_of :name_en
 
   should_have_many :operations
 end
