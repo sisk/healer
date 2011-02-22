@@ -2,17 +2,35 @@
 require File.expand_path('../../config/environment',  __FILE__)
 
 require "csv"
+require "aws/s3"
 
-filename = "/Users/jsisk/Desktop/opwalk_people.csv"
-csv = CSV.open(filename, 'r', ?,, ?\r)
-csv.each do |row|
-  full_name = row[0]
-  role = row[2]
-  email = row[3]
-  
-  name_parts = full_name.split(/, ?/)
-  name_first = name_parts.size > 1 ? name_parts[1].split(" ").first : nil
-  name_last = name_parts.first
-  p name_parts
-  p "#{name_first} #{name_last}"
+raise "S3_KEY must be set in ENV" unless ENV['S3_KEY'].present?
+raise "S3_SECRET must be set in ENV" unless ENV['S3_SECRET'].present?
+
+AWS::S3::Base.establish_connection!(
+  :access_key_id     => ENV['S3_KEY'],
+  :secret_access_key => ENV['S3_SECRET']
+)
+
+bucket = 'healer-production'
+filename = 'opwalk_people.csv'
+
+if AWS::S3::S3Object.exists?("data/#{filename}", bucket)
+  csv = AWS::S3::S3Object.find("data/#{filename}", bucket)
+  contents = csv.value.split("\r")
+  contents.each do |row|
+    row_vals = row.split(",")
+    next if row_vals[0] == "name"
+    name_last = row_vals[0].gsub("\"", "").strip
+    name_first = row_vals[1].gsub("\"", "").strip.split(" ")[0]
+    role = row_vals[3].present? ? row_vals[3].strip : nil
+    email = row_vals[4].present? ? row_vals[4].strip.downcase : nil
+    if email.present?
+      u = User.new(:email => email, :name_first => name_first, :name_last => name_last)
+      u.save if u.valid?
+      u.grant_role!(role) if role.present?
+    end
+  end
+else
+  raise "File does not exist at #{bucket}:data/#{filename}"
 end
