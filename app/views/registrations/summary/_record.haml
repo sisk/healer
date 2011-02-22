@@ -1,11 +1,11 @@
 - patient = registration.patient
 .registration[registration]
   .image= patient_image(patient, :small)
-  .patient
+  .patient.primary
     %h3= patient
     %h4= "Registration ##{registration.id}"
     = render :partial => "patients/shared/patient_demographic", :locals => { :patient => patient }
-  .treatment
+  .treatment.secondary
     .inline_diagnosis_list
       %h4 Diagnoses
       -# show a list of up to 3 individual diagnoses. link-off to patient/show if longer.

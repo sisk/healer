@@ -36,21 +36,6 @@
     }
   }
 }
-.list_item.diagnosis {
-  $summary_width: 12;
-  .summary {
-    @include column($summary_width);
-    @include border($grey-light);
-    .xrays {
-      h4 { margin-bottom: $margin-increment; }
-    }
-  }
-  .operations {
-    clear: none;
-    @include column($content-columns - $summary_width, true);
-    float: none;
-  }
-}
 
 .review_diagnosis {
   .xrays {

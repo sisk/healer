@@ -1,25 +1,9 @@
 @import "compass/css3/inline-block";
 
-#patient_edit {
+.patient_summary {
+  @include inline_record;
 }
 
-.patient .snapshot {
-  padding-top: 0;
-  @include column(12);
-  dl { @include inline_dl(8,2); }
-  .info {
-    @include clearfix;
-    img { @include column(3); }
-    .demographic { @include column(8, true); }
-  }
-  .contact { margin-top: $margin-increment * 2; @include float-left; }
-}
-
-.patient.list_item {
-  .summary {
-    h3 { margin-bottom: .5em; }
-  }
-}
 .section.medical_history {
   .medications, .diseases {
     @include column($content-columns / 3);

@@ -1,7 +1,7 @@
-.basic_info.snapshot
-  %h2= patient
+.image= patient_image(patient, :small)
+.primary
+  %h3= patient
   .info
-    = patient_image(patient, :small)
     = render :partial => "patients/shared/patient_demographic", :locals => { :patient => patient }
   - if patient.has_contact?
     .contact

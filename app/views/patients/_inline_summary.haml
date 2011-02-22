@@ -1,27 +1,24 @@
--# TODO refactor view
-.list_item[patient]
-  .patient
-    = render :partial => "patients/shared/snapshot", :locals => { :patient => patient }
-  .diagnoses
+.patient_summary[patient]
+  = render :partial => "patients/shared/snapshot", :locals => { :patient => patient }
+  .secondary.treatment.diagnoses
     - if patient.diagnoses.empty?
       = link_to "New diagnosis for #{patient}", new_patient_diagnosis_path(patient)
     - else
       %h4 Diagnoses
-      %ul
-        -# show a list of up to 3 individual diagnoses. link-off to patient/show if longer.
-        - for i in 0..patient.diagnoses.size - 1 do
-          - diagnosis = patient.diagnoses[i]
-          - break if i > 2
-          %li.inline= render :partial => "diagnoses/inline", :object => diagnosis, :as => :diagnosis
-      - if patient.diagnoses.size > 3
-        = link_to "+ #{patient.diagnoses.size - 3} more", patient_path(patient), :class => "more"
-  .supplemental
-    %p.fake_link.toggle= "Toggle more details for #{patient}"
-    - if permitted_to? :show, patient
-      = link_to "Full record", patient_path(patient), :class => "full_record"
-    = render :partial => "patients/medical_details", :locals => { :patient => patient }
+      - for i in 0..patient.diagnoses.size - 1 do
+        - diagnosis = patient.diagnoses[i]
+        - break if i > 2
+        = render :partial => "diagnoses/inline", :object => diagnosis, :as => :diagnosis, :locals => { :options => { :size => :tiny } }
+    - if patient.diagnoses.size > 3
+      = link_to "+ #{patient.diagnoses.size - 3} more", patient_path(patient), :class => "more"
+  .navigation.noprint
+    %ul
+      - if permitted_to? :show, patient
+        %li= link_to "Show full record", patient_path(patient)
+      - if permitted_to? :edit, patient
+        %li= link_to "Edit record", edit_patient_path(patient)
     - if patient.operations.present?
-      .operations
+      .section.operations
         %h4 Operations
         %ul
         - patient.operations.each do |operation|
