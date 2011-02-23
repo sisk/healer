@@ -15,8 +15,8 @@ class Xray < ActiveRecord::Base
       :secret_access_key => ENV['S3_SECRET']
     },
     :bucket => ENV['S3_BUCKET'],
-    :path => ENV['S3_BUCKET'].present? ? "xrays/:attachment/:id/:style/:basename.:extension" : ":rails_root/public/system/xrays/:attachment/:id/:style/:basename.:extension",
-    :url => ENV['S3_BUCKET'].present? ? "xrays/:attachment/:id/:style/:basename.:extension" : "/system/xrays/:attachment/:id/:style/:basename.:extension"
+    :path => ENV['S3_BUCKET'].present? ? "xrays/:attachment/:id/:style.:extension" : ":rails_root/public/system/xrays/:attachment/:id/:style.:extension",
+    :url => ENV['S3_BUCKET'].present? ? "xrays/:attachment/:id/:style.:extension" : "/system/xrays/:attachment/:id/:style.:extension"
 
   validates_attachment_presence :photo
 

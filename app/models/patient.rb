@@ -60,8 +60,8 @@ class Patient < ActiveRecord::Base
       :secret_access_key => ENV['S3_SECRET']
     },
     :bucket => ENV['S3_BUCKET'],
-    :path => ENV['S3_BUCKET'].present? ? "patients/:attachment/:id/:style/:basename.:extension" : ":rails_root/public/system/patients/:attachment/:id/:style/:basename.:extension",
-    :url => ENV['S3_BUCKET'].present? ? "patients/:attachment/:id/:style/:basename.:extension" : "/system/patients/:attachment/:id/:style/:basename.:extension"
+    :path => ENV['S3_BUCKET'].present? ? "patients/:attachment/:id/:style.:extension" : ":rails_root/public/system/patients/:attachment/:id/:style.:extension",
+    :url => ENV['S3_BUCKET'].present? ? "patients/:attachment/:id/:style.:extension" : "/system/patients/:attachment/:id/:style.:extension"
   
   def to_s(*args)
     name(*args)
