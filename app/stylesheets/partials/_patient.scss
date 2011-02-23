@@ -15,10 +15,10 @@
 }
 .supplemental {
   .risk_factors {
-    @include column(7);
+    @include column(5);
   }
   .diseases {
-    @include column(7);
+    @include column(6);
   }
   .medications {
     @include column(6, true);

@@ -14,13 +14,13 @@
       %h4 Diagnoses (Pre-op)
       - for i in 0..registration.diagnoses.size - 1 do
         - diagnosis = registration.diagnoses[i]
-        .diagnosis.snapshot[diagnosis]{ :class => "#{severity(diagnosis).downcase}" }
+        .diagnosis.inline[diagnosis]{ :class => "#{severity(diagnosis).downcase}" }
           - if diagnosis.xrays.present?
             .xrays
               - diagnosis.xrays.each do |xray|
                 = xray_preview(xray, :size => :tiny)
-          %p.name
-            = diagnosis
+          .info
+            %h3= diagnosis
             - if diagnosis.revision?
               %span.asterisk (Revision)
           .nav
