@@ -3,10 +3,8 @@
 - content_for :subnavigation do
   %ul.subnavigation
     - if permitted_to? :show, @patient
-      %li= link_to "Back to  #{@patient}'s patient record", @patient
+      %li= link_to "Back to summary", @patient
     - if permitted_to? :destroy, @patient
-      %li.delete= link_to "Delete #{@patient}", patient_path(@patient), :method => :delete, :confirm => "Are you sure you want to delete the entire patient record for #{@patient}? This will erase all history, procedures, and diagnoses for this patient. Also, this action cannot be undone."
-    - if permitted_to? :create, Diagnosis.new(:patient => @patient)
-      = link_to "New Diagnosis", new_patient_diagnosis_path(@patient)
+      %li.delete= link_to "Delete patient", patient_path(@patient), :method => :delete, :confirm => "Are you sure you want to delete the entire patient record for #{@patient}? This will erase all history, procedures, and diagnoses for this patient. Also, this action cannot be undone."
 
 = render :partial => "form"
