@@ -2,6 +2,7 @@
 
 .patient_summary {
   @include inline_record;
+  .navigation { @include column(4, true); }
 }
 
 .section.medical_history {

@@ -1,12 +1,11 @@
-#registrations {
-  .ui-tabs-panel {
-    padding: 1em 0;
-  }
+.ui-tabs .ui-tabs-panel {
+  padding: $blueprint-grid-width / 2;
 }
 
 .registration_list {
   .registration {
     @include inline_record;
+    .navigation { @include column(4, true); }
     form.registration {
       padding: 0;
       border-bottom: none;
