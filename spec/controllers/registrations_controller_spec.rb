@@ -23,6 +23,7 @@ describe RegistrationsController, "PUT authorize" do
     pending
   end
 end
+
 describe RegistrationsController, "PUT deauthorize" do
   before(:each) do
     @registration = mock_model(Registration)
@@ -34,6 +35,21 @@ describe RegistrationsController, "PUT deauthorize" do
     pending
   end
   it "redirects to authorized registrations for the trip" do
+    pending
+  end
+end
+
+describe RegistrationsController, "PUT unschedule" do
+  before(:each) do
+    @registration = mock_model(Registration)
+  end
+  it "calls unschedule! on registration" do
+    pending
+  end
+  it "sets flash" do
+    pending
+  end
+  it "redirects back" do
     pending
   end
 end

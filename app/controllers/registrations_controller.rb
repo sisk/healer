@@ -34,21 +34,30 @@ class RegistrationsController < ApplicationController
   end
 
   def destroy
-    destroy! {
-      @trip.present? ? trip_registrations_path(@trip) : registrations_path
-    }
+    destroy! do |format|
+      format.html { redirect_to :back, :notice => "Registration deleted." }
+    end
   end
 
-  # non-REST
+  # non-CRUD
   def authorize
     @registration.authorize!(current_user.id)
     flash[:notice] = "Approved registration for #{@registration.patient}."
     redirect_to trip_registrations_path(@registration.trip, :anchor => "waiting")
   end
+
   def deauthorize
     @registration.deauthorize!
     flash[:notice] = "Moved registration for #{@registration.patient} to waiting."
     redirect_to trip_registrations_path(@registration.trip, :anchor => "approved")
+  end
+
+  def unschedule
+    if @registration.unschedule!
+      redirect_to :back, :notice => "Moved registration to waiting."
+    else
+      redirect_to :back, :error => "Could not unschedule registration."
+    end
   end
 
 private

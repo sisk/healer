@@ -43,6 +43,9 @@ Healer::Application.routes.draw do
     resource :implant
   end
   resources :registrations do
+    member do
+      put :unschedule
+    end
     resources :operations
   end
   resources :diagnoses do

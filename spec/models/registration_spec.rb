@@ -163,35 +163,51 @@ describe Registration, "in_facility?" do
   end
 end
 
-describe Registration, "schedule" do
+describe Registration, "schedule!" do
   # TODO state machine approach might be better for this.
   before(:each) do
     @registration = Registration.new(:patient => stub_model(Patient), :trip => mock_model(Trip))
+    @registration.stub(:save)
   end
   ["Registered","Unscheduled"].each do |status|
     it "changes status from #{status} to 'Scheduled'" do
       @registration.status = status
-      lambda { @registration.schedule }.should change { @registration.status }.to('Scheduled')
+      lambda { @registration.schedule! }.should change { @registration.status }.to('Scheduled')
     end
   end
   (Registration::possible_statuses - ["Registered","Unscheduled"]).each do |status|
     it "does not change the status when set to #{status}" do
       @registration.status = status
-      lambda { @registration.schedule }.should_not change { @registration.status }
+      lambda { @registration.schedule! }.should_not change { @registration.status }
     end
+  end
+  it "saves the object" do
+    @registration.should_receive(:save)
+    @registration.schedule!
   end
 end
 
-describe Registration, "unschedule" do
+describe Registration, "unschedule!" do
   # TODO state machine approach might be better for this.
   before(:each) do
-    @registration = Registration.new(:patient => stub_model(Patient), :trip => mock_model(Trip))
+    @registration = Registration.new(:patient => stub_model(Patient), :trip => mock_model(Trip), :room_id => 1, :scheduled_day => 4)
+    @registration.stub(:save)
   end
   (Registration::possible_statuses - ["Unscheduled"]).each do |status|
     it "changes status from #{status} to 'Unscheduled'" do
       @registration.status = status
-      lambda { @registration.unschedule }.should change { @registration.status }.to('Unscheduled')
+      lambda { @registration.unschedule! }.should change { @registration.status }.to('Unscheduled')
     end
+  end
+  it "clears the room" do
+    lambda { @registration.unschedule! }.should change { @registration.room_id }.to(nil)
+  end
+  it "sets scheduled day to zero" do
+    lambda { @registration.unschedule! }.should change { @registration.scheduled_day }.to(0)
+  end
+  it "saves the object" do
+    @registration.should_receive(:save)
+    @registration.unschedule!
   end
 end
 

@@ -24,11 +24,9 @@ protected
   def collection
     start = end_of_association_chain
     if params[:no_registrations]
-      logger.debug("\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF\n\n")
       start = start.no_registrations
     end
     if params[:search].present?
-      logger.debug("\n\nUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU\n\n")
       start = start.search(params[:search])
     end
     @patients ||= start.paginate(:page => params[:page], :per_page => 5)

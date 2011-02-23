@@ -52,6 +52,7 @@ class Registration < ActiveRecord::Base
   scope :unscheduled, where("registrations.room_id is ? or registrations.scheduled_day = ?", nil, 0)
   scope :scheduled, where("registrations.room_id is not ? and registrations.scheduled_day != ?", nil, 0)
 
+  # TODO should this be a model join?
   scope :room, lambda { |room_id| where("registrations.room_id = ?",room_id) if room_id.present? }
   scope :day, lambda { |num| where("registrations.scheduled_day = ?",num) if num.present? }
   scope :no_day, where("registrations.scheduled_day = ?",0)
@@ -98,12 +99,14 @@ class Registration < ActiveRecord::Base
     ["Checked In","Preparation","Procedure","Recovery","Discharge"].include?(status)
   end
 
-  def schedule
+  def schedule!
     self.status = "Scheduled" if ["Registered","Unscheduled"].include?(self.status)
+    self.save
   end
 
-  def unschedule
-    self.status = "Unscheduled"
+  def unschedule!
+    self.attributes = { :status => "Unscheduled", :room_id => nil, :scheduled_day => 0 }
+    self.save
   end
 
   # This only works for MySQL...and ergo not Heroku
