@@ -1,5 +1,5 @@
 #trip_nav.noprint
-  - Trip.next.each do |trip|
+  - Trip.current.each do |trip|
     - if permitted_to? :show, trip
       %ul
         %li.trip_name= "#{trip}:"
