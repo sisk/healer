@@ -15,14 +15,23 @@
         = render :partial => "layouts/shared/trip_nav"
       #content
         #summary_header
-          #org_logo= image_tag("organization/operation_walk_logo.jpg")
+          #org_logo
+            = image_tag("organization/operation_walk_logo.jpg")
+            %p
+              Dr. Merrill A. Ritter
+              %br/
+              Presidente, Operation Walk
           .title_section
             - if content_for?(:title)
               %h1.title= yield :title
             - if content_for?(:subtitle)
               %h2.subtitle= yield :subtitle
           #org_credentials
-
+            = image_tag("organization/fundaorto_logo.png")
+            %p
+              Guillermo Claverie, M.D.
+              %br/
+              Presidente, Fundaorto
         = yield
       #footer
         %p.as_of.print_only= "#{Date.today}"
