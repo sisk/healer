@@ -1,7 +1,10 @@
 .sortable[registration]
   .demographic
     %h3= registration.patient
-    %p= link_to "Registration #{registration.id}", edit_trip_registration_path(registration.trip, registration)
+    %p= link_to "Registration #{registration.id}", trip_registration_path(registration.trip, registration)
+    - if permitted_to? :destroy, registration
+      %p.delete= link_to "Delete registration", registration_path(registration), :method => :delete, :confirm => "Are you sure? You want to do this? This will completely delete this patient's registration for the trip."
+    
   .medical
     .part
       = registration.body_part_list
