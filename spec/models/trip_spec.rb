@@ -1,8 +1,9 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Trip do
-  should_have_column :start, :type => :date
-  should_have_column :end, :type => :date
+  should_have_column :start_date, :type => :date
+  should_have_column :end_date, :type => :date
+  should_have_column :procedure_start_date, :type => :date
   should_have_column :country, :type => :string
   should_have_column :city, :type => :string
   should_have_column :facility_id, :type => :integer
@@ -19,8 +20,8 @@ end
 
 describe Trip, "#to_s" do
   before(:each) do
-    # @trip = Trip.new(:start => Date.parse("1/5/2009"))
-    @trip = Trip.new(:start => nil)
+    # @trip = Trip.new(:start_date => Date.parse("1/5/2009"))
+    @trip = Trip.new(:start_date => nil)
     @trip.stub!(:country_name).and_return("Russia")
   end
   context "when start date is not set" do
@@ -30,7 +31,7 @@ describe Trip, "#to_s" do
   end
   context "when start date is set" do
     before(:each) do
-      @trip.start = Date.parse("1/5/2009")
+      @trip.start_date = Date.parse("1/5/2009")
     end
     it "returns the year and country" do
       @trip.to_s.should == "2009 Russia"
@@ -70,6 +71,55 @@ describe Trip, "#daily_complexity_units" do
     Trip.new(:complexity_minutes => 30, :daily_hours => nil).daily_complexity_units.should == 0
   end
 end
+
+describe Trip, "#status" do
+  before(:each) do
+    @trip = Trip.new
+    @jasons_birthday = "1975-05-28".to_date
+    Date.stub(:today).and_return(@jasons_birthday)
+  end
+  it "returns 'unknown' by default" do
+    @trip.status.should == "unknown"
+  end
+  context "start date has not occurred" do
+    before(:each) do
+      @trip.start_date = @jasons_birthday + 30.months
+      @trip.end_date = nil
+    end
+    it "returns 'planning'" do
+      @trip.status.should == "planning"
+    end
+    it "returns 'scheduling' if start date is within a 2 month window" do
+      @trip.start_date = @jasons_birthday + 2.months
+      @trip.status.should == "scheduling"
+    end
+  end
+  context "start date has occurred" do
+    before(:each) do
+      @trip.start_date = @jasons_birthday - 3.days
+    end
+    it "returns 'preparing' by default" do
+      @trip.status.should == "preparing"
+    end
+    it "returns 'active' if procedure_start_date has occurred, and number of operation days have not been reached" do
+      @trip.procedure_start_date = @jasons_birthday - 1.day
+      @trip.number_of_operation_days = 5
+      @trip.status.should == "active"
+    end
+    it "returns 'cooldown' if procedure_start_date has occurred, and number of operation days have been reached" do
+      @trip.procedure_start_date = @jasons_birthday - 6.days
+      @trip.number_of_operation_days = 5
+      @trip.status.should == "cooldown"
+    end
+  end
+  it "returns 'complete' if end date has occurred" do
+    @trip.start_date = @jasons_birthday - 10.days
+    @trip.end_date = @jasons_birthday
+    Date.stub(:today).and_return(@jasons_birthday + 1.day)
+    @trip.status.should == "complete"
+  end
+end
+
 
 # == Schema Information
 #

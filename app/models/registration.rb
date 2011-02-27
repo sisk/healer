@@ -35,7 +35,7 @@ class Registration < ActiveRecord::Base
   # scope :unauthorized, where("registrations.approved_at is ?", nil).joins(:trip, :patient => [:diagnoses, :risk_factors])
   scope :authorized, includes([:patient, :trip]).where("registrations.approved_at is not ?", nil)
   scope :unauthorized, includes([:patient, :trip]).where("registrations.approved_at is ?", nil)
-  scope :future, includes([:trip]).where("trips.start IS NULL OR (trips.start > ? AND (trips.end IS NULL OR trips.end > ?))", Time.zone.now, Time.zone.now)
+  scope :future, includes([:trip]).where("trips.start_date IS NULL OR (trips.start_date > ? AND (trips.end_date IS NULL OR trips.end_date > ?))", Time.zone.now, Time.zone.now)
 
   scope :search, Proc.new { |term|
     query = term.strip.gsub(',', '')

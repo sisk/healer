@@ -11,8 +11,8 @@
       %tr.trip
         %td= link_to trip.destination, trip
         %td= trip.facility
-        %td= trip.start
-        %td= trip.end
+        %td= trip.start_date
+        %td= trip.end_date
         %td
           - if permitted_to? :edit, trip
             = link_to "Edit", edit_trip_path(trip)

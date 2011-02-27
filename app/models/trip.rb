@@ -6,23 +6,24 @@ class Trip < ActiveRecord::Base
   has_many :operations
   has_many :patients, :through => :registrations
 
-  default_scope order(:start)
-  
+  default_scope order(:start_date)
+
+  # TODO these scopes need to be revised to reflect practical realities
   scope :current, lambda {
-    where("trips.start IS NOT NULL AND trips.start <= ? AND (trips.end IS NULL OR (trips.end IS NOT NULL AND trips.end > ?))", Time.zone.now, Time.zone.now)
+    where("trips.procedure_start_date IS NOT NULL AND trips.procedure_start_date <= ? AND (trips.end_date IS NULL OR (trips.end_date IS NOT NULL AND trips.end_date > ?))", Time.zone.now, Time.zone.now)
   }
   scope :future, lambda {
-    where("trips.start IS NULL OR (trips.start > ? AND (trips.end IS NULL OR trips.end > ?))", Time.zone.now, Time.zone.now)
+    where("trips.start_date IS NULL OR (trips.start_date > ? AND (trips.end_date IS NULL OR trips.end_date > ?))", Time.zone.now, Time.zone.now)
   }
   scope :next, lambda {
-    where("trips.start IS NOT NULL AND (trips.start > ? AND (trips.end IS NULL OR trips.end < ?))", Time.zone.now + 1.day, Time.zone.now + 10.months)
+    where("trips.start_date IS NOT NULL AND (trips.start_date > ? AND (trips.end_date IS NULL OR trips.end_date < ?))", Time.zone.now + 1.day, Time.zone.now + 10.months)
   }
   scope :past, lambda {
-    where("trips.end IS NOT NULL AND trips.end <= ?", Time.zone.now)
+    where("trips.end_date IS NOT NULL AND trips.end_date <= ?", Time.zone.now)
   }
   
   def to_s
-    year = start.blank? ? "" : start.strftime("%Y")
+    year = start_date.blank? ? "" : start_date.strftime("%Y")
     [year, country_name].join(" ").strip
   end
   
@@ -38,6 +39,26 @@ class Trip < ActiveRecord::Base
   def daily_complexity_units
     return 0 if [complexity_minutes, daily_hours].any?{ |i| i.blank? }
     (60/complexity_minutes) * daily_hours
+  end
+  
+  def status
+    return "unknown" unless start_date.present?
+    return "complete" if end_date.present? && (end_date < Date.today)
+    if start_date >= Date.today
+      if start_date <= Date.today + 2.months
+        return "scheduling"
+      end
+      return "planning"
+    else
+      if procedure_start_date.present? && Date.today <= procedure_start_date + number_of_operation_days.days
+        return "active"
+      elsif procedure_start_date.present? && Date.today > procedure_start_date + number_of_operation_days.days
+        return "cooldown"
+      end
+      return "preparing"
+    end
+    
+    
   end
   
 end
