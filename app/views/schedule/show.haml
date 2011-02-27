@@ -36,7 +36,7 @@
               - registrations.each do |registration|
                 %li.registration
                   %p.name
-                    = link_to registration.patient, registration
+                    = link_to registration.patient, trip_registration_path(@trip, registration)
                     - if registration.revision?
                       %span.asterisk [Revision]
                   %p.body_part= registration.body_part_list
