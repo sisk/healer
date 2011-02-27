@@ -38,7 +38,7 @@ $(document).ready(function() {
   });
   $("#diagnosis_inline_edit").dialog({
     autoOpen: false,
-    height: 500,
+    height: 600,
     width: 750,
     modal: true,
     show: "fade",
