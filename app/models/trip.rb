@@ -10,7 +10,7 @@ class Trip < ActiveRecord::Base
 
   # TODO these scopes need to be revised to reflect practical realities
   scope :current, lambda {
-    where("trips.procedure_start_date IS NOT NULL AND trips.procedure_start_date <= ? AND (trips.end_date IS NULL OR (trips.end_date IS NOT NULL AND trips.end_date > ?))", Time.zone.now, Time.zone.now)
+    where("trips.start_date IS NOT NULL AND trips.start_date <= ? AND (trips.end_date IS NULL OR (trips.end_date IS NOT NULL AND trips.end_date > ?))", Time.zone.now, Time.zone.now)
   }
   scope :future, lambda {
     where("trips.start_date IS NULL OR (trips.start_date > ? AND (trips.end_date IS NULL OR trips.end_date > ?))", Time.zone.now, Time.zone.now)
