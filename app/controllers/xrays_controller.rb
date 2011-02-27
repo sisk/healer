@@ -2,12 +2,19 @@ class XraysController < ApplicationController
   inherit_resources
   belongs_to :operation, :diagnosis, :polymorphic => true, :optional => true
   
+  def index
+    index! do |format|
+      format.html { redirect_to patient_path(@diagnosis.patient) }
+      # format.js { render :template => "xrays/index.js.erb", :layout => nil }
+    end
+  end
+  
   def create
-    create! { parent_url }
+    create! { :back }
   end
 
   def update
-    update! { parent_url }
+    update! { :back }
   end
   
   def destroy

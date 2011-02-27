@@ -24,3 +24,10 @@
     }
   }
 }
+
+.xray_index {
+  .xray {
+    @include float-left;
+    margin: $margin-increment * 2;
+  }
+}

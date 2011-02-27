@@ -103,3 +103,29 @@ describe Diagnosis, "has_mirror?" do
     @diagnosis.has_mirror?.should be_true
   end
 end
+
+describe Diagnosis, "#display_xray" do
+  before(:each) do
+    @diagnosis = Diagnosis.new
+    @x1 = stub_model(Xray, :primary => nil, :photo_file_name => "1")
+    @x2 = stub_model(Xray, :primary => false, :photo_file_name => "2")
+    @x3 = stub_model(Xray, :primary => true, :photo_file_name => "3")
+    @x4 = stub_model(Xray, :primary => true, :photo_file_name => "4")
+  end
+  it "returns nil if no xrays" do
+    @diagnosis.display_xray.should be_nil
+  end
+  it "returns the first xray if only one exists" do
+    @diagnosis.xrays = [@x1]
+    @diagnosis.display_xray.should == @x1
+  end
+  it "returns the first xray if > 1 exist, but none are primary" do
+    @diagnosis.xrays = [@x1, @x2]
+    @diagnosis.display_xray.should == @x1
+  end
+  it "returns the first primary xray found" do
+    # FIXME - breaking spec. dunno why.
+    @diagnosis.xrays = [@x1, @x2, @x3, @x4]
+    @diagnosis.display_xray.should == @x3
+  end
+end

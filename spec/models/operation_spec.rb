@@ -151,3 +151,29 @@ describe Operation, "patient_id sync" do
     lambda { @operation.valid? }.should_not change { @operation.patient_id }
   end
 end
+
+describe Operation, "#display_xray" do
+  before(:each) do
+    @operation = Operation.new
+    @x1 = stub_model(Xray, :primary => nil, :photo_file_name => "1")
+    @x2 = stub_model(Xray, :primary => false, :photo_file_name => "2")
+    @x3 = stub_model(Xray, :primary => true, :photo_file_name => "3")
+    @x4 = stub_model(Xray, :primary => true, :photo_file_name => "4")
+  end
+  it "returns nil if no xrays" do
+    @operation.display_xray.should be_nil
+  end
+  it "returns the first xray if only one exists" do
+    @operation.xrays = [@x1]
+    @operation.display_xray.should == @x1
+  end
+  it "returns the first xray if > 1 exist, but none are primary" do
+    @operation.xrays = [@x1, @x2]
+    @operation.display_xray.should == @x1
+  end
+  it "returns the first primary xray found" do
+    # FIXME - breaking spec. dunno why.
+    @operation.xrays = [@x1, @x2, @x3, @x4]
+    @operation.display_xray.should == @x3
+  end
+end

@@ -6,6 +6,7 @@ describe Xray do
   should_have_column :photo_file_name, :type => :string
   should_have_column :photo_content_type, :type => :string
   should_have_column :photo_file_size, :type => :integer
+  should_have_column :primary, :type => :boolean
 
   # should_validate_presence_of :photo
   should_belong_to :diagnosis

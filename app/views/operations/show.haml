@@ -7,7 +7,7 @@
 - content_for :subnavigation do
   %ul.subnavigation
     - if resource.registration.present?
-      %li= link_to "Return to registration", registration_path(resource.registration)
+      %li= link_to "Return to registration", trip_registration_path(resource.registration.trip, resource.registration)
     - if permitted_to? :edit, resource
       %li= link_to "Edit operation details", edit_resource_path
     - if resource.implant.blank?
@@ -24,7 +24,7 @@
         #diagnosis_list
           = render :partial => "diagnoses/inline", :object => resource.diagnosis, :as => :diagnosis, :locals => { :options => { :size => :tiny, :remote => true } }
     .post_op
-      %h2 Post-Operation
+      %h2 Post-Operation X-Rays
       - if resource.xrays.present?
         .xrays
           - resource.xrays.each do |xray|

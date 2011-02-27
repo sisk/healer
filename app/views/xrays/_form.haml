@@ -1,8 +1,10 @@
-= semantic_form_for [parent,@xray], :html => { :multipart => true } do |f|
+= semantic_form_for [parent,resource], :html => { :multipart => true } do |f|
   = f.semantic_errors
   = f.input :operation_id, :as => :hidden
   = f.input :diagnosis_id, :as => :hidden
   = f.inputs do
     = f.input :photo, :as => :file, :label => "Photo"
+  = f.inputs do
+    = f.input :primary, :as => :boolean, :label => "Mark as primary", :hint => "This will be the x-ray used in displays and print-outs."
   = f.buttons do
     = f.commit_button

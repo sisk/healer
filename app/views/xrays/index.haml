@@ -1,0 +1,10 @@
+- content_for :title do
+  = "#{parent} - X-Rays"
+- content_for :subnavigation do
+  %ul.subnavigation
+    %li= link_to "Add new X-Ray", new_resource_path
+- if parent.patient.present?
+  - content_for :subtitle do
+    = parent.patient
+.xray_index
+  = render :partial => "xray_summary", :as => :xray, :collection => collection

@@ -13,8 +13,10 @@
           %li= link_to "Edit operation", edit_operation_path(operation)
   .xrays
     - if operation.xrays.present?
-      - operation.xrays.each do |xray|
-        = xray_preview(xray, options)
+      = xray_preview(operation.display_xray, options)
+      - if operation.xrays.size > 1
+        = link_to "More X-rays", operation_xrays_path(operation)
+        =# link_to "More X-rays", operation_xrays_path(operation), :remote => true
     - else
       - # TODO secure this
       = link_to "Add X-ray", new_operation_xray_path(operation)
