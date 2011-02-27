@@ -18,6 +18,8 @@ describe Operation do
   should_have_column :ambulatory_order, :type => :string
   should_have_column :room_id, :type => :integer
   should_have_column :registration_id, :type => :integer
+  should_have_column :anesthesia_type, :type => :string
+  should_have_column :peripheral_nerve_block_type, :type => :string
 
   should_belong_to :procedure
   should_belong_to :patient
@@ -55,14 +57,28 @@ describe Operation, ".approaches" do
     Operation::approaches.should == ["Anterior","Lateral","Medial","Posterior","Dorsal","Planter","Lateral Transfibular"]
   end
 end
+
 describe Operation, ".ambulatory_orders" do
   it "returns an array of the expected values" do
     Operation::ambulatory_orders.should == ["Weight Bearing as Tolerated","Non-Weight Bearing","Partial Weight Bearing"]
   end
 end
+
 describe Operation, ".difficulty_table" do
   it "returns an indexed hash of the expected values" do
     Operation::difficulty_table.should == { 0 => "Routine", 1 => "Moderate", 2 => "Severe" }
+  end
+end
+
+describe Operation, ".anesthsia_types" do
+  it "returns an array of the expected values" do
+    Operation::anesthsia_types.should == ["spinal","general"]
+  end
+end
+
+describe Operation, ".peripheral_nerve_block_types" do
+  it "returns an array of the expected values" do
+    Operation::peripheral_nerve_block_types.should == ["femoral", "sciatic", "popliteal", "ankle", "none"]
   end
 end
 

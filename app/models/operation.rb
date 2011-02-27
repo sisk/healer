@@ -8,6 +8,12 @@ class Operation < ActiveRecord::Base
   def self.ambulatory_orders
     ["Weight Bearing as Tolerated","Non-Weight Bearing","Partial Weight Bearing"]
   end
+  def self.anesthsia_types
+    ["spinal","general"]
+  end
+  def self.peripheral_nerve_block_types
+    ["femoral", "sciatic", "popliteal", "ankle", "none"]
+  end
 
   belongs_to :procedure
   belongs_to :patient

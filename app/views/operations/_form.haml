@@ -9,6 +9,8 @@
     = f.input :approach, :as => :select, :label => 'Approach', :collection => Operation::approaches
     = f.input :difficulty, :as => :radio, :label => "Difficulty", :collection => Operation::difficulty_table.invert
     = f.input :graft, :label => 'Graft'
+    = f.input :anesthesia_type, :as => :select, :label => 'Anesthesia', :collection => Operation::anesthsia_types
+    = f.input :peripheral_nerve_block_type, :as => :select, :label => 'Peripheral Nerve Block', :collection => Operation::peripheral_nerve_block_types
     = f.input :ambulatory_order, :as => :select, :label => 'Ambulatory Order', :collection => Operation::ambulatory_orders
     = f.input :notes, :label => 'Notes'
   .supplemental
