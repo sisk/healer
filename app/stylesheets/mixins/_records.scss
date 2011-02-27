@@ -1,7 +1,9 @@
 @mixin inline_record() {
   @include clearfix;
-  border-bottom: solid 1px $grey-light;
-  padding: ($margin-increment * 3) 0;
+  border: solid 1px $grey-medium;
+  background-color: #fff;
+  padding: $blueprint-grid-width / 2;
+  margin-bottom: $margin-increment * 4;
   .image {
     @include column(3);
     img { @include span(3); }
@@ -11,7 +13,7 @@
     h3 { margin-bottom: 0.5em; }
   }
   .secondary {
-    @include column($content-columns - 14);
+    @include column($content-columns - 15);
   }
   .navigation {
     @include column(5, true);
@@ -29,5 +31,40 @@
     @include clearfix;
     @include column($content-columns);
     margin-bottom: $margin-increment;
+  }
+}
+
+@mixin treatment_data() {
+  .title_header, .diagnosis_and_operation {
+    @include clearfix;
+    .diagnosis {
+      @include column(($content-columns - 2) / 2);
+    }
+    .operation {
+      @include column(($content-columns - 2) / 2, true);
+    }
+  }
+  .diagnosis_and_operation {
+    margin-bottom: $margin-increment * 3;
+    border-bottom: dashed 1px $grey-very-light;
+  }
+}
+
+@mixin summary_treatment() {
+  @include clearfix;
+  padding: $margin-increment;
+  .info, .xrays {
+    @include float-left;
+  }
+  .info {
+    @include span(6);
+    h3, h4, .asterisk { margin-bottom: 0.2em; }
+    h3 { font-size: 1.3em; font-weight: bold; }
+    h4 { font-size: 1em }
+  }
+  .navigation {
+    margin-top: $margin-increment;
+    a { color: $grey-light; }
+    ul { @include horizontal-list; }
   }
 }

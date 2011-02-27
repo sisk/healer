@@ -1,0 +1,20 @@
+- options ||= {}
+- html_class = ""
+- html_class << " #{options[:size]}" if options[:size].present?
+.operation.inline[operation]{ :class => html_class }
+  .info
+    %h3= operation.procedure
+    %h4= operation.date
+    .navigation.noprint
+      %ul
+        - if permitted_to? :show, operation
+          %li= link_to "Summary", operation_path(operation)
+        - if permitted_to? :edit, operation
+          %li= link_to "Edit operation", edit_operation_path(operation)
+  .xrays
+    - if operation.xrays.present?
+      - operation.xrays.each do |xray|
+        = xray_preview(xray, options)
+    - else
+      - # TODO secure this
+      = link_to "Add X-ray", new_operation_xray_path(operation)

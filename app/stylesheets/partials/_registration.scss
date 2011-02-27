@@ -11,4 +11,10 @@
       border-bottom: none;
     }
   }
+  .patient {
+    @include clearfix;
+  }
+  .treatment {
+    @include treatment_data;
+  }
 }

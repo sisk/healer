@@ -48,23 +48,6 @@
   }
 }
 
-.diagnosis {
-  &.inline {
-    @include clearfix;
-    margin-bottom: $margin-increment;
-    .xrays, .info {
-      @include float-left;
-    }
-    .info {
-      @include span(6);
-      h3, h4, .asterisk { margin-bottom: 0.2em; }
-      h3 { font-size: 1.3em; font-weight: bold; }
-      h4 { font-size: 1em }
-    }
-    &.tiny {
-      ul.nav {
-        @include horizontal-list;
-      }
-    }
-  }
+.diagnosis.inline {
+  @include summary_treatment;
 }

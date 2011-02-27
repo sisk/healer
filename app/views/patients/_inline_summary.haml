@@ -1,25 +1,26 @@
-.patient_summary[patient]
-  = render :partial => "patients/shared/snapshot", :locals => { :patient => patient }
-  .secondary.treatment.diagnoses
-    - if patient.diagnoses.empty?
-      = link_to "New diagnosis for #{patient}", new_patient_diagnosis_path(patient)
-    - else
-      %h4 Diagnoses
-      - for i in 0..patient.diagnoses.size - 1 do
-        - diagnosis = patient.diagnoses[i]
-        - break if i > 2
-        = render :partial => "diagnoses/inline", :object => diagnosis, :as => :diagnosis, :locals => { :options => { :size => :tiny } }
-    - if patient.diagnoses.size > 3
-      = link_to "+ #{patient.diagnoses.size - 3} more", patient_path(patient), :class => "more"
-  .navigation.noprint
-    %ul
-      - if permitted_to? :show, patient
-        %li= link_to "Show full record", patient_path(patient)
-      - if permitted_to? :edit, patient
-        %li= link_to "Edit record", edit_patient_path(patient)
-    - if patient.operations.present?
-      .section.operations
-        %h4 Operations
-        %ul
-        - patient.operations.each do |operation|
-          %li= link_to operation, operation_path(operation)
+.patient[patient]
+  .record
+    = render :partial => "patients/shared/snapshot", :locals => { :patient => patient }
+    .navigation.noprint
+      %ul
+        - if permitted_to? :show, patient
+          %li= link_to "Show full record", patient_path(patient)
+        - if permitted_to? :edit, patient
+          %li= link_to "Edit record", edit_patient_path(patient)
+  - if patient.has_medical_detail?
+    .medical_details.supplemental
+      %p.fake_link.toggle= "Full medical detail"
+      .details{ :style => "display: none;" }
+        = render :partial => "patients/medical_details", :locals => { :patient => patient, :hide => true }
+  .section.treatment
+    .title_header
+      %h3.diagnosis Diagnosis / Pre-Op
+      %h3.operation Operation
+    - patient.diagnoses.each do |diagnosis|
+      .diagnosis_and_operation
+        .diagnosis
+          = render :partial => "diagnoses/inline", :object => diagnosis, :as => :diagnosis, :locals => { :options => { :remote => true, :size => :tiny, :context => :registration } }
+        .operation
+          - if diagnosis.operations.present?
+            - diagnosis.operations.each do |operation|
+              = render :partial => "operations/inline", :object => operation, :as => :operation, :locals => { :options => { :size => :tiny } }

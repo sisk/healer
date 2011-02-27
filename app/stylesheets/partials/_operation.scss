@@ -17,3 +17,7 @@
     @include column($content-columns/2, true);
   }
 }
+
+.operation.inline {
+  @include summary_treatment;
+}

@@ -16,5 +16,5 @@
   .pages
     = page_entries_info(@patients)
     = will_paginate @patients
-.section
+.patient_list.section
   = render :partial => "inline_summary", :collection => @patients, :as => :patient

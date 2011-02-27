@@ -127,3 +127,14 @@ form.patient {
     }
   }
 }
+
+.patient_list .patient {
+  @include inline_record;
+  .record {
+    .navigation { @include column(4, true); }
+    @include clearfix;
+  }
+  .treatment {
+    @include treatment_data;
+  }
+}

@@ -3,23 +3,19 @@
 - html_class << " revision" if diagnosis.revision?
 - html_class << " #{options[:size]}" if options[:size].present?
 .diagnosis.inline[diagnosis]{ :class => html_class, :context => options[:context] }
-  - if diagnosis.xrays.present?
-    .xrays
+  .info
+    %h3= diagnosis.body_part
+    - if diagnosis.revision?
+      %span.asterisk (Revision)
+    %h4= diagnosis.disease
+    .navigation.noprint
+      %ul
+        - if permitted_to? :edit, diagnosis
+          %li= link_to "Edit diagnosis", edit_patient_diagnosis_path(diagnosis.patient,diagnosis), :remote => !!options[:remote]
+  .xrays
+    - if diagnosis.xrays.present?
       - diagnosis.xrays.each do |xray|
         = xray_preview(xray, options)
-  .info
-    = formatted_title(diagnosis).html_safe
-    - if diagnosis.revision?
-      %p.asterisk (Revision)
-    - if permitted_to? :edit, diagnosis
-      %ul.nav
-        %li= link_to "Edit diagnosis", edit_patient_diagnosis_path(diagnosis.patient,diagnosis), :remote => !!options[:remote]
-        - if options[:context] == :operation
-          - if diagnosis.operations.empty?
-            %li= link_to "Add operation", new_diagnosis_operation_path(diagnosis)
-          - else
-            - diagnosis.operations.each do |operation|
-              - if operation.registration.present?
-                %li= link_to "Operation details", registration_operation_path(operation.registration,operation)
-              - else
-                %li= link_to "Operation details", diagnosis_operation_path(diagnosis,operation)
+    - else
+      - # TODO secure this
+      = link_to "Add X-ray", new_diagnosis_xray_path(diagnosis)

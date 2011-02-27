@@ -1,44 +1,44 @@
+- # TODO this is very similar to registrations/record view. dry it up!.
 - patient = registration.patient
 .registration[registration]
-  .image= patient_image(patient, :small)
-  .primary.patient
-    %h3= patient
-    %h4
-      - if permitted_to? :show, registration
-        = link_to "Registration ##{registration.id}", trip_registration_path(registration.trip, registration)
-      - else
-        = "Registration ##{registration.id}"
-    = render :partial => "patients/shared/patient_demographic", :locals => { :patient => patient }
-  .secondary.treatment
-    .inline_diagnosis_list
-      %h4 Diagnoses (Pre-op)
-      - for i in 0..registration.diagnoses.size - 1 do
-        - diagnosis = registration.diagnoses[i]
-        .diagnosis.inline[diagnosis]{ :class => "#{severity(diagnosis).downcase}" }
-          - if diagnosis.xrays.present?
-            .xrays
-              - diagnosis.xrays.each do |xray|
-                = xray_preview(xray, :size => :tiny)
-          .info
-            %h3= diagnosis
-            - if diagnosis.revision?
-              %span.asterisk (Revision)
-          .nav
-          - if diagnosis.operations.empty?
-            = link_to "Add Operation", new_diagnosis_operation_path(diagnosis)
-          - else
-            - diagnosis.operations.each do |operation|
-              = link_to "Operation Summary", diagnosis_operation_path(diagnosis, operation)
-  .navigation.noprint
-    %ul
-      - if permitted_to? :unschedule, registration
-        %li= link_to "Remove from schedule", unschedule_registration_path(registration), :method => :put, :confirm => "Are you sure? This patient's registration will be removed from the schedule and will need to be rescheduled for an operation to take place."
-      - if permitted_to? :destroy, registration
-        %li.delete= link_to "Delete registration", registration_path(registration), :method => :delete, :confirm => "Are you sure? You want to do this? This will completely delete this patient's registration for the trip."
-    /   - if registration.operations.present?
-    /     %li= link_to "Summary Report", registration
+  .patient
+    .image= patient_image(patient, :small)
+    .primary.name
+      %h3= patient
+      %h4
+        - if permitted_to? :show, registration
+          = link_to "Registration ##{registration.id}", trip_registration_path(registration.trip, registration)
+        - else
+          = "Registration ##{registration.id}"
+    .secondary.demographic
+      = render :partial => "patients/shared/patient_demographic", :locals => { :patient => patient }
+    .navigation.noprint
+      %ul
+        - if permitted_to? :unschedule, registration
+          %li= link_to "Remove from schedule", unschedule_registration_path(registration), :method => :put, :confirm => "Are you sure? This patient's registration will be removed from the schedule and will need to be rescheduled for an operation to take place."
+        - if permitted_to? :destroy, registration
+          %li.delete= link_to "Delete registration", registration_path(registration), :method => :delete, :confirm => "Are you sure? You want to do this? This will completely delete this patient's registration for the trip."
+        - if permitted_to? :edit, registration.patient
+          %li= link_to "Edit patient", edit_patient_path(registration.patient)
+
+      /   - if registration.operations.present?
+      /     %li= link_to "Summary Report", registration
   - if patient.has_medical_detail?
-    .medical_details.supplemental
+    .section.medical_details.supplemental
       %p.fake_link.toggle= "Full medical detail"
       .details{ :style => "display: none;" }
         = render :partial => "patients/medical_details", :locals => { :patient => patient, :hide => true }
+  .section.treatment
+    .title_header
+      %h3.diagnosis Diagnosis / Pre-Op
+      %h3.operation Operation
+    - registration.diagnoses.each do |diagnosis|
+      .diagnosis_and_operation
+        .diagnosis
+          = render :partial => "diagnoses/inline", :object => diagnosis, :as => :diagnosis, :locals => { :options => { :remote => true, :size => :tiny, :context => :registration } }
+        .operation
+          - if diagnosis.operations.empty?
+            = link_to "New operation for this diagnosis", new_diagnosis_operation_path(diagnosis)
+          - else
+            - diagnosis.operations.each do |operation|
+              = render :partial => "operations/inline", :object => operation, :as => :operation, :locals => { :options => { :size => :tiny } }

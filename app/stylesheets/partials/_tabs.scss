@@ -1,3 +1,4 @@
 .ui-tabs {
   @include column($content-columns);
+  background-color: $grey-very-light;
 }
