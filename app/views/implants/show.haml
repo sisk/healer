@@ -1,8 +1,7 @@
+- title = @implant.operation.to_s
+- title << " - #{@implant.operation.body_part}" if @implant.operation.body_part.present?
 - content_for :title do
-  - if @implant.present?
-    = "#{@implant.type.titleize} - #{@operation.patient} - #{@operation.date}"
-  - else
-    = @operation
+  = title
 - content_for :subtitle do
   Implant Summary
 - content_for :subnavigation do
