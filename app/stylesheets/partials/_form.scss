@@ -30,6 +30,10 @@ form {
     border: none;
   }
 
+  .supplemental .toggle {
+    @include prepend(6);
+  }
+
   fieldset.inputs .complex {
     @include clearfix;
     li {
