@@ -120,6 +120,22 @@ describe Trip, "#status" do
   end
 end
 
+describe Trip, "#current_day" do
+  before(:each) do
+    @trip = Trip.new
+  end
+  it "returns nil" do
+    @trip.current_day.should be_nil
+  end
+  it "returns the right day if active" do
+    @trip.stub(:status).and_return("active")
+    @trip.start_date = "1975-05-01".to_date
+    @trip.procedure_start_date = "1975-05-03".to_date
+    @trip.number_of_operation_days = 3
+    Date.stub(:today).and_return("1975-05-05".to_date)
+    @trip.current_day.should == 3
+  end
+end
 
 # == Schema Information
 #

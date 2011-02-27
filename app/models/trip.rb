@@ -57,8 +57,13 @@ class Trip < ActiveRecord::Base
       end
       return "preparing"
     end
-    
-    
+  end
+
+  def current_day
+    if status == "active"
+      # this is a short-circuit for now until I can get to the Rails API from Guatemala to look up some date math.
+      return 1
+    end
   end
   
 end
