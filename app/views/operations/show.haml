@@ -1,5 +1,7 @@
+- title = resource.to_s
+- title << " - #{resource.body_part}" if resource.body_part.present?
 - content_for :title do
-  = resource
+  = title
 - content_for :subtitle do
   Operation Summary
 - content_for :subnavigation do
