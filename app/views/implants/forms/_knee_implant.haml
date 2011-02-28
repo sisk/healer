@@ -3,14 +3,20 @@
   = f.input :operation_id, :as => :hidden
   = f.inputs do
     = f.input :knee_type, :as => :select, :label => 'Knee Type', :collection => KneeImplant::knee_types
-    = f.input :knee_thickness, :as => :select, :label => 'Knee Thickness', :collection => KneeImplant::knee_thicknesses
+    = f.input :femur_diameter, :as => :select, :label => 'Femur Diameter', :collection => KneeImplant::femur_diameters
+    = f.input :femur_stems, :as => :boolean, :label => "Femur Stems"
+    = f.input :femur_screws, :label => '# Femur Screws'
     = f.input :tibia_type, :as => :select, :label => 'Tibia Type', :collection => KneeImplant::tibia_types
     = f.input :tibia_diameter, :as => :select, :label => 'Tibia Diameter', :collection => KneeImplant::tibia_diameters
-    = f.input :femur_diameter, :as => :select, :label => 'Femur Diameter', :collection => KneeImplant::femur_diameters
+    = f.input :tibia_thickness, :as => :select, :label => 'Tibia Thickness', :collection => KneeImplant::tibia_thicknesses
+    = f.input :tibia_stems, :as => :boolean, :label => "Tibia Stems"
+    = f.input :tibia_screws, :label => '# Tibia Screws'
     = f.input :patella_size, :as => :select, :label => 'Patella Size', :collection => KneeImplant::patella_sizes.invert
     = f.input :patella_resurfaced, :as => :boolean, :label => 'Patella Resurfaced'
     = f.input :cement_used, :as => :boolean, :label => 'Cement Used'
     = f.input :spacer_used, :as => :boolean, :label => 'Spacer Used'
+    =# TODO JS calc this from above two
+    = f.input :total_screws, :label => '# total screws'
     = f.input :notes, :as => :text, :label => 'Notes'
   = f.buttons do
     = f.commit_button

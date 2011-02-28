@@ -10,6 +10,7 @@
     = f.input :acetabulum_size, :as => :select, :label => 'Acetabulum Size', :collection => HipImplant::acetabulum_sizes
     = f.input :cement_used, :as => :boolean, :label => 'Cement Used'
     = f.input :spacer_used, :as => :boolean, :label => 'Spacer Used'
+    = f.input :total_screws, :label => '# total screws'
     = f.input :notes, :as => :text, :label => 'Notes'
   = f.buttons do
     = f.commit_button

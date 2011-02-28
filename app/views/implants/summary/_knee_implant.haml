@@ -3,15 +3,27 @@
   %dl
     %dt Knee Type
     %dd= implant.knee_type
-    %dt Knee Thickness
-    %dd= implant.knee_thickness
+    %dt Femur Diameter
+    %dd= implant.femur_diameter
+    %dt Femur Screws
+    %dd= implant.femur_screws
     %dt Tibia Type
     %dd= implant.tibia_type
     %dt Tibia Diameter
     %dd= implant.tibia_diameter
+    %dt Tibia Thickness
+    %dd= implant.tibia_thickness
+    %dt Tibia Screws
+    %dd= implant.tibia_screws
+    %dt Total Screws
+    %dd= implant.total_screws
     %dt Patella Size
     %dd= KneeImplant::patella_sizes[implant.patella_size]
   %ul
+    - if implant.femur_stems
+      %li Femur Stems
+    - if implant.tibia_stems
+      %li Tibia Stems
     - if implant.patella_resurfaced
       %li Patella Resurfaced
     - if implant.cement_used
