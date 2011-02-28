@@ -4,7 +4,7 @@ class XraysController < ApplicationController
   
   def index
     index! do |format|
-      format.html { redirect_to patient_path(@diagnosis.patient) }
+      format.html { redirect_to patient_path(parent.patient) }
       # format.js { render :template => "xrays/index.js.erb", :layout => nil }
     end
   end
