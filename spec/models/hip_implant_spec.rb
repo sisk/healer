@@ -26,12 +26,12 @@ end
 
 describe HipImplant, ".femur_diameters" do
   it "returns an array of the expected values" do
-    HipImplant::femur_diameters.should == [6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+    HipImplant::femur_diameters.should == [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21]
   end
 end
 describe HipImplant, ".femur_lengths" do
   it "returns an array of the expected values" do
-    HipImplant::femur_lengths.should == [200,220,240]
+    HipImplant::femur_lengths.should == [105,110,115,120,125,130,135,140,145,150,155,160,165,170,175,180,185,200,220,240]
   end
 end
 describe HipImplant, ".acetabulum_sizes" do
