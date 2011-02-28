@@ -33,4 +33,11 @@ class KneeImplant < Implant
   validates_inclusion_of :patella_size, :in => self.patella_sizes.keys, :allow_blank => false
   validates_inclusion_of :knee_type, :in => self.knee_types, :allow_blank => false
 
+  validates_presence_of :femur_diameter
+  validates_presence_of :tibia_diameter
+  validates_presence_of :tibia_thickness
+  validates_presence_of :patella_size
+  validates_presence_of :tibia_type
+  validates_presence_of :knee_type
+
 end

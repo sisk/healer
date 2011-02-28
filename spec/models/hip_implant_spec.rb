@@ -24,6 +24,11 @@ describe HipImplant do
   should_validate_inclusion_of :neck_length, :in => HipImplant::neck_lengths, :allow_blank => false
   
   should_validate_presence_of :prosthesis_type
+  should_validate_presence_of :femur_length
+  should_validate_presence_of :acetabulum_size
+  should_validate_presence_of :femur_head_size
+  should_validate_presence_of :neck_length
+  should_validate_presence_of :femur_diameter
 
 end
 

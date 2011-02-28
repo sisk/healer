@@ -29,6 +29,11 @@ class HipImplant < Implant
   validates_numericality_of :neck_length, :allow_blank => false
   
   validates_presence_of :prosthesis_type
+  validates_presence_of :femur_length
+  validates_presence_of :acetabulum_size
+  validates_presence_of :femur_head_size
+  validates_presence_of :neck_length
+  validates_presence_of :femur_diameter
 
   validates_inclusion_of :femur_diameter, :in => self.femur_diameters, :allow_blank => false
   validates_inclusion_of :femur_length, :in => self.femur_lengths, :allow_blank => false

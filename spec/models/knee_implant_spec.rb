@@ -29,6 +29,13 @@ describe KneeImplant do
   should_validate_inclusion_of :patella_size, :in => KneeImplant::patella_sizes.keys, :allow_blank => false
   should_validate_inclusion_of :knee_type, :in => KneeImplant::knee_types, :allow_blank => false
 
+  should_validate_presence_of :femur_diameter
+  should_validate_presence_of :tibia_diameter
+  should_validate_presence_of :tibia_thickness
+  should_validate_presence_of :patella_size
+  should_validate_presence_of :tibia_type
+  should_validate_presence_of :knee_type
+
 end
 
 describe KneeImplant, ".patella_sizes" do
