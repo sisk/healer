@@ -10,8 +10,8 @@ describe KneeImplant do
   should_have_column :patella_size, :type => :integer
   should_have_column :tibia_type, :type => :string
   should_have_column :knee_type, :type => :string
-  should_have_column :patella_resurfaced, :type => :boolean
 
+  should_have_column :patella_resurfaced, :type => :boolean
   should_have_column :femur_screws, :type => :integer
   should_have_column :tibia_screws, :type => :integer
   should_have_column :femur_stems, :type => :boolean
@@ -64,5 +64,11 @@ end
 describe KneeImplant, ".knee_types" do
   it "returns an array of the expected values" do
     KneeImplant::knee_types.should == ["CR","PS","CC","Hinge"]
+  end
+end
+
+describe KneeImplant, ".desired_attributes" do
+  it "returns an array of attributes" do
+    KneeImplant::desired_attributes.should == [:femur_diameter,:tibia_diameter,:tibia_thickness,:patella_size,:tibia_type,:knee_type]
   end
 end

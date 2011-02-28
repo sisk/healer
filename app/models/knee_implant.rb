@@ -17,6 +17,9 @@ class KneeImplant < Implant
   def self.knee_types
     ["CR","PS","CC","Hinge"]
   end
+  def self.desired_attributes
+    [:femur_diameter,:tibia_diameter,:tibia_thickness,:patella_size,:tibia_type,:knee_type]
+  end
 
   validates_numericality_of :femur_diameter, :allow_blank => true
   validates_numericality_of :tibia_diameter, :allow_blank => true
