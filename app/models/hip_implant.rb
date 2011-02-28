@@ -15,22 +15,25 @@ class HipImplant < Implant
     [-6,-3,0,3,6,9,12]
   end
   def self.prosthesis_types
-    ["biometric","calcar","taperloc"]
+    # TODO migration to fix biometric to bimetric
+    ["bimetric","calcar","taperloc"]
   end
   def self.desired_attributes
     [:femur_diameter, :femur_length, :acetabulum_size, :femur_head_size, :neck_length, :prosthesis_type]
   end
 
-  validates_numericality_of :femur_diameter, :allow_blank => true
-  validates_numericality_of :femur_length, :allow_blank => true
-  validates_numericality_of :acetabulum_size, :allow_blank => true
-  validates_numericality_of :femur_head_size, :allow_blank => true
-  validates_numericality_of :neck_length, :allow_blank => true
+  validates_numericality_of :femur_diameter, :allow_blank => false
+  validates_numericality_of :femur_length, :allow_blank => false
+  validates_numericality_of :acetabulum_size, :allow_blank => false
+  validates_numericality_of :femur_head_size, :allow_blank => false
+  validates_numericality_of :neck_length, :allow_blank => false
+  
+  validates_presence_of :prosthesis_type
 
-  validates_inclusion_of :femur_diameter, :in => self.femur_diameters, :allow_blank => true
-  validates_inclusion_of :femur_length, :in => self.femur_lengths, :allow_blank => true
-  validates_inclusion_of :acetabulum_size, :in => self.acetabulum_sizes, :allow_blank => true
-  validates_inclusion_of :femur_head_size, :in => self.femur_head_sizes, :allow_blank => true
-  validates_inclusion_of :neck_length, :in => self.neck_lengths, :allow_blank => true
+  validates_inclusion_of :femur_diameter, :in => self.femur_diameters, :allow_blank => false
+  validates_inclusion_of :femur_length, :in => self.femur_lengths, :allow_blank => false
+  validates_inclusion_of :acetabulum_size, :in => self.acetabulum_sizes, :allow_blank => false
+  validates_inclusion_of :femur_head_size, :in => self.femur_head_sizes, :allow_blank => false
+  validates_inclusion_of :neck_length, :in => self.neck_lengths, :allow_blank => false
 
 end

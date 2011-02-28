@@ -17,17 +17,17 @@ describe KneeImplant do
   should_have_column :femur_stems, :type => :boolean
   should_have_column :tibia_stems, :type => :boolean
 
-  should_validate_numericality_of :femur_diameter, :allow_blank => true
-  should_validate_numericality_of :tibia_diameter, :allow_blank => true
-  should_validate_numericality_of :tibia_thickness, :allow_blank => true
-  should_validate_numericality_of :patella_size, :allow_blank => true
+  should_validate_numericality_of :femur_diameter, :allow_blank => false
+  should_validate_numericality_of :tibia_diameter, :allow_blank => false
+  should_validate_numericality_of :tibia_thickness, :allow_blank => false
+  should_validate_numericality_of :patella_size, :allow_blank => false
 
-  should_validate_inclusion_of :femur_diameter, :in => KneeImplant::femur_diameters, :allow_blank => true
-  should_validate_inclusion_of :tibia_type, :in => KneeImplant::tibia_types, :allow_blank => true
-  should_validate_inclusion_of :tibia_diameter, :in => KneeImplant::tibia_diameters, :allow_blank => true
-  should_validate_inclusion_of :tibia_thickness, :in => KneeImplant::tibia_thicknesses, :allow_blank => true
-  should_validate_inclusion_of :patella_size, :in => KneeImplant::patella_sizes.keys, :allow_blank => true
-  should_validate_inclusion_of :knee_type, :in => KneeImplant::knee_types, :allow_blank => true
+  should_validate_inclusion_of :femur_diameter, :in => KneeImplant::femur_diameters, :allow_blank => false
+  should_validate_inclusion_of :tibia_type, :in => KneeImplant::tibia_types, :allow_blank => false
+  should_validate_inclusion_of :tibia_diameter, :in => KneeImplant::tibia_diameters, :allow_blank => false
+  should_validate_inclusion_of :tibia_thickness, :in => KneeImplant::tibia_thicknesses, :allow_blank => false
+  should_validate_inclusion_of :patella_size, :in => KneeImplant::patella_sizes.keys, :allow_blank => false
+  should_validate_inclusion_of :knee_type, :in => KneeImplant::knee_types, :allow_blank => false
 
 end
 
