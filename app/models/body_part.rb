@@ -32,8 +32,8 @@ class BodyPart < ActiveRecord::Base
   end
   
   def side_es
-    return "Z" if side.downcase == "l" # zurdo
-    return "D" if side.downcase == "r" # diestro
+    return "I" if side.downcase == "l" # izquierda
+    return "D" if side.downcase == "r" # derecha
     nil
   end
   
