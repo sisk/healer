@@ -29,6 +29,10 @@ body.patient_certificate {
       }
     }
   }
+
+  .section {
+    padding-top: 1pt;
+  }
   
   .summary {
     @include column($content-columns - 6);
@@ -45,10 +49,10 @@ body.patient_certificate {
   .xrays {
     h3 { text-align: center; text-decoration: underline; }
     .xray {
-      @include prepend(2);
-      @include append(2);
+      @include prepend(1);
+      @include append(1);
       img {
-        @include span(($content-columns / 2) - 4);
+        @include span(($content-columns / 2) - 3);
         @include bordered(1px, #000);
       }
     }
