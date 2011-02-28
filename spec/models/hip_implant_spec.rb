@@ -9,6 +9,7 @@ describe HipImplant do
   should_have_column :acetabulum_size, :type => :integer
   should_have_column :femur_head_size, :type => :integer
   should_have_column :neck_length, :type => :integer
+  should_have_column :prosthesis_type, :type => :string
 
   should_validate_numericality_of :femur_diameter, :allow_blank => true
   should_validate_numericality_of :femur_length, :allow_blank => true
@@ -47,5 +48,11 @@ end
 describe HipImplant, ".neck_lengths" do
   it "returns an array of the expected values" do
     HipImplant::neck_lengths.should == [-6,-3,0,3,6,9,12]
+  end
+end
+
+describe HipImplant, ".prosthesis_types" do
+  it "returns an array of the expected values" do
+    HipImplant::prosthesis_types.should == ["biometric","calcar","taperloc"]
   end
 end

@@ -14,6 +14,9 @@ class HipImplant < Implant
   def self.neck_lengths
     [-6,-3,0,3,6,9,12]
   end
+  def self.prosthesis_types
+    ["biometric","calcar","taperloc"]
+  end
 
   validates_numericality_of :femur_diameter, :allow_blank => true
   validates_numericality_of :femur_length, :allow_blank => true

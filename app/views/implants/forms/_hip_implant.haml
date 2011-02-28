@@ -2,6 +2,7 @@
 = semantic_form_for implant, :url => operation_implant_path(@operation) do |f|
   = f.input :operation_id, :as => :hidden
   = f.inputs do
+    = f.input :prosthesis_type, :as => :select, :label => 'Prosthesis Type', :collection => HipImplant::prosthesis_types
     = f.input :femur_diameter, :as => :select, :label => 'Femur Diameter', :collection => HipImplant::femur_diameters
     = f.input :femur_length, :as => :select, :label => 'Femur Length', :collection => HipImplant::femur_lengths
     = f.input :femur_head_size, :as => :select, :label => 'Femur Head Size', :collection => HipImplant::femur_head_sizes
