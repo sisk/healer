@@ -29,8 +29,8 @@
       %ul.subnavigation
         - if permitted_to? :create, Diagnosis.new(:patient => @patient)
           = link_to "New Diagnosis", new_patient_diagnosis_path(@patient)
-    #diagnosis_list
-      = render :partial => "diagnoses/inline", :collection => @patient.diagnoses, :as => :diagnosis, :locals => { :options => { :size => :small } }
+      #diagnosis_list
+        = render :partial => "diagnoses/inline", :collection => @patient.diagnoses, :as => :diagnosis, :locals => { :options => { :size => :small } }
   #risks.section.risk_factors
     %h3 Risk Factors
     = render :partial => 'risk_factor', :collection => @patient.risk_factors, :locals => { :f => f }
