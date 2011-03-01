@@ -5,7 +5,7 @@
     %dd= implant.knee_type
     %dt Femur Diameter
     %dd= implant.femur_diameter
-    - if implant.femur_screws > 0
+    - if implant.femur_screws.present? && implant.femur_screws > 0
       %dt Femur Screws
       %dd= implant.femur_screws
     %dt Tibia Type
@@ -14,10 +14,10 @@
     %dd= implant.tibia_diameter
     %dt Tibia Thickness
     %dd= implant.tibia_thickness
-    - if implant.tibia_screws > 0
+    - if implant.tibia_screws.present? && implant.tibia_screws > 0
       %dt Tibia Screws
       %dd= implant.tibia_screws
-    - if implant.total_screws > 0
+    - if implant.total_screws.present? && implant.total_screws > 0
       %dt Total Screws
       %dd= implant.total_screws
     %dt Patella Size

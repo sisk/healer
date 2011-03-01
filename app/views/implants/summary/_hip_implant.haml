@@ -13,7 +13,7 @@
     %dd= implant.neck_length
     %dt Acetabulum Size
     %dd= implant.acetabulum_size
-    - if implant.total_screws > 0
+    - if implant.total_screws.present? && implant.total_screws > 0
       %dt Total Screws
       %dd= implant.total_screws
   %ul
