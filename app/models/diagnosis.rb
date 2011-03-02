@@ -48,7 +48,7 @@ class Diagnosis < ActiveRecord::Base
 
   def display_xray
     return nil if xrays.empty?
-    return xrays.first if xrays.size == 1 || xrays.all{ |x| !x.primary? }
+    return xrays.first if xrays.size == 1 || xrays.all?{ |x| !x.primary? }
     return xrays.select{ |x| x.primary == true }.first
   end
 
