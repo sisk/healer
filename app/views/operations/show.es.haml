@@ -20,13 +20,11 @@
 .section
   .xrays
     %h2 Rayos X
-    - if resource.diagnosis.try(:xrays).present?
+    - if resource.diagnosis.display_xray.present?
       .before
         %h3 Antes
-        - resource.diagnosis.xrays.each do |xray|
-          .xray= image_tag(xray.photo.url(:original))
-    - if resource.xrays.present?
+        .xray= image_tag(resource.diagnosis.display_xray.photo.url(:original))
+    - if resource.display_xray.present?
       .after
         %h3 Despues
-        - resource.xrays.each do |xray|
-          .xray= image_tag(xray.photo.url(:original))
+        .xray= image_tag(resource.display_xray.photo.url(:original))
