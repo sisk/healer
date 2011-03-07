@@ -3,7 +3,7 @@ class KneeImplant < Implant
     { 0 => "Small", 1 => "Medium", 2 => "Large" }
   end
   def self.femur_diameters
-    [60,65,70,75,80,85]
+    [55,60,65,70,75,80,85]
   end
   def self.tibia_diameters
     [60,65,70,75,80]

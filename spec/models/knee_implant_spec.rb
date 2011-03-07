@@ -46,7 +46,7 @@ end
 
 describe KneeImplant, ".femur_diameters" do
   it "returns an array of the expected values" do
-    KneeImplant::femur_diameters.should == [60,65,70,75,80,85]
+    KneeImplant::femur_diameters.should == [55,60,65,70,75,80,85]
   end
 end
 
