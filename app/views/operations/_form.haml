@@ -1,5 +1,7 @@
 = semantic_form_for [parent,@operation] do |f|
   = f.semantic_errors
+  - if params[:mode].present? && params[:mode] == "fix"
+    = hidden_field_tag :mode, "fix"
   = f.input :trip_id, :as => :hidden
   = f.input :patient_id, :as => :hidden
   = f.input :diagnosis_id, :as => :hidden
@@ -13,6 +15,8 @@
     = f.input :peripheral_nerve_block_type, :as => :select, :label => 'Peripheral Nerve Block', :collection => Operation::peripheral_nerve_block_types
     = f.input :ambulatory_order, :as => :select, :label => 'Ambulatory Order', :collection => Operation::ambulatory_orders
     = f.input :notes, :label => 'Notes'
+  = f.inputs do
+    = f.input :complete, :label => 'Procedure complete'
   .supplemental
     %p.fake_link.toggle= "Edit more details"
     .details{ :style => "display: none;" }

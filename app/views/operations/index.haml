@@ -1,5 +1,11 @@
 - content_for :title do
   = "#{@registration} - Operations"
-- @trip.operations.each do |operation|
+- collection.each do |operation|
   .operation
-    %h2= operation
+    %p
+      = "#{operation.patient}: #{operation}"
+      %span.nav
+        = link_to "Edit", edit_operation_path(operation)
+        - if operation.approach.blank?
+          = link_to "[FIX]", edit_operation_path(operation, :mode => :fix), :class => "asterisk"
+        

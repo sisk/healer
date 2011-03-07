@@ -14,6 +14,7 @@ describe Operation do
   should_have_column :approach, :type => :string
   should_have_column :difficulty, :type => :integer, :default => 0
   should_have_column :graft, :type => :boolean
+  should_have_column :complete, :type => :boolean
   should_have_column :notes, :type => :text
   should_have_column :ambulatory_order, :type => :string
   should_have_column :room_id, :type => :integer
@@ -85,14 +86,34 @@ end
 describe Operation, "#to_s" do
   before(:each) do
     @operation = Operation.new(:patient => stub_model(Patient, :to_s => "El Hombre"))
+    @body_part = stub_model(BodyPart, :side => "L")
+    @body_part.stub(:to_s).and_return("BodyPart (L)")
+    @procedure = stub_model(Procedure, :to_s => "Derp")
   end
-  it "returns the patient name" do
-    @operation.to_s.should == "El Hombre"
+  context "procedure is not set" do
+    before(:each) do
+      @operation.procedure = nil
+    end
+    it "returns body part string if set" do
+      @operation.body_part = @body_part
+      @operation.to_s.should == "BodyPart (L)"
+    end
+    it "returns '[Unspecified operation]' if no body part present'" do
+      @operation.to_s.should == "[Unspecified operation]"
+    end
   end
-  it "adds the procedure if it exists" do
-    procedure = stub_model(Procedure, :to_s => "Derp")
-    @operation.procedure = procedure
-    @operation.to_s.should == "El Hombre - Derp"
+  context "procedure is set" do
+    before(:each) do
+      @operation.procedure = @procedure
+    end
+    it "Uses the procedure string" do
+      @operation.stub(:body_part)
+      @operation.to_s.should == "Derp"
+    end
+    it "adds parenthesis side if body part has a side" do
+      @operation.body_part = @body_part
+      @operation.to_s.should == "Derp (L)"
+    end
   end
 end
 

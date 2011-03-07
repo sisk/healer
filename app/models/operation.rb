@@ -15,6 +15,8 @@ class Operation < ActiveRecord::Base
     ["femoral", "sciatic", "popliteal", "ankle", "none"]
   end
 
+  default_scope order(:date)
+
   belongs_to :procedure
   belongs_to :patient
   belongs_to :diagnosis
@@ -59,7 +61,13 @@ class Operation < ActiveRecord::Base
   delegate :location, :location=, :to => :registration  
 
   def to_s
-    [self.patient.try(:to_s), self.procedure.try(:to_s)].compact.join(" - ")
+    if procedure.present?
+      str = procedure.to_s
+      str += " (#{body_part.side})" if body_part.try(:side).present?
+      return str
+    else
+      return body_part.present? ? body_part.to_s : "[Unspecified operation]"
+    end
   end
   
   def as_json(options={})
