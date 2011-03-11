@@ -32,7 +32,7 @@ describe BodyPart, "#to_s" do
     end
     it "appends proper language '(side)' if side is set" do
       @body_part.side = "L"
-      @body_part.to_s.should == "Lung (Z)"
+      @body_part.to_s.should == "Lung (I)"
       @body_part.side = "R"
       @body_part.to_s.should == "Lung (D)"
     end
