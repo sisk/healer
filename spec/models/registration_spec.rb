@@ -26,6 +26,7 @@ describe Registration do
   should_belong_to :created_by
   should_have_many :operations
   should_have_many :diagnoses
+  should_have_many :physical_therapies
   
   should_validate_presence_of :patient
   should_validate_presence_of :trip

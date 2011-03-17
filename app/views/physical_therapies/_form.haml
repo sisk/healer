@@ -1,0 +1,21 @@
+- semantic_form_for registration_physical_therapies_path(parent) do |f|
+  = f.inputs do
+    =# f.input :date_time, :as => :datepicker, :label => "Interaction Date"
+  %h2 Check all that apply
+  = f.inputs do
+    = f.input :severe_pain, :as => :boolean, :input_html => { :class => "toggle" }
+  = f.inputs :class => "supplemental" do
+    = f.input :range_of_motion, :as => :boolean, :input_html => { :class => "toggle" }
+    .details{ :style => "display: none;" }
+      %p 1
+  = f.inputs :class => "supplemental" do
+    = f.input :ambulation, :as => :boolean, :input_html => { :class => "toggle" }
+    .details{ :style => "display: none;" }
+      = f.inputs do
+        = f.input :distance_walked, :label => "Distance walked in feet"
+        = f.input :additional_assistance, :label => "More than one assistant required", :as => :boolean
+    
+  = f.inputs do
+    = f.input :notes, :as => :text
+  = f.buttons do
+    = f.commit_button "Save"

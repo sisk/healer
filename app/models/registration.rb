@@ -20,6 +20,7 @@ class Registration < ActiveRecord::Base
   belongs_to :created_by, :class_name => "User", :foreign_key => "created_by_id"
   has_many :operations
   has_many :diagnoses
+  has_many :physical_therapies, :dependent => :destroy
 
   validates_presence_of :patient
   validates_presence_of :trip
@@ -30,6 +31,7 @@ class Registration < ActiveRecord::Base
   default_scope :order => 'registrations.schedule_order'
 
   delegate :complexity_minutes, :to => :trip
+  delegate :name, :to => :patient
 
   # scope :authorized, where("registrations.approved_at is not ?", nil).joins(:trip, :diagnoses, :patient => [:risk_factors])
   # scope :unauthorized, where("registrations.approved_at is ?", nil).joins(:trip, :patient => [:diagnoses, :risk_factors])
@@ -56,6 +58,9 @@ class Registration < ActiveRecord::Base
   scope :room, lambda { |room_id| where("registrations.room_id = ?",room_id) if room_id.present? }
   scope :day, lambda { |num| where("registrations.scheduled_day = ?",num) if num.present? }
   scope :no_day, where("registrations.scheduled_day = ?",0)
+
+  scope :male, :include => :patient, :conditions => ["patients.male = ?", true]
+  scope :female, :include => :patient, :conditions => ["patients.male = ?", false]
 
   before_save :set_bilateral
 

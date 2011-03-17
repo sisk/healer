@@ -20,6 +20,7 @@
           %li.delete= link_to "Delete registration", registration_path(registration), :method => :delete, :confirm => "Are you sure? You want to do this? This will completely delete this patient's registration for the trip."
         - if permitted_to? :edit, registration.patient
           %li= link_to "Edit patient", edit_patient_path(registration.patient)
+        %li= link_to "Physical Therapy", registration_physical_therapies_path(registration)
 
       /   - if registration.operations.present?
       /     %li= link_to "Summary Report", registration

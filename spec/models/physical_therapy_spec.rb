@@ -5,13 +5,13 @@ describe PhysicalTherapy do
     PhysicalTherapy.new.should be_a_kind_of(PatientInteraction)
   end
   should_have_column :distance_walked, :type => :string
-  should_have_column :number_of_assistances, :type => :integer
-  should_have_column :walker_used, :type => :boolean
-  should_have_column :extension, :type => :string
-  should_have_column :flexion, :type => :string
-  should_have_column :abduction, :type => :string
+  should_have_column :additional_assistance, :type => :boolean
+  should_have_column :severe_pain, :type => :boolean
+  should_have_column :knee_extension, :type => :string
+  should_have_column :knee_flexion, :type => :string
+  should_have_column :hip_abduction, :type => :string
 
-  should_validate_numericality_of :number_of_assistances, :allow_nil => true
-  should_validate_inclusion_of :number_of_assistances, :in => 0..10, :allow_nil => true
+  should_have_column :registration_id, :type => :integer
+  should_belong_to :registration
 
 end

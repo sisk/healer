@@ -47,6 +47,7 @@ Healer::Application.routes.draw do
       put :unschedule
     end
     resources :operations
+    resources :physical_therapies
   end
   resources :diagnoses do
     resources :operations
