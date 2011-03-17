@@ -61,8 +61,7 @@ class Trip < ActiveRecord::Base
 
   def current_day
     if status == "active"
-      # this is a short-circuit for now until I can get to the Rails API from Guatemala to look up some date math.
-      return 1
+      return ((procedure_start_date.to_time-start_date.to_time)/(60*60*24) + 1).to_i
     end
   end
   
