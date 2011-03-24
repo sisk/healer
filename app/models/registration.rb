@@ -128,10 +128,12 @@ class Registration < ActiveRecord::Base
     return diagnoses.any?{ |diagnosis| diagnosis.has_mirror? }
   end
 
+  def body_parts
+    diagnoses.map(&:body_part).compact
+  end
 
   def body_part_list
     if likely_bilateral?
-      body_parts = diagnoses.map(&:body_part).compact
       body_part_names = body_parts.map(&:name_en)
       # part_counts = body_parts.map(&:name).inject(Hash.new(0)) {|h,x| h[x]+=1;h}
       p = []

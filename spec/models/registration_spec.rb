@@ -273,6 +273,22 @@ describe Registration, "#body_part_list" do
   end
 end
 
+describe Registration, "#body_parts" do
+  before(:each) do
+    @left_knee = stub_model(BodyPart)
+    @right_knee = stub_model(BodyPart)
+  end
+  it "collates the body parts for all diagnoses" do
+    registration = Registration.new(:diagnoses => [
+      stub_model(Diagnosis, :body_part => @left_knee),
+      stub_model(Diagnosis, :body_part => @right_knee),
+    ])
+    [@left_knee, @right_knee].each do |body_part|
+      registration.body_parts.should include(body_part)
+    end
+  end
+end
+
 describe Registration, "#time_in_words" do
   before(:each) do
     @registration = Registration.new
