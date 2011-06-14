@@ -1,5 +1,5 @@
-<% if @registrations.present? %>
-  $("#day_<%= @day_num %>_room_<%= @room_id %>").html('<%= escape_javascript(render :partial => "schedule/registration_scheduled", :collection => @registrations, :as => :registration) %>');
+<% if @patient_cases.present? %>
+  $("#day_<%= @day_num %>_room_<%= @room_id %>").html('<%= escape_javascript(render :partial => "schedule/patient_case_scheduled", :collection => @patient_cases, :as => :patient_case) %>');
 <% else %>
   $("#day_<%= @day_num %>_room_<%= @room_id %>").html("");
 <% end %>

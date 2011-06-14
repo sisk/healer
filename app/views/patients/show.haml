@@ -22,15 +22,15 @@
         - if @patient.email.present?
           %dt Email:
           %dd= mail_to @patient.email
-.section.registrations
-  %h2 Registrations
+.section.patient_cases
+  %h2 Cases
   - if @patient.registered?
-    %ul.registrations
-      - @patient.registrations.each do |registration|
-        %li= link_to registration.trip, trip_registration_path(registration.trip, registration)
+    %ul.patient_cases
+      - @patient.patient_cases.each do |patient_case|
+        %li= link_to patient_case.trip, trip_patient_case_path(patient_case.trip, patient_case)
   - else
-    %p= "#{@patient.short_name} has no registrations. Select a trip to register #{@patient.short_name} for."
-    = semantic_form_for Registration.new(:patient_id => @patient.id), :html => { :multipart => true } do |f|
+    %p= "#{@patient.short_name} has no cases. Select a trip to register #{@patient.short_name} for."
+    = semantic_form_for PatientCase.new(:patient_id => @patient.id), :html => { :multipart => true } do |f|
       = f.input :patient_id, :as => :hidden, :input_html => { :value => @patient.id }
       = f.inputs do
         = f.input :trip_id, :as => :select, :label => 'Trip', :collection => Trip.all

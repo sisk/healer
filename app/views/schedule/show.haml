@@ -28,13 +28,13 @@
           %p.day_num= "Day #{day_num}"
           %p.noprint= link_to "Day schedule", trip_schedule_path(@trip, :day => day_num)
         - @rooms.each do |room|
-          - registrations = @trip.registrations.room(room.id).day(day_num)
+          - patient_cases = @trip.patient_cases.room(room.id).day(day_num)
           %td{ :class => "day_#{day_num} #{dom_id(room)}" }
-            %ol.registrations
-              - registrations.each do |registration|
-                %li.registration
+            %ol.patient_cases
+              - patient_cases.each do |patient_case|
+                %li.patient_case
                   %p.name
-                    = link_to registration.patient, trip_registration_path(@trip, registration)
-                    - if registration.revision?
+                    = link_to patient_case.patient, trip_patient_case_path(@trip, patient_case)
+                    - if patient_case.revision?
                       %span.asterisk [Revision]
-                  %p.body_part= registration.body_part_list
+                  %p.body_part= patient_case.body_part_list

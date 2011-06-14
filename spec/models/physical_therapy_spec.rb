@@ -13,7 +13,7 @@ describe PhysicalTherapy do
   should_have_column :knee_flexion, :type => :string
   should_have_column :hip_abduction, :type => :string
 
-  should_have_column :registration_id, :type => :integer
-  should_belong_to :registration
+  should_have_column :patient_case_id, :type => :integer
+  should_belong_to :patient_case
 
 end

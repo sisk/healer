@@ -1,3 +1,3 @@
 class PhysicalTherapy < PatientInteraction
-  belongs_to :registration
+  belongs_to :patient_case
 end

@@ -30,7 +30,7 @@
       }
     }
   }
-  .registration {
+  .patient_case {
     img {
       @include column(1);
       width: $blueprint-grid-width;
@@ -59,7 +59,7 @@
 
 #source {
   @include column(6);
-  .registration {
+  .patient_case {
     h3 {
       margin-bottom: 0;
     }
@@ -92,7 +92,7 @@ table.schedule {
       }
     }
     white-space: nowrap;
-    .registration {
+    .patient_case {
       margin-bottom: $margin-increment;
       p { margin: 0px; }
     } 
@@ -108,14 +108,14 @@ table#schedule {
     .procedure {
       @include column(2,true);
     }
-    .registration {
+    .patient_case {
       padding-bottom: $margin-increment;
     }
   }
 }
 table#show_schedule {
   @include column($content-columns);
-  .registration {
+  .patient_case {
     .name {
       font-size: 1.2em;
     }
@@ -152,7 +152,7 @@ table#show_schedule {
   }
 }
 
-.registration_order_placeholder {
+.patient_case_order_placeholder {
   height: 2px;
   background-color: $black;
 }
@@ -165,7 +165,7 @@ table#show_schedule {
 }
 
 #show_schedule {
-  .day .registration a {
+  .day .patient_case a {
     color: $grey-dark;
   }
 }

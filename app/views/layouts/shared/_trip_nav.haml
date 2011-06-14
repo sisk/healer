@@ -3,4 +3,4 @@
     %ul
       %li.trip_name= link_to_unless_current trip, trip_path(trip)
       %li= link_to_unless_current "Schedule", trip_schedule_path(trip, :day => trip.current_day)
-      %li= link_to_unless_current "Registrations", trip_registrations_path(trip)
+      %li= link_to_unless_current "Cases", trip_patient_cases_path(trip)

@@ -16,8 +16,8 @@
       %h2= "Unscheduled (#{@to_schedule.size})"
       = label_tag :filter, "Filter"
       = text_field_tag :filter, nil, :id => "unscheduled_filter"
-    #unscheduled.registrations.connectedSortable{ :class => "#{@to_schedule.empty? ? "empty" : ""}" }
-      = render :partial => "schedule/registration_unscheduled", :collection => @to_schedule, :as => :registration
+    #unscheduled.patient_cases.connectedSortable{ :class => "#{@to_schedule.empty? ? "empty" : ""}" }
+      = render :partial => "schedule/patient_case_unscheduled", :collection => @to_schedule, :as => :patient_case
 
   %table.schedule#schedule
     %thead
@@ -30,7 +30,7 @@
             = link_to_function "hide", "$('#show_#{dom_id(room)}').removeClass('hide'); $('#schedule').find('.#{dom_id(room)}').addClass('hide'); toggleScroller();"
       - if request_ipad?
         %tr.scroller
-          %td{ :colspan => "#{@trip.registrations.size + 1}" }
+          %td{ :colspan => "#{@trip.patient_cases.size + 1}" }
             .horizontal_scroller.hide
               %p [Use two fingers here to scroll left and right]
     %tbody
@@ -40,10 +40,10 @@
           %td.indicator
             = "Day #{day_num}"
           - @rooms.each do |room|
-            - registrations = @trip.registrations.room(room.id).day(day_num)
+            - patient_cases = @trip.patient_cases.room(room.id).day(day_num)
             %td{ :class => "day_#{day_num} #{dom_id(room)} hide" }
-              .room.connectedSortable{ :class => "day_#{day_num} #{dom_id(room)} #{registrations.empty? ? "empty" : ""}", :id => "day_#{day_num}_#{dom_id(room)}" }
-                = render :partial => "schedule/registration_scheduled", :collection => registrations, :as => :registration
+              .room.connectedSortable{ :class => "day_#{day_num} #{dom_id(room)} #{patient_cases.empty? ? "empty" : ""}", :id => "day_#{day_num}_#{dom_id(room)}" }
+                = render :partial => "schedule/patient_case_scheduled", :collection => patient_cases, :as => :patient_case
 
 - content_for :script do
   = javascript_include_tag "lib/schedule.js"

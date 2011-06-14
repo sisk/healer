@@ -4,8 +4,8 @@
   Operation Summary
 - content_for :subnavigation do
   %ul.subnavigation
-    - if resource.registration.present?
-      %li= link_to "Return to registration", trip_registration_path(resource.registration.trip, resource.registration)
+    - if resource.patient_case.present?
+      %li= link_to "Return to case", trip_patient_case_path(resource.patient_case.trip, resource.patient_case)
     - if permitted_to? :edit, resource
       %li= link_to "Edit operation details", edit_resource_path
     - if resource.implant.blank?
@@ -33,8 +33,8 @@
     .summary
       %h2 Operation
       %dl
-        %dt Registration ID
-        %dd= resource.registration_id
+        %dt Case ID
+        %dd= resource.patient_case_id
         %dt Body Part
         %dd= resource.body_part
         %dt Procedure

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Diagnosis do
   should_have_column :patient_id, :type => :integer
-  should_have_column :registration_id, :type => :integer
+  should_have_column :patient_case_id, :type => :integer
   should_have_column :body_part_id, :type => :integer
   should_have_column :disease_id, :type => :integer
   should_have_column :severity, :type => :integer, :default => 0
@@ -11,7 +11,7 @@ describe Diagnosis do
   should_have_column :revision, :type => :boolean
 
   should_belong_to :patient
-  should_belong_to :registration
+  should_belong_to :patient_case
   should_belong_to :disease
   should_belong_to :body_part
   should_have_many :operations

@@ -3,7 +3,7 @@ class Diagnosis < ActiveRecord::Base
     { 0 => "Unremarkable", 1 => "Mild", 2 => "Moderate", 3 => "Severe" }
   end
   belongs_to :patient
-  belongs_to :registration
+  belongs_to :patient_case
   belongs_to :disease
   belongs_to :body_part
   has_many :operations # might just be has_one. TBD.

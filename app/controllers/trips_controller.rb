@@ -11,7 +11,7 @@ class TripsController < ApplicationController
   end
   
   def show
-    @authorized_registrations = @trip.registrations.authorized
+    @authorized_patient_cases = @trip.patient_cases.authorized
   end
 
   def create

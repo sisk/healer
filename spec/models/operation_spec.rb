@@ -18,7 +18,7 @@ describe Operation do
   should_have_column :notes, :type => :text
   should_have_column :ambulatory_order, :type => :string
   should_have_column :room_id, :type => :integer
-  should_have_column :registration_id, :type => :integer
+  should_have_column :patient_case_id, :type => :integer
   should_have_column :anesthesia_type, :type => :string
   should_have_column :peripheral_nerve_block_type, :type => :string
 
@@ -30,7 +30,7 @@ describe Operation do
   should_belong_to :secondary_surgeon
   should_belong_to :anesthesiologist
   should_belong_to :room
-  should_belong_to :registration
+  should_belong_to :patient_case
   should_belong_to :trip
 
   should_have_one :implant
@@ -39,7 +39,7 @@ describe Operation do
 
   should_have_many :xrays
 
-  # should_validate_presence_of :registration
+  # should_validate_presence_of :patient_case
   should_validate_presence_of :patient
   should_validate_presence_of :diagnosis
   # should_validate_presence_of :body_part
@@ -155,13 +155,13 @@ end
 
 describe Operation, "trip_id sync" do
   before(:each) do
-    @operation = Operation.new(:registration => mock_model(Registration, :trip_id => 5))
+    @operation = Operation.new(:patient_case => mock_model(PatientCase, :trip_id => 5))
     @operation.stub(:set_patient_id)
   end
-  it "sets trip_id to the registration's id if not set" do
+  it "sets trip_id to the patient_case's id if not set" do
     lambda { @operation.valid? }.should change { @operation.trip_id }.from(nil).to(5)
   end
-  it "sets trip_id to the registration's if they differ" do
+  it "sets trip_id to the patient_case's if they differ" do
     @operation.trip_id = 6
     lambda { @operation.valid? }.should change { @operation.trip_id }.from(6).to(5)
   end
@@ -173,13 +173,13 @@ end
 
 describe Operation, "patient_id sync" do
   before(:each) do
-    @operation = Operation.new(:registration => mock_model(Registration, :patient_id => 5))
+    @operation = Operation.new(:patient_case => mock_model(PatientCase, :patient_id => 5))
     @operation.stub(:set_trip_id)
   end
-  it "sets patient_id to the registration's id if not set" do
+  it "sets patient_id to the patient_case's id if not set" do
     lambda { @operation.valid? }.should change { @operation.patient_id }.from(nil).to(5)
   end
-  it "sets patient_id to the registration's if they differ" do
+  it "sets patient_id to the patient_case's if they differ" do
     @operation.patient_id = 6
     lambda { @operation.valid? }.should change { @operation.patient_id }.from(6).to(5)
   end

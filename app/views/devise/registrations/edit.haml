@@ -2,7 +2,7 @@
   = "Edit #{resource_name.to_s.humanize}"
 - content_for :subnavigation do
   = render :partial => "devise/shared/subnav"
-= semantic_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f|
+= semantic_form_for(resource, :as => resource_name, :url => patient_case_path(resource_name), :html => { :method => :put }) do |f|
   = devise_error_messages!
   = f.inputs do
     = f.input :name_first, :label => 'First Name'
