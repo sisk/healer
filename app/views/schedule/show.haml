@@ -34,7 +34,7 @@
               - patient_cases.each do |patient_case|
                 %li.patient_case
                   %p.name
-                    = link_to patient_case.patient, trip_patient_case_path(@trip, patient_case)
+                    = link_to patient_case.patient, trip_case_path(@trip, patient_case)
                     - if patient_case.revision?
                       %span.asterisk [Revision]
                   %p.body_part= patient_case.body_part_list

@@ -7,7 +7,7 @@
       %h3= patient
       %h4
         - if permitted_to? :show, patient_case
-          = link_to "Case ##{patient_case.id}", trip_patient_case_path(patient_case.trip, patient_case)
+          = link_to "Case ##{patient_case.id}", trip_case_path(patient_case.trip, patient_case)
         - else
           = "Case ##{patient_case.id}"
     .secondary.demographic

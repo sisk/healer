@@ -1,9 +1,12 @@
 class PatientCasesController < ApplicationController
+  
   inherit_resources
+  defaults :resource_class => PatientCase, :collection_name => 'patient_cases', :instance_name => 'patient_case'
+  actions :all
   
   before_filter :authenticate_user!
   before_filter :set_unregistered_patients, :only => :new
-  filter_resource_access
+  filter_resource_access :collection => [:index, :review]
 
   belongs_to :trip, :optional => true
 
@@ -18,7 +21,7 @@ class PatientCasesController < ApplicationController
   end
 
   def create
-    create! { trip_patient_cases_path(@patient_case.trip_id) }
+    create! { trip_cases_path(@patient_case.trip_id) }
   end
   
   def update
@@ -28,7 +31,7 @@ class PatientCasesController < ApplicationController
       flash[:notice] = "Case updated."
     end
     respond_with(@patient_case) do |format|
-      format.html { redirect_to trip_patient_cases_path(@patient_case.trip) }
+      format.html { redirect_to trip_cases_path(@patient_case.trip) }
       format.js { render :template => "patient_cases/update.js.erb", :layout => nil }
     end
   end
@@ -40,16 +43,27 @@ class PatientCasesController < ApplicationController
   end
 
   # non-CRUD
+  def review
+    if params[:trip_id].present?
+      # raise params[:trip_id].inspect
+      @new_cases = PatientCase.find(:all, :conditions => ["trip_id = ? and status = ?", params[:trip_id], "New"]).map(&:id)
+      @deferred_cases = PatientCase.find(:all, :conditions => ["trip_id = ? and status = ?", params[:trip_id], "Deferred"]).map(&:id)
+      @scheduled_cases = PatientCase.find(:all, :conditions => ["trip_id = ? and status = ?", params[:trip_id], "Scheduled"]).map(&:id)
+    else
+      
+    end
+  end
+  
   def authorize
     @patient_case.authorize!(current_user.id)
     flash[:notice] = "Approved case for #{@patient_case.patient}."
-    redirect_to trip_patient_cases_path(@patient_case.trip, :anchor => "waiting")
+    redirect_to trip_cases_path(@patient_case.trip, :anchor => "waiting")
   end
 
   def deauthorize
     @patient_case.deauthorize!
     flash[:notice] = "Moved case for #{@patient_case.patient} to waiting."
-    redirect_to trip_patient_cases_path(@patient_case.trip, :anchor => "approved")
+    redirect_to trip_cases_path(@patient_case.trip, :anchor => "approved")
   end
 
   def unschedule

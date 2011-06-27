@@ -1,9 +1,9 @@
 .sortable[patient_case]
   .demographic
     %h3= patient_case.patient
-    %p= link_to "Case #{patient_case.id}", trip_patient_case_path(patient_case.trip, patient_case)
+    %p= link_to "Case #{patient_case.id}", trip_case_path(patient_case.trip, patient_case)
     - if permitted_to? :destroy, patient_case
-      %p.delete= link_to "Delete case", patient_case_path(patient_case), :method => :delete, :confirm => "Are you sure? You want to do this? This will completely delete this case."
+      %p.delete= link_to "Delete case", case_path(patient_case), :method => :delete, :confirm => "Are you sure? You want to do this? This will completely delete this case."
     
   .medical
     .part

@@ -1,0 +1,12 @@
+- content_for :title do
+  Case Review
+#counts
+  #new
+    New
+    .count= @new_cases.count
+  #deferred
+    Deferred
+    .count= @deferred_cases.count
+  #scheduled
+    Scheduled
+    .count= @scheduled_cases.count

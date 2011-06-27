@@ -7,7 +7,7 @@
       %h3= patient
       %h4
         - if permitted_to? :show, patient_case
-          = link_to "Case ##{patient_case.id}", trip_patient_case_path(patient_case.trip, patient_case)
+          = link_to "Case ##{patient_case.id}", trip_case_path(patient_case.trip, patient_case)
         - else
           = "Case ##{patient_case.id}"
     .secondary.demographic
@@ -15,9 +15,9 @@
     .navigation.noprint
       %ul
         - if permitted_to? :unschedule, patient_case
-          %li= link_to "Remove from schedule", unschedule_patient_case_path(patient_case), :method => :put, :confirm => "Are you sure? This case will be removed from the schedule and will need to be rescheduled for an operation to take place."
+          %li= link_to "Remove from schedule", unschedule_case_path(patient_case), :method => :put, :confirm => "Are you sure? This case will be removed from the schedule and will need to be rescheduled for an operation to take place."
         - if permitted_to? :destroy, patient_case
-          %li.delete= link_to "Delete case", patient_case_path(patient_case), :method => :delete, :confirm => "Are you sure? You want to do this? This will completely delete this case."
+          %li.delete= link_to "Delete case", case_path(patient_case), :method => :delete, :confirm => "Are you sure? You want to do this? This will completely delete this case."
         - if permitted_to? :edit, patient_case.patient
           %li= link_to "Edit patient", edit_patient_path(patient_case.patient)
         %li= link_to "Physical Therapy", patient_case_physical_therapies_path(patient_case)

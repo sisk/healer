@@ -6,6 +6,8 @@ require 'spec_helper'
 # end
 
 describe PatientCasesController, "PUT authorize" do
+  login_admin
+  
   # before(:each) do
   #   @patient_case = mock_model(PatientCase)
   #   PatientCase.stub(:find_by_id).with(2).and_return(@patient_case)
@@ -25,6 +27,8 @@ describe PatientCasesController, "PUT authorize" do
 end
 
 describe PatientCasesController, "PUT deauthorize" do
+  login_admin
+  
   before(:each) do
     @patient_case = mock_model(PatientCase)
   end
@@ -40,6 +44,8 @@ describe PatientCasesController, "PUT deauthorize" do
 end
 
 describe PatientCasesController, "PUT unschedule" do
+  login_admin
+  
   before(:each) do
     @patient_case = mock_model(PatientCase)
   end
@@ -51,5 +57,25 @@ describe PatientCasesController, "PUT unschedule" do
   end
   it "redirects back" do
     pending
+  end
+end
+
+describe PatientCasesController, "GET review" do
+  login_admin
+  
+  context "with trip" do
+    before(:each) do
+      @herp = mock_model(PatientCase)
+      @derp = mock_model(PatientCase)
+    end
+    it "assigns new cases to an array of ids" do
+      PatientCase.stub(:find).with(:trip_id => 1, :status => "New").and_return([@herp, @derp])
+      # get :review, :trip_id => 1
+      get :review
+      assigns(:new_cases).should eq([@herp.id, @derp.id])
+    end
+  end
+  context "no trip" do
+    
   end
 end

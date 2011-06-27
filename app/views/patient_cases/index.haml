@@ -3,16 +3,16 @@
 - content_for :subnavigation do
   %ul.subnavigation
     - if permitted_to? :create, PatientCase.new(:trip => @trip)
-      %li= link_to "Add case", new_trip_patient_case_path(@trip)
+      %li= link_to "Add case", new_trip_case_path(@trip)
     -# if permitted_to? (TODO: edit schedule auth mechanism)
     %li= link_to "Schedule", trip_schedule_path(@trip)
 .list_nav
-  - form_tag(trip_patient_cases_path(@trip), {:method => :get, :class => "list_search"}) do
+  - form_tag(trip_cases_path(@trip), {:method => :get, :class => "list_search"}) do
     = label_tag :search, "Search"
     = text_field_tag :search, params[:search]
     = submit_tag "Go"
     - if params[:search].present?
-      = link_to "Clear search", trip_patient_cases_path(@trip)
+      = link_to "Clear search", trip_cases_path(@trip)
 #patient_cases.patient_case_list
   %ul
     %li= link_to "Approved (#{@authorized_patient_cases.size})", "#approved"

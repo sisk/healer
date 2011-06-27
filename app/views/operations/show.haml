@@ -5,7 +5,7 @@
 - content_for :subnavigation do
   %ul.subnavigation
     - if resource.patient_case.present?
-      %li= link_to "Return to case", trip_patient_case_path(resource.patient_case.trip, resource.patient_case)
+      %li= link_to "Return to case", trip_case_path(resource.patient_case.trip, resource.patient_case)
     - if permitted_to? :edit, resource
       %li= link_to "Edit operation details", edit_resource_path
     - if resource.implant.blank?

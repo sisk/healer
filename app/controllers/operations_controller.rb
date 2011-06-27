@@ -32,7 +32,7 @@ class OperationsController < ApplicationController
       format.html {
         # if we got here via anything that responds to a patient_case, redirect to the patient_case path
         # if parent.respond_to?(:patient_case) && parent.patient_case.present?
-        #   redirect_to trip_patient_case_path(parent.patient_case.trip, parent.patient_case), :notice => "Operation updated."
+        #   redirect_to trip_case_path(parent.patient_case.trip, parent.patient_case), :notice => "Operation updated."
         # else
         redirect_to resource_path, :notice => "Operation updated."
         # end
