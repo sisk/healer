@@ -1,10 +1,10 @@
 class Trip < ActiveRecord::Base
-  # has_and_belongs_to_many :staff, :class_name => "User", :join_table => "staff_trips", :foreign_key => "staff_id"
   belongs_to :facility
   validates_presence_of :country, :message => "can't be blank"
-  has_many :registrations
+  has_many :patient_cases
   has_many :operations
-  has_many :patients, :through => :registrations
+  has_many :patients, :through => :patient_cases
+  has_and_belongs_to_many :users
 
   default_scope order(:start_date)
 

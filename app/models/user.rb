@@ -26,6 +26,19 @@ class User < ActiveRecord::Base
 
   scope :can_login, where("users.authorized = ?", true)
   scope :cant_login, where("users.authorized = ?", false)
+  
+  scope :search, lambda { |term|
+    query = term.strip.gsub(',', '')
+    first_last = query.split(" ")
+    if query.present?
+      if first_last.size == 2
+        { :conditions => ["users.name_first like ? and users.name_last like ?","%#{first_last[0]}%","%#{first_last[1]}%" ] }
+      else
+        query = query.gsub(/[^\w@\.]/x,'')
+        { :conditions => ["users.name_last like ? or users.name_first like ? or users.email like ?","%#{query}%","%#{query}%","%#{query}%" ] }
+      end
+    end
+  }
 
   default_scope :order => 'users.name_last, users.name_first'
 

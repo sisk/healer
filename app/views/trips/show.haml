@@ -4,7 +4,7 @@
   %ul.subnavigation
     %li= link_to "Edit trip details", edit_trip_path(@trip)
     %li= link_to "Schedule", trip_schedule_path(@trip)
-    %li= link_to "Registrations", trip_registrations_path(@trip)
+    %li= link_to "Cases", trip_cases_path(@trip)
 
 %dl
   %dt City
@@ -21,11 +21,11 @@
     %h2 At-a-glance
     %ul
       - @trip.number_of_operation_days
-      %li= pluralize(@authorized_registrations.size, "authorized registration")
+      %li= pluralize(@authorized_patient_cases.size, "authorized case")
       %li
         %ul
-          %li= "#{@authorized_registrations.scheduled.size} scheduled"
-          %li= "#{@authorized_registrations.unscheduled.size} unscheduled"
+          %li= "#{@authorized_patient_cases.scheduled.size} scheduled"
+          %li= "#{@authorized_patient_cases.unscheduled.size} unscheduled"
   .schedule
     %h2 Daily Schedules
     %ul

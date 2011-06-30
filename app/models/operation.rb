@@ -22,7 +22,7 @@ class Operation < ActiveRecord::Base
   belongs_to :diagnosis
   belongs_to :body_part
   belongs_to :room
-  belongs_to :registration
+  belongs_to :patient_case
   belongs_to :trip
   belongs_to :primary_surgeon, :class_name => "User", :foreign_key => "primary_surgeon_id"
   belongs_to :secondary_surgeon, :class_name => "User", :foreign_key => "secondary_surgeon_id"
@@ -38,7 +38,7 @@ class Operation < ActiveRecord::Base
   validates_presence_of :patient
   # validates_presence_of :date
   # validates_presence_of :body_part
-  # validates_presence_of :registration
+  # validates_presence_of :patient_case
   validates_presence_of :diagnosis
   validates_numericality_of :difficulty
   validates_inclusion_of :difficulty, :in => self.difficulty_table.keys
@@ -53,12 +53,12 @@ class Operation < ActiveRecord::Base
 
 
   scope :trip, lambda { |trip_id|
-    { :include => :registration, :conditions => ["registrations.trip_id = ?",trip_id ] } if trip_id.present?
+    { :include => :patient_case, :conditions => ["patient_cases.trip_id = ?",trip_id ] } if trip_id.present?
   }
   scope :incomplete, where("operations.end is ?", nil)
   scope :complete, where("operations.end is not ?", nil)
 
-  delegate :location, :location=, :to => :registration  
+  delegate :location, :location=, :to => :patient_case
 
   def to_s
     if procedure.present?
@@ -71,7 +71,7 @@ class Operation < ActiveRecord::Base
   end
   
   def as_json(options={})
-    { :id => self.id, :registration_id => registration_id, :to_s => self.to_s, :photo => self.patient.displayed_photo(:tiny), :patient => self.patient.to_s, :location => self.location }
+    { :id => self.id, :patient_case_id => patient_case_id, :to_s => self.to_s, :photo => self.patient.displayed_photo(:tiny), :patient => self.patient.to_s, :location => self.location }
   end
   
   # def build_implant(*args)
@@ -95,10 +95,10 @@ class Operation < ActiveRecord::Base
   private
   
   def set_trip_id
-    self.trip_id = self.registration.try(:trip_id) if (self.trip_id.nil? || self.registration.try(:trip_id) != self.trip_id)
+    self.trip_id = self.patient_case.try(:trip_id) if (self.trip_id.nil? || self.patient_case.try(:trip_id) != self.trip_id)
   end
   def set_patient_id
-    self.patient_id = self.registration.try(:patient_id) if (self.patient_id.nil? || self.registration.try(:patient_id) != self.patient_id)
+    self.patient_id = self.patient_case.try(:patient_id) if (self.patient_id.nil? || self.patient_case.try(:patient_id) != self.patient_id)
   end
   
 end

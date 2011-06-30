@@ -23,8 +23,8 @@ protected
 
   def collection
     start = end_of_association_chain
-    if params[:no_registrations]
-      start = start.no_registrations
+    if params[:no_patient_cases]
+      start = start.no_patient_cases
     end
     if params[:search].present?
       start = start.search(params[:search])

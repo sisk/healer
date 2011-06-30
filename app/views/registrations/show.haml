@@ -1,7 +1,0 @@
-- content_for :title do
-  = "#{@registration}"
-- content_for :subnavigation do
-  %ul.subnavigation
-    %li= link_to "Display patient record", patient_path(@registration.patient)
-.registration_list
-  = render :partial => "registrations/summary/record", :object => @registration, :as => :registration

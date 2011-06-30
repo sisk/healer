@@ -7,7 +7,7 @@ $(document).ready(function() {
 
   $(".room.connectedSortable").sortable({
     items: ".sortable",
-    placeholder: "registration_order_placeholder",
+    placeholder: "patient_case_order_placeholder",
     connectWith: ".connectedSortable",
     opacity: 0.7,
     helper: "clone",
@@ -31,7 +31,7 @@ $(document).ready(function() {
 
   $("#unscheduled").sortable({
     items: ".sortable",
-    placeholder: "registration_order_placeholder",
+    placeholder: "patient_case_order_placeholder",
     connectWith: ".connectedSortable",
     opacity: 0.7,
     helper: "clone",
@@ -55,8 +55,8 @@ $(document).ready(function() {
   $("#unscheduled_filter").keyup(function(){
     var query;
     query = $(this).val();
-    $("#source .registration").hide();
-    $("#source .registration:contains('"+query+"')").show();
+    $("#source .patient_case").hide();
+    $("#source .patient_case:contains('"+query+"')").show();
     //$("#generated_fld").val($(this).val()).keyup();
     // $("div:contains('John')")
   });

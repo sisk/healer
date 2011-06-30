@@ -2,7 +2,7 @@ class OperationsController < ApplicationController
   inherit_resources
   
   respond_to :html, :xml, :json
-  belongs_to :registration, :diagnosis, :polymorphic => true, :optional => true
+  belongs_to :patient_case, :diagnosis, :polymorphic => true, :optional => true
   filter_resource_access
 
   def index
@@ -30,9 +30,9 @@ class OperationsController < ApplicationController
   def update
     update! do |format|
       format.html {
-        # if we got here via anything that responds to a registration, redirect to the registration path
-        # if parent.respond_to?(:registration) && parent.registration.present?
-        #   redirect_to trip_registration_path(parent.registration.trip, parent.registration), :notice => "Operation updated."
+        # if we got here via anything that responds to a patient_case, redirect to the patient_case path
+        # if parent.respond_to?(:patient_case) && parent.patient_case.present?
+        #   redirect_to trip_case_path(parent.patient_case.trip, parent.patient_case), :notice => "Operation updated."
         # else
         redirect_to resource_path, :notice => "Operation updated."
         # end
@@ -54,7 +54,7 @@ class OperationsController < ApplicationController
      super
      @operation.diagnosis ||= diagnosis
      @operation.body_part = @operation.diagnosis.try(:body_part)
-     @operation.registration = @operation.diagnosis.try(:registration)
+     @operation.patient_case = @operation.diagnosis.try(:patient_case)
      @operation.patient = @operation.diagnosis.try(:patient)
      @operation.patient = @operation.diagnosis.try(:patient)
      @operation.date = Date.today if @operation.new_record?

@@ -1,0 +1,13 @@
+.patient_case.snapshot{ :class => (patient_case.likely_bilateral? ? "bilateral" : "") }
+  =# patient_image(patient_case.patient, :tiny)
+  .details
+    %h3= patient_case.patient
+    /
+      %dl
+        %dt Body Part(s)
+        %dd= body_part_list(patient_case)
+        - unless patient_case.location.blank?
+          %dt Location
+          %dd= patient_case.location
+        %dt Case #
+        %dd= patient_case.id

@@ -2,7 +2,7 @@ class ScheduleController < ApplicationController
   before_filter :authenticate_user!, :setup_trip
 
   def edit
-    @to_schedule = @trip.registrations.authorized.unscheduled
+    @to_schedule = @trip.patient_cases.authorized.unscheduled
     @rooms = @trip.try(:facility).try(:rooms) || []
     @number_of_days = @trip.number_of_operation_days || 0
   end
@@ -17,7 +17,7 @@ class ScheduleController < ApplicationController
       @rooms = @trip.try(:facility).try(:rooms) || []
       render :template => "schedule/show_day"
     else
-      @registrations = @trip.registrations.authorized
+      @patient_cases = @trip.patient_cases.authorized
       @rooms = @trip.try(:facility).try(:rooms) || []
     end
   end
@@ -33,13 +33,13 @@ class ScheduleController < ApplicationController
     end
     @room_id = params[:room_id].to_i
     @day_num = params[:day].to_i
-    if params[:registration].present?
-      registration_ids = params[:registration.to_s]
-      Registration.update_all("room_id = #{@room_id}, scheduled_day = #{@day_num}", :id => registration_ids )
-      params[:registration].each_with_index do |id, index|
-        Registration.update_all(['schedule_order = ?', index + 1], ['id = ?', id])
+    if params[:patient_case].present?
+      patient_case_ids = params[:patient_case.to_s]
+      PatientCase.update_all("room_id = #{@room_id}, scheduled_day = #{@day_num}", :id => patient_case_ids )
+      params[:patient_case].each_with_index do |id, index|
+        PatientCase.update_all(['schedule_order = ?', index + 1], ['id = ?', id])
       end
-      @registrations = Registration.find(registration_ids)
+      @patient_cases = PatientCase.find(patient_case_ids)
     end
 
     respond_to do |format|
@@ -48,15 +48,15 @@ class ScheduleController < ApplicationController
   end
 
   def sort_unscheduled
-    # registration_ids passed here should become "unscheduled"
-    if params[:registration].present?
-      registration_ids = params[:registration.to_s]
-      Registration.update_all({:status => 'Unscheduled', :room_id => nil, :scheduled_day => 0}, :id => registration_ids)
-      params[:registration].each_with_index do |id, index|
-        Registration.update_all(['schedule_order = ?', index + 1], ['id = ?', id])
+    # patient_case_ids passed here should become "unscheduled"
+    if params[:patient_case].present?
+      patient_case_ids = params[:patient_case.to_s]
+      PatientCase.update_all({:status => 'Unscheduled', :room_id => nil, :scheduled_day => 0}, :id => patient_case_ids)
+      params[:patient_case].each_with_index do |id, index|
+        PatientCase.update_all(['schedule_order = ?', index + 1], ['id = ?', id])
       end
 
-      @registrations = Registration.find(registration_ids)
+      @patient_cases = PatientCase.find(patient_case_ids)
     end
 
     respond_to do |format|

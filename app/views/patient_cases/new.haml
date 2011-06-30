@@ -1,10 +1,10 @@
 - content_for :title do
-  = "#{@trip} - New Patient Registration"
+  = "#{@trip} - New Case"
 .choice_toggle
   .choice
     %p.fake_link.toggle I want to add a new patient.
     .data.hide
-      = semantic_form_for [@trip,@registration], :html => { :multipart => true } do |f|
+      = semantic_form_for [parent,resource], :url => trip_cases_path(parent), :html => { :multipart => true } do |f|
         = f.semantic_errors
         = f.input :trip_id, :as => :hidden, :input_html => { :value => @trip.id }
         = f.input :created_by_id, :as => :hidden, :input_html => { :value => current_user.id }
@@ -35,7 +35,7 @@
   .choice
     %p.fake_link.toggle I want to add a patient that is already in the system.
     .data.hide
-      = semantic_form_for [@trip,@registration], :html => { :multipart => true } do |f|
+      = semantic_form_for [parent,resource], :url => trip_cases_path(parent), :html => { :multipart => true } do |f|
         = f.semantic_errors
         = f.input :trip_id, :as => :hidden, :input_html => { :value => @trip.id }
         = f.input :created_by_id, :as => :hidden, :input_html => { :value => current_user.id }

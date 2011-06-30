@@ -1,19 +1,19 @@
-- # TODO this is very similar to inline_registration view. dry it up!.
-- patient = registration.patient
-.registration[registration]
+- # TODO this is very similar to inline_patient_case view. dry it up!.
+- patient = patient_case.patient
+.patient_case[patient_case]
   .patient
     .image= patient_image(patient, :small)
     .primary.name
       %h3= patient
       %h4
-        - if permitted_to? :show, registration
-          = link_to "Registration ##{registration.id}", trip_registration_path(registration.trip, registration)
+        - if permitted_to? :show, patient_case
+          = link_to "Case ##{patient_case.id}", trip_case_path(patient_case.trip, patient_case)
         - else
-          = "Registration ##{registration.id}"
+          = "Case ##{patient_case.id}"
     .secondary.demographic
       = render :partial => "patients/shared/patient_demographic", :locals => { :patient => patient }
     .navigation.noprint
-      = render :partial => "registrations/summary/action", :locals => { :registration => registration }
+      = render :partial => "patient_cases/summary/action", :locals => { :patient_case => patient_case }
   - if patient.has_medical_detail?
     .medical_details.supplemental
       %p.fake_link.toggle= "Full medical detail"
@@ -23,11 +23,11 @@
     .title_header
       %h3.diagnosis Diagnosis / Pre-Op
       %h3.operation Operation
-    - diagnoses = registration.authorized? ? registration.diagnoses : registration.patient.diagnoses
+    - diagnoses = patient_case.authorized? ? patient_case.diagnoses : patient_case.patient.diagnoses
     - diagnoses.each do |diagnosis|
       .diagnosis_and_operation
         .diagnosis
-          = render :partial => "diagnoses/inline", :object => diagnosis, :as => :diagnosis, :locals => { :options => { :remote => true, :size => :tiny, :context => :registration } }
+          = render :partial => "diagnoses/inline", :object => diagnosis, :as => :diagnosis, :locals => { :options => { :remote => true, :size => :tiny, :context => :patient_case } }
         .operation
           - if diagnosis.operations.empty?
             = link_to "New operation for this diagnosis", new_diagnosis_operation_path(diagnosis)

@@ -12,26 +12,26 @@
     .header
       %h2 Unscheduled
       %p= link_to_function 'hide', "$(this).closest('.wrapper').addClass('hide'); $('#show_unscheduled').toggleClass('hide');"
-    #unscheduled.registrations.connectedSortable
-      - @unscheduled.each do |registration|
-        .sortable[registration]= render :partial => "registrations/registration_snapshot", :locals => { :registration => registration }
+    #unscheduled.patient_cases.connectedSortable
+      - @unscheduled.each do |patient_case|
+        .sortable[patient_case]= render :partial => "patient_cases/patient_case_snapshot", :locals => { :patient_case => patient_case }
   - @rooms.each do |room|
     .wrapper.hide
       .header
         %h2= room
         %p= link_to_function 'hide', "$(this).closest('.wrapper').addClass('hide'); $('#show_#{dom_id(room)}').toggleClass('hide');"
       .room.connectedSortable[room]
-        - @trip.registrations.room(room.id).each do |registration|
-          .sortable[registration]= render :partial => "registrations/registration_snapshot", :locals => { :registration => registration }
+        - @trip.patient_cases.room(room.id).each do |patient_case|
+          .sortable[patient_case]= render :partial => "patient_cases/patient_case_snapshot", :locals => { :patient_case => patient_case }
   
 - content_for :script do
   = javascript_include_tag "lib/schedule.js"
       
 - content_for :script do
-  %script{ :type => "text/html", :name => "registration_snapshot_template"}
-    {{#registrations}}
-    .registration.sortable{ :id => "registration_{{id}}" }
-      .registration.snapshot{ :class => "{{class}}" }
+  %script{ :type => "text/html", :name => "patient_case_snapshot_template"}
+    {{#patient_cases}}
+    .patient_case.sortable{ :id => "patient_case_{{id}}" }
+      .patient_case.snapshot{ :class => "{{class}}" }
         .details
           %h3 {{patient}}
           %dl
@@ -41,10 +41,10 @@
             %dt Location
             %dd {{location}}
             {{/location}}
-            %dt Registration #
+            %dt Case #
             %dd {{id}}
-    {{/registrations}}
-    {{^registrations}}
-    .registration
-      %span.no-results No registrations found.
-    {{/registrations}}
+    {{/patient_cases}}
+    {{^patient_cases}}
+    .patient_case
+      %span.no-results No cases found.
+    {{/patient_cases}}

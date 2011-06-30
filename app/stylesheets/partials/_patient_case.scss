@@ -2,11 +2,11 @@
   padding: $blueprint-grid-width / 2;
 }
 
-.registration_list {
-  .registration {
+.patient_case_list {
+  .patient_case {
     @include inline_record;
     .navigation { @include column(4, true); }
-    form.registration {
+    form.patient_case {
       padding: 0;
       border-bottom: none;
     }

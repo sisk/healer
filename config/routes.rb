@@ -22,9 +22,13 @@ Healer::Application.routes.draw do
     end
   end
   resources :trips do
-    resources :registrations do
+    resources :users, :controller => :trip_users
+    resources :cases, :controller => :patient_cases do
       member do
         put :authorize, :deauthorize
+      end
+      collection do
+        get :review
       end
     end
     resource :schedule, :controller => :schedule do
@@ -32,7 +36,6 @@ Healer::Application.routes.draw do
         put :sort_unscheduled, :sort_room
       end
     end
-    # resource :staff, :controller => :staff
   end
   resources :patients do
     resources :risk_factors
@@ -42,7 +45,7 @@ Healer::Application.routes.draw do
     resources :xrays
     resource :implant
   end
-  resources :registrations do
+  resources :cases, :controller => :patient_cases do
     member do
       put :unschedule
     end

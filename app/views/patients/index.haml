@@ -8,8 +8,8 @@
   - form_tag(patients_path, {:method => :get, :class => "list_search"}) do
     = label_tag :search, "Search"
     = text_field_tag :search, params[:search]
-    = label_tag :no_registrations, "No registration"
-    = check_box_tag :no_registrations, true, params[:no_registrations]
+    = label_tag :no_patient_cases, "No case"
+    = check_box_tag :no_patient_cases, true, params[:no_patient_cases]
     = submit_tag "Go"
     - if params[:search].present?
       = link_to "Clear search", patients_path

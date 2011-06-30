@@ -39,7 +39,7 @@ describe Patient do
   should_have_many :patient_interactions
   should_have_many :diagnoses
   should_have_many :operations
-  should_have_many :registrations
+  should_have_many :patient_cases
   should_have_many :risk_factors
   should_have_many :risks, :through => :risk_factors
 
@@ -119,13 +119,13 @@ end
 
 describe Patient, "registered?" do
   before(:each) do
-    @patient = Patient.new(:registrations => [])
+    @patient = Patient.new(:patient_cases => [])
   end
-  it "returns true if patient has any registrations" do
-    @patient.registrations << stub_model(Registration)
+  it "returns true if patient has any cases" do
+    @patient.patient_cases << stub_model(PatientCase)
     @patient.registered?.should == true
   end
-  it "returns false if patient has no registrations" do
+  it "returns false if patient has no cases" do
     @patient.registered?.should == false
   end
 end

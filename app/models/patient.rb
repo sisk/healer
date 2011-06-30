@@ -1,7 +1,7 @@
 class Patient < ActiveRecord::Base
   
   attr_accessor :weight_unit, :height_unit
-  before_save :set_weight, :set_height, :set_diagnoses_on_future_registrations
+  before_save :set_weight, :set_height, :set_diagnoses_on_future_patient_cases
   
   validates_presence_of :name_first, :message => "can't be blank"
   validates_presence_of :name_last, :message => "can't be blank"
@@ -17,7 +17,7 @@ class Patient < ActiveRecord::Base
   has_many :patient_interactions, :dependent => :destroy
   has_many :diagnoses, :dependent => :destroy
   has_many :operations, :dependent => :destroy
-  has_many :registrations, :dependent => :destroy
+  has_many :patient_cases, :dependent => :destroy
   has_many :risk_factors, :dependent => :destroy
   has_many :risks, :through => :risk_factors
 
@@ -25,7 +25,7 @@ class Patient < ActiveRecord::Base
 
   default_scope :order => 'patients.name_last, patients.name_first'
 
-  scope :no_registrations, :conditions => ["patients.id NOT IN (SELECT patient_id FROM registrations)"]
+  scope :no_patient_cases, :conditions => ["patients.id NOT IN (SELECT patient_id FROM patient_cases)"]
   scope :search, Proc.new { |term|
     query = term.strip.gsub(',', '')
     first_last = query.split(" ")
@@ -79,7 +79,7 @@ class Patient < ActiveRecord::Base
   end
 
   def registered?
-    !registrations.empty?
+    !patient_cases.empty?
   end
 
   def has_contact?
@@ -122,12 +122,12 @@ private
     ((inches / 0.393700787) * 100).round.to_f / 100
   end
 
-  def set_diagnoses_on_future_registrations
-    # ensure any untreated diagnoses are assigned to future registrations that are authorized
+  def set_diagnoses_on_future_patient_cases
+    # ensure any untreated diagnoses are assigned to future cases that are authorized
     # (TODO this is a data sync issue and reeks of poor design. Might need to refactor.)
     diagnoses.untreated.each do |diagnosis|
-      registrations.authorized.future.each do |registration|
-        diagnosis.update_attributes(:registration => registration)
+      patient_cases.authorized.future.each do |patient_case|
+        diagnosis.update_attributes(:patient_case => patient_case)
       end
     end
   end

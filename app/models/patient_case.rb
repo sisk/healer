@@ -1,4 +1,4 @@
-class Registration < ActiveRecord::Base
+class PatientCase < ActiveRecord::Base
 
   # time_in_words needs this
   include ActionView::Helpers::DateHelper
@@ -10,7 +10,7 @@ class Registration < ActiveRecord::Base
     [1,2,3,4,5,6,7,8,9,10]
   end
 
-  @registration_join = 'left outer join `trips` ON `trips`.`id` = `registrations`.`trip_id` left outer join `diagnoses` ON `diagnoses`.`registration_id` = `registrations`.`id` left outer join `patients` ON `patients`.`id` = `registrations`.`patient_id` left outer join `risk_factors` ON `risk_factors`.`patient_id` = `patients`.`id`'
+  @patient_case_join = 'left outer join `trips` ON `trips`.`id` = `patient_cases`.`trip_id` left outer join `diagnoses` ON `diagnoses`.`patient_case_id` = `patient_cases`.`id` left outer join `patients` ON `patients`.`id` = `patient_cases`.`patient_id` left outer join `risk_factors` ON `risk_factors`.`patient_id` = `patients`.`id`'
 
   before_create :set_pre_screen
 
@@ -28,15 +28,15 @@ class Registration < ActiveRecord::Base
 
   accepts_nested_attributes_for :patient
 
-  default_scope :order => 'registrations.schedule_order'
+  default_scope :order => 'patient_cases.schedule_order'
 
   delegate :complexity_minutes, :to => :trip
   delegate :name, :to => :patient
 
-  # scope :authorized, where("registrations.approved_at is not ?", nil).joins(:trip, :diagnoses, :patient => [:risk_factors])
-  # scope :unauthorized, where("registrations.approved_at is ?", nil).joins(:trip, :patient => [:diagnoses, :risk_factors])
-  scope :authorized, includes([:patient, :trip]).where("registrations.approved_at is not ?", nil)
-  scope :unauthorized, includes([:patient, :trip]).where("registrations.approved_at is ?", nil)
+  # scope :authorized, where("patient_cases.approved_at is not ?", nil).joins(:trip, :diagnoses, :patient => [:risk_factors])
+  # scope :unauthorized, where("patient_cases.approved_at is ?", nil).joins(:trip, :patient => [:diagnoses, :risk_factors])
+  scope :authorized, includes([:patient, :trip]).where("patient_cases.approved_at is not ?", nil)
+  scope :unauthorized, includes([:patient, :trip]).where("patient_cases.approved_at is ?", nil)
   scope :future, includes([:trip]).where("trips.start_date IS NULL OR (trips.start_date > ? AND (trips.end_date IS NULL OR trips.end_date > ?))", Time.zone.now, Time.zone.now)
 
   scope :search, Proc.new { |term|
@@ -51,13 +51,13 @@ class Registration < ActiveRecord::Base
       end
     end
   }
-  scope :unscheduled, where("registrations.room_id is ? or registrations.scheduled_day = ?", nil, 0)
-  scope :scheduled, where("registrations.room_id is not ? and registrations.scheduled_day != ?", nil, 0)
+  scope :unscheduled, where("patient_cases.room_id is ? or patient_cases.scheduled_day = ?", nil, 0)
+  scope :scheduled, where("patient_cases.room_id is not ? and patient_cases.scheduled_day != ?", nil, 0)
 
   # TODO should this be a model join?
-  scope :room, lambda { |room_id| where("registrations.room_id = ?",room_id) if room_id.present? }
-  scope :day, lambda { |num| where("registrations.scheduled_day = ?",num) if num.present? }
-  scope :no_day, where("registrations.scheduled_day = ?",0)
+  scope :room, lambda { |room_id| where("patient_cases.room_id = ?",room_id) if room_id.present? }
+  scope :day, lambda { |num| where("patient_cases.scheduled_day = ?",num) if num.present? }
+  scope :no_day, where("patient_cases.scheduled_day = ?",0)
 
   scope :male, :include => :patient, :conditions => ["patients.male = ?", true]
   scope :female, :include => :patient, :conditions => ["patients.male = ?", false]
@@ -178,7 +178,7 @@ private
   end
 
   def clear_diagnoses
-    Diagnosis.update_all("registration_id = NULL", :registration_id => self.id)
+    Diagnosis.update_all("patient_case_id = NULL", :patient_case_id => self.id)
   end
 
 end

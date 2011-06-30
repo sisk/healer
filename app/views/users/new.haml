@@ -10,7 +10,7 @@
   = f.inputs do
     = f.input :name_first, :label => 'First Name'
     = f.input :name_last, :label => 'Last Name'
-    = f.input :email, :label => 'Email'
+    = f.input :email, :label => 'Email', :required => true
     = f.input :password, :as => :password, :label => 'Password'
     = f.input :password_confirmation, :as => :password, :label => 'Confirm Password'
   = f.inputs :name => "Roles" do
