@@ -1,5 +1,6 @@
 %ul.subnavigation
   %li= link_to_unless_current "Trips", trips_path
-  %li= link_to "Trip users", users_trip_path(@trip)
+  - if @trip
+    %li= link_to "Trip users", trip_users_path(@trip)
   - if permitted_to? :create, Trip.new
     %li= link_to_unless_current "New Trip", new_trip_path
