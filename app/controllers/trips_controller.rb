@@ -17,8 +17,9 @@ class TripsController < ApplicationController
   def create
     create! { trips_path }
   end
+  
   def update
     update! { trips_path }
   end
-
+  
 end
