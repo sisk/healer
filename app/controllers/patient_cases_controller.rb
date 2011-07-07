@@ -21,7 +21,8 @@ class PatientCasesController < ApplicationController
   end
 
   def create
-    create! { trip_cases_path(@patient_case.trip_id) }
+    @trip = Trip.find(params[:trip_id])
+    create! { trip_case_path(@patient_case.trip, @patient_case) }
   end
   
   def update
@@ -38,7 +39,7 @@ class PatientCasesController < ApplicationController
 
   def destroy
     destroy! do |format|
-      format.html { redirect_to :back, :notice => "Case deleted." }
+      format.html { redirect_to parent_path, :notice => "Case deleted." }
     end
   end
 

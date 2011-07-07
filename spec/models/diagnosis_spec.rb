@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Diagnosis do
-  should_have_column :patient_id, :type => :integer
   should_have_column :patient_case_id, :type => :integer
   should_have_column :body_part_id, :type => :integer
   should_have_column :disease_id, :type => :integer
@@ -10,14 +9,13 @@ describe Diagnosis do
   should_have_column :treated, :type => :boolean
   should_have_column :revision, :type => :boolean
 
-  should_belong_to :patient
   should_belong_to :patient_case
   should_belong_to :disease
   should_belong_to :body_part
   should_have_many :operations
   should_have_many :xrays
 
-  should_validate_presence_of :patient
+  should_validate_presence_of :patient_case
   should_validate_presence_of :disease
 
   should_validate_numericality_of :severity
@@ -48,25 +46,26 @@ end
 
 describe Diagnosis, "#siblings" do
   before(:each) do
-    @diagnosis1 = Diagnosis.new
-    @diagnosis1.stub(:id).and_return(1)
     @patient = stub_model(Patient)
-    @diagnosis2 = Diagnosis.new
+    @patient_case1 = stub_model(PatientCase, :patient => @patient)
+    @patient_case2 = stub_model(PatientCase, :patient => @patient)
+    @patient.stub(:diagnoses).and_return([@diagnosis1, @diagnosis2])
+    @diagnosis1 = Diagnosis.new(:patient_case => @patient_case1)
+    @diagnosis2 = Diagnosis.new(:patient_case => @patient_case2)
+    @diagnosis1.stub(:id).and_return(1)
     @diagnosis2.stub(:id).and_return(2)
-    @diagnosis3 = Diagnosis.new(:id => 3)
-    @diagnosis3.stub(:id).and_return(3)
   end
   it "returns an array of all diagnoses for the patient excluding itself" do
-    @patient.stub(:diagnoses).and_return([@diagnosis1,@diagnosis2,@diagnosis3])
-    @diagnosis1.patient = @patient
-    @diagnosis1.siblings.should == [@diagnosis2,@diagnosis3]
+    @patient_case1.stub(:diagnosis).and_return(@diagnosis1)
+    @diagnosis1.patient_case = @patient_case1
+    @diagnosis1.siblings.should == [@diagnosis2]
   end
-  it "returns an empty array if no patient" do
-    @diagnosis1.siblings.should == []
-  end
-  it "returns an empty array if patient has no diagnoses" do
-    @patient.stub(:diagnoses).and_return([])
-    @diagnosis1.patient = @patient
+  # it "returns an empty array if no case" do
+  #   @diagnosis1.siblings.should == []
+  # end
+  it "returns an empty array if case has no diagnosis" do
+    @patient_case.stub(:diagnosis).and_return(nil)
+    @diagnosis1.patient_case = @patient_case
     @diagnosis1.siblings.should == []
   end
 end
@@ -74,20 +73,21 @@ end
 describe Diagnosis, "has_mirror?" do
   before(:each) do
     @patient = stub_model(Patient)
+    @patient_case = stub_model(PatientCase, :patient => @patient)
     @left_knee = stub_model(BodyPart,:name => "Knee", :side => "L")
     @right_knee = stub_model(BodyPart,:name => "Knee", :side => "R")
     @neck = stub_model(BodyPart,:name => "Neck")
     @neck.stub(:has_mirror?).and_return(false)
     @left_knee.stub(:mirror).and_return(@right_knee)
-    @diagnosis = Diagnosis.new(:body_part => @left_knee, :patient => @patient)
-    @diagnosis_r = Diagnosis.new(:body_part => @right_knee, :patient => @patient)
-    @diagnosis_n = Diagnosis.new(:body_part => @neck, :patient => @patient)
+    @diagnosis = Diagnosis.new(:body_part => @left_knee, :patient_case => @patient_case)
+    @diagnosis_r = Diagnosis.new(:body_part => @right_knee, :patient_case => @patient_case)
+    @diagnosis_n = Diagnosis.new(:body_part => @neck, :patient_case => @patient_case)
   end
   it "is false if no body part is set" do
     Diagnosis.new.has_mirror?.should be_false
   end
   it "is false if body part has no mirror" do
-    @diagnosis = Diagnosis.new(:body_part => @neck, :patient => @patient)
+    @diagnosis = Diagnosis.new(:body_part => @neck, :patient_case => @patient_case)
     @diagnosis.has_mirror?.should be_false
   end
   it "is false if no siblings" do

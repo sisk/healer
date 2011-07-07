@@ -1,7 +1,7 @@
 class DiagnosesController < ApplicationController
   inherit_resources
 
-  belongs_to :patient
+  belongs_to :case, :parent_class => PatientCase
 
   respond_to :html, :xml, :json
   before_filter :authenticate_user!
@@ -9,9 +9,10 @@ class DiagnosesController < ApplicationController
 
   def create
     # HACK: this shouldn't be necessary, but it's the only way xrays save right now. :-(
-    resource.patient ||= parent
-    resource.save if resource.valid?
+    # resource.patient ||= parent
+    # resource.save if resource.valid?
     # /HACK
+    # raise params.inspect
     create! do |success, failure|
       success.html { redirect_to parent_path, :notice => "Diagnosis added." }
       failure.html { redirect_to parent_path, :error => "Error adding diagnosis." }
@@ -24,7 +25,7 @@ class DiagnosesController < ApplicationController
       flash[:notice] = "Diagnosis updated."
     end
     respond_with(@diagnosis) do |format|
-      format.html {redirect_to patient_path(@diagnosis.patient) }
+      format.html {redirect_to case_path(@diagnosis.patient_case) }
       format.js { render :template => "diagnoses/update.js.erb", :layout => nil }
     end
   end
@@ -42,6 +43,10 @@ class DiagnosesController < ApplicationController
     end
   end
 
+  def new
+    @diagnosis = parent.build_diagnosis
+  end
+  
   private
 
 end

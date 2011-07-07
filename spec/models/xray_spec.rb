@@ -14,29 +14,29 @@ describe Xray do
 
 end
 
-describe Xray, "#patient" do
+describe Xray, "#patient_case" do
   before(:each) do
     @xray = Xray.new()
   end
-  it "returns the patient attached to diagnosis if set" do
-    patient = mock_model(Patient)
-    @xray.diagnosis = mock_model(Diagnosis, :patient => patient)
-    @xray.patient.should == patient
+  it "returns the case attached to diagnosis if set" do
+    patient_case = mock_model(PatientCase)
+    @xray.diagnosis = mock_model(Diagnosis, :patient_case => patient_case)
+    @xray.patient_case.should == patient_case
   end
-  it "returns the operation patient if set" do
-    patient = mock_model(Patient)
-    @xray.operation = mock_model(Operation, :patient => patient)
-    @xray.patient.should == patient
+  it "returns the operation case if set" do
+    patient_case = mock_model(PatientCase)
+    @xray.operation = mock_model(Operation, :patient_case => patient_case)
+    @xray.patient_case.should == patient_case
   end
   it "returns nil by default" do
-    @xray.patient.should == nil
+    @xray.patient_case.should == nil
   end
 end
 
 describe Xray, "#to_s" do
   before(:each) do
     @xray = Xray.new
-    @xray.stub_chain(:patient, :to_s).and_return("Derp")
+    @xray.stub_chain(:patient_case, :to_s).and_return("Derp")
   end
   it "returns expected string if date_time is not set" do
     @xray.to_s.should == "X-ray: Derp"

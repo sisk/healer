@@ -20,12 +20,12 @@ class Xray < ActiveRecord::Base
 
   validates_attachment_presence :photo
 
-  def patient
-    diagnosis.try(:patient) || operation.try(:patient)
+  def patient_case
+    diagnosis.try(:patient_case) || operation.try(:patient_case)
   end
 
   def to_s
-    str = "X-ray: #{patient.to_s}"
+    str = "X-ray: #{patient_case.to_s}"
     str += " - " + date_time.to_s if date_time.present?
     return str
   end

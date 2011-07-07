@@ -2,7 +2,6 @@ class Diagnosis < ActiveRecord::Base
   def self.severity_table
     { 0 => "Unremarkable", 1 => "Mild", 2 => "Moderate", 3 => "Severe" }
   end
-  belongs_to :patient
   belongs_to :patient_case
   belongs_to :disease
   belongs_to :body_part
@@ -10,7 +9,7 @@ class Diagnosis < ActiveRecord::Base
   has_many :xrays, :dependent => :destroy
   accepts_nested_attributes_for :xrays, :allow_destroy => true, :reject_if => proc { |attributes| attributes['photo'].blank? }
 
-  validates_presence_of :patient
+  validates_presence_of :patient_case
   validates_presence_of :disease
   validates_numericality_of :severity
   validates_inclusion_of :severity, :in => self.severity_table.keys
@@ -42,8 +41,9 @@ class Diagnosis < ActiveRecord::Base
   end
 
   def siblings
-    return [] unless patient.present?
-    patient.diagnoses.reject{ |diagnosis| diagnosis.id == id }
+    # FIXME buggy?
+    return [] unless patient_case.present?
+    patient_case.patient.diagnoses.reject{ |diagnosis| diagnosis.try(:id) == id }
   end
 
   def display_xray

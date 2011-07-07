@@ -1,9 +1,6 @@
 require 'spec_helper'
 
 describe PatientCase do
-  before(:each) do
-    PatientCase.stub(:set_bilateral) # custom validation routine
-  end
   should_have_column :patient_id, :type => :integer
   should_have_column :approved_by_id, :type => :integer
   should_have_column :created_by_id, :type => :integer
@@ -16,7 +13,6 @@ describe PatientCase do
   should_have_column :location, :type => :string
   should_have_column :schedule_order, :type => :integer
   should_have_column :room_id, :type => :integer
-  should_have_column :likely_bilateral, :type => :boolean
   should_have_column :complexity, :type => :integer
   should_have_column :scheduled_day, :type => :integer
 
@@ -25,7 +21,7 @@ describe PatientCase do
   should_belong_to :approved_by
   should_belong_to :created_by
   should_have_many :operations
-  should_have_many :diagnoses
+  should_have_one :diagnosis
   should_have_many :physical_therapies
   
   should_validate_presence_of :patient
@@ -54,15 +50,6 @@ describe PatientCase, "authorize!" do
   it "sets status to 'Registered'" do
     @patient_case.authorize!
     @patient_case.status.should == "Registered"
-  end
-  # temp - this is a workaround until UI elements join diagnoses to a case.
-  it "sets all untreated diagnoses for patient to this case" do
-    diag1 = stub_model(Diagnosis)
-    diag2 = stub_model(Diagnosis)
-    @patient_case.patient.stub_chain(:diagnoses, :untreated).and_return([diag1, diag2])
-    @patient_case.diagnoses = []
-    @patient_case.authorize!
-    @patient_case.diagnoses.should == [diag1,diag2]
   end
   it "returns true" do
     @patient_case.authorize!.should == true
@@ -93,14 +80,6 @@ describe PatientCase, "deauthorize!" do
     @patient_case.deauthorize!
     @patient_case.scheduled_day.should be_nil
   end
-  # temp - this is a workaround until UI elements join diagnoses to a case.
-  # it "clears diagnoses" do
-  #   diag1 = stub_model(Diagnosis, :patient_case_id => @patient_case.id)
-  #   @patient_case.diagnoses = [diag1]
-  #   @patient_case.deauthorize!
-  #   @patient_case.diagnoses.should == []
-  #   diag1.patient_case_id.should be_nil
-  # end
   it "returns true" do
     @patient_case.deauthorize!.should == true
   end
@@ -218,16 +197,16 @@ describe PatientCase, "#bilateral_diagnosis?" do
     @bilateral = stub_model(Diagnosis, :has_mirror? => true)
     @non_bilateral = stub_model(Diagnosis, :has_mirror? => false)
   end
-  it "is false if no diagnoses exist" do
-    @patient_case.diagnoses = []
+  it "is false if no diagnosis" do
+    @patient_case.diagnosis = nil
     @patient_case.bilateral_diagnosis?.should be_false
   end
-  it "is true if any of case's diagnoses are part of bilateral" do
-    @patient_case.diagnoses = [stub_model(Diagnosis, :has_mirror? => true)]
+  it "is true if case's diagnosis is part of bilateral" do
+    @patient_case.diagnosis = stub_model(Diagnosis, :has_mirror? => true)
     @patient_case.bilateral_diagnosis?.should be_true
   end
-  it "is false if none of case's diagnoses are part of bilateral" do
-    @patient_case.diagnoses = [stub_model(Diagnosis, :has_mirror? => false)]
+  it "is false if case's diagnosis not part of bilateral" do
+    @patient_case.diagnosis = stub_model(Diagnosis, :has_mirror? => false)
     @patient_case.bilateral_diagnosis?.should be_false
   end
 end
@@ -238,38 +217,17 @@ describe PatientCase, "#body_part_list" do
     @right_knee = stub_model(BodyPart, :to_s => "Knee (R)", :name_en => "Knee")
     @right_hip = stub_model(BodyPart, :to_s => "Hip (R)", :name_en => "Hip")
   end
-  it "outputs a formatted date string of body parts for its diagnoses" do
-    patient_case = PatientCase.new(:diagnoses => [
-      stub_model(Diagnosis, :body_part => @left_knee),
-      stub_model(Diagnosis, :body_part => @right_knee),
-    ])
-    patient_case.body_part_list.should == "Knee (L), Knee (R)"
-  end
-  it "outputs empty string if no diagnoses" do
-    patient_case = PatientCase.new(:diagnoses => [])
-    patient_case.body_part_list.should == ""
-  end
-  it "ignores nil body parts in diagnoses" do
-    patient_case = PatientCase.new(:likely_bilateral => true, :diagnoses => [
-      stub_model(Diagnosis, :body_part => @left_knee),
-      stub_model(Diagnosis, :body_part => nil)
-    ])
+  it "outputs a formatted date string of body parts for its diagnosis" do
+    patient_case = PatientCase.new(:diagnosis => stub_model(Diagnosis, :body_part => @left_knee))
     patient_case.body_part_list.should == "Knee (L)"
   end
-  it "outputs bilateral if case is likely bilateral and body parts are the same" do
-    patient_case = PatientCase.new(:likely_bilateral => true, :diagnoses => [
-      stub_model(Diagnosis, :body_part => @left_knee),
-      stub_model(Diagnosis, :body_part => @right_knee),
-    ])
-    patient_case.body_part_list.should == "Knee (Bilateral)"
+  it "is nil if no diagnosis" do
+    patient_case = PatientCase.new(:diagnosis => nil)
+    patient_case.body_part_list.should be_nil
   end
-  it "separates bilateral from non-bilateral parts" do
-    patient_case = PatientCase.new(:likely_bilateral => true, :diagnoses => [
-      stub_model(Diagnosis, :body_part => @left_knee),
-      stub_model(Diagnosis, :body_part => @right_knee),
-      stub_model(Diagnosis, :body_part => @right_hip),
-    ])
-    patient_case.body_part_list.should == "Knee (Bilateral), Hip (R)"
+  it "ignores nil body parts in diagnosis" do
+    patient_case = PatientCase.new(:likely_bilateral => true, :diagnosis => stub_model(Diagnosis, :body_part => nil))
+    patient_case.body_part_list.should be_nil
   end
 end
 
@@ -297,60 +255,24 @@ end
 describe PatientCase, "revision?" do
   before(:each) do
     @patient_case = PatientCase.new
-    @diag1 = stub_model(Diagnosis, :revision => true)
-    @diag2 = stub_model(Diagnosis, :revision => false)
-    @patient = stub_model(Patient)
-    @patient.stub_chain(:diagnoses, :untreated).and_return([])
   end
-  context "case has diagnoses itself" do
+  context "case has a diagnosis" do
     before(:each) do
       @patient_case.stub(:patient).and_return(@patient)
     end
-    it "is true if any diagnoses are revisions" do
-      @patient_case.diagnoses = [@diag1]
+    it "is true if diagnosis is revision" do
+      @patient_case.diagnosis = stub_model(Diagnosis, :revision => true)
       @patient_case.revision?.should be_true
     end
-    it "is false if no diagnoses are revisions" do
-      @patient_case.diagnoses = [@diag2]
+    it "is false if diagnosis is not revision" do
+      @patient_case.diagnosis = stub_model(Diagnosis, :revision => false)
       @patient_case.revision?.should be_false
     end
   end
-  context "case has diagnoses only through the patient" do
-    it "is true if any untreated patient diagnoses are revisions" do
-      @patient.stub_chain(:diagnoses, :untreated).and_return([@diag1])
-      @patient_case.stub(:patient).and_return(@patient)
-      @patient_case.revision?.should be_true
-    end
-    it "is false if no untreated patient diagnoses are revisions" do
-      @patient.stub_chain(:diagnoses, :untreated).and_return([@diag2])
-      @patient_case.stub(:patient).and_return(@patient)
-      @patient_case.revision?.should be_false
-    end
-  end
-  context "case has no idea what diagnoses it has" do
+  context "case has no diagnosis" do
     it "is false" do
       @patient_case.stub(:patient).and_return(@patient)
       @patient_case.revision?.should be_false
     end
   end
 end
-
-# describe PatientCase, "setting bilateral on save" do
-#   before(:each) do
-#     @patient_case = PatientCasecase.new(:patient => stub_model(Patient), :trip => mock_model(Trip))
-#   end
-#   it "sets likely_bilateral to false by default" do
-#     @patient_case.save?
-#     @patient_case.likely_bilateral.should be_false
-#   end
-#   it "sets likely_bilateral to true if patient has bilateral diagnoses" do
-#     @patient_case.stub(:bilateral_diagnosis?).and_return(true)
-#     @patient_case.save?
-#     @patient_case.likely_bilateral.should be_true
-#   end
-#   it "sets likely_bilateral to false if patient does not have bilateral diagnoses" do
-#     @patient_case.stub(:bilateral_diagnosis?).and_return(false)
-#     @patient_case.valid?
-#     @patient_case.likely_bilateral.should be_false
-#   end
-# end

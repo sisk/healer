@@ -39,7 +39,6 @@ Healer::Application.routes.draw do
   end
   resources :patients do
     resources :risk_factors
-    resources :diagnoses
   end
   resources :operations do
     resources :xrays
@@ -47,8 +46,9 @@ Healer::Application.routes.draw do
   end
   resources :cases, :controller => :patient_cases do
     member do
-      put :unschedule
+      put :authorize, :deauthorize, :unschedule
     end
+    resource :diagnosis
     resources :operations
     resources :physical_therapies
   end

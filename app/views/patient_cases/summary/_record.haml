@@ -11,26 +11,27 @@
         - else
           = "Case ##{patient_case.id}"
     .secondary.demographic
-      = render :partial => "patients/shared/patient_demographic", :locals => { :patient => patient }
+      = render :partial => "patients/shared/patient_demographic", :locals => { :patient => patient_case.patient }
     .navigation.noprint
       = render :partial => "patient_cases/summary/action", :locals => { :patient_case => patient_case }
   - if patient.has_medical_detail?
     .medical_details.supplemental
       %p.fake_link.toggle= "Full medical detail"
       .details{ :style => "display: none;" }
-        = render :partial => "patients/medical_details", :locals => { :patient => patient, :hide => true }
+        = render :partial => "patients/medical_details", :locals => { :patient => patient_case.patient, :hide => true }
   .section.treatment
     .title_header
-      %h3.diagnosis Diagnosis / Pre-Op
-      %h3.operation Operation
-    - diagnoses = patient_case.authorized? ? patient_case.diagnoses : patient_case.patient.diagnoses
-    - diagnoses.each do |diagnosis|
-      .diagnosis_and_operation
-        .diagnosis
-          = render :partial => "diagnoses/inline", :object => diagnosis, :as => :diagnosis, :locals => { :options => { :remote => true, :size => :tiny, :context => :patient_case } }
+      .diagnosis
+        %h3 Diagnosis / Pre-Op
+        - if patient_case.diagnosis
+          = render :partial => "diagnoses/inline", :object => patient_case.diagnosis, :as => :diagnosis, :locals => { :options => { :remote => true, :size => :tiny, :context => :patient_case } }
+        - else
+          %p= link_to "Add diagnosis", new_case_diagnosis_path(patient_case)
+      .operation
+        %h3 Operation
         .operation
-          - if diagnosis.operations.empty?
-            = link_to "New operation for this diagnosis", new_diagnosis_operation_path(diagnosis)
+          - if patient_case.operations.empty?
+            = link_to "New operation", new_case_operation_path(patient_case)
           - else
-            - diagnosis.operations.each do |operation|
+            - patient_case.operations.each do |operation|
               = render :partial => "operations/inline", :object => operation, :as => :operation, :locals => { :options => { :size => :tiny } }

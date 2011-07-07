@@ -27,6 +27,7 @@ describe Patient do
   should_have_column :medications, :type => :text
   should_have_column :other_diseases, :type => :text
   should_have_column :allergies, :type => :text
+  should_have_many :diagnoses, :through => :patient_cases
 
   should_validate_presence_of :name_first
   should_validate_presence_of :name_last

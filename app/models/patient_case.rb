@@ -19,7 +19,7 @@ class PatientCase < ActiveRecord::Base
   belongs_to :approved_by, :class_name => "User", :foreign_key => "approved_by_id"
   belongs_to :created_by, :class_name => "User", :foreign_key => "created_by_id"
   has_many :operations
-  has_many :diagnoses
+  has_one :diagnosis
   has_many :physical_therapies, :dependent => :destroy
 
   validates_presence_of :patient
@@ -33,8 +33,8 @@ class PatientCase < ActiveRecord::Base
   delegate :complexity_minutes, :to => :trip
   delegate :name, :to => :patient
 
-  # scope :authorized, where("patient_cases.approved_at is not ?", nil).joins(:trip, :diagnoses, :patient => [:risk_factors])
-  # scope :unauthorized, where("patient_cases.approved_at is ?", nil).joins(:trip, :patient => [:diagnoses, :risk_factors])
+  # scope :authorized, where("patient_cases.approved_at is not ?", nil).joins(:trip, :diagnosis, :patient => [:risk_factors])
+  # scope :unauthorized, where("patient_cases.approved_at is ?", nil).joins(:trip, :patient => [:diagnosis, :risk_factors])
   scope :authorized, includes([:patient, :trip]).where("patient_cases.approved_at is not ?", nil)
   scope :unauthorized, includes([:patient, :trip]).where("patient_cases.approved_at is ?", nil)
   scope :future, includes([:trip]).where("trips.start_date IS NULL OR (trips.start_date > ? AND (trips.end_date IS NULL OR trips.end_date > ?))", Time.zone.now, Time.zone.now)
@@ -62,8 +62,6 @@ class PatientCase < ActiveRecord::Base
   scope :male, :include => :patient, :conditions => ["patients.male = ?", true]
   scope :female, :include => :patient, :conditions => ["patients.male = ?", false]
 
-  before_save :set_bilateral
-
   def to_s
     # TODO there's a performance thing here where we query patients and trips table separately. improve it!
     "#{patient.to_s} - #{trip.to_s}"
@@ -80,19 +78,16 @@ class PatientCase < ActiveRecord::Base
       :location => self.location,
       :body_parts => self.body_part_list,
       :time_in_words => self.time_in_words,
-      :revision => self.revision?,
-      :class => (self.likely_bilateral? ? "bilateral" : "")
+      :revision => self.revision?
     }
   end
 
   def authorize!(approved_by_id = nil)
     self.update_attributes(:approved_by_id => approved_by_id, :approved_at => Time.now, :status => "Registered")
-    add_untreated_diagnoses
     true
   end
   def deauthorize!
     self.update_attributes(:approved_by_id => nil, :approved_at => nil, :room_id => nil, :scheduled_day => nil, :status => "Pre-Screen")
-    clear_diagnoses
     true
   end
 
@@ -124,30 +119,16 @@ class PatientCase < ActiveRecord::Base
   end
 
   def bilateral_diagnosis?
-    return false if diagnoses.empty?
-    return diagnoses.any?{ |diagnosis| diagnosis.has_mirror? }
+    return false unless diagnosis
+    return diagnosis.has_mirror?
   end
 
   def body_parts
-    diagnoses.map(&:body_part).compact
+    diagnosis.body_part
   end
 
   def body_part_list
-    if likely_bilateral?
-      body_part_names = body_parts.map(&:name_en)
-      # part_counts = body_parts.map(&:name).inject(Hash.new(0)) {|h,x| h[x]+=1;h}
-      p = []
-      body_parts.each do |body_part|
-        if body_part_names.count(body_part.name_en) > 1
-          p << body_part.display_name + " (Bilateral)"
-        else
-          p << body_part.to_s
-        end
-      end
-      return p.uniq.join(", ")
-    else
-      diagnoses.map(&:body_part).map(&:to_s).join(", ")
-    end
+    diagnosis.try(:body_part).try(:to_s)
   end
 
   def time_in_words
@@ -158,27 +139,13 @@ class PatientCase < ActiveRecord::Base
   end
 
   def revision?
-    return true if diagnoses.any?{ |d| d.revision }
-    return patient.diagnoses.untreated.any?{ |d| d.revision }
+    diagnosis.try(:revision) || false
   end
 
 private
 
   def set_pre_screen
     status = "Pre-Screen"
-  end
-
-  def set_bilateral
-    self.likely_bilateral = self.bilateral_diagnosis?
-    true
-  end
-
-  def add_untreated_diagnoses
-    self.diagnoses = patient.diagnoses.untreated
-  end
-
-  def clear_diagnoses
-    Diagnosis.update_all("patient_case_id = NULL", :patient_case_id => self.id)
   end
 
 end

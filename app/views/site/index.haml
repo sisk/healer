@@ -3,7 +3,7 @@
 .section.trips
   .active
     %h2 Active Trips
-    - Trip.current.each do |trip|
+    - current_user.trips.current.each do |trip|
       .trip
         %h3= trip
         %ul
@@ -15,7 +15,7 @@
             %li= link_to "Edit trip details", edit_trip_path(trip)
   .past
     %h2 Past Trips
-    - Trip.past.each do |trip|
+    - current_user.trips.past.each do |trip|
       .trip
         %h3= trip
         %ul
@@ -24,7 +24,7 @@
             %li= link_to "Edit trip details", edit_trip_path(trip)
   .upcoming
     %h2 Upcoming Trips
-    - Trip.future.each do |trip|
+    - current_user.trips.future.each do |trip|
       .trip
         %h3= trip
         %ul

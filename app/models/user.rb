@@ -23,6 +23,7 @@ class User < ActiveRecord::Base
   validates_presence_of :name_last, :message => "can't be blank"
 
   has_and_belongs_to_many :roles
+  has_and_belongs_to_many :trips
 
   scope :can_login, where("users.authorized = ?", true)
   scope :cant_login, where("users.authorized = ?", false)

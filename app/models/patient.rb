@@ -1,7 +1,7 @@
 class Patient < ActiveRecord::Base
   
   attr_accessor :weight_unit, :height_unit
-  before_save :set_weight, :set_height, :set_diagnoses_on_future_patient_cases
+  before_save :set_weight, :set_height
   
   validates_presence_of :name_first, :message => "can't be blank"
   validates_presence_of :name_last, :message => "can't be blank"
@@ -15,11 +15,11 @@ class Patient < ActiveRecord::Base
                     # :email => true
   
   has_many :patient_interactions, :dependent => :destroy
-  has_many :diagnoses, :dependent => :destroy
   has_many :operations, :dependent => :destroy
   has_many :patient_cases, :dependent => :destroy
   has_many :risk_factors, :dependent => :destroy
   has_many :risks, :through => :risk_factors
+  has_many :diagnoses, :through => :patient_cases
 
   accepts_nested_attributes_for :risk_factors, :allow_destroy => true, :reject_if => proc { |attributes| attributes['risk_id'].blank? }
 
@@ -122,14 +122,4 @@ private
     ((inches / 0.393700787) * 100).round.to_f / 100
   end
 
-  def set_diagnoses_on_future_patient_cases
-    # ensure any untreated diagnoses are assigned to future cases that are authorized
-    # (TODO this is a data sync issue and reeks of poor design. Might need to refactor.)
-    diagnoses.untreated.each do |diagnosis|
-      patient_cases.authorized.future.each do |patient_case|
-        diagnosis.update_attributes(:patient_case => patient_case)
-      end
-    end
-  end
-  
 end

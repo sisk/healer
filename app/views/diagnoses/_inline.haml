@@ -11,7 +11,7 @@
     .navigation.noprint
       %ul
         - if permitted_to? :edit, diagnosis
-          %li= link_to "Edit diagnosis", edit_patient_diagnosis_path(diagnosis.patient,diagnosis), :remote => !!options[:remote]
+          %li= link_to "Edit diagnosis", edit_case_diagnosis_path(diagnosis.patient_case), :remote => !!options[:remote]
   .xrays
     - if diagnosis.xrays.present?
       = xray_preview(diagnosis.display_xray, options)

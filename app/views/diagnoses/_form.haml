@@ -1,5 +1,6 @@
-= semantic_form_for [parent,resource], :html => { :multipart => true } do |f|
+= semantic_form_for resource, :url => case_diagnosis_path(parent), :html => { :multipart => true } do |f|
   = f.semantic_errors
+  = f.input :patient_case_id, :as => :hidden
   = f.inputs do
     = f.input :body_part_id, :as => :select, :label => 'Body Part', :collection => BodyPart.all.collect{ |bp| [bp.to_s, bp.id] }
     = f.input :disease_id, :as => :select, :label => 'Disease', :collection => Disease.all.collect{ |d| [d.to_s, d.id] }
