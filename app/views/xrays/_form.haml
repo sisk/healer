@@ -1,7 +1,8 @@
-= semantic_form_for [parent,resource], :html => { :multipart => true } do |f|
+- url = @parent.is_a?(PatientCase) ? case_xrays_path(@parent) : operation_xrays_path(@parent)
+= semantic_form_for [@parent,resource], :url => url, :html => { :multipart => true } do |f|
   = f.semantic_errors
   = f.input :operation_id, :as => :hidden
-  = f.input :diagnosis_id, :as => :hidden
+  = f.input :patient_case_id, :as => :hidden
   = f.inputs do
     = f.input :photo, :as => :file, :label => "Photo"
   = f.inputs do

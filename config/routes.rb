@@ -49,12 +49,13 @@ Healer::Application.routes.draw do
       put :authorize, :deauthorize, :unschedule
     end
     resource :diagnosis
+    resources :xrays
     resources :operations
     resources :physical_therapies
   end
   resources :diagnoses do
     resources :operations
-    resources :xrays
+    # resources :xrays
   end
   resources :xrays
 

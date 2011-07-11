@@ -7,10 +7,13 @@ describe Xray do
   should_have_column :photo_content_type, :type => :string
   should_have_column :photo_file_size, :type => :integer
   should_have_column :primary, :type => :boolean
+  should_have_column :patient_case_id, :type => :integer
+  should_have_column :diagnosis_id, :type => :integer
 
   # should_validate_presence_of :photo
-  should_belong_to :diagnosis
+  should_belong_to :diagnosis # 2011-07-10 marked for death when case transition complete
   should_belong_to :operation
+  should_belong_to :patient_case
 
 end
 

@@ -1,10 +1,8 @@
+- url = @parent.is_a?(PatientCase) ? new_case_xray_path(@parent) : new_operation_xray_path(@parent)
 - content_for :title do
   = "#{parent} - X-Rays"
 - content_for :subnavigation do
   %ul.subnavigation
-    %li= link_to "Add new X-Ray", new_resource_path
-- if parent.patient.present?
-  - content_for :subtitle do
-    = parent.patient
+    %li= link_to "Add new X-Ray", url
 .xray_index
   = render :partial => "xray_summary", :as => :xray, :collection => collection

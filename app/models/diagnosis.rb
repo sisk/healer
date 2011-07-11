@@ -46,10 +46,4 @@ class Diagnosis < ActiveRecord::Base
     patient_case.patient.diagnoses.reject{ |diagnosis| diagnosis.try(:id) == id }
   end
 
-  def display_xray
-    return nil if xrays.empty?
-    return xrays.first if xrays.size == 1 || xrays.all?{ |x| !x.primary? }
-    return xrays.select{ |x| x.primary == true }.first
-  end
-
 end

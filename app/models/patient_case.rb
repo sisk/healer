@@ -20,6 +20,7 @@ class PatientCase < ActiveRecord::Base
   belongs_to :created_by, :class_name => "User", :foreign_key => "created_by_id"
   has_many :operations
   has_one :diagnosis
+  has_many :xrays
   has_many :physical_therapies, :dependent => :destroy
 
   validates_presence_of :patient
@@ -140,6 +141,12 @@ class PatientCase < ActiveRecord::Base
 
   def revision?
     diagnosis.try(:revision) || false
+  end
+
+  def display_xray
+    return nil if xrays.empty?
+    return xrays.first if xrays.size == 1 || xrays.all?{ |x| !x.primary? }
+    return xrays.select{ |x| x.primary == true }.first
   end
 
 private

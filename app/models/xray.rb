@@ -1,7 +1,11 @@
 class Xray < ActiveRecord::Base
   
-  belongs_to :diagnosis
+  belongs_to :diagnosis # 2011-07-10 marked for death when case transition complete
   belongs_to :operation
+  belongs_to :patient_case
+  
+  scope :pre_op, where('xrays.operation_id is ?', nil)
+  scope :post_op, where('xrays.operation_id is not ?', nil)
 
   # Paperclip
   has_attached_file :photo,

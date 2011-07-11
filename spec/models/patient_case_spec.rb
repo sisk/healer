@@ -23,6 +23,7 @@ describe PatientCase do
   should_have_many :operations
   should_have_one :diagnosis
   should_have_many :physical_therapies
+  should_have_many :xrays
   
   should_validate_presence_of :patient
   should_validate_presence_of :trip
@@ -226,7 +227,7 @@ describe PatientCase, "#body_part_list" do
     patient_case.body_part_list.should be_nil
   end
   it "ignores nil body parts in diagnosis" do
-    patient_case = PatientCase.new(:likely_bilateral => true, :diagnosis => stub_model(Diagnosis, :body_part => nil))
+    patient_case = PatientCase.new(:diagnosis => stub_model(Diagnosis, :body_part => nil))
     patient_case.body_part_list.should be_nil
   end
 end
@@ -274,5 +275,56 @@ describe PatientCase, "revision?" do
       @patient_case.stub(:patient).and_return(@patient)
       @patient_case.revision?.should be_false
     end
+  end
+end
+
+describe PatientCase, "#display_xray" do
+  before(:each) do
+    @operation = PatientCase.new
+    @x1 = stub_model(Xray, :primary => nil, :photo_file_name => "1")
+    @x2 = stub_model(Xray, :primary => false, :photo_file_name => "2")
+    @x3 = stub_model(Xray, :primary => true, :photo_file_name => "3")
+    @x4 = stub_model(Xray, :primary => true, :photo_file_name => "4")
+  end
+  it "returns nil if no xrays" do
+    @operation.display_xray.should be_nil
+  end
+  it "returns the first xray if only one exists" do
+    @operation.xrays = [@x1]
+    @operation.display_xray.should == @x1
+  end
+  it "returns the first xray if > 1 exist, but none are primary" do
+    @operation.xrays = [@x1, @x2]
+    @operation.display_xray.should == @x1
+  end
+  it "returns the first primary xray found" do
+    # FIXME - breaking spec. dunno why.
+    @operation.xrays = [@x1, @x2, @x3, @x4]
+    @operation.display_xray.should == @x3
+  end
+end
+
+describe Diagnosis, "#display_xray" do
+  before(:each) do
+    @patient_case = PatientCase.new
+    @x1 = stub_model(Xray, :primary => nil, :photo_file_name => "1")
+    @x2 = stub_model(Xray, :primary => false, :photo_file_name => "2")
+    @x3 = stub_model(Xray, :primary => true, :photo_file_name => "3")
+    @x4 = stub_model(Xray, :primary => true, :photo_file_name => "4")
+  end
+  it "returns nil if no xrays" do
+    @patient_case.display_xray.should be_nil
+  end
+  it "returns the first xray if only one exists" do
+    @patient_case.xrays = [@x1]
+    @patient_case.display_xray.should == @x1
+  end
+  it "returns the first xray if > 1 exist, but none are primary" do
+    @patient_case.xrays = [@x1, @x2]
+    @patient_case.display_xray.should == @x1
+  end
+  it "returns the first primary xray found" do
+    @patient_case.xrays = [@x1, @x2, @x3, @x4]
+    @patient_case.display_xray.should == @x3
   end
 end
