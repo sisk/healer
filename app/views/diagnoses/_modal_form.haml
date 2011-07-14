@@ -1,11 +1,12 @@
 .dialog-form.review_diagnosis{ :id => "form_#{dom_id(diagnosis)}" }
-  - if diagnosis.xrays.present?
-    .xrays
-      - diagnosis.xrays.each do |xray|
-        = xray_preview(xray, :size => :small)
-  = semantic_form_for [diagnosis.patient,diagnosis], :html => { :multipart => true }, :remote => true do |f|
+  /
+    - if diagnosis.xrays.present?
+      .xrays
+        - diagnosis.xrays.each do |xray|
+          = xray_preview(xray, :size => :small)
+  = semantic_form_for [diagnosis.patient_case,diagnosis], :url => case_diagnosis_path(diagnosis.patient_case, diagnosis), :html => { :multipart => true }, :remote => true do |f|
     = f.semantic_errors
-    = f.input :patient_id, :as => :hidden
+    = f.input :patient_case_id, :as => :hidden
     = f.inputs do
       = f.input :body_part_id, :as => :select, :label => 'Body Part', :collection => BodyPart.all.collect{ |bp| [bp.to_s, bp.id] }, :input_html => { :id => "body_part_#{dom_id(diagnosis)}" }
       = f.input :disease_id, :as => :select, :label => 'Disease', :collection => Disease.all.collect{ |d| [d.to_s, d.id] }, :input_html => { :id => "disease_#{dom_id(diagnosis)}" }

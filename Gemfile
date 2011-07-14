@@ -26,6 +26,8 @@ gem 'jquery-rails', '>= 0.2.6'
 
 group :development, :test do
   gem "autotest"
+  gem "autotest-growl"
+  gem "autotest-fsevent"
   gem "test_notifier"
   gem "rspec-rails", ">= 2.0.0.beta.17"
   gem "remarkable_activerecord", ">= 4.0.0.alpha4"

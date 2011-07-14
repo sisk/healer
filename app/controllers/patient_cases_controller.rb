@@ -1,9 +1,9 @@
 class PatientCasesController < ApplicationController
-  
+
   inherit_resources
   defaults :resource_class => PatientCase, :collection_name => 'patient_cases', :instance_name => 'patient_case'
   actions :all
-  
+
   before_filter :authenticate_user!
   before_filter :set_unregistered_patients, :only => :new
   filter_resource_access :collection => [:index, :review]
@@ -24,7 +24,7 @@ class PatientCasesController < ApplicationController
     @trip = Trip.find(params[:trip_id])
     create! { trip_case_path(@patient_case.trip, @patient_case) }
   end
-  
+
   def update
     @patient_case = PatientCase.find(params["id"])
 
@@ -51,10 +51,10 @@ class PatientCasesController < ApplicationController
       @deferred_cases = PatientCase.find(:all, :conditions => ["trip_id = ? and status = ?", params[:trip_id], "Deferred"]).map(&:id)
       @scheduled_cases = PatientCase.find(:all, :conditions => ["trip_id = ? and status = ?", params[:trip_id], "Scheduled"]).map(&:id)
     else
-      
+
     end
   end
-  
+
   def authorize
     @patient_case.authorize!(current_user.id)
     flash[:notice] = "Approved case for #{@patient_case.patient}."
@@ -84,7 +84,12 @@ private
   end
 
   def set_unregistered_patients
-    @all_patients = Patient.all
+    if params[:trip_id].present?
+      trip = Trip.find(params[:trip_id])
+      @all_patients = Patient.country(trip.country)
+    else
+      @all_patients = Patient.all
+    end
   end
 
 protected

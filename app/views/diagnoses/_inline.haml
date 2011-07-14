@@ -1,14 +1,17 @@
 - options ||= {}
-- html_class = severity(diagnosis).downcase
-- html_class << " revision" if diagnosis.revision?
-- html_class << " #{options[:size]}" if options[:size].present?
-.diagnosis.inline[diagnosis]{ :class => html_class, :context => options[:context] }
-  .info
-    %h3= diagnosis.body_part
+.diagnosis.inline[diagnosis]{ :context => options[:context] }
+  %h3
+    = diagnosis.body_part
     - if diagnosis.revision?
       %span.asterisk (Revision)
-    %h4= diagnosis.disease
-    .navigation.noprint
-      %ul
-        - if permitted_to? :edit, diagnosis
-          %li= link_to "Edit diagnosis", edit_case_diagnosis_path(diagnosis.patient_case), :remote => !!options[:remote]
+  %h4
+    = diagnosis.disease
+    - if diagnosis.severity && diagnosis.severity > 0
+      %span.severity{ :class => severity(diagnosis).downcase }
+        = "(#{severity(diagnosis)})"
+  .navigation.noprint
+    %ul
+      - if permitted_to? :edit, diagnosis
+        %li= link_to "Edit diagnosis", edit_case_diagnosis_path(diagnosis.patient_case, diagnosis), :remote => !!options[:remote]
+      - if permitted_to? :destroy, diagnosis
+        %li= link_to "Delete diagnosis", case_diagnosis_path(diagnosis.patient_case, diagnosis), :method => :delete, :confirm => "Are you sure?"

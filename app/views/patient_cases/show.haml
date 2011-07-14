@@ -2,6 +2,9 @@
   = "#{@patient_case}"
 - content_for :subnavigation do
   %ul.subnavigation
-    %li= link_to "Display patient record", patient_path(@patient_case.patient)
+    %li= link_to "Full patient record", patient_path(@patient_case.patient)
+    - if permitted_to? :destroy, @patient_case
+      %li= link_to "Delete case", trip_case_path(@patient_case.trip, @patient_case), :method => :delete, :confirm => "Are you sure?"
+
 .patient_case_list
   = render :partial => "patient_cases/summary/record", :object => @patient_case, :as => :patient_case

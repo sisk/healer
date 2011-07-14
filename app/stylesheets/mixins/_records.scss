@@ -37,7 +37,7 @@
 @mixin treatment_data() {
   .title_header, .diagnosis_and_operation {
     @include clearfix;
-    .diagnosis, .pre_op {
+    .pre_op {
       @include column(($content-columns - 2) / 2);
     }
     .operation {

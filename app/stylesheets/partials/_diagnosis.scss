@@ -2,19 +2,21 @@
   /*@include clearfix;*/
 }
 .diagnosis {
-  &.unremarkable img {
-    @include bordered(2px, $black);
+  @include clearfix;
+  h3 {
+    font-size: 1.3em !important;
+    margin-bottom: 0.5em !important;
   }
-  &.mild img {
-    @include bordered(2px, $green);
+  h4 {
+    margin-bottom: 0.5em !important;
   }
-  &.moderate img {
-    @include bordered(2px, $yellow);
+  .severity {
+    font-size: 0.75em;
+    font-style: italic;
+    &.mild { color: $green; }
+    &.moderate { color: $yellow; }
+    &.severe { color: $red; }
   }
-  &.severe img {
-    @include bordered(2px, $red);
-  }
-
 }
 .diagnoses {
   ul {

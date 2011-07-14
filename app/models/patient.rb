@@ -1,8 +1,8 @@
 class Patient < ActiveRecord::Base
-  
+
   attr_accessor :weight_unit, :height_unit
   before_save :set_weight, :set_height
-  
+
   validates_presence_of :name_first, :message => "can't be blank"
   validates_presence_of :name_last, :message => "can't be blank"
   validates_inclusion_of :male, :in => [true, false]
@@ -13,7 +13,7 @@ class Patient < ActiveRecord::Base
                     :allow_blank => true,
                     :allow_nil => true
                     # :email => true
-  
+
   has_many :patient_interactions, :dependent => :destroy
   has_many :operations, :dependent => :destroy
   has_many :patient_cases, :dependent => :destroy
@@ -47,6 +47,11 @@ class Patient < ActiveRecord::Base
     } if query.present?
   }
 
+  scope :country, Proc.new { |query|
+    {
+      :conditions => ["patients.country = ?",query]
+    } if query.present?
+  }
 
   # Paperclip
   has_attached_file :photo,
@@ -62,7 +67,7 @@ class Patient < ActiveRecord::Base
     :bucket => ENV['S3_BUCKET'],
     :path => ENV['S3_BUCKET'].present? ? "patients/:attachment/:id/:style.:extension" : ":rails_root/public/system/patients/:attachment/:id/:style.:extension",
     :url => ENV['S3_BUCKET'].present? ? "patients/:attachment/:id/:style.:extension" : "/system/patients/:attachment/:id/:style.:extension"
-  
+
   def to_s(*args)
     name(*args)
   end
@@ -72,7 +77,7 @@ class Patient < ActiveRecord::Base
   def short_name
     name_first || name_middle || name_last
   end
-  
+
   def inline_address(join = ", ")
     str = [address1, address2, city, state, zip, country].reject{ |a| a.blank? }.join(join)
     return str.blank? ? nil : str
@@ -89,17 +94,17 @@ class Patient < ActiveRecord::Base
   def available_risks
     Risk.all - self.risks
   end
-  
+
   def displayed_photo(size)
     return photo.url(size) if photo.exists?
     (self.male.nil? || self.male?) ? "male-generic.gif" : "female-generic.gif"
   end
-  
+
   def bilateral_diagnosis?
     return false if diagnoses.empty?
     return diagnoses.any?{ |diagnosis| diagnosis.has_mirror? }
   end
-  
+
   def has_medical_detail?
     return (risk_factors.present? || other_diseases.present? || medications.present? || allergies.present?)
   end
@@ -109,7 +114,7 @@ private
   def set_weight
     self.weight_kg = to_kg(self.weight_kg) if self.weight_unit == "pounds"
   end
-  
+
   def set_height
     self.height_cm = to_cm(self.height_cm) if self.height_unit == "inches"
   end

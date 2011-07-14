@@ -1,8 +1,19 @@
-- url = @parent.is_a?(PatientCase) ? new_case_xray_path(@parent) : new_operation_xray_path(@parent)
+-# inherited_resources deficiencies and my gizzled stubbornness to make the resource path "/cases" requires this convolution (for now)
+- if @parent.is_a?(PatientCase)
+  - new_item_path = new_case_xray_path(@parent)
+  - parent_path = case_path(@parent)
+- else
+  - new_item_path = new_operation_xray_path(@parent)
+  - parent_path = operation_path(@parent)
+
 - content_for :title do
   = "#{parent} - X-Rays"
 - content_for :subnavigation do
   %ul.subnavigation
-    %li= link_to "Add new X-Ray", url
+    %li= link_to "Add new X-Ray", new_item_path
+    %li= link_to "Back to #{@parent}", parent_path
+
 .xray_index
-  = render :partial => "xray_summary", :as => :xray, :collection => collection
+  - collection.each do |xray|
+    .xray
+      = xray_preview(xray, :size => :small)

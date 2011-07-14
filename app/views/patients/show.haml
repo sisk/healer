@@ -27,7 +27,7 @@
   - if @patient.registered?
     %ul.patient_cases
       - @patient.patient_cases.each do |patient_case|
-        %li= link_to patient_case.trip, trip_case_path(patient_case.trip, patient_case)
+        %li= link_to "#{patient_case.trip} - #{patient_case.diagnosis}", trip_case_path(patient_case.trip, patient_case)
   - else
     %p= "#{@patient.short_name} has no cases. Select a trip to register #{@patient.short_name} for."
     = semantic_form_for PatientCase.new(:patient_id => @patient.id), :html => { :multipart => true } do |f|
@@ -36,13 +36,6 @@
         = f.input :trip_id, :as => :select, :label => 'Trip', :collection => Trip.all
       = f.buttons do
         = f.commit_button 'Go'
-.section.diagnoses
-  %h2 Diagnoses
-  %ul.subnavigation
-    - if permitted_to? :create, Diagnosis.new(:patient => @patient)
-      = link_to "New Diagnosis", new_patient_diagnosis_path(@patient)
-  #diagnosis_list
-    = render :partial => "diagnoses/inline", :collection => @patient.diagnoses, :as => :diagnosis, :locals => { :options => { :size => :tiny } }
 .section.medical_detail
   %h2
     Medical History

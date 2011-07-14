@@ -24,7 +24,7 @@
       .pre_op
         %h3 Pre-Op
         - if patient_case.diagnosis
-          = render :partial => "diagnoses/inline", :object => patient_case.diagnosis, :as => :diagnosis, :locals => { :options => { :remote => true, :size => :tiny, :context => :patient_case } }
+          = render :partial => "diagnoses/inline", :object => patient_case.diagnosis, :as => :diagnosis, :locals => { :options => { :remote => true, :context => :patient_case } }
         - else
           %p= link_to "Add diagnosis", new_case_diagnosis_path(patient_case)
         .xrays

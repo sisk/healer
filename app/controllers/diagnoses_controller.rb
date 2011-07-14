@@ -31,7 +31,7 @@ class DiagnosesController < ApplicationController
   end
 
   def edit
-    index! do |format|
+    edit! do |format|
       format.js { render :template => "diagnoses/edit.js.erb", :layout => nil }
     end
   end
@@ -46,7 +46,7 @@ class DiagnosesController < ApplicationController
   def new
     @diagnosis = parent.build_diagnosis
   end
-  
+
   private
 
 end
