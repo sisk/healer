@@ -10,7 +10,7 @@ class Diagnosis < ActiveRecord::Base
   accepts_nested_attributes_for :xrays, :allow_destroy => true, :reject_if => proc { |attributes| attributes['photo'].blank? }
 
   validates_presence_of :patient_case
-  validates_presence_of :disease
+  validates_presence_of :body_part
   validates_numericality_of :severity
   validates_inclusion_of :severity, :in => self.severity_table.keys
 

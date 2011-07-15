@@ -16,7 +16,7 @@ describe Diagnosis do
   should_have_many :xrays
 
   should_validate_presence_of :patient_case
-  should_validate_presence_of :disease
+  should_validate_presence_of :body_part
 
   should_validate_numericality_of :severity
   should_validate_inclusion_of :severity, :in => Diagnosis::severity_table.keys
