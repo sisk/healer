@@ -4,8 +4,11 @@ class BodyPart < ActiveRecord::Base
 
   validates_presence_of :name_en, :message => "can't be blank"
   has_many :diagnoses
+  belongs_to :mirror, :class_name => "BodyPart", :foreign_key => "mirror_id"
   validates_inclusion_of :side, :in => ["L", "R", ""], :allow_nil => true
   default_scope :order => 'body_parts.name_en, body_parts.side'
+  
+  after_save :sync_mirror
 
   def to_s
     str = display_name
@@ -15,14 +18,6 @@ class BodyPart < ActiveRecord::Base
 
   def display_name
     (I18n.locale.to_sym == :es && name_es.present?) ? name_es : name_en
-  end
-
-  def has_mirror?
-    side.present?
-  end
-
-  def mirror
-    all_body_parts.select{ |bp| (bp.name_en == name_en && bp.side != side) }.first
   end
 
   private
@@ -35,6 +30,10 @@ class BodyPart < ActiveRecord::Base
     return "I" if side.downcase == "l" # izquierda
     return "D" if side.downcase == "r" # derecha
     nil
+  end
+  
+  def sync_mirror
+    mirror.update_attributes(:mirror => self) if mirror.present? && mirror.mirror_id != self.id
   end
   
 end

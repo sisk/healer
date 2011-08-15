@@ -36,7 +36,7 @@ class Diagnosis < ActiveRecord::Base
   end
 
   def has_mirror?
-    return false if !body_part.present? || siblings.empty? || !body_part.has_mirror?
+    return false if !body_part.present? || siblings.empty? || !body_part.mirror.present?
     return siblings.select{ |diagnosis| body_part.mirror.id == diagnosis.body_part_id }.size > 0
   end
 

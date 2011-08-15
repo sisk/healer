@@ -9,7 +9,7 @@ describe Diagnosis do
   should_have_column :treated, :type => :boolean
   should_have_column :revision, :type => :boolean
 
-  should_belong_to :patient_case
+  # should_belong_to :patient_case
   should_belong_to :disease
   should_belong_to :body_part
   should_have_many :operations
@@ -77,7 +77,7 @@ describe Diagnosis, "has_mirror?" do
     @left_knee = stub_model(BodyPart,:name => "Knee", :side => "L")
     @right_knee = stub_model(BodyPart,:name => "Knee", :side => "R")
     @neck = stub_model(BodyPart,:name => "Neck")
-    @neck.stub(:has_mirror?).and_return(false)
+    @neck.stub(:mirror).and_return(nil)
     @left_knee.stub(:mirror).and_return(@right_knee)
     @diagnosis = Diagnosis.new(:body_part => @left_knee, :patient_case => @patient_case)
     @diagnosis_r = Diagnosis.new(:body_part => @right_knee, :patient_case => @patient_case)

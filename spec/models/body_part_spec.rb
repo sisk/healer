@@ -1,12 +1,14 @@
 require 'spec_helper'
 
 describe BodyPart do
+  should_have_column :mirror_id, :type => :integer
   should_have_column :name_en, :type => :string
   should_have_column :name_es, :type => :string
   should_validate_presence_of :name_en
   should_validate_inclusion_of :side, :in => %w(L R), :allow_nil => true, :allow_blank => true
 
   should_have_many :diagnoses
+  should_belong_to :mirror
 end
 
 describe BodyPart, "#to_s" do
@@ -62,36 +64,6 @@ describe BodyPart, "#display_name" do
     it "returns English if no Spanish equivalent is set" do
       @body_part.display_name.should == "Lung"
     end
-  end
-end
-
-describe BodyPart, "#mirror" do
-  before(:each) do
-    @neck = BodyPart.new(:name_en => "Neck")
-    @left_knee = BodyPart.new(:name_en => "Knee", :side => "L")
-    @right_knee = BodyPart.new(:name_en => "Knee", :side => "R")
-    @another_left_knee = BodyPart.new(:name_en => "Knee", :side => "L")
-  end
-  it "returns the bilateral part if one exists in all body parts" do
-    @left_knee.stub(:all_body_parts).and_return([@left_knee, @right_knee, @neck])
-    @left_knee.mirror.should == @right_knee
-  end
-  it "returns only one bilateral part if +1 exist" do
-    @right_knee.stub(:all_body_parts).and_return([@left_knee, @right_knee, @another_left_knee])
-    @right_knee.mirror.should == @left_knee
-  end
-  it "returns nil if no bilateral part exists" do
-    @left_knee.stub(:all_body_parts).and_return([@left_knee, @neck])
-    @left_knee.mirror.should be_nil
-  end
-end
-
-describe BodyPart, "#has_mirror?" do
-  it "is false if side is blank" do
-    BodyPart.new(:side => nil).has_mirror?.should == false
-  end
-  it "is true if side is set" do
-    BodyPart.new(:side => "R").has_mirror?.should == true
   end
 end
 
