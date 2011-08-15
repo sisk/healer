@@ -7,6 +7,8 @@
           %li= link_to "Show full record", patient_path(patient)
         - if permitted_to? :edit, patient
           %li= link_to "Edit record", edit_patient_path(patient)
+        - if permitted_to? :create, PatientCase.new(:patient => patient)
+          %li= link_to "New case", new_patient_case_path(patient)
   - if patient.has_medical_detail?
     .medical_details.supplemental
       %p.fake_link.toggle= "Full medical detail"

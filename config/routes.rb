@@ -39,6 +39,7 @@ Healer::Application.routes.draw do
   end
   resources :patients do
     resources :risk_factors
+    resources :cases, :controller => :patient_cases
   end
   resources :operations do
     resources :xrays

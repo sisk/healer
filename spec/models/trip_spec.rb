@@ -16,6 +16,7 @@ describe Trip do
   should_have_many :patient_cases
   should_have_many :operations
   should_have_many :patients, :through => :patient_cases
+  should_have_many :authorized_patients, :through => :patient_cases
   should_have_and_belong_to_many :users
 end
 

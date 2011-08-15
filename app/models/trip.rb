@@ -4,6 +4,7 @@ class Trip < ActiveRecord::Base
   has_many :patient_cases
   has_many :operations
   has_many :patients, :through => :patient_cases
+  has_many :authorized_patients, :through => :patient_cases, :source => :patient, :conditions => ["patient_cases.approved_at is not ?", nil], :uniq => true
   has_and_belongs_to_many :users
 
   default_scope order(:start_date)
@@ -21,6 +22,12 @@ class Trip < ActiveRecord::Base
   scope :past, lambda {
     where("trips.end_date IS NOT NULL AND trips.end_date <= ?", Time.zone.now)
   }
+  scope :country, Proc.new { |query|
+    {
+      :conditions => ["trips.country = ?",query]
+    } if query.present?
+  }
+  
   
   def to_s
     year = start_date.blank? ? "" : start_date.strftime("%Y")

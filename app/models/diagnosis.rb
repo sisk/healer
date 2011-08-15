@@ -9,7 +9,7 @@ class Diagnosis < ActiveRecord::Base
   has_many :xrays, :dependent => :destroy
   accepts_nested_attributes_for :xrays, :allow_destroy => true, :reject_if => proc { |attributes| attributes['photo'].blank? }
 
-  validates_presence_of :patient_case
+  validates_presence_of :patient_case, :unless => lambda { |d| d.new_record? }
   validates_presence_of :body_part
   validates_numericality_of :severity
   validates_inclusion_of :severity, :in => self.severity_table.keys
@@ -27,7 +27,7 @@ class Diagnosis < ActiveRecord::Base
   end
 
   def as_json(options={})
-    # serializable_hash(options.merge({ :only => ["id", "trip_id", "status"], :joins => [:patient] }))
+    # serializable_hash(options.merge({ :only => ["id", "status"], :joins => [:patient] }))
     {
       :id => id,
       :to_s => to_s,

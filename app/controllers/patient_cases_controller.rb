@@ -9,6 +9,7 @@ class PatientCasesController < ApplicationController
   filter_resource_access :collection => [:index, :review]
 
   belongs_to :trip, :optional => true
+  belongs_to :patient, :optional => true
 
   def index
     @authorized_patient_cases = authorized_patient_cases
@@ -20,9 +21,31 @@ class PatientCasesController < ApplicationController
     end
   end
 
+  def new
+    new!{
+      if @trip
+        render :action => "trips_new"
+        return
+      elsif @patient
+        render :action => "patients_new"
+        return
+      else
+      end
+    }
+  end
+
   def create
-    @trip = Trip.find(params[:trip_id])
-    create! { trip_case_path(@patient_case.trip, @patient_case) }
+    create!{
+      if @trip
+        redirect_to trip_case_path(@patient_case.trip, @patient_case)
+        return
+      elsif @patient
+        redirect_to patient_path(@patient_case.patient)
+        return
+      else
+      end
+    }
+    create! {  }
   end
 
   def update
@@ -80,6 +103,7 @@ private
   def build_resource
     super
     @patient_case.build_patient(params[:patient]) unless @patient_case.patient.present?
+    @patient_case.build_diagnosis(params[:patient_case]) unless @patient_case.diagnosis.present?
     @patient_case
   end
 

@@ -28,6 +28,8 @@ class PatientCase < ActiveRecord::Base
   validates_inclusion_of :status, :in => self.possible_statuses, :allow_nil => true
 
   accepts_nested_attributes_for :patient
+  accepts_nested_attributes_for :diagnosis
+  accepts_nested_attributes_for :xrays
 
   default_scope :order => 'patient_cases.schedule_order'
 
