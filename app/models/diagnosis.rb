@@ -20,6 +20,8 @@ class Diagnosis < ActiveRecord::Base
   scope :untreated, where("diagnoses.treated = ?", false)
   scope :treated, where("diagnoses.treated = ?", true)
 
+  delegate :patient, :to => :patient_case
+
   def to_s
     str = disease.to_s
     str += ", #{body_part.to_s}" if body_part.present?
@@ -35,15 +37,20 @@ class Diagnosis < ActiveRecord::Base
     }
   end
 
+=begin
+TODO [cruft] 2011-08-15 possible cruft alert! if no one chirps for a while, kill this.
+%>
   def has_mirror?
     return false if !body_part.present? || siblings.empty? || !body_part.mirror.present?
     return siblings.select{ |diagnosis| body_part.mirror.id == diagnosis.body_part_id }.size > 0
   end
 
+<%
+=end
+
   def siblings
-    # FIXME buggy?
-    return [] unless patient_case.present?
-    patient_case.patient.diagnoses.reject{ |diagnosis| diagnosis.try(:id) == id }
+    return [] unless patient.present?
+    patient.diagnoses - [self]
   end
 
 end

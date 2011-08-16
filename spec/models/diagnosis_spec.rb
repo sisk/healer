@@ -15,12 +15,11 @@ describe Diagnosis do
   should_have_one :operation
   should_have_many :xrays
 
-  should_validate_presence_of :patient_case
+  # should_validate_presence_of :patient_case
   should_validate_presence_of :body_part
 
   should_validate_numericality_of :severity
   should_validate_inclusion_of :severity, :in => Diagnosis::severity_table.keys
-
 end
 
 describe Diagnosis, "#to_s" do
@@ -47,29 +46,23 @@ end
 describe Diagnosis, "#siblings" do
   before(:each) do
     @patient = stub_model(Patient)
-    @patient_case1 = stub_model(PatientCase, :patient => @patient)
-    @patient_case2 = stub_model(PatientCase, :patient => @patient)
+    @diagnosis1 = Diagnosis.new
+    @diagnosis2 = Diagnosis.new
     @patient.stub(:diagnoses).and_return([@diagnosis1, @diagnosis2])
-    @diagnosis1 = Diagnosis.new(:patient_case => @patient_case1)
-    @diagnosis2 = Diagnosis.new(:patient_case => @patient_case2)
-    @diagnosis1.stub(:id).and_return(1)
-    @diagnosis2.stub(:id).and_return(2)
+    @diagnosis1.stub(:patient).and_return(@patient)
   end
   it "returns an array of all diagnoses for the patient excluding itself" do
-    @patient_case1.stub(:diagnosis).and_return(@diagnosis1)
-    @diagnosis1.patient_case = @patient_case1
     @diagnosis1.siblings.should == [@diagnosis2]
   end
-  # it "returns an empty array if no case" do
-  #   @diagnosis1.siblings.should == []
-  # end
-  it "returns an empty array if case has no diagnosis" do
-    @patient_case.stub(:diagnosis).and_return(nil)
-    @diagnosis1.patient_case = @patient_case
+  it "returns an empty array if no patient" do
+    @diagnosis1.stub(:patient).and_return(nil)
     @diagnosis1.siblings.should == []
   end
 end
 
+=begin
+TODO [cruft] 2011-08-15 possible cruft alert! if no one chirps for a while, kill this.
+%>
 describe Diagnosis, "has_mirror?" do
   before(:each) do
     @patient = stub_model(Patient)
@@ -103,3 +96,5 @@ describe Diagnosis, "has_mirror?" do
     @diagnosis.has_mirror?.should be_true
   end
 end
+<%
+=end

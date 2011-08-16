@@ -24,6 +24,7 @@ describe PatientCase do
   should_have_one :diagnosis
   should_have_many :physical_therapies
   should_have_many :xrays
+  should_have_one :bilateral_case
   
   should_validate_presence_of :patient
   should_validate_presence_of :trip
@@ -189,26 +190,6 @@ describe PatientCase, "unschedule!" do
   it "saves the object" do
     @patient_case.should_receive(:save)
     @patient_case.unschedule!
-  end
-end
-
-describe PatientCase, "#bilateral_diagnosis?" do
-  before(:each) do
-    @patient_case = PatientCase.new
-    @bilateral = stub_model(Diagnosis, :has_mirror? => true)
-    @non_bilateral = stub_model(Diagnosis, :has_mirror? => false)
-  end
-  it "is false if no diagnosis" do
-    @patient_case.diagnosis = nil
-    @patient_case.bilateral_diagnosis?.should be_false
-  end
-  it "is true if case's diagnosis is part of bilateral" do
-    @patient_case.diagnosis = stub_model(Diagnosis, :has_mirror? => true)
-    @patient_case.bilateral_diagnosis?.should be_true
-  end
-  it "is false if case's diagnosis not part of bilateral" do
-    @patient_case.diagnosis = stub_model(Diagnosis, :has_mirror? => false)
-    @patient_case.bilateral_diagnosis?.should be_false
   end
 end
 

@@ -100,10 +100,16 @@ class Patient < ActiveRecord::Base
     (self.male.nil? || self.male?) ? "male-generic.gif" : "female-generic.gif"
   end
 
+=begin
+TODO [cruft] 2011-08-15 possible cruft alert! if no one chirps for a while, kill this.
+%>
   def bilateral_diagnosis?
     return false if diagnoses.empty?
     return diagnoses.any?{ |diagnosis| diagnosis.has_mirror? }
   end
+
+<%
+=end
 
   def has_medical_detail?
     return (risk_factors.present? || other_diseases.present? || medications.present? || allergies.present?)

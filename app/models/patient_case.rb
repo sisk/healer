@@ -22,6 +22,7 @@ class PatientCase < ActiveRecord::Base
   has_one :diagnosis
   has_many :xrays
   has_many :physical_therapies, :dependent => :destroy
+  has_one :bilateral_case, :class_name => "PatientCase", :foreign_key => "bilateral_case_id"
 
   validates_presence_of :patient
   validates_presence_of :trip
@@ -119,11 +120,6 @@ class PatientCase < ActiveRecord::Base
       ['schedule_order = FIND_IN_SET(id, ?)', ids.join(',')],
       { :id => ids }
     )
-  end
-
-  def bilateral_diagnosis?
-    return false unless diagnosis
-    return diagnosis.has_mirror?
   end
 
   def body_parts

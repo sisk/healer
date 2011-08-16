@@ -219,6 +219,9 @@ describe Patient, "displayed_photo" do
   end
 end
 
+=begin
+TODO [cruft] 2011-08-15 possible cruft alert! if no one chirps for a while, kill this.
+%>
 describe Patient, "#bilateral_diagnosis?" do
   before(:each) do
     @patient = Patient.new
@@ -238,6 +241,9 @@ describe Patient, "#bilateral_diagnosis?" do
     @patient.bilateral_diagnosis?.should be_false
   end
 end
+
+<%
+=end
 
 describe Patient, "#has_medical_detail?" do
   it "is true if patient has risk_factors" do
