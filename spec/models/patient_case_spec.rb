@@ -317,9 +317,13 @@ describe PatientCase, "#related_untreated_cases" do
     @c3 = mock_model(PatientCase, :operation => mock_model(Operation))
     @c4 = mock_model(PatientCase, :operation => nil)
     @patient_case = PatientCase.new(:patient => mock_model(Patient, :patient_cases => [@c1, @c2, @c3, @c4]))
+    @patient_case.stub(:operation).and_return(nil)
   end
   it "contains all cases for this patient that don't already have an operation" do
     @patient_case.related_untreated_cases.should == [@c1,@c4]
+  end
+  it "does not contain itself" do
+    @patient_case.related_untreated_cases.should_not include(@patient_case)
   end
   [@c2, @c3].each do |c|
     it "does not include treated cases" do

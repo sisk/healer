@@ -151,7 +151,7 @@ class PatientCase < ActiveRecord::Base
   end
   
   def related_untreated_cases
-    patient.patient_cases.select{ |c| c.operation.nil? }
+    patient.patient_cases.select{ |c| c.operation.nil? } - [self]
   end
 
 private
