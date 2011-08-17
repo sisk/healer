@@ -21,9 +21,6 @@
         - if permitted_to? :edit, patient_case.patient
           %li= link_to "Edit patient", edit_patient_path(patient_case.patient)
         %li= link_to "Physical Therapy", patient_case_physical_therapies_path(patient_case)
-
-      /   - if patient_case.operations.present?
-      /     %li= link_to "Summary Report", patient_case
   - if patient.has_medical_detail?
     .section.medical_details.supplemental
       %p.fake_link.toggle= "Full medical detail"

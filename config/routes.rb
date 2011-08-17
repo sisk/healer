@@ -51,13 +51,9 @@ Healer::Application.routes.draw do
     end
     resources :diagnoses
     resources :xrays
-    resources :operations
+    resource :operation
     resources :physical_therapies
   end
-  # resources :diagnoses do
-  #   resources :operations
-  #   # resources :xrays
-  # end
   resources :xrays
 
   resources :facilities do

@@ -20,7 +20,7 @@ describe PatientCase do
   should_belong_to :trip
   should_belong_to :approved_by
   should_belong_to :created_by
-  should_have_many :operations
+  should_have_one :operation
   should_have_one :diagnosis
   should_have_many :physical_therapies
   should_have_many :xrays

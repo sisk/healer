@@ -19,7 +19,7 @@ class PatientCase < ActiveRecord::Base
   belongs_to :trip
   belongs_to :approved_by, :class_name => "User", :foreign_key => "approved_by_id"
   belongs_to :created_by, :class_name => "User", :foreign_key => "created_by_id"
-  has_many :operations
+  has_one :operation
   has_one :diagnosis
   has_many :xrays
   has_many :physical_therapies, :dependent => :destroy
