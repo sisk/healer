@@ -285,7 +285,7 @@ describe PatientCase, "#display_xray" do
   end
 end
 
-describe Diagnosis, "#display_xray" do
+describe PatientCase, "#display_xray" do
   before(:each) do
     @patient_case = PatientCase.new
     @x1 = stub_model(Xray, :primary => nil, :photo_file_name => "1")
