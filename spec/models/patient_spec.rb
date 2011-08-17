@@ -39,7 +39,7 @@ describe Patient do
 
   should_have_many :patient_interactions
   should_have_many :diagnoses
-  should_have_many :operations
+  should_have_many :operations, :through => :patient_cases
   should_have_many :patient_cases
   should_have_many :risk_factors
   should_have_many :risks, :through => :risk_factors

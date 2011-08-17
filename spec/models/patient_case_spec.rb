@@ -309,3 +309,21 @@ describe PatientCase, "#display_xray" do
     @patient_case.display_xray.should == @x3
   end
 end
+
+describe PatientCase, "#related_untreated_cases" do
+  before(:each) do
+    @c1 = mock_model(PatientCase, :operation => nil)
+    @c2 = mock_model(PatientCase, :operation => mock_model(Operation))
+    @c3 = mock_model(PatientCase, :operation => mock_model(Operation))
+    @c4 = mock_model(PatientCase, :operation => nil)
+    @patient_case = PatientCase.new(:patient => mock_model(Patient, :patient_cases => [@c1, @c2, @c3, @c4]))
+  end
+  it "contains all cases for this patient that don't already have an operation" do
+    @patient_case.related_untreated_cases.should == [@c1,@c4]
+  end
+  [@c2, @c3].each do |c|
+    it "does not include treated cases" do
+      @patient_case.related_untreated_cases.should_not include(c)
+    end
+  end
+end

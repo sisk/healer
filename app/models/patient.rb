@@ -15,7 +15,7 @@ class Patient < ActiveRecord::Base
                     # :email => true
 
   has_many :patient_interactions, :dependent => :destroy
-  has_many :operations, :dependent => :destroy
+  has_many :operations, :through => :patient_cases
   has_many :patient_cases, :dependent => :destroy
   has_many :risk_factors, :dependent => :destroy
   has_many :risks, :through => :risk_factors

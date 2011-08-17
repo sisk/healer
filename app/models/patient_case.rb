@@ -19,9 +19,9 @@ class PatientCase < ActiveRecord::Base
   belongs_to :trip
   belongs_to :approved_by, :class_name => "User", :foreign_key => "approved_by_id"
   belongs_to :created_by, :class_name => "User", :foreign_key => "created_by_id"
-  has_one :operation
-  has_one :diagnosis
-  has_many :xrays
+  has_one :operation, :dependent => :destroy
+  has_one :diagnosis, :dependent => :destroy
+  has_many :xrays, :dependent => :destroy
   has_many :physical_therapies, :dependent => :destroy
   has_one :bilateral_case, :class_name => "PatientCase", :foreign_key => "bilateral_case_id"
 
@@ -148,6 +148,10 @@ class PatientCase < ActiveRecord::Base
     return nil if xrays.empty?
     return xrays.first if xrays.size == 1 || xrays.all?{ |x| !x.primary? }
     return xrays.select{ |x| x.primary == true }.first
+  end
+  
+  def related_untreated_cases
+    patient.patient_cases.select{ |c| c.operation.nil? }
   end
 
 private
