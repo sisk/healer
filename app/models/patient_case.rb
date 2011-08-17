@@ -13,6 +13,7 @@ class PatientCase < ActiveRecord::Base
   @patient_case_join = 'left outer join `trips` ON `trips`.`id` = `patient_cases`.`trip_id` left outer join `diagnoses` ON `diagnoses`.`patient_case_id` = `patient_cases`.`id` left outer join `patients` ON `patients`.`id` = `patient_cases`.`patient_id` left outer join `risk_factors` ON `risk_factors`.`patient_id` = `patients`.`id`'
 
   before_create :set_pre_screen
+  after_save :sync_bilateral
 
   belongs_to :patient
   belongs_to :trip
@@ -65,6 +66,8 @@ class PatientCase < ActiveRecord::Base
 
   scope :male, :include => :patient, :conditions => ["patients.male = ?", true]
   scope :female, :include => :patient, :conditions => ["patients.male = ?", false]
+
+  scope :bilateral, :conditions => ["patient_cases.bilateral_case_id is not ?", nil]
 
   def to_s
     # TODO there's a performance thing here where we query patients and trips table separately. improve it!
@@ -148,6 +151,10 @@ class PatientCase < ActiveRecord::Base
   end
 
 private
+
+  def sync_bilateral
+    bilateral_case.update_attributes(:bilateral_case => self) if bilateral_case.present? && bilateral_case.bilateral_case_id != self.id
+  end
 
   def set_pre_screen
     status = "Pre-Screen"
