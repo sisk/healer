@@ -37,7 +37,7 @@
       .operation
         %h3 Operation
         .operation
-          - if patient_case.operation.empty?
+          - if !patient_case.operation
             = link_to "New operation", new_case_operation_path(patient_case)
           - else
             = render :partial => "operations/inline", :object => patient_case.operation, :as => :operation, :locals => { :options => { :size => :tiny } }

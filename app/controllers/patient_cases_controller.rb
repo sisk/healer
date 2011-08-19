@@ -35,17 +35,27 @@ class PatientCasesController < ApplicationController
   end
 
   def create
-    create!{
-      if @trip
-        redirect_to trip_case_path(@patient_case.trip, @patient_case)
+    create! do |success, failure|
+      success.html {
+        if @trip
+          redirect = trip_case_path(@patient_case.trip, @patient_case)
+        elsif @patient
+          redirect = patient_path(@patient_case.patient)
+        end
+        redirect_to redirect, :notice => "Case created."
         return
-      elsif @patient
-        redirect_to patient_path(@patient_case.patient)
+      }
+      failure.html {
+        raise "herp"
+        if @trip
+          render_action = "trips_new"
+        elsif @patient
+          render_action = "patients_new"
+        end
+        render render_action, :error => "Error adding case."
         return
-      else
-      end
-    }
-    create! {  }
+      }
+    end
   end
 
   def update
@@ -103,7 +113,7 @@ private
   def build_resource
     super
     @patient_case.build_patient(params[:patient]) unless @patient_case.patient.present?
-    @patient_case.build_diagnosis(params[:patient_case]) unless @patient_case.diagnosis.present?
+    # @patient_case.build_diagnosis unless @patient_case.diagnosis.present?
     @patient_case
   end
 
