@@ -1,4 +1,17 @@
 .ui-tabs {
   @include column($content-columns);
-  background-color: $grey-very-light;
+  
+  .ui-tabs-nav {
+    font-size: 1.2em;
+    border: none;
+    background: none;
+    
+    li {
+      border: solid 1px $grey-light !important;
+      @include border-radius(5px);
+      &.ui-state-active {
+        
+      }
+    }
+  }
 }

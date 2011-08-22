@@ -3,7 +3,7 @@
 }
 
 .patient_case_list {
-  .patient_case {
+  div.patient_case {
     @include inline_record;
     .navigation { @include column(4, true); }
     form.patient_case {
