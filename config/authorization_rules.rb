@@ -29,6 +29,10 @@ authorization do
     has_permission_on [:diagnoses], :to => :browse_and_update
     has_permission_on :patient_cases, :to => [:authorize, :deauthorize]
   end
+  role :liaison do
+    has_permission_on [:trips], :to => :show
+    has_permission_on [:patients, :patient_cases, :diagnoses, :risk_factors, :xrays], :to => :everything
+  end
 end
 
 privileges do

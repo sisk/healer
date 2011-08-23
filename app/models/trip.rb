@@ -72,6 +72,10 @@ class Trip < ActiveRecord::Base
     end
   end
   
+  def alert_users
+    users.in_role(:admin)
+  end
+  
 end
 
 # == Schema Information

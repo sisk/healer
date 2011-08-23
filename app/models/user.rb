@@ -41,6 +41,11 @@ class User < ActiveRecord::Base
     end
   }
 
+  scope :in_role, lambda { |role|
+    { :include => :roles, :conditions => [ "roles.name = ?", role.to_s ] } if role.present?
+  }
+
+
   default_scope :order => 'users.name_last, users.name_first'
 
   def to_s(*args)
@@ -72,8 +77,6 @@ class User < ActiveRecord::Base
     self.roles.delete(Role.find_by_name(role_name.to_s)) unless !has_role?(role_name)
   end
 
-  private
-  
   def has_role?(role_name)
     role_symbols.include?(role_name.dehumanize.to_sym)
   end

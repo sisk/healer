@@ -13,7 +13,7 @@ class PatientCase < ActiveRecord::Base
   @patient_case_join = 'left outer join `trips` ON `trips`.`id` = `patient_cases`.`trip_id` left outer join `diagnoses` ON `diagnoses`.`patient_case_id` = `patient_cases`.`id` left outer join `patients` ON `patients`.`id` = `patient_cases`.`patient_id` left outer join `risk_factors` ON `risk_factors`.`patient_id` = `patients`.`id`'
 
   before_create :set_pre_screen
-  after_save :sync_bilateral
+  after_save :sync_bilateral, :send_email_alert
 
   belongs_to :patient
   belongs_to :trip
@@ -164,4 +164,11 @@ private
     status = "Pre-Screen"
   end
 
+  def send_email_alert
+    if created_by.present? && created_by.has_role?("liaison")
+      emails = trip.alert_users.map(&:email).compact.uniq
+      Mailer.case_added(self,emails).deliver
+    end
+  end
+  
 end
