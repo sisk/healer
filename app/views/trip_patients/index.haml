@@ -1,0 +1,26 @@
+- content_for :title do
+  = "#{@trip} - Patients"
+- content_for :subnavigation do
+  %ul.subnavigation
+    - if permitted_to? :create, PatientCase.new(:trip => @trip)
+      %li= link_to "Add case", new_trip_case_path(@trip)
+    %li= link_to "Schedule", trip_schedule_path(@trip)
+#patient_selector
+  = select_tag :patient_anchor, options_for_select([["Jump to patient...",""]] + @trip.patients.map{ |patient| [patient, patient.id] })
+.patient_list
+  - @trip.patients. each do |patient|
+    %a{ :name => dom_id(patient) }
+    .patient{ :id => "#{patient.id}" }
+      %h2= patient
+      - patient.patient_cases.select{ |patient_case| patient_case.trip == @trip }.each do |patient_case|
+        - treated = patient_case.treated?
+        .patient_case{ :class => treated ? "treated" : "untreated" }
+          %h3= patient_case.diagnosis || "Unknown diagnosis"
+
+- content_for :script do
+  :javascript
+    $(function() {
+        $("#patient_selector select").change(function() {
+            location.hash = $(this).val();
+        });
+    });

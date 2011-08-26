@@ -36,6 +36,7 @@ Healer::Application.routes.draw do
         put :sort_unscheduled, :sort_room
       end
     end
+    resources :patients, :controller => :trip_patients
   end
   resources :patients do
     resources :risk_factors

@@ -3,7 +3,7 @@ class Trip < ActiveRecord::Base
   validates_presence_of :country, :message => "can't be blank"
   has_many :patient_cases
   has_many :operations
-  has_many :patients, :through => :patient_cases
+  has_many :patients, :through => :patient_cases, :uniq => true
   has_many :authorized_patients, :through => :patient_cases, :source => :patient, :conditions => ["patient_cases.approved_at is not ?", nil], :uniq => true
   has_and_belongs_to_many :users
 

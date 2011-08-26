@@ -68,7 +68,7 @@ class PatientCase < ActiveRecord::Base
   scope :female, :include => :patient, :conditions => ["patients.male = ?", false]
 
   scope :bilateral, :conditions => ["patient_cases.bilateral_case_id is not ?", nil]
-
+  
   def to_s
     # TODO there's a performance thing here where we query patients and trips table separately. improve it!
     "#{patient.to_s} - #{trip.to_s}"
@@ -100,6 +100,10 @@ class PatientCase < ActiveRecord::Base
 
   def authorized?
     !approved_at.blank?
+  end
+
+  def treated?
+    operation.present?
   end
 
   def in_facility?
