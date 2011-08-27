@@ -13,7 +13,6 @@ $(document).ready(function() {
     'titlePosition': 'over'
   });
 
-  $("#patient_cases").tabs();
   $("#show_schedule_list").tabs();
   $("form#patient_edit").tabs();
   $(".choice_toggle").choice_toggle();
@@ -113,3 +112,9 @@ jQuery(function ($) {
     return this;
   }
 }(jQuery));
+
+$(function() {
+    $(".record_jump select").change(function() {
+        location.hash = $(this).val();
+    });
+});

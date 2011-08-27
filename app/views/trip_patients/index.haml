@@ -5,7 +5,7 @@
     - if permitted_to? :create, PatientCase.new(:trip => @trip)
       %li= link_to "Add case", new_trip_case_path(@trip)
     %li= link_to "Schedule", trip_schedule_path(@trip)
-  .record_jump= select_tag :patient_anchor, options_for_select([["Jump to patient...",""]] + @trip.patients.map{ |patient| [patient, patient.id] })
+  .record_jump= select_tag :patient_anchor, options_for_select([["Jump to patient...",""]] + @trip.patients.map{ |patient| [patient, dom_id(patient)] })
 .patient_list
   - @trip.patients. each do |patient|
     %a{ :name => dom_id(patient) }
@@ -15,11 +15,3 @@
         - treated = patient_case.treated?
         .patient_case{ :class => treated ? "treated" : "untreated" }
           %h3= patient_case.diagnosis || "Unknown diagnosis"
-
-- content_for :script do
-  :javascript
-    $(function() {
-        $(".record_jump select").change(function() {
-            location.hash = $(this).val();
-        });
-    });

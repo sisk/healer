@@ -2,21 +2,31 @@ class PatientCasesController < ApplicationController
 
   inherit_resources
   defaults :resource_class => PatientCase, :collection_name => 'patient_cases', :instance_name => 'patient_case'
+  custom_actions :resource => :review, :collection => :waiting
   actions :all
 
   before_filter :authenticate_user!
   before_filter :set_unregistered_patients, :only => :new
-  filter_resource_access :collection => [:index, :review]
+  filter_resource_access :collection => [:index, :review, :waiting]
 
   belongs_to :trip, :optional => true
   belongs_to :patient, :optional => true
 
   def index
-    @authorized_patient_cases = authorized_patient_cases
-    @unauthorized_patient_cases = unauthorized_patient_cases
+    @unauthorized_count = unauthorized_patient_cases_count
     index! do |format|
       format.json {
-        render :text => "{\"patient_cases\" : #{@authorized_patient_cases.to_json}}"
+        render :text => "{\"patient_cases\" : #{@patient_cases.to_json}}"
+      }
+    end
+  end
+
+  def waiting
+    @authorized_count = authorized_patient_cases_count
+    @patient_cases = end_of_association_chain.unauthorized
+    index! do |format|
+      format.json {
+        render :text => "{\"patient_cases\" : #{@patient_cases.to_json}}"
       }
     end
   end
@@ -128,19 +138,16 @@ private
 
 protected
 
-  def authorized_patient_cases
-    if params[:search].present?
-      @authorized_patient_cases ||= end_of_association_chain.authorized.search(params[:search])
-    else
-      @authorized_patient_cases ||= end_of_association_chain.authorized
-    end
+  def collection
+    end_of_association_chain.authorized
   end
-  def unauthorized_patient_cases
-    if params[:search].present?
-      @unauthorized_patient_cases = end_of_association_chain.unauthorized.search(params[:search])
-    else
-      @unauthorized_patient_cases = end_of_association_chain.unauthorized
-    end
+
+  def authorized_patient_cases_count
+    @authorized_patient_cases_count ||= end_of_association_chain.authorized.count
+  end
+
+  def unauthorized_patient_cases_count
+    @unauthorized_patient_cases_count ||= end_of_association_chain.unauthorized.count
   end
 
 end

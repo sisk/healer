@@ -1,5 +1,6 @@
 - # TODO this is very similar to inline_patient_case view. dry it up!.
 - patient = patient_case.patient
+%a{ :name => dom_id(patient_case) }
 .patient_case[patient_case]
   .patient
     .image= patient_image(patient, :small)

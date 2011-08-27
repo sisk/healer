@@ -37,6 +37,7 @@ class PatientCase < ActiveRecord::Base
 
   delegate :complexity_minutes, :to => :trip
   delegate :name, :to => :patient
+  delegate :body_part, :to => :diagnosis, :allow_nil => true
 
   # scope :authorized, where("patient_cases.approved_at is not ?", nil).joins(:trip, :diagnosis, :patient => [:risk_factors])
   # scope :unauthorized, where("patient_cases.approved_at is ?", nil).joins(:trip, :patient => [:diagnosis, :risk_factors])
@@ -83,7 +84,7 @@ class PatientCase < ActiveRecord::Base
       :photo => self.patient.displayed_photo(:tiny),
       :patient => self.patient.to_s,
       :location => self.location,
-      :body_parts => self.body_part_list,
+      :body_part => self.body_part,
       :time_in_words => self.time_in_words,
       :revision => self.revision?
     }
@@ -127,14 +128,6 @@ class PatientCase < ActiveRecord::Base
       ['schedule_order = FIND_IN_SET(id, ?)', ids.join(',')],
       { :id => ids }
     )
-  end
-
-  def body_parts
-    diagnosis.body_part
-  end
-
-  def body_part_list
-    diagnosis.try(:body_part).try(:to_s)
   end
 
   def time_in_words

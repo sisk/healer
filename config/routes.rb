@@ -28,7 +28,7 @@ Healer::Application.routes.draw do
         put :authorize, :deauthorize
       end
       collection do
-        get :review
+        get :review, :waiting
       end
     end
     resource :schedule, :controller => :schedule do

@@ -193,26 +193,6 @@ describe PatientCase, "unschedule!" do
   end
 end
 
-describe PatientCase, "#body_part_list" do
-  before(:each) do
-    @left_knee = stub_model(BodyPart, :to_s => "Knee (L)", :name_en => "Knee")
-    @right_knee = stub_model(BodyPart, :to_s => "Knee (R)", :name_en => "Knee")
-    @right_hip = stub_model(BodyPart, :to_s => "Hip (R)", :name_en => "Hip")
-  end
-  it "outputs a formatted date string of body parts for its diagnosis" do
-    patient_case = PatientCase.new(:diagnosis => stub_model(Diagnosis, :body_part => @left_knee))
-    patient_case.body_part_list.should == "Knee (L)"
-  end
-  it "is nil if no diagnosis" do
-    patient_case = PatientCase.new(:diagnosis => nil)
-    patient_case.body_part_list.should be_nil
-  end
-  it "ignores nil body parts in diagnosis" do
-    patient_case = PatientCase.new(:diagnosis => stub_model(Diagnosis, :body_part => nil))
-    patient_case.body_part_list.should be_nil
-  end
-end
-
 describe PatientCase, "#time_in_words" do
   before(:each) do
     @patient_case = PatientCase.new

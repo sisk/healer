@@ -1,17 +1,17 @@
 - content_for :title do
-  = "#{@trip} - Cases"
+  = "#{@trip} - Waiting Cases"
 - content_for :subnavigation do
   %ul
-    %li= "Approved cases (#{collection.size})"
-    %li= link_to "Waiting cases (#{@unauthorized_count})", waiting_trip_cases_path(@trip)
+    %li= link_to "Approved cases (#{@authorized_count})", trip_cases_path(@trip)
+    %li= "Waiting cases (#{@patient_cases.size})"
     - if permitted_to? :create, PatientCase.new(:trip => @trip)
       %li= link_to "Add case", new_trip_case_path(@trip)
     -# if permitted_to? (TODO: edit schedule auth mechanism)
     %li= link_to "Schedule", trip_schedule_path(@trip)
-  .record_jump= select_tag :case_anchor, options_for_select([["Jump to case...",""]] + collection.map{ |p_case| ["#{p_case.patient} - #{p_case.body_part}", dom_id(p_case)] })
+  .record_jump= select_tag :case_anchor, options_for_select([["Jump to case...",""]] + @patient_cases.map{ |p_case| ["#{p_case.patient} - #{p_case.body_part}", dom_id(p_case)] })
 
 #patient_cases.patient_case_list
-  = render :partial => "patient_cases/summary/record", :collection => collection, :as => :patient_case
+  = render :partial => "patient_cases/summary/record", :collection => @patient_cases, :as => :patient_case
 
 - content_for :script do
   = javascript_include_tag "lib/jquery.fancybox.overrides"
