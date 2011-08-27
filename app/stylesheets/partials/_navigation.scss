@@ -16,19 +16,26 @@ ul#session {
 #system_settings {
   @include float-right;
 }
-
-ul.subnavigation {
-  @include horizontal-list;
+#subnav {
+  @include clearfix;
+  margin-bottom: 25px;
   padding-left: 0 !important;
+  ul {
+    @include horizontal-list(.65em);
+    @include float-left;
+  }
+  .record_jump {
+    margin-top: -2px;
+    @include float-right;
+  }
 }
+
 ul#session, #trip_nav ul {
   @include horizontal-list;
   color: $white;
   a { color: $white; }
 }
-ul.subnavigation {
-  @include horizontal-list(.65em);
-}
+
 ul.nav {
   clear: both;
   padding-top: $margin-increment * 2;

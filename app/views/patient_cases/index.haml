@@ -1,7 +1,7 @@
 - content_for :title do
   = "#{@trip} - Cases"
 - content_for :subnavigation do
-  %ul.subnavigation
+  %ul
     - if permitted_to? :create, PatientCase.new(:trip => @trip)
       %li= link_to "Add case", new_trip_case_path(@trip)
     -# if permitted_to? (TODO: edit schedule auth mechanism)

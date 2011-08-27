@@ -1,4 +1,4 @@
-%ul.subnavigation
+%ul
   %li= link_to_unless_current "Trips", trips_path
   - if @trip.present? && !@trip.new_record?
     %li= link_to "Trip users", trip_users_path(@trip)

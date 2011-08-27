@@ -5,7 +5,7 @@
 - content_for :subtitle do
   Implant Summary
 - content_for :subnavigation do
-  %ul.subnavigation
+  %ul
     - if @implant.present?
       = link_to "Edit Implant", edit_operation_implant_path(@operation)
 .section

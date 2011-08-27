@@ -1,7 +1,7 @@
 - content_for :title do
   = "#{parent} - Users"
 - content_for :subnavigation do
-  %ul.subnavigation
+  %ul
     %li=# link_to "New user", new_user_trip_path(parent)
 
 = form_for :user, :url => trip_users_path(parent) do |f|

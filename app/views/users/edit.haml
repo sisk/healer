@@ -1,7 +1,7 @@
 - content_for :title do
   = "Edit #{@user}"
 - content_for :subnavigation do
-  %ul.subnavigation
+  %ul
     %li= link_to "Users index", users_path
 
 = semantic_form_for(@user) do |f|

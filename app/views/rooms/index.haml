@@ -1,7 +1,7 @@
 - content_for :title do
   = "#{@facility} - Rooms"
 - content_for :subnavigation do
-  %ul.subnavigation
+  %ul
     - if permitted_to? :create, Room.new(:facility => @facility)
       %li= link_to "Add room", new_facility_room_path(@facility)
 #room_list

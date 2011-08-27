@@ -3,7 +3,7 @@
 - content_for :subtitle do
   Operation Summary
 - content_for :subnavigation do
-  %ul.subnavigation
+  %ul
     - if resource.patient_case.present?
       %li= link_to "Return to case", trip_case_path(resource.patient_case.trip, resource.patient_case)
     - if permitted_to? :edit, resource
@@ -27,8 +27,7 @@
         .xrays
           - resource.xrays.each do |xray|
             = xray_preview(xray, :size => :tiny)
-      %ul.subnavigation
-        %li= link_to "Add an x-ray", new_operation_xray_path(resource)
+      .add_new= link_to "Add an x-ray", new_operation_xray_path(resource)
   .section
     .summary
       %h2 Operation

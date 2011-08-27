@@ -1,7 +1,7 @@
 - content_for :title do
   Facilities
 - content_for :subnavigation do
-  %ul.subnavigation
+  %ul
     - if permitted_to? :create, Facility.new
       %li= link_to_unless_current "New Facility", new_facility_path
 - @facilities.each do |facility|
@@ -10,7 +10,7 @@
       = facility
       - if facility.one_line_address.present?
         = " - "+facility.one_line_address
-    %ul.subnavigation
+    %ul
       - if permitted_to? :edit, facility
         %li= link_to_unless_current "Edit Facility", edit_facility_path(facility)
         %li= link_to_unless_current "Rooms", facility_rooms_path(facility)

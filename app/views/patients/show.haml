@@ -1,7 +1,7 @@
 - content_for :title do
   ="#{@patient} - Patient record"
 - content_for :subnavigation do
-  %ul.subnavigation
+  %ul
     %li= link_to "Patient Index", patients_path
     - if permitted_to? :edit, @patient
       %li= link_to "Edit record", edit_patient_path(@patient)
@@ -42,15 +42,3 @@
     - if permitted_to? :edit, @patient
       %span.inline_nav= link_to "edit", edit_patient_path(@patient, :anchor => "history")
   = render :partial => "patients/medical_details", :locals => { :patient => @patient }
-/
-/ .section
-/   %h2= "#{@patient.short_name}'s Operations"
-/   %ul.subnavigation
-/     - if permitted_to? :create, Operation.new(:patient => @patient)
-/       = link_to "New Operation", new_patient_operation_path(@patient)
-/   - @patient.operations.each do |operation|
-/     .operation
-/       - if permitted_to? :show, operation
-/         = link_to operation, patient_operation_path(@patient,operation)
-/       - else
-/         = operation

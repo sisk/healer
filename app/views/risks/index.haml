@@ -1,7 +1,7 @@
 - content_for :title do
   Risks
 - content_for :subnavigation do
-  %ul.subnavigation
+  %ul
     - if permitted_to? :create, Risk.new
       %li= link_to_unless_current "New risk", new_risk_path
 

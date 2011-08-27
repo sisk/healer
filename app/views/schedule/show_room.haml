@@ -3,7 +3,7 @@
 - content_for :subtitle do
   = @trip
 - content_for :subnavigation do
-  %ul.subnavigation
+  %ul
     %li= link_to "Full schedule", trip_schedule_path(@trip)
     %li= link_to "Edit schedule", edit_trip_schedule_path(@trip)
 #show_schedule_list

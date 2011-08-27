@@ -5,7 +5,7 @@
 - content_for :subtitle do
   Edit Operation
 - content_for :subnavigation do
-  %ul.subnavigation
+  %ul
     %li= link_to "Operation overview", resource_path
     - if resource.implant.present?
       %li= link_to "Edit Implant", edit_operation_implant_path(resource)

@@ -1,7 +1,7 @@
 - content_for :title do
   = "Edit Patient: #{@patient}"
 - content_for :subnavigation do
-  %ul.subnavigation
+  %ul
     - if permitted_to? :show, @patient
       %li= link_to "Back to summary", @patient
     - if permitted_to? :destroy, @patient

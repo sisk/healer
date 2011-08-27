@@ -1,7 +1,7 @@
 - content_for :title do
   = "#{@facility} - #{@room}"
 - content_for :subnavigation do
-  %ul.subnavigation
+  %ul
     %li= link_to "Back to facilities", facilities_path
     %li= link_to "Delete room", facility_room_path, :method => :delete, :confirm => "Are you sure? All operations scheduled for this room will become unscheduled."
 = render :partial => "form"

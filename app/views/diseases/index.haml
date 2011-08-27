@@ -1,7 +1,7 @@
 - content_for :title do
   Diseases
 - content_for :subnavigation do
-  %ul.subnavigation
+  %ul
     - if permitted_to? :create, Disease.new
       %li= link_to_unless_current "New Disease", new_disease_path
 

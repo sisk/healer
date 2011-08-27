@@ -1,7 +1,7 @@
 - content_for :title do
   = "Edit Diagnosis"
 - content_for :subnavigation do
-  %ul.subnavigation
+  %ul
     %li= link_to "Back to patient", parent_path
     %li= link_to "Delete diagnosis", resource_url, :method => :delete, :confirm => "Are you sure? This cannot be undone."
 = render :partial => "form"

@@ -13,7 +13,7 @@ body.bp {
   }
 }
 
-.noprint, ul.subnavigation { display: none; }
+.noprint, #subnav { display: none; }
 .print_only { display: auto; }
 .asterisk { color: $red; }
 

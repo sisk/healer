@@ -9,7 +9,7 @@
 - content_for :title do
   = "#{parent} - X-Rays"
 - content_for :subnavigation do
-  %ul.subnavigation
+  %ul
     %li= link_to "Add new X-Ray", new_item_path
     %li= link_to "Back to #{@parent}", parent_path
 
