@@ -2,7 +2,7 @@ class OperationsController < ApplicationController
   inherit_resources
   
   respond_to :html, :xml, :json
-  belongs_to :case, :parent_class => PatientCase, :singleton => true
+  belongs_to :case, :parent_class => PatientCase, :singleton => true, :optional => true
   # This controller is used as a singleton resource. For some reason, declarative_authorization doesn't like the use of
   # filter_resource_access here when trying to call #show. Therefore, change it up a little for this controller.
   filter_access_to :all
@@ -55,17 +55,24 @@ class OperationsController < ApplicationController
   end
   
   private
+
+  # NOTE: This very presence of this override is a hack. Likely due to singleton.
+  # Lifted a fix from https://github.com/josevalim/inherited_resources/issues/136
+  # Keep an eye on future versions of inherited_resources to see if its need goes away
+  def resource
+    get_resource_ivar || set_resource_ivar(end_of_association_chain.is_a?(Class) ? end_of_association_chain.find(params[:id]) : end_of_association_chain.send(resource_instance_name))
+  end
   
   def parent
     # normally, this shouldn't be needed. however, IR doesn't seem to handle the polymorphism combined with parent_class.
     @parent = PatientCase.find_by_id(params[:case_id])
   end
-
+  
   def parent_path
     # normally, this shouldn't be needed. however, IR doesn't seemto handle the polymorphism combined with parent_class.
     return case_path(PatientCase.find(params[:case_id])) if params[:case_id]
   end
-
+  
   def build_resource
      super
      @operation.date = Date.today if @operation.new_record?
