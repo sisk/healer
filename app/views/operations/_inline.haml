@@ -8,9 +8,9 @@
     .navigation.noprint
       %ul
         - if permitted_to? :show, operation
-          %li= link_to "Summary", operation_path(operation)
+          %li= link_to "Summary", case_operation_path(operation.patient_case)
         - if permitted_to? :edit, operation
-          %li= link_to "Edit operation", edit_operation_path(operation)
+          %li= link_to "Edit operation", edit_case_operation_path(operation.patient_case)
   .xrays
     - if operation.xrays.present?
       = xray_preview(operation.display_xray, options)

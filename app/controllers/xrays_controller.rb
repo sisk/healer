@@ -32,7 +32,7 @@ class XraysController < ApplicationController
 private
 
   def parent
-    # normally, this shouldn't be needed. however, IR doesn't seemto handle the polymorphism combined with parent_class.
+    # normally, this shouldn't be needed. however, IR doesn't seem to handle the polymorphism combined with parent_class.
     if params[:case_id]
       @parent ||= PatientCase.find(params[:case_id])
     else

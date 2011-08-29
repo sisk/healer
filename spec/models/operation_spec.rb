@@ -2,9 +2,6 @@ require 'spec_helper'
 
 describe Operation do
   should_have_column :procedure_id, :type => :integer
-  should_have_column :patient_id, :type => :integer
-  should_have_column :diagnosis_id, :type => :integer
-  should_have_column :body_part_id, :type => :integer
   should_have_column :primary_surgeon_id, :type => :integer
   should_have_column :secondary_surgeon_id, :type => :integer
   should_have_column :anesthesiologist_id, :type => :integer
@@ -23,15 +20,11 @@ describe Operation do
   should_have_column :peripheral_nerve_block_type, :type => :string
 
   should_belong_to :procedure
-  should_belong_to :patient
-  should_belong_to :diagnosis
-  should_belong_to :body_part
   should_belong_to :primary_surgeon
   should_belong_to :secondary_surgeon
   should_belong_to :anesthesiologist
   should_belong_to :room
   should_belong_to :patient_case
-  should_belong_to :trip
 
   should_have_one :implant
   should_have_one :knee_implant
@@ -39,10 +32,7 @@ describe Operation do
 
   should_have_many :xrays
 
-  # should_validate_presence_of :patient_case
-  should_validate_presence_of :patient
-  should_validate_presence_of :diagnosis
-  # should_validate_presence_of :body_part
+  should_validate_presence_of :patient_case
   # should_validate_presence_of :date
 
   should_validate_numericality_of :difficulty
@@ -85,7 +75,7 @@ end
 
 describe Operation, "#to_s" do
   before(:each) do
-    @operation = Operation.new(:patient => stub_model(Patient, :to_s => "El Hombre"))
+    @operation = Operation.new
     @body_part = stub_model(BodyPart, :side => "L")
     @body_part.stub(:to_s).and_return("BodyPart (L)")
     @procedure = stub_model(Procedure, :to_s => "Derp")
@@ -95,7 +85,7 @@ describe Operation, "#to_s" do
       @operation.procedure = nil
     end
     it "returns body part string if set" do
-      @operation.body_part = @body_part
+      @operation.stub(:body_part).and_return(@body_part)
       @operation.to_s.should == "BodyPart (L)"
     end
     it "returns '[Unspecified operation]' if no body part present'" do
@@ -111,7 +101,7 @@ describe Operation, "#to_s" do
       @operation.to_s.should == "Derp"
     end
     it "adds parenthesis side if body part has a side" do
-      @operation.body_part = @body_part
+      @operation.stub(:body_part).and_return(@body_part)
       @operation.to_s.should == "Derp (L)"
     end
   end
@@ -152,42 +142,6 @@ end
 #     @operation.implant.body_part.should == part
 #   end
 # end
-
-describe Operation, "trip_id sync" do
-  before(:each) do
-    @operation = Operation.new(:patient_case => mock_model(PatientCase, :trip_id => 5))
-    @operation.stub(:set_patient_id)
-  end
-  it "sets trip_id to the patient_case's id if not set" do
-    lambda { @operation.valid? }.should change { @operation.trip_id }.from(nil).to(5)
-  end
-  it "sets trip_id to the patient_case's if they differ" do
-    @operation.trip_id = 6
-    lambda { @operation.valid? }.should change { @operation.trip_id }.from(6).to(5)
-  end
-  it "generally, leaves its trip_id alone" do
-    @operation.trip_id = 5
-    lambda { @operation.valid? }.should_not change { @operation.trip_id }
-  end
-end
-
-describe Operation, "patient_id sync" do
-  before(:each) do
-    @operation = Operation.new(:patient_case => mock_model(PatientCase, :patient_id => 5))
-    @operation.stub(:set_trip_id)
-  end
-  it "sets patient_id to the patient_case's id if not set" do
-    lambda { @operation.valid? }.should change { @operation.patient_id }.from(nil).to(5)
-  end
-  it "sets patient_id to the patient_case's if they differ" do
-    @operation.patient_id = 6
-    lambda { @operation.valid? }.should change { @operation.patient_id }.from(6).to(5)
-  end
-  it "generally, leaves its patient_id alone" do
-    @operation.patient_id = 5
-    lambda { @operation.valid? }.should_not change { @operation.patient_id }
-  end
-end
 
 describe Operation, "#display_xray" do
   before(:each) do
