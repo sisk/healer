@@ -33,25 +33,30 @@ class OperationsController < ApplicationController
     }
   end
   
+  def edit
+    edit! {
+      if !resource
+        flash[:error] = "No operation exists for this case."
+        redirect_to parent_path and return
+      end
+    }
+  end
+  
   def create
-    create! { edit_resource_url }
+    create! { case_operation_path(parent) }
   end
 
   def update
     update! do |format|
       format.html {
-        # if we got here via anything that responds to a patient_case, redirect to the patient_case path
-        # if parent.respond_to?(:patient_case) && parent.patient_case.present?
-        #   redirect_to trip_case_path(parent.patient_case.trip, parent.patient_case), :notice => "Operation updated."
-        # else
         redirect_to case_operation_path(parent), :notice => "Operation updated."
-        # end
       }
     end
   end
 
   def destroy
-    destroy! { parent_url }
+    redirect_path = parent_path
+    destroy! { redirect_path }
   end
   
   private
