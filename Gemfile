@@ -1,12 +1,12 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.7'
+gem 'rails', '3.0.10'
 
 gem 'heroku'
 gem 'taps'
 gem 'aws-s3'
 # gem 'sqlite3-ruby', :require => 'sqlite3'
-gem 'mysql', '2.8.1'
+gem 'mysql2', '0.2.7'
 gem "haml"
 gem "compass"
 gem "devise", "1.1.3"
@@ -25,9 +25,6 @@ gem 'jquery-rails', '>= 0.2.6'
 # gem 'hoptoad_notifier'
 
 group :development, :test do
-  gem "autotest"
-  # gem "autotest-growl"
-  # gem "autotest-fsevent"
   gem "test_notifier"
   gem "rspec-rails", ">= 2.0.0.beta.17"
   gem "remarkable_activerecord", ">= 4.0.0.alpha4"
