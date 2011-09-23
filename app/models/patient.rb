@@ -23,7 +23,7 @@ class Patient < ActiveRecord::Base
 
   accepts_nested_attributes_for :risk_factors, :allow_destroy => true, :reject_if => proc { |attributes| attributes['risk_id'].blank? }
 
-  default_scope :order => 'patients.name_last, patients.name_first'
+  default_scope :order => 'patients.name_first, patients.name_last'
 
   scope :no_patient_cases, :conditions => ["patients.id NOT IN (SELECT patient_id FROM patient_cases)"]
   scope :search, Proc.new { |term|
