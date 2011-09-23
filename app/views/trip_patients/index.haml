@@ -10,8 +10,20 @@
   - @trip.patients. each do |patient|
     %a{ :name => dom_id(patient) }
     .patient{ :id => "#{patient.id}" }
-      %h2= patient
-      - patient.patient_cases.select{ |patient_case| patient_case.trip == @trip }.each do |patient_case|
-        - treated = patient_case.treated?
-        .patient_case{ :class => treated ? "treated" : "untreated" }
-          %h3= patient_case.diagnosis || "Unknown diagnosis"
+      .basic
+        %h2= patient
+        .image= patient_image(patient, :small)
+        = render :partial => "patients/shared/patient_demographic", :locals => { :patient => patient }
+        - if patient.has_medical_detail?
+          .medical_details.supplemental
+            %p.fake_link.toggle= "Full medical detail"
+            .details{ :style => "display: none;" }
+              = render :partial => "patients/medical_details", :locals => { :patient => patient, :hide => true }
+      .cases.treatment
+        - i = 0
+        - patient.patient_cases.all(:conditions => ["trip_id = ?", @trip.id]).each do |patient_case|
+          - i += 1
+          .patient_case{ :class => "#{patient_case.treated? ? "treated" : "untreated"} #{patient_case.authorized? ? "authorized" : "unauthorized"}" }
+            %h3= "Case #{i}:"
+            - if patient_case.diagnosis
+              = render :partial => "diagnoses/inline", :object => patient_case.diagnosis, :as => :diagnosis, :locals => { :options => { :remote => true, :context => :patient_case } }

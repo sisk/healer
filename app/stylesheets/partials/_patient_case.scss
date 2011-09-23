@@ -18,3 +18,26 @@
     @include treatment_data;
   }
 }
+
+.patient_list .patient {
+  .cases {
+    margin: -10px -15px -15px -15px;
+    @include clearfix;
+    padding-top: 10px;
+    .patient_case {
+      margin-left: 10px;
+      padding: 10px;
+      @include border-radius(6px);
+      margin-bottom: 10px;
+      @include float-left;
+      border: solid 1px $grey-very-light;
+    }
+    .unauthorized {
+      background-color: $grey-dark;
+      color: $grey-very-light;
+    }
+    .authorized {
+      background-color: $grey14b;
+    }
+  }
+}

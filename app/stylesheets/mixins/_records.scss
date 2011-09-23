@@ -1,6 +1,7 @@
 @mixin inline_record() {
   @include clearfix;
   @include box-shadow;
+  @include border-radius(6px);
   /*border: solid 1px $grey-medium;*/
   background-color: #fff;
   padding: $blueprint-grid-width / 2;

@@ -1,12 +1,33 @@
 $black: #000;
-$grey-dark: #444;
-$grey-medium: #666;
-$grey-light: #aaa;
-$grey-very-light: #eee;
+$grey01: #111;
+$grey02: #222;
+$grey03: #333;
+$grey04: #444;
+$grey05: #555;
+$grey06: #666;
+$grey07: #777;
+$grey08: #888;
+$grey09: #999;
+$grey10: #aaa;
+$grey11: #bbb;
+$grey12: #ccc;
+$grey13: #ddd;
+$grey14: #eee;
+$grey14a: #efefef;
+$grey14b: #fafafa;
+$grey14c: #fdfdfd;
+
+$grey-very-dark: $grey02;
+$grey-dark: $grey04;
+$grey-medium: $grey07;
+$grey-light: $grey11;
+$grey-very-light: $grey14;
+$grey-ultra-light: $grey14c;
+
 $white: #fff;
 $red: #f00;
 $green: #0f0;
 $yellow: #fffd99;
 $light-yellow: #ffffe2;
 
-$header-background-color: $grey-dark;
+$header-background-color: $grey-very-dark;
