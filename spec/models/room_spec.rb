@@ -12,6 +12,7 @@ describe Room do
 
   should_have_many :operations
   should_have_many :patient_cases
+  should_have_many :case_groups
 end
 
 describe Room, "#to_s" do

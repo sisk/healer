@@ -2,6 +2,7 @@ class Trip < ActiveRecord::Base
   belongs_to :facility
   validates_presence_of :country, :message => "can't be blank"
   has_many :patient_cases
+  has_many :case_groups
   has_many :operations
   has_many :patients, :through => :patient_cases, :uniq => true
   has_many :authorized_patients, :through => :patient_cases, :source => :patient, :conditions => ["patient_cases.approved_at is not ?", nil], :uniq => true
@@ -27,13 +28,13 @@ class Trip < ActiveRecord::Base
       :conditions => ["trips.country = ?",query]
     } if query.present?
   }
-  
-  
+
+
   def to_s
     year = start_date.blank? ? "" : start_date.strftime("%Y")
     [year, country_name].join(" ").strip
   end
-  
+
   def country_name
     Carmen::country_name(country)
   end
@@ -42,12 +43,12 @@ class Trip < ActiveRecord::Base
     return [city, country_name].join(", ").strip unless city.blank?
     return country_name
   end
-  
+
   def daily_complexity_units
     return 0 if [complexity_minutes, daily_hours].any?{ |i| i.blank? }
     (60/complexity_minutes) * daily_hours
   end
-  
+
   def status
     return "unknown" unless start_date.present?
     return "complete" if end_date.present? && (end_date < Date.today)
@@ -71,11 +72,11 @@ class Trip < ActiveRecord::Base
       return ((procedure_start_date.to_time-start_date.to_time)/(60*60*24) + 1).to_i
     end
   end
-  
+
   def alert_users
     users.in_role(:admin)
   end
-  
+
 end
 
 # == Schema Information

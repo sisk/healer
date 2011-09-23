@@ -11,9 +11,12 @@ describe PatientCase do
   should_have_column :checkout_at, :type => :datetime
   should_have_column :status, :type => :string
   should_have_column :location, :type => :string
+  # TODO remove
   should_have_column :schedule_order, :type => :integer
+  # TODO remove
   should_have_column :room_id, :type => :integer
   should_have_column :complexity, :type => :integer
+  # TODO remove
   should_have_column :scheduled_day, :type => :integer
 
   should_belong_to :patient
@@ -25,7 +28,7 @@ describe PatientCase do
   should_have_many :physical_therapies
   should_have_many :xrays
   should_have_one :bilateral_case
-  
+
   should_validate_presence_of :patient
   should_validate_presence_of :trip
   should_validate_inclusion_of :status, :in => PatientCase::possible_statuses, :allow_nil => true
