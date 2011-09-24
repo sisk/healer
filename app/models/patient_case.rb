@@ -38,11 +38,16 @@ class PatientCase < ActiveRecord::Base
   delegate :complexity_minutes, :to => :trip
   delegate :name, :to => :patient
   delegate :body_part, :to => :diagnosis, :allow_nil => true
+  delegate :severity, :to => :diagnosis, :allow_nil => true
 
   # scope :authorized, where("patient_cases.approved_at is not ?", nil).joins(:trip, :diagnosis, :patient => [:risk_factors])
   # scope :unauthorized, where("patient_cases.approved_at is ?", nil).joins(:trip, :patient => [:diagnosis, :risk_factors])
   scope :authorized, includes([:patient, :trip]).where("patient_cases.approved_at is not ?", nil)
   scope :unauthorized, includes([:patient, :trip]).where("patient_cases.approved_at is ?", nil)
+
+  scope :scheduled, where("patient_cases.case_group_id is not ?", nil)
+  scope :unscheduled, where("patient_cases.case_group_id is ?", nil)
+
   scope :future, includes([:trip]).where("trips.start_date IS NULL OR (trips.start_date > ? AND (trips.end_date IS NULL OR trips.end_date > ?))", Time.zone.now, Time.zone.now)
 
   scope :search, Proc.new { |term|
@@ -69,7 +74,7 @@ class PatientCase < ActiveRecord::Base
   scope :female, :include => :patient, :conditions => ["patients.male = ?", false]
 
   scope :bilateral, :conditions => ["patient_cases.bilateral_case_id is not ?", nil]
-  
+
   def to_s
     # TODO there's a performance thing here where we query patients and trips table separately. improve it!
     "#{patient.to_s} - #{trip.to_s}"
@@ -146,7 +151,7 @@ class PatientCase < ActiveRecord::Base
     return xrays.first if xrays.size == 1 || xrays.all?{ |x| !x.primary? }
     return xrays.select{ |x| x.primary == true }.first
   end
-  
+
   def related_untreated_cases
     patient.patient_cases.select{ |c| c.operation.nil? } - [self]
   end
@@ -167,5 +172,5 @@ private
       Mailer.case_added(self,emails).deliver
     end
   end
-  
+
 end

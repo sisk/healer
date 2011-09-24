@@ -87,3 +87,17 @@ $content-columns: $blueprint-grid-columns - 2;
   height: 30px;
   width: 30px;
 }
+
+.record_list {
+  .filter {
+    @include column(4);
+    @include float-left;
+    position: fixed;
+    select {
+      @include column(4, true);
+    }
+  }
+  .records {
+    @include prepend(4);
+  }
+}

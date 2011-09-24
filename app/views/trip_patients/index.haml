@@ -5,25 +5,90 @@
     - if permitted_to? :create, PatientCase.new(:trip => @trip)
       %li= link_to "Add case", new_trip_case_path(@trip)
     %li= link_to "Schedule", trip_schedule_path(@trip)
-  .record_jump= select_tag :patient_anchor, options_for_select([["Jump to patient...",""]] + @trip.patients.map{ |patient| [patient, dom_id(patient)] })
-.patient_list
-  - @trip.patients. each do |patient|
-    %a{ :name => dom_id(patient) }
-    .patient{ :id => "#{patient.id}" }
-      .basic
-        %h2= patient
-        .image= patient_image(patient, :small)
-        = render :partial => "patients/shared/patient_demographic", :locals => { :patient => patient }
-        - if patient.has_medical_detail?
-          .medical_details.supplemental
-            %p.fake_link.toggle= "Full medical detail"
-            .details{ :style => "display: none;" }
-              = render :partial => "patients/medical_details", :locals => { :patient => patient, :hide => true }
-      .cases.treatment
-        - i = 0
-        - patient.patient_cases.all(:conditions => ["trip_id = ?", @trip.id]).each do |patient_case|
-          - i += 1
-          .patient_case{ :class => "#{patient_case.treated? ? "treated" : "untreated"} #{patient_case.authorized? ? "authorized" : "unauthorized"}" }
-            %h3= "Case #{i}:"
-            - if patient_case.diagnosis
-              = render :partial => "diagnoses/inline", :object => patient_case.diagnosis, :as => :diagnosis, :locals => { :options => { :remote => true, :context => :patient_case } }
+.record_list.patient_list
+  .filter
+    .record_jump= select_tag :patient_anchor, options_for_select([["Jump to patient...",""]] + @trip.patients.map{ |patient| [patient, dom_id(patient)] })
+    .body_part
+      - @body_part_names.each do |body_part_name|
+        .item
+          = check_box_tag "#{body_part_name}_filter", body_part_name
+          = label_tag "#{body_part_name}_filter", body_part_name
+
+
+  .records
+    - @trip.patients. each do |patient|
+      %a{ :name => dom_id(patient) }
+      .patient{ :id => "#{patient.id}" }
+        .basic
+          %h2= patient
+          .image= patient_image(patient, :small)
+          = render :partial => "patients/shared/patient_demographic", :locals => { :patient => patient }
+          - if patient.has_medical_detail?
+            .medical_details.supplemental
+              %p.fake_link.toggle= "Full medical detail"
+              .details{ :style => "display: none;" }
+                = render :partial => "patients/medical_details", :locals => { :patient => patient, :hide => true }
+        .cases.treatment
+          - authorized_cases = patient.patient_cases.authorized(:conditions => ["trip_id = ?", @trip.id])
+          - unauthorized_cases = patient.patient_cases.unauthorized(:conditions => ["trip_id = ?", @trip.id])
+          - if authorized_cases.present?
+            .case_list.authorized
+              %h3 Authorized Cases
+              - authorized_cases.each do |patient_case|
+                .patient_case{ :class => "#{patient_case.treated? ? "treated" : "untreated"}" }
+                  %p.body_part
+                    = link_to patient_case.body_part, "derp"
+                    - if patient_case.revision?
+                      %span.asterisk (Revision)
+                  %p.diagnosis
+                    = patient_case.diagnosis.try(:disease)
+                    - if patient_case.severity && patient_case.severity > 0
+                      %span.severity{ :class => severity(patient_case).downcase }
+                        = "(#{severity(patient_case)})"
+                  .nav
+                    = link_to "Make Changes", "derp"
+                  /
+                    - if patient_case.diagnosis
+                      = render :partial => "diagnoses/inline", :object => patient_case.diagnosis, :as => :diagnosis, :locals => { :options => { :remote => true, :context => :patient_case } }
+
+          - if unauthorized_cases.present?
+            .case_list.unauthorized
+              %h3 Waiting Cases
+              - unauthorized_cases.each do |patient_case|
+                .patient_case
+                  %p.body_part
+                    = link_to patient_case.body_part, "derp"
+                    - if patient_case.revision?
+                      %span.asterisk (Revision)
+                  %p.diagnosis
+                    = patient_case.diagnosis.try(:disease)
+                    - if patient_case.severity && patient_case.severity > 0
+                      %span.severity{ :class => severity(patient_case).downcase }
+                        = "(#{severity(patient_case)})"
+                  .nav
+                    = link_to "Make Changes", "derp"
+
+
+- content_for :script do
+  :javascript
+    $('.filter .body_part .item input').change(function(event) {
+      var selected = $('.filter .body_part input:checked').map(function() { return this.value });
+      if (selected.length > 0) {
+        var re = new RegExp(selected.toArray().join("|"),"i");
+        var shown_cases = $(".patient_case p.body_part").filter(function() { return re.test( $(this).text() ) });
+        $(".records .patient").addClass("hide");
+        $(".records .patient .patient_case").addClass("hide");
+        shown_cases.each(function(the_case) {
+          $(this).closest(".patient_case").removeClass("hide");
+          $(this).closest(".patient").removeClass("hide");
+        });
+      } else {
+        $(".records .patient").removeClass("hide");
+        $(".records .patient .patient_case").removeClass("hide");
+      }
+    });
+
+
+    function resetAllPatients() {
+
+    }

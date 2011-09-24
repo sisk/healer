@@ -24,10 +24,6 @@ ul#session {
     @include horizontal-list(.65em);
     @include float-left;
   }
-  .record_jump {
-    margin-top: -2px;
-    @include float-right;
-  }
 }
 
 ul#session, #trip_nav ul {

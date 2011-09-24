@@ -128,19 +128,21 @@ form.patient {
   }
 }
 
-.patient_list .patient {
-  @include inline_record;
-  .basic {
-    margin: -15px -15px 10px -15px;
-    padding: 15px;
-    background-color: $grey-very-light;
-    border-bottom: solid 1px $grey-light;
-  }
-  .record {
-    .navigation { @include column(4, true); }
-    @include clearfix;
-  }
-  .treatment {
-    @include treatment_data;
+.patient_list {
+  .patient {
+    @include inline_record;
+    .basic {
+      margin: -15px -15px 10px -15px;
+      padding: 15px;
+      background-color: $grey-very-light;
+      border-bottom: solid 1px $grey-light;
+    }
+    .record {
+      .navigation { @include column(4, true); }
+      @include clearfix;
+    }
+    .treatment {
+      @include treatment_data;
+    }
   }
 }
