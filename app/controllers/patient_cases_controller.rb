@@ -101,13 +101,15 @@ class PatientCasesController < ApplicationController
   def authorize
     @patient_case.authorize!(current_user.id)
     flash[:notice] = "Approved case for #{@patient_case.patient}."
-    redirect_to trip_cases_path(@patient_case.trip, :anchor => "waiting")
+    # redirect_to trip_cases_path(@patient_case.trip, :anchor => "waiting")
+    redirect_to :back
   end
 
   def deauthorize
     @patient_case.deauthorize!
     flash[:notice] = "Moved case for #{@patient_case.patient} to waiting."
-    redirect_to trip_cases_path(@patient_case.trip, :anchor => "approved")
+    # redirect_to trip_cases_path(@patient_case.trip, :anchor => "approved")
+    redirect_to :back
   end
 
   def unschedule

@@ -45,6 +45,12 @@
         &:hover { background-color: rgba($grey-medium, 0.1); }
         @include clearfix;
         border-top: solid 1px rgba($grey-medium, 0.3);
+        .xrays {
+          @include column(2);
+          .tiny img {
+            height: 40px;
+          }
+        }
         p {
           line-height: 1em;
           margin: 0;

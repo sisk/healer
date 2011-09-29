@@ -10,7 +10,7 @@
       %li= link_to "Approve", authorize_trip_case_path(patient_case.trip, patient_case), :method => :put
     - else
       %li= link_to "Return to waiting", deauthorize_trip_case_path(patient_case.trip, patient_case), :method => :put
-  - if permitted_to? :destroy, patient_case.patient
+  - if permitted_to? :edit, patient_case.patient
     %li.delete= link_to "Edit patient record", edit_patient_path(patient_case.patient)
   - if permitted_to? :edit, patient_case
     %li= link_to "Edit case", trip_case_path(patient_case.trip, patient_case)
