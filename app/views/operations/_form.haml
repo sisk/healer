@@ -1,12 +1,5 @@
-= semantic_form_for [parent,@operation] do |f|
+= semantic_form_for [@operation.patient_case, @operation], :url => case_operation_path(@operation.patient_case) do |f|
   = f.semantic_errors
-  - if params[:mode].present? && params[:mode] == "fix"
-    = hidden_field_tag :mode, "fix"
-  = f.input :trip_id, :as => :hidden
-  = f.input :patient_id, :as => :hidden
-  = f.input :diagnosis_id, :as => :hidden
-  = f.input :patient_case_id, :as => :hidden
-  = f.input :body_part_id, :as => :hidden
   = f.inputs do
     = f.input :approach, :as => :select, :label => 'Approach', :collection => Operation::approaches
     = f.input :difficulty, :as => :radio, :label => "Difficulty", :collection => Operation::difficulty_table.invert

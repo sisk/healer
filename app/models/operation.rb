@@ -18,12 +18,8 @@ class Operation < ActiveRecord::Base
   default_scope order(:date)
 
   belongs_to :procedure
-  belongs_to :patient
-  belongs_to :diagnosis
-  belongs_to :body_part
   belongs_to :room
   belongs_to :patient_case
-  belongs_to :trip
   belongs_to :primary_surgeon, :class_name => "User", :foreign_key => "primary_surgeon_id"
   belongs_to :secondary_surgeon, :class_name => "User", :foreign_key => "secondary_surgeon_id"
   belongs_to :anesthesiologist, :class_name => "User", :foreign_key => "anesthesiologist_id"
@@ -35,22 +31,16 @@ class Operation < ActiveRecord::Base
   has_many :xrays, :dependent => :destroy
   accepts_nested_attributes_for :xrays, :allow_destroy => true, :reject_if => proc { |attributes| attributes['photo'].blank? }
   
-  validates_presence_of :patient
   # validates_presence_of :date
-  # validates_presence_of :body_part
-  # validates_presence_of :patient_case
-  validates_presence_of :diagnosis
+  validates_presence_of :patient_case
   validates_numericality_of :difficulty
   validates_inclusion_of :difficulty, :in => self.difficulty_table.keys
   validates_inclusion_of :approach, :in => self.approaches, :allow_nil => true, :allow_blank => true
   validates_inclusion_of :ambulatory_order, :in => self.ambulatory_orders, :allow_nil => true, :allow_blank => true
   
-  before_validation :set_trip_id, :set_patient_id
-
   accepts_nested_attributes_for :knee_implant
   accepts_nested_attributes_for :hip_implant
-  accepts_nested_attributes_for :patient
-
+  accepts_nested_attributes_for :patient_case
 
   scope :trip, lambda { |trip_id|
     { :include => :patient_case, :conditions => ["patient_cases.trip_id = ?",trip_id ] } if trip_id.present?
@@ -58,7 +48,7 @@ class Operation < ActiveRecord::Base
   scope :incomplete, where("operations.end is ?", nil)
   scope :complete, where("operations.end is not ?", nil)
 
-  delegate :location, :location=, :to => :patient_case
+  delegate :location, :location=, :patient, :diagnosis, :body_part, :trip, :to => :patient_case, :allow_nil => true
 
   def to_s
     if procedure.present?
@@ -93,12 +83,5 @@ class Operation < ActiveRecord::Base
   end
   
   private
-  
-  def set_trip_id
-    self.trip_id = self.patient_case.try(:trip_id) if (self.trip_id.nil? || self.patient_case.try(:trip_id) != self.trip_id)
-  end
-  def set_patient_id
-    self.patient_id = self.patient_case.try(:patient_id) if (self.patient_id.nil? || self.patient_case.try(:patient_id) != self.patient_id)
-  end
   
 end

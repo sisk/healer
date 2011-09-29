@@ -6,7 +6,7 @@
   /*border: solid 1px $grey-medium;*/
   background-color: #fff;
   padding: $blueprint-grid-width / 2;
-  margin-bottom: $margin-increment * 10;
+  margin-bottom: $margin-increment * 9;
   .image {
     @include column(3);
     img { @include span(3); }

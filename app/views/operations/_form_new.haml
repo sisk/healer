@@ -1,10 +1,5 @@
-= semantic_form_for [parent,@operation] do |f|
+= semantic_form_for [parent,@operation], :url => case_operation_path(parent) do |f|
   = f.semantic_errors
-  = f.input :trip_id, :as => :hidden
-  = f.input :patient_id, :as => :hidden
-  = f.input :diagnosis_id, :as => :hidden
-  = f.input :patient_case_id, :as => :hidden
-  = f.input :body_part_id, :as => :hidden
   = f.inputs do
     =# f.input :body_part_id, :as => :select, :label => 'Body Part', :collection => BodyPart.all.collect{ |bp| [bp.to_s, bp.id] }
     = f.input :procedure_id, :as => :select, :label => 'Procedure', :collection => Procedure.all.collect{ |p| [p.to_s, p.id] }
