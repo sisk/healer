@@ -30,6 +30,7 @@ group :development, :test do
   gem "remarkable_activerecord", ">= 4.0.0.alpha4"
   gem "factory_girl_rails"
   gem "newrelic_rpm"
+  gem "pry"
 end
 
 # Use unicorn as the web server
@@ -37,9 +38,6 @@ end
 
 # Deploy with Capistrano
 # gem 'capistrano'
-
-# To use debugger
-# gem 'ruby-debug19', :require => 'ruby-debug'
 
 # Bundle the extra gems:
 # gem 'bj'
