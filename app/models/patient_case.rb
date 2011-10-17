@@ -13,9 +13,11 @@ class PatientCase < ActiveRecord::Base
   @patient_case_join = 'left outer join `trips` ON `trips`.`id` = `patient_cases`.`trip_id` left outer join `diagnoses` ON `diagnoses`.`patient_case_id` = `patient_cases`.`id` left outer join `patients` ON `patients`.`id` = `patient_cases`.`patient_id` left outer join `risk_factors` ON `risk_factors`.`patient_id` = `patients`.`id`'
 
   before_create :set_pre_screen
-  after_save :sync_bilateral, :send_email_alert
+  after_save :sync_bilateral, :set_case_group
+  after_create :send_email_alert
 
   belongs_to :patient
+  belongs_to :case_group
   belongs_to :trip
   belongs_to :approved_by, :class_name => "User", :foreign_key => "approved_by_id"
   belongs_to :created_by, :class_name => "User", :foreign_key => "created_by_id"
@@ -99,8 +101,9 @@ class PatientCase < ActiveRecord::Base
     self.update_attributes(:approved_by_id => approved_by_id, :approved_at => Time.now, :status => "Registered")
     true
   end
+
   def deauthorize!
-    self.update_attributes(:approved_by_id => nil, :approved_at => nil, :room_id => nil, :scheduled_day => nil, :status => "Pre-Screen")
+    self.update_attributes(:approved_by_id => nil, :approved_at => nil, :status => "Pre-Screen")
     true
   end
 
@@ -158,8 +161,16 @@ class PatientCase < ActiveRecord::Base
 
 private
 
+  def set_case_group
+    if self.authorized?
+      self.update_attribute(:case_group_id, CaseGroup.create(:trip_id => self.trip_id).try(:id)) unless self.case_group.present?
+    else
+      self.case_group.remove(self) if self.case_group.present?
+    end
+  end
+
   def sync_bilateral
-    bilateral_case.update_attributes(:bilateral_case => self) if bilateral_case.present? && bilateral_case.bilateral_case_id != self.id
+    bilateral_case.update_attribute(:bilateral_case_id, self.id) if bilateral_case.present? && bilateral_case.bilateral_case_id != self.id
   end
 
   def set_pre_screen

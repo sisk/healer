@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe PatientCase do
   should_have_column :patient_id, :type => :integer
+  should_have_column :case_group_id, :type => :integer
   should_have_column :approved_by_id, :type => :integer
   should_have_column :created_by_id, :type => :integer
   should_have_column :trip_id, :type => :integer
@@ -20,6 +21,7 @@ describe PatientCase do
   should_have_column :scheduled_day, :type => :integer
 
   should_belong_to :patient
+  should_belong_to :case_group
   should_belong_to :trip
   should_belong_to :approved_by
   should_belong_to :created_by
@@ -76,14 +78,6 @@ describe PatientCase, "deauthorize!" do
   it "sets status to 'Pre-Screen'" do
     @patient_case.deauthorize!
     @patient_case.status.should == "Pre-Screen"
-  end
-  it "clears any room" do
-    @patient_case.deauthorize!
-    @patient_case.room_id.should be_nil
-  end
-  it "clears any day" do
-    @patient_case.deauthorize!
-    @patient_case.scheduled_day.should be_nil
   end
   it "returns true" do
     @patient_case.deauthorize!.should == true
@@ -323,5 +317,44 @@ describe PatientCase, "treated?" do
   it "is false if operation is not present" do
     patient_case = PatientCase.new
     patient_case.treated?.should be_false
+  end
+end
+
+describe PatientCase, "#set_case_group" do
+  before(:each) do
+    @patient_case = PatientCase.new
+    PatientCase.stub(:find).and_return(@patient_case)
+  end
+  context "no case group" do
+    it ", when authorized, attaches itself to a new CaseGroup if one doesn't exist" do
+      @patient_case.stub(:authorized?).and_return(true)
+      lambda { @patient_case.send(:set_case_group) }.should change(@patient_case, :case_group_id)
+    end
+    it ", when unauthorized, does not alter the CaseGroup" do
+      @patient_case.stub(:authorized?).and_return(false)
+      lambda { @patient_case.send(:set_case_group) }.should_not change(@patient_case, :case_group_id)
+    end
+  end
+  context "with case group" do
+    before(:each) do
+      @patient_case = PatientCase.new
+      PatientCase.stub(:find).and_return(@patient_case)
+    end
+    it ", when authorized, does not alter the CaseGroup" do
+      @patient_case.case_group = stub_model(CaseGroup, :id => 3)
+      @patient_case.stub(:authorized?).and_return(true)
+      lambda { @patient_case.send(:set_case_group) }.should_not change(@patient_case, :case_group_id)
+    end
+    it ", when unauthorized, removes itself from the CaseGroup" do
+      @patient_case.stub(:authorized?).and_return(false)
+      @patient_case.case_group = stub_model(CaseGroup, :id => 3)
+      @patient_case.case_group.should_receive(:remove).with(@patient_case)
+      @patient_case.send(:set_case_group)
+    end
+    # it ", when unauthorized, clears the CaseGroup" do
+    #   @patient_case.stub(:authorized?).and_return(false)
+    #   @patient_case.case_group = stub_model(CaseGroup, :id => 3)
+    #   lambda { @patient_case.send(:set_case_group) }.should change(@patient_case, :case_group_id).from(3).to(nil)
+    # end
   end
 end
