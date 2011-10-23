@@ -358,3 +358,58 @@ describe PatientCase, "#set_case_group" do
     # end
   end
 end
+
+describe PatientCase, ".group_cases" do
+
+  before(:each) do
+    @pc1 = PatientCase.new(:case_group => nil, :approved_at => Time.now, :trip_id => 1, :case_group_id => 1)
+    @pc2 = PatientCase.new(:case_group => nil, :approved_at => Time.now, :trip_id => 1, :case_group_id => 2)
+  end
+
+  # Error checking
+  it "takes an array of PatientCases" do
+    lambda { PatientCase.group_cases }.should raise_error(ArgumentError)
+    lambda { PatientCase.group_cases(@pc1) }.should raise_error("Invalid cases.")
+  end
+  it "all elements must be PatientCase objects" do
+    lambda { PatientCase.group_cases([@pc1,mock_model(User)]) }.should raise_error("Only cases may be grouped.")
+  end
+  it "all cases must be authorized" do
+    @pc1.approved_at = nil
+    lambda { PatientCase.group_cases([@pc1,@pc2]) }.should raise_error("All grouped cases must be authorized.")
+  end
+  it "all cases must belong to the same trip" do
+    @pc1.trip_id = 2
+    lambda { PatientCase.group_cases([@pc1,@pc2]) }.should raise_error("All grouped cases must belong to the same trip.")
+  end
+
+  it "ensures all cases have a group id" do
+    PatientCase.group_cases([@pc1, @pc2])
+    [@pc1, @pc2].all?{ |pc| pc.case_group_id.present? }.should be_true
+  end
+
+  it "uses the first case_group_id in the set" do
+    PatientCase.group_cases([@pc1, @pc2])
+    [@pc1, @pc2].map(&:case_group_id).uniq.compact.first.should == 1
+  end
+
+  it "ensures all cases' groups match" do
+    PatientCase.group_cases([@pc1, @pc2])
+    [@pc1, @pc2].map(&:case_group_id).uniq.compact.size.should == 1
+  end
+
+  it "creates a new CaseGroup when no case has a grouping" do
+    @pc1.case_group_id = nil
+    @pc2.case_group_id = nil
+    CaseGroup.stub(:create)
+    CaseGroup.should_receive(:create)
+    PatientCase.group_cases([@pc1, @pc2])
+  end
+
+  it "uses the first valid non-nil case_group_id" do
+    @pc1.case_group_id = nil
+    PatientCase.group_cases([@pc1, @pc2])
+    [@pc1, @pc2].map(&:case_group_id).uniq.compact.first.should == 2
+  end
+
+end
