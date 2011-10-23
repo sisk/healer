@@ -34,3 +34,11 @@ describe CaseGroup, "#remove" do
     @case_group.remove(mock_model(PatientCase))
   end
 end
+
+describe CaseGroup, ".remove_orphans" do
+  it "issues a command to destroy orphaned records for a trip id" do
+    CaseGroup.stub(:destroy_all)
+    CaseGroup.should_receive(:destroy_all).with("trip_id = 2 AND id NOT IN (SELECT case_group_id FROM patient_cases where trip_id = 2)")
+    CaseGroup.remove_orphans(2)
+  end
+end

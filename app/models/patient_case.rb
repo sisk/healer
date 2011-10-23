@@ -165,12 +165,17 @@ class PatientCase < ActiveRecord::Base
     raise "All grouped cases must be authorized." unless patient_cases.all?{ |pc| pc.authorized? }
     raise "All grouped cases must belong to the same trip." if patient_cases.map(&:trip_id).uniq.compact.size > 1
 
+    trip_id = patient_cases.map(&:trip_id).uniq.first
+
     # Try to find the first relevant case group from cases. We're bundling them together, so it doesn't really matter which is which.
     # If we don't have a valid ID, then no case groups existed. Make one.
-    case_group_id = patient_cases.map(&:case_group_id).uniq.compact.first || CaseGroup.create(:trip_id => patient_cases.map(&:trip_id).uniq.first).try(:id)
+    case_group_id = patient_cases.map(&:case_group_id).uniq.compact.first || CaseGroup.create(:trip_id => trip_id).try(:id)
 
     # Make single case group applicable to all cases
     patient_cases.each{ |pc| pc.update_attributes(:case_group_id => case_group_id) }
+
+    # Destroy any case groups orphaned by this action
+    CaseGroup.remove_orphans(trip_id)
   end
 
 private

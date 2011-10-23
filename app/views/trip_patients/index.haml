@@ -29,47 +29,48 @@
               .details{ :style => "display: none;" }
                 = render :partial => "patients/medical_details", :locals => { :patient => patient, :hide => true }
         .cases.treatment
-          - authorized_cases = patient.patient_cases.authorized(:conditions => ["trip_id = ?", @trip.id])
+          -# case groups represent authorized cases ready for scheduling
+          -# unauthorized cases should be separate from case groups
+          - case_groups = patient.case_groups(:conditions => ["trip_id = ?", @trip.id])
           - unauthorized_cases = patient.patient_cases.unauthorized(:conditions => ["trip_id = ?", @trip.id])
-          - if authorized_cases.present?
+          - if case_groups.present?
             .case_list.authorized
-              %h3 Authorized Cases
-              - authorized_cases.each do |patient_case|
-                .patient_case{ :class => "#{patient_case.treated? ? "treated" : "untreated"}" }
-                  .xrays
-                    - if patient_case.xrays.present?
-                      = xray_preview(patient_case.display_xray, :size => :tiny)
-                      - if patient_case.xrays.size > 1
-                        = link_to "More X-rays", case_xrays_path(patient_case)
-                      - else
-                        - if permitted_to? :create, Xray.new(:patient_case => patient_case)
-                          = link_to "Add X-Ray", new_case_xray_path(patient_case)
-
-                  %p.body_part
-                    = link_to patient_case.body_part, trip_case_path(@trip,patient_case)
-                    - if patient_case.revision?
-                      %span.asterisk (Revision)
-                  %p.diagnosis
-                    = patient_case.diagnosis.try(:disease)
-                    - if patient_case.severity && patient_case.severity > 0
-                      %span.severity{ :class => severity(patient_case).downcase }
-                        = "(#{severity(patient_case)})"
+              - form_tag(group_trip_cases_path, {:method => :post}) do
+                .header
+                  %h3 Cases
                   .nav
-                    - if permitted_to? :authorize, patient_case
-                      - if !patient_case.authorized?
-                        = link_to "Approve", authorize_trip_case_path(@trip, patient_case), :method => :put
-                      - else
-                        = link_to "Return to waiting", deauthorize_trip_case_path(@trip, patient_case), :method => :put
-                    |
-                    - if permitted_to? :edit, patient_case
-                      = link_to "Make Changes", trip_case_path(@trip,patient_case)
-                  /
-                    - if patient_case.diagnosis
-                      = render :partial => "diagnoses/inline", :object => patient_case.diagnosis, :as => :diagnosis, :locals => { :options => { :remote => true, :context => :patient_case } }
+                    = select_tag :bulk_action, options_for_select([[""],["Group","group"],["Return to waiting","unapprove"]])
+                    = submit_tag "Go"
+                    = check_box_tag :no_patient_cases, true, params[:no_patient_cases]
+
+                - case_groups.each do |case_group|
+                  .case_group{ :id => dom_id(case_group) }
+                    - case_group.patient_cases.each do |patient_case|
+                      .patient_case{ :class => "#{patient_case.treated? ? "treated" : "untreated"}" }
+                        .xrays
+                          - if patient_case.xrays.present?
+                            = xray_preview(patient_case.display_xray, :size => :tiny)
+                            - if patient_case.xrays.size > 1
+                              = link_to "More X-rays", case_xrays_path(patient_case)
+                            - else
+                              - if permitted_to? :create, Xray.new(:patient_case => patient_case)
+                                = link_to "Add X-Ray", new_case_xray_path(patient_case)
+                        %p.body_part
+                          = link_to patient_case.body_part, trip_case_path(@trip,patient_case)
+                          - if patient_case.revision?
+                            %span.asterisk (Revision)
+                        %p.diagnosis
+                          = patient_case.diagnosis.try(:disease)
+                          - if patient_case.severity && patient_case.severity > 0
+                            %span.severity{ :class => severity(patient_case).downcase }
+                              = "(#{severity(patient_case)})"
+                        .nav
+                          = check_box_tag "bulk_cases[]", patient_case.id
 
           - if unauthorized_cases.present?
             .case_list.unauthorized
               %h3 Waiting Cases
+              .grouped_case_nav
               - unauthorized_cases.each do |patient_case|
                 .patient_case
                   .xrays

@@ -20,6 +20,7 @@ class Patient < ActiveRecord::Base
   has_many :risk_factors, :dependent => :destroy
   has_many :risks, :through => :risk_factors
   has_many :diagnoses, :through => :patient_cases
+  has_many :case_groups, :through => :patient_cases, :uniq => true
 
   accepts_nested_attributes_for :risk_factors, :allow_destroy => true, :reject_if => proc { |attributes| attributes['risk_id'].blank? }
 

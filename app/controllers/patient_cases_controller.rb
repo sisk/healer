@@ -2,12 +2,12 @@ class PatientCasesController < ApplicationController
 
   inherit_resources
   defaults :resource_class => PatientCase, :collection_name => 'patient_cases', :instance_name => 'patient_case'
-  custom_actions :resource => :review, :collection => :waiting
+  custom_actions :resource => :review, :collection => [:waiting, :group]
   actions :all
 
   before_filter :authenticate_user!
   before_filter :set_unregistered_patients, :only => :new
-  filter_resource_access :collection => [:index, :review, :waiting]
+  filter_resource_access :collection => [:index, :review, :waiting, :group]
 
   belongs_to :trip, :optional => true
   belongs_to :patient, :optional => true
@@ -28,6 +28,15 @@ class PatientCasesController < ApplicationController
       format.json {
         render :text => "{\"patient_cases\" : #{@patient_cases.to_json}}"
       }
+    end
+  end
+
+  def group
+    case params[:bulk_action]
+    when "group"
+      patient_cases = PatientCase.find(params[:bulk_cases])
+      PatientCase.group_cases(patient_cases)
+      redirect_to :back, :notice => "Grouped cases."
     end
   end
 

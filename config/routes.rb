@@ -29,6 +29,7 @@ Healer::Application.routes.draw do
       end
       collection do
         get :review, :waiting
+        post :group
       end
     end
     resource :schedule, :controller => :schedule do

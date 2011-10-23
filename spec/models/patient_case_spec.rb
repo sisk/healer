@@ -412,4 +412,10 @@ describe PatientCase, ".group_cases" do
     [@pc1, @pc2].map(&:case_group_id).uniq.compact.first.should == 2
   end
 
+  it "clears the orphaned case groups" do
+    CaseGroup.stub(:remove_orphans)
+    CaseGroup.should_receive(:remove_orphans).with(1)
+    PatientCase.group_cases([@pc1, @pc2])
+  end
+
 end
