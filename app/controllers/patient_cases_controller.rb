@@ -65,7 +65,6 @@ class PatientCasesController < ApplicationController
         return
       }
       failure.html {
-        raise "herp"
         if @trip
           render_action = "trips_new"
         elsif @patient
@@ -98,7 +97,6 @@ class PatientCasesController < ApplicationController
   # non-CRUD
   def review
     if params[:trip_id].present?
-      # raise params[:trip_id].inspect
       @new_cases = PatientCase.find(:all, :conditions => ["trip_id = ? and status = ?", params[:trip_id], "New"]).map(&:id)
       @deferred_cases = PatientCase.find(:all, :conditions => ["trip_id = ? and status = ?", params[:trip_id], "Deferred"]).map(&:id)
       @scheduled_cases = PatientCase.find(:all, :conditions => ["trip_id = ? and status = ?", params[:trip_id], "Scheduled"]).map(&:id)
