@@ -2,11 +2,10 @@ require 'spec_helper'
 
 describe CaseGroup do
   should_have_column :schedule_order, :type => :integer
-  should_have_column :room_id, :type => :integer
+  should_have_column :room_number, :type => :integer
   should_have_column :scheduled_day, :type => :integer
   should_have_many :patient_cases
   should_belong_to :trip
-  should_belong_to :room
 end
 
 describe CaseGroup, "#remove" do
@@ -40,5 +39,47 @@ describe CaseGroup, ".remove_orphans" do
     CaseGroup.stub(:destroy_all)
     CaseGroup.should_receive(:destroy_all).with("trip_id = 2 AND id NOT IN (SELECT case_group_id FROM patient_cases where trip_id = 2)")
     CaseGroup.remove_orphans(2)
+  end
+end
+
+describe CaseGroup, "#patient" do
+  it "returns the patient from its first case" do
+    p = mock_model(Patient)
+    case_group = CaseGroup.new
+    case_group.stub(:patient_cases).and_return([mock_model(PatientCase, :patient => p)])
+    case_group.patient.should == p
+  end
+end
+
+# describe CaseGroup, "schedule!" do
+#   # TODO state machine approach might be better for this.
+#   before(:each) do
+#     @case_group = CaseGroup.new(:trip => mock_model(Trip))
+#     @case_group.stub(:save)
+#   end
+#   it "sets the room" do
+#     lambda { @case_group.schedule! }.should change { @case_group.room_number }
+#   end
+#   it "saves the object" do
+#     @case_group.should_receive(:save)
+#     @case_group.schedule!
+#   end
+# end
+
+describe CaseGroup, "unschedule!" do
+  # TODO state machine approach might be better for this.
+  before(:each) do
+    @case_group = CaseGroup.new(:trip => mock_model(Trip), :room_number => 1, :scheduled_day => 4)
+    @case_group.stub(:save)
+  end
+  it "clears the room" do
+    lambda { @case_group.unschedule! }.should change { @case_group.room_number }.to(nil)
+  end
+  it "sets scheduled day to zero" do
+    lambda { @case_group.unschedule! }.should change { @case_group.scheduled_day }.to(0)
+  end
+  it "saves the object" do
+    @case_group.should_receive(:save)
+    @case_group.unschedule!
   end
 end

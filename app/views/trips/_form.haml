@@ -7,6 +7,7 @@
     = f.input :procedure_start_date, :as => :datepicker, :label => 'Procedures Start On'
     = f.input :end_date, :as => :datepicker, :label => 'Trip Ends'
     = f.input :facility_id, :label => 'Facility', :collection => Facility.all
+    = f.input :available_rooms, :as => :select, :label => 'Rooms Available', :collection => [1,2,3,4,5,6,7,8,9,10]
     = f.input :complexity_minutes, :as => :select, :label => 'Case Complexity Metric', :collection => [["15 minutes",15],["30 minutes",30],["60 minutes",60]]
     = f.input :daily_hours, :as => :select, :label => 'Daily Hours Available', :collection => [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
     = f.input :number_of_operation_days, :as => :select, :label => 'Number of Operation Days', :collection => [0,1,2,3,4,5,6,7]

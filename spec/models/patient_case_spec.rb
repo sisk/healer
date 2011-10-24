@@ -8,17 +8,8 @@ describe PatientCase do
   should_have_column :trip_id, :type => :integer
   should_have_column :approved_at, :type => :datetime
   should_have_column :notes, :type => :text
-  should_have_column :checkin_at, :type => :datetime
-  should_have_column :checkout_at, :type => :datetime
   should_have_column :status, :type => :string
-  should_have_column :location, :type => :string
-  # TODO remove
-  should_have_column :schedule_order, :type => :integer
-  # TODO remove
-  should_have_column :room_id, :type => :integer
   should_have_column :complexity, :type => :integer
-  # TODO remove
-  should_have_column :scheduled_day, :type => :integer
 
   should_belong_to :patient
   should_belong_to :case_group
@@ -139,54 +130,6 @@ describe PatientCase, "in_facility?" do
   end
   it "is usually false" do
     @patient_case.in_facility?.should be_false
-  end
-end
-
-describe PatientCase, "schedule!" do
-  # TODO state machine approach might be better for this.
-  before(:each) do
-    @patient_case = PatientCase.new(:patient => stub_model(Patient), :trip => mock_model(Trip))
-    @patient_case.stub(:save)
-  end
-  ["Registered","Unscheduled"].each do |status|
-    it "changes status from #{status} to 'Scheduled'" do
-      @patient_case.status = status
-      lambda { @patient_case.schedule! }.should change { @patient_case.status }.to('Scheduled')
-    end
-  end
-  (PatientCase::possible_statuses - ["Registered","Unscheduled"]).each do |status|
-    it "does not change the status when set to #{status}" do
-      @patient_case.status = status
-      lambda { @patient_case.schedule! }.should_not change { @patient_case.status }
-    end
-  end
-  it "saves the object" do
-    @patient_case.should_receive(:save)
-    @patient_case.schedule!
-  end
-end
-
-describe PatientCase, "unschedule!" do
-  # TODO state machine approach might be better for this.
-  before(:each) do
-    @patient_case = PatientCase.new(:patient => stub_model(Patient), :trip => mock_model(Trip), :room_id => 1, :scheduled_day => 4)
-    @patient_case.stub(:save)
-  end
-  (PatientCase::possible_statuses - ["Unscheduled"]).each do |status|
-    it "changes status from #{status} to 'Unscheduled'" do
-      @patient_case.status = status
-      lambda { @patient_case.unschedule! }.should change { @patient_case.status }.to('Unscheduled')
-    end
-  end
-  it "clears the room" do
-    lambda { @patient_case.unschedule! }.should change { @patient_case.room_id }.to(nil)
-  end
-  it "sets scheduled day to zero" do
-    lambda { @patient_case.unschedule! }.should change { @patient_case.scheduled_day }.to(0)
-  end
-  it "saves the object" do
-    @patient_case.should_receive(:save)
-    @patient_case.unschedule!
   end
 end
 

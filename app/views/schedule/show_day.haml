@@ -4,13 +4,17 @@
   %ul
     %li= link_to "Full schedule", trip_schedule_path(@trip)
     %li= link_to "Edit schedule", edit_trip_schedule_path(@trip)
-#show_schedule_list
-  %ul
-    - @rooms.each do |room|
-      %li= link_to room, "##{dom_id(room)}"
-  - @rooms.each do |room|
-    - patient_cases = @trip.patient_cases.room(room.id).day(@day)
-    .patient_case_list.day{ :id => dom_id(room) }
-      %h2= room
-      %p= link_to "Show all days for #{room}", trip_schedule_path(@trip, :room => room.id)
-      = render :partial => "schedule/inline_patient_case", :as => :patient_case, :collection => patient_cases
+
+- if @number_of_rooms == 0
+  %p Trip must have room availability set before it can be scheduled.
+- else
+  #show_schedule_list
+    %ul
+      - (1..@number_of_rooms).each do |room_number|
+        %li= link_to "Room #{room_number}", "#room_#{room_number}"
+    - (1..@number_of_rooms).each do |room_number|
+      - case_groups = @trip.case_groups.room(room_number).day(@day)
+      .case_group_list.day{ :id => "room_#{room_number}" }
+        %h2= "Room #{room_number}"
+        %p= link_to "Show all days for Room #{room_number}", trip_schedule_path(@trip, :room_number => room_number)
+        =# render :partial => "schedule/inline_patient_case", :as => :patient_case, :collection => case_group.patient_cases

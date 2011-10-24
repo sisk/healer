@@ -7,7 +7,7 @@ $(document).ready(function() {
 
   $(".room.connectedSortable").sortable({
     items: ".sortable",
-    placeholder: "patient_case_order_placeholder",
+    placeholder: "case_group_order_placeholder",
     connectWith: ".connectedSortable",
     opacity: 0.7,
     helper: "clone",
@@ -31,7 +31,7 @@ $(document).ready(function() {
 
   $("#unscheduled").sortable({
     items: ".sortable",
-    placeholder: "patient_case_order_placeholder",
+    placeholder: "case_group_order_placeholder",
     connectWith: ".connectedSortable",
     opacity: 0.7,
     helper: "clone",
@@ -55,12 +55,12 @@ $(document).ready(function() {
   $("#unscheduled_filter").keyup(function(){
     var query;
     query = $(this).val();
-    $("#source .patient_case").hide();
-    $("#source .patient_case:contains('"+query+"')").show();
+    $("#source .case_group").hide();
+    $("#source .case_group:contains('"+query+"')").show();
     //$("#generated_fld").val($(this).val()).keyup();
     // $("div:contains('John')")
   });
-  
+
 });
 
 function updateUnscheduled() {
@@ -76,12 +76,12 @@ function updateUnscheduled() {
 }
 
 function updateRoom(element) {
-  var enclosure, room_id, day_num, params, template, url;
+  var enclosure, room_number, day_num, params, template, url;
   enclosure = element.closest(".room");
-  room_id = element.closest(".room").attr("class").match(/room_(\d+)/)[1];
+  room_number = element.closest(".room").attr("class").match(/room_(\d+)/)[1];
   day_num = element.closest(".room").attr("class").match(/day_(\d+)/)[1];
 
-  params = enclosure.sortable("serialize") + "&room_id=" + room_id + "&day=" + day_num;
+  params = enclosure.sortable("serialize") + "&room_number=" + room_number + "&day=" + day_num;
   // enclosure.html('<img class="ajax_loader" src="/images/ajax-loader.gif" />');
   $.ajax({
     url: "/trips/1/schedule/sort_room",

@@ -1,29 +1,28 @@
 class ScheduleController < ApplicationController
-  before_filter :authenticate_user!, :setup_trip
+  before_filter :authenticate_user!
 
   def edit
-    @to_schedule = @trip.patient_cases.authorized.unscheduled
-    @rooms = @trip.try(:facility).try(:rooms) || []
-    @number_of_days = @trip.number_of_operation_days || 0
+    @to_schedule = trip.case_groups.unscheduled
+    @number_of_rooms = trip.available_rooms || 0
+    @number_of_days = trip.number_of_operation_days || 0
   end
-  
+
   def show
-    @number_of_days = @trip.number_of_operation_days || 0
-    if params[:room].present?
-      @room = Room.find(params[:room])
+    @number_of_days = trip.number_of_operation_days || 0
+    @number_of_rooms = trip.available_rooms || 0
+    if params[:room_number].present?
+      @room_number = params[:room_number]
       render :template => "schedule/show_room"
     elsif params[:day].present?
       @day = params[:day]
-      @rooms = @trip.try(:facility).try(:rooms) || []
       render :template => "schedule/show_day"
     else
-      @patient_cases = @trip.patient_cases.authorized
-      @rooms = @trip.try(:facility).try(:rooms) || []
+      @case_groups = trip.case_groups
     end
   end
-  
+
   def sort_room
-    if !params[:room_id].present?
+    if !params[:room_number].present?
       flash[:error] = "You must specify a room."
       return
     end
@@ -31,15 +30,15 @@ class ScheduleController < ApplicationController
       flash[:error] = "You must specify a day."
       return
     end
-    @room_id = params[:room_id].to_i
+    @room_number = params[:room_number].to_i
     @day_num = params[:day].to_i
-    if params[:patient_case].present?
-      patient_case_ids = params[:patient_case.to_s]
-      PatientCase.update_all("room_id = #{@room_id}, scheduled_day = #{@day_num}", :id => patient_case_ids )
-      params[:patient_case].each_with_index do |id, index|
-        PatientCase.update_all(['schedule_order = ?', index + 1], ['id = ?', id])
+    if params[:case_group].present?
+      case_group_ids = params[:case_group.to_s]
+      CaseGroup.update_all("room_number = #{@room_number}, scheduled_day = #{@day_num}", :id => case_group_ids )
+      params[:case_group].each_with_index do |id, index|
+        CaseGroup.update_all(['schedule_order = ?', index + 1], ['id = ?', id])
       end
-      @patient_cases = PatientCase.find(patient_case_ids)
+      @case_groups = CaseGroup.find(case_group_ids)
     end
 
     respond_to do |format|
@@ -48,15 +47,15 @@ class ScheduleController < ApplicationController
   end
 
   def sort_unscheduled
-    # patient_case_ids passed here should become "unscheduled"
-    if params[:patient_case].present?
-      patient_case_ids = params[:patient_case.to_s]
-      PatientCase.update_all({:status => 'Unscheduled', :room_id => nil, :scheduled_day => 0}, :id => patient_case_ids)
-      params[:patient_case].each_with_index do |id, index|
-        PatientCase.update_all(['schedule_order = ?', index + 1], ['id = ?', id])
+    # case_group_ids passed here should become "unscheduled"
+    if params[:case_group].present?
+      case_group_ids = params[:case_group.to_s]
+      CaseGroup.update_all({:room_number => nil, :scheduled_day => 0}, :id => case_group_ids)
+      params[:case_group].each_with_index do |id, index|
+        CaseGroup.update_all(['schedule_order = ?', index + 1], ['id = ?', id])
       end
 
-      @patient_cases = PatientCase.find(patient_case_ids)
+      @case_groups = CaseGroup.find(case_group_ids)
     end
 
     respond_to do |format|
@@ -66,7 +65,7 @@ class ScheduleController < ApplicationController
 
 private
 
-  def setup_trip
+  def trip
     @trip ||= Trip.find(params[:trip_id])
   end
 

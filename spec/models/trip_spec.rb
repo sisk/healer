@@ -9,13 +9,13 @@ describe Trip do
   should_have_column :facility_id, :type => :integer
   should_have_column :complexity_minutes, :type => :integer
   should_have_column :daily_hours, :type => :integer
+  should_have_column :available_rooms, :type => :integer
   should_have_column :number_of_operation_days, :type => :integer
   should_validate_presence_of :country
   # should_have_and_belong_to_many :staff
   should_belong_to :facility
   should_have_many :patient_cases
   should_have_many :case_groups
-  should_have_many :operations
   should_have_many :patients, :through => :patient_cases
   should_have_many :authorized_patients, :through => :patient_cases
   should_have_and_belong_to_many :users

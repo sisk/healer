@@ -4,46 +4,49 @@
   %ul
     %li= link_to "Show schedule", trip_schedule_path(@trip)
 
-%ul#room_toggle
-  %li.header Show:
-  - @rooms.each do |room|
-    %li{ :id => "show_#{dom_id(room)}" }= link_to_function room, "$('#schedule').find('.#{dom_id(room)}').removeClass('hide'); $(this).closest('li').addClass('hide'); toggleScroller();"
+- if @number_of_rooms == 0
+  %p Trip must have room availability set before it can be scheduled.
+- else
+  %ul#room_toggle
+    %li.header Show:
+    - (1..@number_of_rooms).each do |room_number|
+      %li{ :id => "show_room_#{room_number}" }= link_to_function "Room #{room_number}", "$('#schedule').find('.room_#{room_number}').removeClass('hide'); $(this).closest('li').addClass('hide'); toggleScroller();"
 
-#schedule_edit
+  #schedule_edit
 
-  #source
-    .header
-      %h2= "Unscheduled (#{@to_schedule.size})"
-      = label_tag :filter, "Filter"
-      = text_field_tag :filter, nil, :id => "unscheduled_filter"
-    #unscheduled.patient_cases.connectedSortable{ :class => "#{@to_schedule.empty? ? "empty" : ""}" }
-      = render :partial => "schedule/patient_case_unscheduled", :collection => @to_schedule, :as => :patient_case
+    #source
+      .header
+        %h2= "Unscheduled (#{@to_schedule.size})"
+        = label_tag :filter, "Filter"
+        = text_field_tag :filter, nil, :id => "unscheduled_filter"
+      #unscheduled.case_groups.connectedSortable{ :class => "#{@to_schedule.empty? ? "empty" : ""}" }
+        = render :partial => "schedule/unscheduled", :collection => @to_schedule, :as => :case_group
 
-  %table.schedule#schedule
-    %thead
-      %tr
-      %th &nbsp;
-      - @rooms.each do |room|
-        %th{ :id => "#{dom_id(room)}_header", :class => "#{dom_id(room)} hide" }
-          = room
-          %span.fake_link.toggle
-            = link_to_function "hide", "$('#show_#{dom_id(room)}').removeClass('hide'); $('#schedule').find('.#{dom_id(room)}').addClass('hide'); toggleScroller();"
-      - if request_ipad?
-        %tr.scroller
-          %td{ :colspan => "#{@trip.patient_cases.size + 1}" }
-            .horizontal_scroller.hide
-              %p [Use two fingers here to scroll left and right]
-    %tbody
-      - @number_of_days.times do |i|
-        - day_num = i + 1
-        %tr.day
-          %td.indicator
-            = "Day #{day_num}"
-          - @rooms.each do |room|
-            - patient_cases = @trip.patient_cases.room(room.id).day(day_num)
-            %td{ :class => "day_#{day_num} #{dom_id(room)} hide" }
-              .room.connectedSortable{ :class => "day_#{day_num} #{dom_id(room)} #{patient_cases.empty? ? "empty" : ""}", :id => "day_#{day_num}_#{dom_id(room)}" }
-                = render :partial => "schedule/patient_case_scheduled", :collection => patient_cases, :as => :patient_case
+    %table.schedule#schedule
+      %thead
+        %tr
+        %th &nbsp;
+        - (1..@number_of_rooms).each do |room_number|
+          %th{ :id => "room_#{room_number}_header", :class => "room_#{room_number} hide" }
+            = "Room #{room_number}"
+            %span.fake_link.toggle
+              = link_to_function "hide", "$('#show_room_#{room_number}').removeClass('hide'); $('#schedule').find('.room_#{room_number}').addClass('hide'); toggleScroller();"
+        - if request_ipad?
+          %tr.scroller
+            %td{ :colspan => "#{@trip.case_groups.size + 1}" }
+              .horizontal_scroller.hide
+                %p [Use two fingers here to scroll left and right]
+      %tbody
+        - @number_of_days.times do |i|
+          - day_num = i + 1
+          %tr.day
+            %td.indicator
+              = "Day #{day_num}"
+            - (1..@number_of_rooms).each do |room_number|
+              - case_groups = @trip.case_groups.room(room_number).day(day_num)
+              %td{ :class => "day_#{day_num} room_#{room_number} hide" }
+                .room.connectedSortable{ :class => "day_#{day_num} room_#{room_number} #{case_groups.empty? ? "empty" : ""}", :id => "day_#{day_num}_room_#{room_number}" }
+                  = render :partial => "schedule/scheduled", :collection => case_groups, :as => :case_group
 
 - content_for :script do
   = javascript_include_tag "lib/schedule.js"

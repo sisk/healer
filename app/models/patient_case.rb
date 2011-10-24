@@ -35,8 +35,6 @@ class PatientCase < ActiveRecord::Base
   accepts_nested_attributes_for :diagnosis
   accepts_nested_attributes_for :xrays
 
-  default_scope :order => 'patient_cases.schedule_order'
-
   delegate :complexity_minutes, :to => :trip
   delegate :name, :to => :patient
   delegate :body_part, :to => :diagnosis, :allow_nil => true
@@ -64,13 +62,6 @@ class PatientCase < ActiveRecord::Base
       end
     end
   }
-  scope :unscheduled, where("patient_cases.room_id is ? or patient_cases.scheduled_day = ?", nil, 0)
-  scope :scheduled, where("patient_cases.room_id is not ? and patient_cases.scheduled_day != ?", nil, 0)
-
-  # TODO should this be a model join?
-  scope :room, lambda { |room_id| where("patient_cases.room_id = ?",room_id) if room_id.present? }
-  scope :day, lambda { |num| where("patient_cases.scheduled_day = ?",num) if num.present? }
-  scope :no_day, where("patient_cases.scheduled_day = ?",0)
 
   scope :male, :include => :patient, :conditions => ["patients.male = ?", true]
   scope :female, :include => :patient, :conditions => ["patients.male = ?", false]
@@ -117,16 +108,6 @@ class PatientCase < ActiveRecord::Base
 
   def in_facility?
     ["Checked In","Preparation","Procedure","Recovery","Discharge"].include?(status)
-  end
-
-  def schedule!
-    self.status = "Scheduled" if ["Registered","Unscheduled"].include?(self.status)
-    self.save
-  end
-
-  def unschedule!
-    self.attributes = { :status => "Unscheduled", :room_id => nil, :scheduled_day => 0 }
-    self.save
   end
 
   # This only works for MySQL...and ergo not Heroku
