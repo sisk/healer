@@ -12,7 +12,6 @@ describe Diagnosis do
   # should_belong_to :patient_case
   should_belong_to :disease
   should_belong_to :body_part
-  should_have_one :operation
   should_have_many :xrays
 
   # should_validate_presence_of :patient_case

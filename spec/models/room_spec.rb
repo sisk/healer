@@ -11,7 +11,6 @@ describe Room do
   should_validate_presence_of :facility
 
   should_have_many :operations
-  should_have_many :patient_cases
   should_have_many :case_groups
 end
 

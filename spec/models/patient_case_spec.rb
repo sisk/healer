@@ -56,7 +56,7 @@ end
 
 describe PatientCase, "deauthorize!" do
   before(:each) do
-    @patient_case = PatientCase.new(:patient => stub_model(Patient), :trip => mock_model(Trip), :approved_by_id => 1, :approved_at => Time.now, :room_id => 2, :scheduled_day => 3)
+    @patient_case = PatientCase.new(:patient => stub_model(Patient), :trip => mock_model(Trip), :approved_by_id => 1, :approved_at => Time.now)
   end
   it "sets case's approved_at to nil" do
     @patient_case.deauthorize!
