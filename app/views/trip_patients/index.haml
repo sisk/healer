@@ -26,7 +26,7 @@
   .records
     - @trip.patients. each do |patient|
       %a{ :name => dom_id(patient) }
-      .patient{ :id => "#{patient.id}" }
+      .patient{ :id => dom_id(patient) }
         .basic
           %h2= patient
           .image= patient_image(patient, :small)
@@ -122,6 +122,7 @@
       $(".records .patient").addClass("hide");
       $(".records .patient .case_list").addClass("hide");
       $(".records .patient .patient_case").addClass("hide");
+      $("#patient_anchor option").attr("disabled", true);
 
       // Figure out which body parts were selected
       selected_body_parts = $('.filter .body_part input:checked').map(function() { return this.value });
@@ -167,6 +168,7 @@
             $(this).closest(".patient_case").removeClass("hide");
             // 3. For the outer patient record
             $(this).closest(".patient").removeClass("hide");
+            $("#patient_anchor option[value='"+$(this).closest(".patient").attr("id")+"']").attr("disabled", false);
           });
         }
 
