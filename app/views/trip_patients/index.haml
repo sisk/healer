@@ -43,7 +43,7 @@
           - unauthorized_cases = patient.patient_cases.unauthorized(:conditions => ["trip_id = ?", @trip.id])
           - if case_groups.present?
             .case_list.authorized{ :class => "#{case_groups.map(&:patient_cases).flatten.size > 1 ? "multiple" : "single"}" }
-              - form_tag(group_trip_cases_path, {:method => :post}) do
+              - form_tag(group_trip_cases_path, :method => :post, :remote => true) do
                 .header
                   %h3 Cases
                   .nav

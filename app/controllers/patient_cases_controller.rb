@@ -36,7 +36,16 @@ class PatientCasesController < ApplicationController
     when "group"
       patient_cases = PatientCase.find(params[:bulk_cases])
       PatientCase.group_cases(patient_cases)
-      redirect_to :back, :notice => "Grouped cases."
+      group! do |format|
+        format.html {
+          redirect_to :back, :notice => "Grouped cases."
+        }
+        format.js {
+          render :text => "{\"notice\" : \"Grouped cases.\"}"
+        }
+      end
+    else
+      render :nothing => true
     end
   end
 

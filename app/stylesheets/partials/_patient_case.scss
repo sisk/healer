@@ -36,6 +36,14 @@
     .case_list {
       padding: 10px;
       @include clearfix;
+      .case_group {
+        padding: 5px;
+        border: solid 1px $grey11;
+        @include border-radius(6px);
+        background-color: $grey14;
+        margin-bottom: 10px;
+        &:last-child { margin-bottom: 0; }
+      }
       &.unauthorized {
         background-color: $indicator-yellow;
         @include border-bottom-radius(6px);
