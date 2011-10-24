@@ -7,13 +7,21 @@
     %li= link_to "Schedule", trip_schedule_path(@trip)
 .record_list.patient_list
   .filter
-    .record_jump= select_tag :patient_anchor, options_for_select([["Jump to patient...",""]] + @trip.patients.map{ |patient| [patient, dom_id(patient)] })
-    .body_part
+    .section.record_jump
+      %h4 Jump to patient
+      = select_tag :patient_anchor, options_for_select([[""]] + @trip.patients.map{ |patient| [patient, dom_id(patient)] })
+    .section.body_part
+      %h4 Body part
       - @body_part_names.each do |body_part_name|
-        .item
-          = check_box_tag "#{body_part_name}_filter", body_part_name
+        .criterion
+          = check_box_tag "#{body_part_name}_filter", body_part_name, true
           = label_tag "#{body_part_name}_filter", body_part_name
-
+    .section
+      %h4 Other
+      = select_tag :authorized_case_filter, options_for_select([["All cases","all"],["Authorized cases only","authorized"],["Waiting cases only","unauthorized"]])
+      .criterion
+        = check_box_tag :multiple_case_filter, true
+        = label_tag :multiple_case_filter, "Multiple cases only"
 
   .records
     - @trip.patients. each do |patient|
@@ -34,14 +42,14 @@
           - case_groups = patient.case_groups(:conditions => ["trip_id = ?", @trip.id])
           - unauthorized_cases = patient.patient_cases.unauthorized(:conditions => ["trip_id = ?", @trip.id])
           - if case_groups.present?
-            .case_list.authorized
+            .case_list.authorized{ :class => "#{case_groups.map(&:patient_cases).flatten.size > 1 ? "multiple" : "single"}" }
               - form_tag(group_trip_cases_path, {:method => :post}) do
                 .header
                   %h3 Cases
                   .nav
-                    = select_tag :bulk_action, options_for_select([[""],["Group","group"],["Return to waiting","unapprove"]])
+                    %span.fake_link.select_all Select All
+                    = select_tag :bulk_action, options_for_select([[""],["Operate together","group"],["Return to waiting","unapprove"]])
                     = submit_tag "Go"
-                    = check_box_tag :no_patient_cases, true, params[:no_patient_cases]
 
                 - case_groups.each do |case_group|
                   .case_group{ :id => dom_id(case_group) }
@@ -65,10 +73,11 @@
                             %span.severity{ :class => severity(patient_case).downcase }
                               = "(#{severity(patient_case)})"
                         .nav
-                          = check_box_tag "bulk_cases[]", patient_case.id
+                          = label_tag "bulk_select_case_#{patient_case.id}", "Select case"
+                          = check_box_tag "bulk_cases[]", patient_case.id, false, :id => "bulk_select_case_#{patient_case.id}"
 
           - if unauthorized_cases.present?
-            .case_list.unauthorized
+            .case_list.unauthorized{ :class => "#{unauthorized_cases.size > 1 ? "multiple" : "single"}" }
               %h3 Waiting Cases
               .grouped_case_nav
               - unauthorized_cases.each do |patient_case|
@@ -101,26 +110,70 @@
                     - if permitted_to? :edit, patient_case
                       = link_to "Make Changes", trip_case_path(@trip,patient_case)
 
+
+
 - content_for :script do
   :javascript
-    $('.filter .body_part .item input').change(function(event) {
-      var selected = $('.filter .body_part input:checked').map(function() { return this.value });
-      if (selected.length > 0) {
-        var re = new RegExp(selected.toArray().join("|"),"i");
-        var shown_cases = $(".patient_case p.body_part").filter(function() { return re.test( $(this).text() ) });
-        $(".records .patient").addClass("hide");
-        $(".records .patient .patient_case").addClass("hide");
-        shown_cases.each(function(the_case) {
-          $(this).closest(".patient_case").removeClass("hide");
-          $(this).closest(".patient").removeClass("hide");
-        });
-      } else {
-        $(".records .patient").removeClass("hide");
-        $(".records .patient .patient_case").removeClass("hide");
+
+    $("#authorized_case_filter, .filter .criterion input").change(function(event) {
+      var selected_body_parts, authorized_value, unauthorized_value, regex, shown_cases, actors;
+
+      // Initial hide of all patient and associated records
+      $(".records .patient").addClass("hide");
+      $(".records .patient .case_list").addClass("hide");
+      $(".records .patient .patient_case").addClass("hide");
+
+      // Figure out which body parts were selected
+      selected_body_parts = $('.filter .body_part input:checked').map(function() { return this.value });
+      if (selected_body_parts.length > 0) {
+        regex = new RegExp(selected_body_parts.toArray().join("|"),"i");
       }
+
+      // Determine which case lists to show based on multiple and authorized setting
+      switch ($("#authorized_case_filter").val()) {
+        case "authorized":
+          if ($("#multiple_case_filter").attr("checked") === true) {
+            actors = $(".case_list.authorized.multiple");
+          } else {
+            actors = $(".case_list.authorized");
+          }
+          break;
+        case "unauthorized":
+          if ($("#multiple_case_filter").attr("checked") === true) {
+            actors = $(".case_list.unauthorized.multiple");
+          } else {
+            actors = $(".case_list.unauthorized");
+          }
+          break;
+        default:
+          if ($("#multiple_case_filter").attr("checked") === true) {
+            actors = $(".case_list.multiple");
+          } else {
+            actors = $(".case_list");
+          }
+          break;
+      }
+
+      // Start selectively removing hide attributes
+      actors.each(function(actor) {
+
+        // 1. For case_lists
+        $(this).removeClass("hide");
+
+        // 2. For cases in the list matching body parts
+        if (regex !== undefined) {
+          shown_cases = $(this).find("p.body_part").filter(function() { return regex.test( $(this).text() ) });
+          shown_cases.each(function(the_case) {
+            $(this).closest(".patient_case").removeClass("hide");
+            // 3. For the outer patient record
+            $(this).closest(".patient").removeClass("hide");
+          });
+        }
+
+      });
+
     });
 
-
-    function resetAllPatients() {
-
-    }
+    $(".case_list .select_all").click(function(event) {
+      $(this).closest(".case_list").find(".patient_case input[type=checkbox]").attr("checked",true);
+    });

@@ -93,8 +93,12 @@ $content-columns: $blueprint-grid-columns - 2;
     @include column(4);
     @include float-left;
     position: fixed;
-    select {
-      @include column(4, true);
+    .section {
+      @include clearfix;
+    }
+    select { @include column(4, true); }
+    h4 {
+      margin-bottom: 0.5em;
     }
   }
   .records {

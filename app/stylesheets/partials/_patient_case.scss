@@ -44,8 +44,6 @@
         @include clearfix;
         h3 { @include column(7); }
         .nav {
-          @include showgrid;
-          @include column(10, true);
           @include float-right;
         }
       }

@@ -32,7 +32,7 @@
             = render :partial => "patients/medical_details", :locals => { :patient => patient, :hide => true }
 
     .action
-      = semantic_form_for patient_case, :remote => true, :html => { :class => "assfag" } do |f|
+      = semantic_form_for patient_case, :remote => true do |f|
         = f.inputs :class => "patient_case_complexity" do
           - from_time = Time.now
           = f.input :complexity, :as => :select, :label => "Time", :collection => PatientCase::complexity_units.map{ |cu| [distance_of_time_in_words(from_time, from_time + (patient_case.complexity_minutes * cu.to_i).to_i.minutes, false, { :two_words_connector => ", " }), cu] }, :input_html => { :id => nil, :class => "submit_patient_case_complexity" }, :wrapper_html => { :id => "#{dom_id(patient_case)}_complexity" }
