@@ -17,4 +17,16 @@
       .case_group_list.day{ :id => "room_#{room_number}" }
         %h2= "Room #{room_number}"
         %p= link_to "Show all days for Room #{room_number}", trip_schedule_path(@trip, :room_number => room_number)
-        =# render :partial => "schedule/inline_patient_case", :as => :patient_case, :collection => case_group.patient_cases
+
+        #patient_cases.patient_case_list
+          - case_groups.each do |case_group|
+            = render :partial => "patient_cases/summary/record", :collection => case_group.patient_cases, :as => :patient_case
+
+- content_for :script do
+  = javascript_include_tag "lib/jquery.fancybox.overrides"
+  :javascript
+    $(document).ready(function(){
+      $(".submit_patient_case_complexity").live('change', function(event) {
+        $(this).closest("form").submit();
+      });
+    });

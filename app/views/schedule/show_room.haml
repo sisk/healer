@@ -1,5 +1,5 @@
 - content_for :title do
-  = "Schedule - #{@room}"
+  = "Schedule - Room #{@room_number}"
 - content_for :subtitle do
   = @trip
 - content_for :subnavigation do
@@ -13,8 +13,20 @@
       %li= link_to "Day #{day_num}", "#day_#{day_num}"
   - @number_of_days.times do |i|
     - day_num = i + 1
-    - patient_cases = @trip.patient_cases.room(@room.id).day(day_num)
-    .patient_case_list.day{ :id => "day_#{day_num}" }
+    - case_groups = @trip.case_groups.room(@room_number).day(day_num)
+    .case_group_list.day{ :id => "day_#{day_num}" }
       %h2= "Day #{day_num}"
       %p= link_to "Show all rooms for Day #{day_num}", trip_schedule_path(@trip, :day => day_num)
-      = render :partial => "schedule/inline_patient_case", :as => :patient_case, :collection => patient_cases
+      
+      #patient_cases.patient_case_list
+        - case_groups.each do |case_group|
+          = render :partial => "patient_cases/summary/record", :collection => case_group.patient_cases, :as => :patient_case
+
+- content_for :script do
+  = javascript_include_tag "lib/jquery.fancybox.overrides"
+  :javascript
+    $(document).ready(function(){
+      $(".submit_patient_case_complexity").live('change', function(event) {
+        $(this).closest("form").submit();
+      });
+    });
