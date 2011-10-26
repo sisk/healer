@@ -25,7 +25,7 @@ class CaseGroup < ActiveRecord::Base
   end
 
   def self.remove_orphans(trip_id)
-    self.destroy_all("trip_id = #{trip_id} AND id NOT IN (SELECT case_group_id FROM patient_cases where trip_id = #{trip_id})")
+    self.destroy_all("trip_id = #{trip_id} AND id NOT IN (SELECT case_group_id FROM patient_cases where trip_id = #{trip_id} and case_group_id is not null)")
   end
 
   # def schedule!
