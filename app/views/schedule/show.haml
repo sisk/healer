@@ -3,6 +3,7 @@
 - content_for :subnavigation do
   %ul
     %li= link_to @trip, trip_path(@trip)
+    %li= link_to "Patients", trip_patients_path(@trip)
     %li= link_to "Edit schedule", edit_trip_schedule_path(@trip)
 
 - if @number_of_rooms == 0
