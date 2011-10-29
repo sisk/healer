@@ -53,7 +53,7 @@
   @include clearfix;
   font-size: 0.8em;
   .empty {
-    @include min-height(50px); 
+    @include min-height(50px);
   }
 }
 
@@ -95,7 +95,7 @@ table.schedule {
     .patient_case {
       margin-bottom: $margin-increment;
       p { margin: 0px; }
-    } 
+    }
   }
 }
 table#schedule {
@@ -138,9 +138,11 @@ table#show_schedule {
 }
 
 .connectedSortable {
+  &#unscheduled {
+    height: 500px;
+  }
   background-color: $white;
   /*@include column(6);*/
-  /*height: 500px;*/
   overflow: auto;
   .sortable {
     position: relative;
