@@ -1,17 +1,16 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.10'
+gem 'rails', '3.1'
 
 gem 'heroku'
 gem 'taps'
 gem 'aws-s3'
 # gem 'sqlite3-ruby', :require => 'sqlite3'
-gem 'mysql2', '0.2.7'
+gem 'mysql2', '0.3.7'
 gem "haml"
 gem "compass"
-gem "devise", "1.1.3"
-# gem "declarative_authorization", :git => "http://github.com/stffn/declarative_authorization.git"
-gem "declarative_authorization", '0.5'
+gem "devise", "1.4.9"
+gem "declarative_authorization", '0.5.3'
 gem "formtastic", '~> 1.1.0'
 gem "validation_reflection"
 gem "carmen", :git => "http://github.com/grobie/carmen.git"
@@ -19,14 +18,14 @@ gem "paperclip"
 gem "test-unit"
 gem 'inherited_resources', '~> 1.2.1'
 gem "will_paginate", '3.0.pre2'
-gem "dotiw"
+gem "dotiw", '1.1.1'
 gem 'jquery-rails', '>= 0.2.6'
 
 # gem 'hoptoad_notifier'
 
 group :development, :test do
   gem "test_notifier"
-  gem "rspec-rails", ">= 2.0.0.beta.17"
+  gem "rspec-rails", ">= 2.0.0"
   gem "remarkable_activerecord", ">= 4.0.0.alpha4"
   gem "factory_girl_rails"
   gem "newrelic_rpm"
