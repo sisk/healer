@@ -36,6 +36,12 @@ class PatientCasesController < ApplicationController
     when "group"
       patient_cases = PatientCase.find(params[:bulk_cases])
       PatientCase.group_cases(patient_cases)
+
+      # Reload all cases for re-drawing
+      patient_cases.each{ |pc| pc.reload }
+      authorized_cases = patient_cases.select{ |pc| pc.authorized? }
+      unauthorized_cases = patient_cases.select{ |pc| !pc.authorized? }
+
       group! do |format|
         format.html {
           redirect_to :back, :notice => "Grouped cases."
@@ -44,6 +50,10 @@ class PatientCasesController < ApplicationController
           render :text => "{\"notice\" : \"Grouped cases.\"}"
         }
       end
+    when "ungroup"
+      render :json => params
+    when "unapprove"
+      render :json => params
     else
       render :nothing => true
     end
@@ -118,7 +128,10 @@ class PatientCasesController < ApplicationController
     @patient_case.authorize!(current_user.id)
     flash[:notice] = "Approved case for #{@patient_case.patient}."
     # redirect_to trip_cases_path(@patient_case.trip, :anchor => "waiting")
-    redirect_to :back
+    respond_with(@patient_case) do |format|
+      format.html { redirect_to :back }
+      format.js { render :template => "patient_cases/authorize.js.erb", :layout => nil }
+    end
   end
 
   def deauthorize
