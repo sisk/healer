@@ -263,3 +263,15 @@ describe Patient, "#has_medical_detail?" do
     Patient.new.has_medical_detail?.should be_false
   end
 end
+
+describe Patient, "age" do
+  it "is nil if patient birth is absent" do
+    patient = Patient.new(:birth => nil)
+    patient.age.should be_nil
+  end
+  it "returns the calculated age" do
+    Time.stub(:now).and_return("2011-10-29 00:00:00".to_time)
+    patient = Patient.new(:birth => "1975-05-28")
+    patient.age.should == 36
+  end
+end

@@ -116,6 +116,14 @@ TODO [cruft] 2011-08-15 possible cruft alert! if no one chirps for a while, kill
     return (risk_factors.present? || other_diseases.present? || medications.present? || allergies.present?)
   end
 
+  def age
+    if birth.present?
+      day_diff = Time.now.day - birth.day
+      month_diff = Time.now.month - birth.month - (day_diff < 0 ? 1 : 0)
+      Time.now.year - birth.year - (month_diff < 0 ? 1 : 0)
+    end
+  end
+
 private
 
   def set_weight
