@@ -1,7 +1,7 @@
 - case_groups = patient.case_groups(:conditions => ["trip_id = ?", trip.id])
 - unauthorized_cases = patient.patient_cases.unauthorized(:conditions => ["trip_id = ?", trip.id])
 #authorized_cases.case_list.authorized{ :class => "#{case_groups.map(&:patient_cases).flatten.size > 1 ? "multiple" : "single"}" }
-  - form_tag(group_trip_cases_path, :method => :post, :remote => true) do
+  = form_tag(group_trip_cases_path, :method => :post, :remote => true) do
     .header{ :class => "#{"hide" unless case_groups.present?}" }
       %h3 Cases
       .nav
@@ -11,8 +11,7 @@
 
     - case_groups.each do |case_group|
       .case_group{ :id => dom_id(case_group) }
-        - case_group.patient_cases.each do |patient_case|
-          = render :partial => "authorized_case", :object => patient_case, :as => :patient_case
+        = render :partial => "authorized_case", :collection => case_group.patient_cases, :as => :patient_case
 
 #unauthorized_cases.case_list.unauthorized{ :class => "#{unauthorized_cases.size > 1 ? "multiple" : "single"}" }
   - if unauthorized_cases.present?

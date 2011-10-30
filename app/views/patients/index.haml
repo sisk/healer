@@ -5,7 +5,7 @@
     - if permitted_to? :create, Patient.new
       %li= link_to "New Patient", new_patient_path
 .list_nav
-  - form_tag(patients_path, {:method => :get, :class => "list_search"}) do
+  = form_tag(patients_path, {:method => :get, :class => "list_search"}) do
     = label_tag :search, "Search"
     = text_field_tag :search, params[:search]
     = label_tag :no_patient_cases, "No case"
