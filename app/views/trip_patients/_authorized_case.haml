@@ -1,0 +1,23 @@
+.patient_case{ :class => "#{patient_case.treated? ? "treated" : "untreated"}", :id => dom_id(patient_case) }
+  .xrays
+    - if patient_case.xrays.present?
+      = xray_preview(patient_case.display_xray, :size => :tiny)
+      - if patient_case.xrays.size > 1
+        = link_to "More X-rays", case_xrays_path(patient_case)
+      - else
+        - if permitted_to? :create, Xray.new(:patient_case => patient_case)
+          = link_to "Add X-Ray", new_case_xray_path(patient_case)
+  %p.body_part
+    = "Case ##{patient_case.id}"
+    %br/
+    = link_to patient_case.body_part, trip_case_path(patient_case.trip,patient_case)
+    - if patient_case.revision?
+      %span.asterisk (Revision)
+  %p.diagnosis
+    = patient_case.diagnosis.try(:disease)
+    - if patient_case.severity && patient_case.severity > 0
+      %span.severity{ :class => severity(patient_case).downcase }
+        = "(#{severity(patient_case)})"
+  .nav
+    = label_tag "bulk_select_case_#{patient_case.id}", "Select case"
+    = check_box_tag "bulk_cases[]", patient_case.id, false, :id => "bulk_select_case_#{patient_case.id}"

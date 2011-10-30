@@ -1,0 +1,3 @@
+$('#authorized_cases .header').removeClass("hide");
+// $('#authorized_cases').append('<%= escape_javascript(render :partial => "trip_patients/authorized_case", :object => @patient_case, :as => :patient_case %>');
+$("#<%= dom_id(@patient_case) %>").fadeOut();
