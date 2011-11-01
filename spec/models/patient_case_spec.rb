@@ -254,7 +254,8 @@ end
 
 describe PatientCase, "treated?" do
   it "is true if operation is present" do
-    patient_case = PatientCase.new(:operation => mock_model(Operation))
+    patient_case = PatientCase.new
+    patient_case.stub(:operation).and_return(mock_model(Operation))
     patient_case.treated?.should be_true
   end
   it "is false if operation is not present" do
