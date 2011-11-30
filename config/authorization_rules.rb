@@ -8,13 +8,13 @@ authorization do
   role :superuser do
     has_permission_on [:trips, :facilities, :rooms, :users, :patients, :body_parts, :diagnoses, :diseases, :risks, :risk_factors, :patient_cases, :implants, :operations, :procedures, :xrays], :to => :everything
     has_permission_on [:trips], :to => [:users, :new_user]
-    has_permission_on :patient_cases, :to => [:authorize, :deauthorize, :unschedule, :review, :waiting, :group]
+    has_permission_on :patient_cases, :to => [:authorize, :deauthorize, :unschedule, :review, :waiting, :bulk]
     has_permission_on [:diseases, :procedures, :risks, :rooms], :to => [:sort]
   end
   role :admin do
     has_permission_on [:patients, :diseases, :diagnoses, :risks, :risk_factors, :patient_cases, :implants, :operations], :to => :everything
     has_permission_on [:trips], :to => :view_only
-    has_permission_on [:patient_cases], :to => [:authorize, :deauthorize, :unschedule, :review, :waiting, :group]
+    has_permission_on [:patient_cases], :to => [:authorize, :deauthorize, :unschedule, :review, :waiting, :bulk]
   end
   role :nurse do
     has_permission_on [:trips], :to => :view_only
@@ -22,7 +22,7 @@ authorization do
       has_permission_on :risk_factors, :to => :everything
       has_permission_on :diagnoses, :to => :everything
     end
-    has_permission_on :patient_cases, :to => [:manage, :browse_and_update, :unschedule, :waiting, :group]
+    has_permission_on :patient_cases, :to => [:manage, :browse_and_update, :unschedule, :waiting, :bulk]
   end
   role :doctor do
     includes :nurse

@@ -2,12 +2,12 @@ class PatientCasesController < ApplicationController
 
   inherit_resources
   defaults :resource_class => PatientCase, :collection_name => 'patient_cases', :instance_name => 'patient_case'
-  custom_actions :resource => :review, :collection => [:waiting, :group]
+  custom_actions :resource => :review, :collection => [:waiting, :bulk]
   actions :all
 
   before_filter :authenticate_user!
   before_filter :set_unregistered_patients, :only => :new
-  filter_resource_access :collection => [:index, :review, :waiting, :group]
+  filter_resource_access :collection => [:index, :review, :waiting, :bulk]
 
   belongs_to :trip, :optional => true
   belongs_to :patient, :optional => true
@@ -31,29 +31,59 @@ class PatientCasesController < ApplicationController
     end
   end
 
-  def group
+  def bulk
+    @patient_cases = PatientCase.find(params[:bulk_cases])
+    @patient = @patient_cases.first.patient
+    @trip = @patient_cases.first.trip
+    @old_case_groups = @patient_cases.map(&:case_group_id).uniq
+
     case params[:bulk_action]
     when "group"
-      patient_cases = PatientCase.find(params[:bulk_cases])
-      PatientCase.group_cases(patient_cases)
+
+      PatientCase.group_cases(@patient_cases)
 
       # Reload all cases for re-drawing
-      patient_cases.each{ |pc| pc.reload }
-      authorized_cases = patient_cases.select{ |pc| pc.authorized? }
-      unauthorized_cases = patient_cases.select{ |pc| !pc.authorized? }
+      @patient_cases.each{ |pc| pc.reload }
+      @new_case_groups = @patient_cases.map(&:case_group).uniq.compact
+      authorized_cases = @patient_cases.select{ |pc| pc.authorized? }
+      unauthorized_cases = @patient_cases.select{ |pc| !pc.authorized? }
 
-      group! do |format|
+      respond_to do |format|
         format.html {
           redirect_to :back, :notice => "Grouped cases."
         }
         format.js {
-          render :text => "{\"notice\" : \"Grouped cases.\"}"
+          render :template => "patient_cases/refresh_cases.js.erb", :layout => nil
         }
       end
     when "ungroup"
-      render :json => params
+      (@patient_cases - [@patient_cases.first]).each do |revised_patient_case|
+        # clear all case groups from everythign but the first patient case submitted for bulk.
+        # the model should handle recreating new case groups on save.
+        revised_patient_case.update_attributes(:case_group => nil)
+      end
+      @patient_cases.each{ |pc| pc.reload }
+      @new_case_groups = @patient_cases.map(&:case_group).uniq.compact
+      respond_to do |format|
+        format.html {
+          redirect_to :back, :notice => "Grouped cases."
+        }
+        format.js {
+          render :template => "patient_cases/refresh_cases.js.erb", :layout => nil
+        }
+      end
+
+
     when "unapprove"
-      render :json => params
+      @patient_cases.each{ |pc| pc.deauthorize! }
+      respond_to do |format|
+        format.html {
+          redirect_to :back, :notice => "Deauthorized cases."
+        }
+        format.js {
+          render :template => "patient_cases/refresh_cases.js.erb", :layout => nil
+        }
+      end
     else
       render :nothing => true
     end
@@ -125,11 +155,13 @@ class PatientCasesController < ApplicationController
   end
 
   def authorize
-    @patient_case.authorize!(current_user.id)
-    flash[:notice] = "Approved case for #{@patient_case.patient}."
     # redirect_to trip_cases_path(@patient_case.trip, :anchor => "waiting")
+    @patient_case.authorize!(current_user.id)
     respond_with(@patient_case) do |format|
-      format.html { redirect_to :back }
+      format.html {
+        flash[:notice] = "Approved case for #{@patient_case.patient}."
+        redirect_to :back
+      }
       format.js { render :template => "patient_cases/authorize.js.erb", :layout => nil }
     end
   end

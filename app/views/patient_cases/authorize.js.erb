@@ -1,3 +1,11 @@
-$('#authorized_cases .header').removeClass("hide");
-// $('#authorized_cases').append('<%= escape_javascript(render :partial => "trip_patients/authorized_case", :object => @patient_case, :as => :patient_case %>');
+cases = $("#<%= dom_id(@patient_case) %>").closest(".cases")
 $("#<%= dom_id(@patient_case) %>").fadeOut();
+$("#<%= dom_id(@patient_case) %>").remove();
+
+if (cases.find(".unauthorized .patient_case").length === 0) {
+  cases.find(".unauthorized .header").addClass("hide");
+}
+
+cases.find(".authorized .header").removeClass("hide");
+cases.find(".authorized form").append('<%= escape_javascript(render :partial => "trip_patients/authorized_case_group", :object => @patient_case.case_group, :as => :case_group) %>');
+cases.find(".authorized").removeClass("hide");
