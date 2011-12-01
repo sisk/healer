@@ -20,8 +20,7 @@ gem 'inherited_resources', '~> 1.2.1'
 gem "will_paginate", '3.0.pre2'
 gem "dotiw", '1.1.1'
 gem 'jquery-rails', '>= 0.2.6'
-
-# gem 'hoptoad_notifier'
+gem "airbrake"
 
 group :development, :test do
   gem "test_notifier"

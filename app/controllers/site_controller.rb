@@ -4,4 +4,8 @@ class SiteController < ApplicationController
   def index
   end
 
+  def test_error
+    raise "This should throw an error"
+  end
+
 end
