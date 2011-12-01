@@ -7,6 +7,7 @@ gem 'taps'
 gem 'aws-s3'
 # gem 'sqlite3-ruby', :require => 'sqlite3'
 gem 'mysql2', '0.3.7'
+gem 'pg'
 gem "haml"
 gem "compass"
 gem "devise", "1.4.9"
