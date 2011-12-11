@@ -1,11 +1,11 @@
-#system_settings.menu_select
+.menu_select
   %h3.toggle System Settings
   %ul.menu{ :style => "display: none;" }
-    %li= link_to_unless_current "Patients", patients_path
-    %li= link_to_unless_current "Trips", trips_path
-    %li= link_to_unless_current "Facilities", facilities_path
-    %li= link_to_unless_current "Body Parts", body_parts_path
-    %li= link_to_unless_current "Diseases", diseases_path
-    %li= link_to_unless_current "Procedures", procedures_path
-    %li= link_to_unless_current "Risks", risks_path
-    %li= link_to_unless_current "Users", users_path
+    %li= link_to "Patients", patients_path
+    %li= link_to "Trips", trips_path
+    %li= link_to "Facilities", facilities_path
+    %li= link_to "Body Parts", body_parts_path
+    %li= link_to "Diseases", diseases_path
+    %li= link_to "Procedures", procedures_path
+    %li= link_to "Risks", risks_path
+    %li= link_to "Users", users_path

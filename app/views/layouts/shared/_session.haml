@@ -1,8 +1,7 @@
-%ul#session
+%ul
   - if user_signed_in?
-    %li= raw "Logged in as #{current_user}"
-    %li= link_to("Log Out", destroy_user_session_path)
     - if permitted_to? :edit, current_user
-      %li= link_to "My Account", edit_user_path(current_user)
+      %li= link_to current_user, edit_user_path(current_user)
+    %li= link_to("Log Out", destroy_user_session_path)
   - else
     %li= link_to "Log In", new_user_session_path

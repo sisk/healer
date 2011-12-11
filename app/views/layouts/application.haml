@@ -12,10 +12,12 @@
   %body.bp
     #wrapper
       #head.noprint
-        = render :partial => "layouts/shared/trip_nav"
-        - if current_user.has_role_admin
-          = render :partial => "layouts/shared/system_settings"
-        = render :partial => "layouts/shared/session"
+        - if @trip
+          .trip_nav= render :partial => "layouts/shared/trip_nav", :locals => { :trip => @trip }
+        .utility_nav
+          .session= render :partial => "layouts/shared/session"
+          - if current_user.has_role_admin
+            .system= render :partial => "layouts/shared/system_settings"
       #content
         - if content_for?(:title)
           %h1.title= yield :title

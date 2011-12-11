@@ -1,35 +1,86 @@
 #head {
-  padding: 1em;
+  position: fixed;
+  width: 100%;
+  z-index:1;
+  font-size: 0.8em;
   background-color: $header-background-color;
   @include clearfix;
-}
-#trip_nav {
-  @include float-left;
-  font-size: 1.2em;
-  .trip_name {
-    font-weight : bold;
-  }
-}
-ul#session {
-  @include float-right;
-}
-#system_settings {
-  @include float-right;
-}
-#subnav {
-  @include clearfix;
-  margin-bottom: 25px;
-  padding-left: 0 !important;
-  ul {
-    @include horizontal-list(.65em);
+  .trip_nav {
     @include float-left;
+    font-size: 1.1em;
+    h3 {
+      padding: 7px 15px 10px 7px;
+      margin: 0 15px 0 0;
+      border-right: solid 1px $grey-medium;
+    }
+    ul {
+      @include horizontal-list(0);
+      a {
+        display: block;
+        padding: 7px 10px 10px 10px;
+      }
+    }
+    h3, li {
+      color: $white;
+      a {
+        color: $white;
+        &:hover {
+          background-color: $grey-medium;
+        }
+      }
+      @include float-left;
+    }
   }
-}
+  .utility_nav {
+    @include float-right;
+    .session, .system {
+      @include float-left;
+    }
+    .session {
+      ul {
+        @include horizontal-list(.65em);
+        li { padding: 7px 15px 10px 7px; }
+        color: $white;
+        a { color: $white; }
+      }
 
-ul#session, #trip_nav ul {
-  @include horizontal-list;
-  color: $white;
-  a { color: $white; }
+    }
+    .system {
+      width: 110px;;
+      background-color: $grey-dark;
+      color: $white;
+      padding: 9px 15px 10px 15px;
+      margin-left: 15px;
+      border-left: solid 1px $grey-medium;
+      h3 {
+        font-size: 1em;
+        text-decoration: underline;
+        color: $white;
+        margin-bottom: 0;
+        padding-bottom: 4px;
+      }
+      ul {
+        width: 125px;
+        margin-left: -15px;
+        margin-top: 10px;
+        @include no-bullets;
+        background-color: $header-background-color;
+        position: absolute;
+        z-index: 9999;
+        li {
+          margin-left: -14px;
+          color: $white;
+          &> a {
+            color: $white;
+            display: block;
+            padding: 5px 15px;
+            &:hover { background-color: $grey-medium; }
+          }
+          &:last-child > a { padding-bottom: 10px; }
+        }
+      }
+    }
+  }
 }
 
 ul.nav {
@@ -40,52 +91,3 @@ span.inline_nav {
   font-size: .65em;
   padding-left: 1em;
 }
-
-#system_settings {
-  /*@include span(3);*/
-  background-color: $header-background-color;
-  color: $white;
-  padding: 3px;
-  margin-left: $margin-increment * 2;
-  h3 {
-    font-size: 1em;
-    text-decoration: underline;
-    color: $white;
-    margin-bottom: 3px;
-  }
-  ul {
-    @include span(3);
-    @include no-bullets;
-    background-color: $header-background-color;
-    position: absolute;
-    z-index: 9999;
-    margin: 3px 0;
-    padding: 10px 0;
-    li {
-      color: $white;
-      a {
-        color: $white;
-        display: block;
-        width: 100%;
-      }
-      padding: 3px 6px;
-      display: block;
-      float: none;
-      &:hover {
-        background-color: $grey-medium;
-      }
-    }
-  }
-}
-
-/*
-.menu_select {
-  position: relative;
-  .menu {
-    position: absolute;
-    top: 1.5em;
-    left: 0;
-    z-index: 99999;
-  }
-}
-*/

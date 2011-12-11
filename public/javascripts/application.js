@@ -25,9 +25,6 @@ $(document).ready(function() {
   $(".menu_select .toggle").click(function(event){
     $(this).siblings(".menu").slideToggle(100);
   });
-  $(".menu_select").mouseleave(function(event){
-    $(this).find(".menu").slideUp(100);
-  });
 
   $("#ipad_hint").dialog({
     buttons: { "OK": function() { $(this).dialog("close"); } },
