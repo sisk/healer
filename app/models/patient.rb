@@ -70,11 +70,20 @@ class Patient < ActiveRecord::Base
     :url => ENV['S3_BUCKET'].present? ? "patients/:attachment/:id/:style.:extension" : "/system/patients/:attachment/:id/:style.:extension"
 
   def to_s(*args)
-    name(*args)
+    name(args.extract_options!)
   end
-  def name(*args)
-    [*args].flatten.include?(:last_first) ? [name_last, name_first].join(", ") : [name_first, name_last].join(" ")
+
+  def name(options = {})
+    str = ""
+    str << "#{id} - " if options[:with_id].present? && options[:with_id]
+    if options[:last_first].present? && options[:last_first]
+      str << [name_last, name_first].join(", ")
+    else
+      str << [name_first, name_last].join(" ")
+    end
+    return str
   end
+
   def short_name
     name_first || name_middle || name_last
   end

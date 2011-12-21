@@ -13,12 +13,12 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :name_last, :name_first, :language, :authorized
 
-  validates :email, :presence => true, 
+  validates :email, :presence => true,
                     :length => {:minimum => 3, :maximum => 254},
                     :uniqueness => true,
                     :format => {:with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i}
                     # :email => true
-  
+
   validates_presence_of :name_first, :message => "can't be blank"
   validates_presence_of :name_last, :message => "can't be blank"
 
@@ -27,7 +27,7 @@ class User < ActiveRecord::Base
 
   scope :can_login, where("users.authorized = ?", true)
   scope :cant_login, where("users.authorized = ?", false)
-  
+
   scope :search, lambda { |term|
     query = term.strip.gsub(',', '')
     first_last = query.split(" ")
@@ -49,16 +49,24 @@ class User < ActiveRecord::Base
   default_scope :order => 'users.name_last, users.name_first'
 
   def to_s(*args)
-    name(*args)
+    name(args.extract_options!)
   end
-  def name(*args)
-    [*args].flatten.include?(:last_first) ? [name_last, name_first].join(", ") : [name_first, name_last].join(" ")
+
+  def name(options = {})
+    str = ""
+    str << "#{id} - " if options[:with_id].present? && options[:with_id]
+    if options[:last_first].present? && options[:last_first]
+      str << [name_last, name_first].join(", ")
+    else
+      str << [name_first, name_last].join(" ")
+    end
+    return str
   end
 
   def role_symbols
     (roles || []).map {|r| r.name.dehumanize.to_sym}
   end
-  
+
   Role.available.map{ |rr| rr.to_s }.each do |r|
     attr_accessible "has_role_#{r}".to_sym
     scope r.to_sym, :include => :roles, :conditions => [ "roles.name = ?", r ]

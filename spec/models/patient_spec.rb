@@ -49,17 +49,17 @@ end
 
 describe Patient, "#name" do
   before(:each) do
-    @patient = Patient.new
+    @patient = Patient.new(:name_first => "First", :name_last => "Last")
   end
   it "returns First Last if no arguments are passed" do
-    @patient.name_first = "First"
-    @patient.name_last = "Last"
     @patient.name.should == "First Last"
   end
-  it "returns Last, First if :last_first is an argument" do
-    @patient.name_first = "First"
-    @patient.name_last = "Last"
-    @patient.name(:last_first).should == "Last, First"
+  it "returns Last, First if :last_first argument is true" do
+    @patient.name(:last_first => true).should == "Last, First"
+  end
+  it "prepends patient id if :with_id is options argument" do
+    @patient.stub(:id).and_return(1975)
+    @patient.name(:with_id => true).should == "1975 - First Last"
   end
 end
 
@@ -67,16 +67,14 @@ describe Patient, "#to_s" do
   before(:each) do
     @patient = Patient.new
   end
-  describe "#to_s" do
-    it "returns the value of name with no arguments" do
-      @patient.stub(:name).and_return("Derp")
-      @patient.to_s.should == "Derp"
-    end
-    it "returns the value of name with arguments" do
-      @patient.stub(:name)
-      @patient.stub(:name).with(:last_first).and_return("Derp")
-      @patient.to_s(:last_first).should == "Derp"
-    end
+  it "returns the value of name with no arguments" do
+    @patient.stub(:name).and_return("Derp")
+    @patient.to_s.should == "Derp"
+  end
+  it "returns the value of name with arguments" do
+    @patient.stub(:name)
+    @patient.stub(:name).with(:last_first => true).and_return("Derp, Dee")
+    @patient.to_s(:last_first => true).should == "Derp, Dee"
   end
 end
 
