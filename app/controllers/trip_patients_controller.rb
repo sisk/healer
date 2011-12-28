@@ -17,7 +17,11 @@ class TripPatientsController < ApplicationController
   end
 
   def collection
-    @trip_patients ||= end_of_association_chain.ordered_by_id
+    if params[:patient_id]
+      @trip_patients ||= [end_of_association_chain.find_by_id(params[:patient_id])]
+    else
+      @trip_patients ||= end_of_association_chain.ordered_by_id
+    end
   end
 
 end

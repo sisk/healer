@@ -36,7 +36,7 @@
                 - case_groups.each do |case_group|
                   %li.case_group
                     %p.name
-                      = case_group.patient
+                      = case_group.patient.to_s(:with_id => true)
                       %ul
                         - case_group.patient_cases.each do |patient_case|
                           %li= link_to "Case ##{patient_case.id} - #{patient_case.body_part}", trip_case_path(@trip, patient_case)

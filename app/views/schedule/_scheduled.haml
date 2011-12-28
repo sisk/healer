@@ -1,6 +1,6 @@
 .sortable[case_group]
   .patient
-    %h3= case_group.patient
+    %h3= link_to case_group.patient.to_s(:with_id => true), trip_patients_path(@trip, :patient_id => case_group.patient.id)
     %ul
       - case_group.patient_cases.each do |patient_case|
         %li= "Case ##{patient_case.id} - #{patient_case.body_part}"
