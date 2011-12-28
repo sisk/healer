@@ -70,7 +70,9 @@ class PatientCase < ActiveRecord::Base
 
   def to_s
     # TODO there's a performance thing here where we query patients and trips table separately. improve it!
-    "#{patient.to_s} - #{trip.to_s}"
+    str = "Case ##{id}"
+    str += " - #{body_part.to_s}" if body_part
+    str
   end
 
   def as_json(options={})

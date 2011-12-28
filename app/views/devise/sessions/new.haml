@@ -10,3 +10,7 @@
       = f.input :remember_me, :label => 'Remember Me', :as => :boolean
   = f.buttons do
     = f.commit_button 'Log In'
+
+- content_for :script do
+  :javascript
+    $('#user_email').focus();

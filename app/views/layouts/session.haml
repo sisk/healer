@@ -7,18 +7,20 @@
     = yield :head
     %title<
       Healer
-      - if yield :title
+      - if content_for?(:title)
         = "- #{yield :title}"
   %body.bp
     #wrapper
       #head
-        = render :partial => "layouts/shared/session"
-        %ul#nav
-      #content
-        - if yield :title
-          %h1= yield :title
-        = yield :subnavigation
-        = render :partial => "layouts/shared/alerts"
-        = yield
+        .utility_nav
+          .session= render :partial => "layouts/shared/session"
+      #content-outer{ :class => "#{"with-sidebar" if content_for?(:title)}" }
+        - if content_for?(:title)
+          #sidebar
+            %h1.title= yield :title
+        #content-inner{ :class => "#{"with-sidebar" if content_for?(:title)}" }
+          = render :partial => "layouts/shared/alerts"
+          = yield
+      #footer
     = render :partial => "layouts/shared/default_javascript"
     = yield :script

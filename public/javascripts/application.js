@@ -109,9 +109,3 @@ jQuery(function ($) {
     return this;
   }
 }(jQuery));
-
-$(function() {
-    $(".record_jump select").change(function() {
-        location.hash = $(this).val();
-    });
-});

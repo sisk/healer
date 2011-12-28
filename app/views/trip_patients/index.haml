@@ -1,15 +1,10 @@
 - content_for :title do
-  = "#{@trip} - Patients"
-- content_for :subnavigation do
-  %ul
-    - if permitted_to? :create, PatientCase.new(:trip => @trip)
-      %li= link_to "Add case", new_trip_case_path(@trip)
-    %li= link_to "Schedule", trip_schedule_path(@trip)
-.record_list.patient_list
-  .filter
+  Patients
+- content_for :sidebar_utility do
+  #case_filter
     .section.record_jump
       %h4 Jump to patient
-      = select_tag :patient_anchor, options_for_select([[""]] + @trip.patients.map{ |patient| [patient, dom_id(patient)] })
+      = select_tag :patient_anchor, options_for_select([["Select...",nil]] + @trip_patients.map{ |patient| ["#{patient.id} - #{patient}", dom_id(patient)] })
     .section.body_part
       %h4 Body part
       - @body_part_names.each do |body_part_name|
@@ -23,28 +18,20 @@
         = check_box_tag :multiple_case_filter, true
         = label_tag :multiple_case_filter, "Multiple cases only"
 
+
+.record_list.patient_list
   .records
-    - @trip.patients. each do |patient|
-      %a{ :name => dom_id(patient) }
-      .patient{ :id => dom_id(patient) }
-        .basic
-          %h2= patient
-          .image= patient_image(patient, :small)
-          = render :partial => "patients/shared/patient_demographic", :locals => { :patient => patient }
-          - if patient.has_medical_detail?
-            .medical_details.supplemental
-              %p.fake_link.toggle= "Full medical detail"
-              .details{ :style => "display: none;" }
-                = render :partial => "patients/medical_details", :locals => { :patient => patient, :hide => true }
-        .cases.treatment
-          -# case groups represent authorized cases ready for scheduling
-          -# unauthorized cases should be separate from case groups
-          = render :partial => "cases", :locals => { :patient => patient, :trip => @trip }
+    = render :partial => "patient", :collection => @trip_patients, :as => :patient
 
 - content_for :script do
   :javascript
+    $(function() {
+      $(".record_jump select").change(function() {
+        location.hash = $(this).val();
+      });
+    });
 
-    $("#authorized_case_filter, .filter .criterion input").change(function(event) {
+    $("#authorized_case_filter, #case_filter .criterion input").change(function(event) {
       var selected_body_parts, authorized_value, unauthorized_value, regex, shown_cases, actors;
 
       // Initial hide of all patient and associated records
@@ -54,7 +41,7 @@
       $("#patient_anchor option").attr("disabled", true);
 
       // Figure out which body parts were selected
-      selected_body_parts = $('.filter .body_part input:checked').map(function() { return this.value });
+      selected_body_parts = $('#case_filter .body_part input:checked').map(function() { return this.value });
       if (selected_body_parts.length > 0) {
         regex = new RegExp(selected_body_parts.toArray().join("|"),"i");
       }

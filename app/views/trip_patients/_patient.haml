@@ -1,0 +1,15 @@
+%a{ :name => dom_id(patient) }
+.patient{ :id => dom_id(patient) }
+  .basic
+    %h2= patient.to_s(:with_id => true)
+    = render :partial => "patients/shared/patient_demographic", :locals => { :patient => patient }
+    .image= patient_image(patient, :small)
+  .supplement
+    - if patient.has_medical_detail?
+      .medical_details
+        %p.fake_link.toggle= "Full medical detail"
+        .details{ :style => "display: none;" }
+          = render :partial => "patients/medical_details", :locals => { :patient => patient, :hide => true }
+    -# case groups represent authorized cases ready for scheduling
+    -# unauthorized cases should be separate from case groups
+    .cases= render :partial => "cases", :locals => { :patient => patient, :trip => @trip }

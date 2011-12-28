@@ -1,9 +1,5 @@
 - content_for :title do
-  = "#{@trip} - Edit Schedule"
-- content_for :subnavigation do
-  %ul
-    %li= link_to "Show schedule", trip_schedule_path(@trip)
-    %li= link_to "Patients", trip_patients_path(@trip)
+  Edit Schedule
 
 - if @number_of_rooms == 0
   %p Trip must have room availability set before it can be scheduled.
@@ -15,13 +11,14 @@
 
   #schedule_edit
 
-    #source
-      .header
-        %h2= "Unscheduled (#{@to_schedule.size})"
-        = label_tag :filter, "Filter"
-        = text_field_tag :filter, nil, :id => "unscheduled_filter"
-      #unscheduled.case_groups.connectedSortable{ :class => "#{@to_schedule.empty? ? "empty" : ""}" }
-        = render :partial => "schedule/unscheduled", :collection => @to_schedule, :as => :case_group
+    - content_for :sidebar_utility do
+      #source
+        .header
+          %h3= "Unscheduled (#{@to_schedule.size})"
+          = label_tag :filter, "Filter"
+          = text_field_tag :filter, nil, :id => "unscheduled_filter"
+        #unscheduled.case_groups.connectedSortable{ :class => "#{@to_schedule.empty? ? "empty" : ""}" }
+          = render :partial => "schedule/unscheduled", :collection => @to_schedule, :as => :case_group
 
     %table.schedule#schedule
       %thead
@@ -45,7 +42,7 @@
               = "Day #{day_num}"
             - (1..@number_of_rooms).each do |room_number|
               - case_groups = @trip.case_groups.room(room_number).day(day_num)
-              %td{ :class => "day_#{day_num} room_#{room_number} hide" }
+              %td{ :class => "day_schedule day_#{day_num} room_#{room_number} hide" }
                 .room.connectedSortable{ :class => "day_#{day_num} room_#{room_number} #{case_groups.empty? ? "empty" : ""}", :id => "day_#{day_num}_room_#{room_number}" }
                   = render :partial => "schedule/scheduled", :collection => case_groups, :as => :case_group
 

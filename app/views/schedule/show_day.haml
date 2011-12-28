@@ -1,5 +1,5 @@
 - content_for :title do
-  = "#{@trip} - Schedule - Day #{@day}"
+  = "Schedule - Day #{@day}"
 - content_for :subnavigation do
   %ul
     %li= link_to "Full schedule", trip_schedule_path(@trip)
@@ -18,7 +18,7 @@
         %h2= "Room #{room_number}"
         %p= link_to "Show all days for Room #{room_number}", trip_schedule_path(@trip, :room_number => room_number)
 
-        #patient_cases.patient_case_list
+        #patient_cases.patient_list
           - case_groups.each do |case_group|
             = render :partial => "patient_cases/summary/record", :collection => case_group.patient_cases, :as => :patient_case
 

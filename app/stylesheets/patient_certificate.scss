@@ -23,7 +23,7 @@ body.patient_certificate {
     .title_section {
       margin-top: 10px;
       text-align: center;
-      @include column($content-columns - 11);
+      @include column($blueprint-grid-columns - 11);
       .subtitle {
         margin-bottom: 0;
       }
@@ -33,11 +33,11 @@ body.patient_certificate {
   .section {
     padding-top: 1pt;
   }
-  
+
   .summary {
-    @include column($content-columns - 6);
+    @include column($blueprint-grid-columns - 6);
     dl {
-      @include inline_dl($content-columns - 6, 6);
+      @include inline_dl($blueprint-grid-columns - 6, 6);
       font-size: 1.4em;
     }
   }
@@ -45,23 +45,23 @@ body.patient_certificate {
     @include column(6, true);
     img { @include bordered(1px, #000); }
   }
-  
+
   .xrays {
     h3 { text-align: center; text-decoration: underline; }
     .xray {
       @include prepend(1);
       @include append(1);
       img {
-        @include span(($content-columns / 2) - 3);
+        @include span(($blueprint-grid-columns / 2) - 3);
         @include bordered(1px, #000);
       }
     }
     .before {
-      @include column($content-columns / 2);
+      @include column($blueprint-grid-columns / 2);
     }
     .after {
-      @include column($content-columns / 2, true);
+      @include column($blueprint-grid-columns / 2, true);
     }
   }
-  
+
 }

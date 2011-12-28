@@ -3,10 +3,8 @@
 - content_for :subnavigation do
   %ul
     %li= link_to "Full patient record", patient_path(@patient_case.patient)
-    - if permitted_to? :create, PatientCase.new(:trip => @patient_case.trip)
-      %li= link_to "New case", new_trip_case_path(@patient_case.trip)
     - if permitted_to? :destroy, @patient_case
       %li= link_to "Delete case", trip_case_path(@patient_case.trip, @patient_case), :method => :delete, :confirm => "Are you sure?"
 
-.patient_case_list
+.patient_list
   = render :partial => "patient_cases/summary/record", :object => @patient_case, :as => :patient_case

@@ -5,7 +5,7 @@
     @include bordered;
     @include float-left;
     @include column(6);
-    @include border-radius(6px);
+    @include border-radius($border-radius);
     margin-top: $margin-increment * 3;
     margin-bottom: $margin-increment * 3;
     .header {
@@ -58,7 +58,6 @@
 }
 
 #source {
-  @include column(6);
   .patient_case {
     h3 {
       margin-bottom: 0;
@@ -72,7 +71,7 @@
 }
 table.schedule {
   overflow: auto;
-  @include border-radius(6px);
+  @include border-radius($border-radius);
   th p, td.indicator p {
     margin: 0;
   }
@@ -99,7 +98,6 @@ table.schedule {
   }
 }
 table#schedule {
-  @include column($content-columns - 6, true);
   td {
     .patient, .procedure { white-space: normal; }
     .patient {
@@ -113,14 +111,14 @@ table#schedule {
     }
   }
 }
-table#show_schedule {
-  @include column($content-columns);
-  .patient_case {
-    .name {
-      font-size: 1.2em;
+#show_schedule, #schedule {
+  td {
+    &.indicator {
+      width: span(2) - 5px;
+      padding: 5px 0 0 5px;
     }
-    .body_part {
-      color: $grey-medium;
+    &.day_schedule {
+      width: span(4);
     }
   }
 }
@@ -164,12 +162,6 @@ table#show_schedule {
 }
 .moved2 {
   @include bordered(2px, #00f);
-}
-
-#show_schedule {
-  .day .patient_case a {
-    color: $grey-dark;
-  }
 }
 
 .horizontal_scroller {

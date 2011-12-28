@@ -7,29 +7,10 @@
 
 .section.medical_history {
   .medications, .diseases {
-    @include column($content-columns / 3);
+    @include column($blueprint-grid-columns / 3);
   }
   .allergies {
-    @include column($content-columns / 3, true);
-  }
-}
-.supplemental {
-  .risk_factors {
-    @include column(5);
-  }
-  .diseases {
-    @include column(6);
-  }
-  .medications {
-    @include column(6, true);
-  }
-  .details {
-    @include clearfix;
-    padding-top: $margin-increment * 2;
-    padding-bottom: $margin-increment * 2;
-  }
-  .operations {
-    clear: both;
+    @include column($blueprint-grid-columns / 3, true);
   }
 }
 form.patient {
@@ -52,7 +33,7 @@ form.patient {
         /*@include prepend(5);*/
       }
       &#allergy_list {
-        @include column(($content-columns) / 3, true);
+        @include column(($blueprint-grid-columns) / 3, true);
       }
     }
   }
@@ -129,21 +110,106 @@ form.patient {
 }
 
 .patient_list {
+  @include clearfix;
+  overflow: visible;
   .patient {
+
     @include inline_record;
     .basic {
-      @include border-top-radius(6px);
-      margin: -15px -15px 10px -15px;
-      padding: 15px;
-      background-color: $grey-very-light;
+      @include border-top-radius($border-radius);
+      background-color: rgba(220, 220, 220, 0.8);
       border-bottom: solid 1px $grey-light;
+      position: relative;
+      .image {
+        position: absolute;
+        top: $blueprint-grid-margin / 2;
+        right: $blueprint-grid-margin;
+        img { @include span(3); }
+      }
+      dl {
+        font-size: 0.8em;
+        &.col-1 { @include float-left; }
+        &.col-2 { @include float-left; }
+      }
     }
+    .supplement {
+      @include border-bottom-radius($border-radius);
+      background-color: rgba(250, 250, 250, 0.8);
+
+      .case_list {
+        .header {
+          @include clearfix;
+          h3 { @include column(7); }
+          .nav {
+            @include float-right;
+          }
+        }
+        .case_group {
+          &> * { margin: $blueprint-grid-margin; }
+          border: solid 1px $grey11;
+          @include border-radius($border-radius);
+          background-color: rgba(240, 240, 240, 0.8);
+          margin-bottom: $blueprint-grid-margin;
+          &:last-child { margin-bottom: 0; }
+        }
+        .patient_case {
+          &:last-child { border-bottom: none; }
+          padding: $blueprint-grid-margin;
+          @include clearfix;
+          border-bottom: solid 1px rgba($grey-medium, 0.3);
+          .xrays {
+            @include column(2);
+            .tiny img {
+              height: 40px;
+            }
+          }
+          p {
+            line-height: 1em;
+            margin: 0;
+            &.body_part { @include column(3); }
+            &.diagnosis { @include column(7); }
+          }
+          .nav { @include float-right; }
+          h3 { @include column(7); }
+        }
+        &.unauthorized .patient_case {
+          padding: $blueprint-grid-margin;
+          &:last-child { margin-bottom: 0; }
+          background-color: $indicator-yellow;
+          @include border-radius($border-radius);
+          border: solid 1px rgba($grey-medium, 0.3);
+        }
+      }
+
+    }
+    /*
     .record {
       .navigation { @include column(4, true); }
       @include clearfix;
     }
     .treatment {
-      @include treatment_data;
     }
+    */
+    &.case-focus {
+      .name {
+        @include clearfix;
+        h2 {
+          @include float-left;
+          margin-bottom: 0;
+        }
+        h3 {
+          @include float-right;
+          margin-top: $margin-increment;
+          margin-right: $margin-increment;
+          margin-bottom: 0;
+        }
+      }
+      .supplement {
+        .diagnosis {
+          @include float-left;
+        }
+      }
+    }
+
   }
 }

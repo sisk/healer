@@ -1,16 +1,16 @@
 .ui-tabs {
-  @include column($content-columns);
-  
+  @include column($blueprint-grid-columns);
+
   .ui-tabs-nav {
     font-size: 1.2em;
     border: none;
     background: none;
-    
+
     li {
       border: solid 1px $grey-light !important;
-      @include border-radius(5px);
+      @include border-radius($border-radius);
       &.ui-state-active {
-        
+
       }
     }
   }

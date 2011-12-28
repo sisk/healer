@@ -13,3 +13,14 @@
   color: $red;
   margin-left: 2px;
 }
+
+#sidebar {
+  font-size: 0.8em;
+  color: $grey-light;
+  h1 {
+    color: $grey-medium;
+    font-size: 2em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+}

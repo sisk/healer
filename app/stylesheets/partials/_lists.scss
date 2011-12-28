@@ -8,7 +8,7 @@ dl {
   background-color: $grey-very-light;
   @include clearfix;
   margin-bottom: $margin-increment;
-  @include column($content-columns);
+  @include column($blueprint-grid-columns);
   form.list_search, .pages {
     margin: $margin-increment * 2;
   }

@@ -1,8 +1,8 @@
 .trip, .trips {
   .glance, .active {
-    @include column($content-columns / 2);
+    @include column($blueprint-grid-columns / 2);
   }
   .schedule, .upcoming {
-    @include column($content-columns / 2, true);
+    @include column($blueprint-grid-columns / 2, true);
   }
 }

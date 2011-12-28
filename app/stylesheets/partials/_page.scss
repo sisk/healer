@@ -59,18 +59,28 @@ body.bp {
 
 }
 
-
-$content-columns: $blueprint-grid-columns - 2;
-// Remove the scaffolding when you're ready to start doing visual design.
-// Or leave it in if you're happy with how blueprint looks out-of-the-box
 @include blueprint-scaffolding("body.bp");
 
 #wrapper {
   position: relative;
 }
-#content {
-  @include column($content-columns);
-  padding: $blueprint-grid-outer-width;
+#content-outer {
+  width: 100%;
+  padding-top: 2.8em;
+  @include clearfix;
+}
+#sidebar {
+  position: fixed;
+  width: span(5) + $blueprint-grid-margin;
+  top: 3.5em;
+  &> * { margin: 0 $blueprint-grid-margin; }
+}
+#content-inner {
+  padding-right: $blueprint-grid-outer-width * 2;
+  &.with-sidebar {
+    @include prepend(5);
+  }
+  padding-top: 1em;
 }
 .section {
   clear: both;
@@ -90,9 +100,6 @@ $content-columns: $blueprint-grid-columns - 2;
 
 .record_list {
   .filter {
-    @include column(4);
-    @include float-left;
-    position: fixed;
     .section {
       @include clearfix;
     }
@@ -100,8 +107,5 @@ $content-columns: $blueprint-grid-columns - 2;
     h4 {
       margin-bottom: 0.5em;
     }
-  }
-  .records {
-    @include prepend(4);
   }
 }

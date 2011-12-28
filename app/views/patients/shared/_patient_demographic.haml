@@ -1,8 +1,9 @@
-%dl.demographic
+%dl.demographic.col-1
   %dt Gender:
   %dd= patient_gender(patient)
   %dt Birth:
   %dd= birth_date_and_age(patient)
+%dl.demographic.col-2
   %dt Height:
   %dd= "#{patient_height(patient, false)} (#{patient_height(patient, true)})"
   %dt Weight:

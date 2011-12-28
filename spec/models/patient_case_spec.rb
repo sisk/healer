@@ -89,13 +89,21 @@ describe PatientCase, "authorized?" do
 end
 
 describe PatientCase, "to_s" do
-  it "returns the trip's string value + patient's string value" do
-    trip = mock_model(Trip)
-    trip.stub(:to_s).and_return("Las Vegas 2008")
-    patient = mock_model(Patient)
-    patient.stub(:to_s).and_return("Elvis Presley")
-    patient_case = PatientCase.new(:trip => trip, :patient => patient)
-    patient_case.to_s.should == "Elvis Presley - Las Vegas 2008"
+  context "no body part present" do
+    it "returns Case + ID" do
+      patient_case = PatientCase.new
+      patient_case.stub(:id).and_return(1)
+      patient_case.stub(:body_part).and_return(nil)
+      patient_case.to_s.should == "Case #1"
+    end
+  end
+  context "body part present" do
+    it "returns Case + ID + Body part" do
+      patient_case = PatientCase.new
+      patient_case.stub(:id).and_return(1)
+      patient_case.stub_chain(:body_part, :to_s).and_return("Gersnickle")
+      patient_case.to_s.should == "Case #1 - Gersnickle"
+    end
   end
 end
 

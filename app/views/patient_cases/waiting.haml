@@ -1,5 +1,5 @@
 - content_for :title do
-  = "#{@trip} - Waiting Cases"
+  Waiting Cases
 - content_for :subnavigation do
   %ul
     %li= link_to "Approved cases (#{@authorized_count})", trip_cases_path(@trip)
@@ -10,7 +10,7 @@
     %li= link_to "Schedule", trip_schedule_path(@trip)
   .record_jump= select_tag :case_anchor, options_for_select([["Jump to case...",""]] + @patient_cases.map{ |p_case| ["#{p_case.patient} - #{p_case.body_part}", dom_id(p_case)] })
 
-#patient_cases.patient_case_list
+#patient_cases.patient_list
   = render :partial => "patient_cases/summary/record", :collection => @patient_cases, :as => :patient_case
 
 - content_for :script do

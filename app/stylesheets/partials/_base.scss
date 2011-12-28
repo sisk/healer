@@ -11,6 +11,7 @@ $margin-increment: $blueprint-grid-margin / 2;
 $blueprint-grid-width: ($blueprint-container-size + $blueprint-grid-margin) / $blueprint-grid-columns - $blueprint-grid-margin;
 
 @import "constants/colors";
+@import "constants/numbers";
 
 @import "mixins/utility";
 @import "mixins/type";

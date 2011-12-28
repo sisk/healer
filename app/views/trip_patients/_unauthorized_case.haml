@@ -9,7 +9,7 @@
         = link_to "Add X-Ray", new_case_xray_path(patient_case)
 
   %p.body_part
-    = link_to patient_case.body_part, trip_case_path(patient_case.trip,patient_case)
+    = link_to patient_case, trip_case_path(patient_case.trip,patient_case)
     - if patient_case.revision?
       %span.asterisk (Revision)
   %p.diagnosis

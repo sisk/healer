@@ -9,11 +9,19 @@
   %body.bp
     #wrapper
       #head
-        = render :partial => "layouts/shared/session"
-      #content
-        - if yield :title
-          %h1= yield :title
-        = render :partial => "layouts/shared/alerts"
-        = yield
+        .utility_nav
+          .session= render :partial => "layouts/shared/session"
+      #content-outer{ :class => "#{"with-sidebar" if content_for?(:title)}" }
+        - if content_for?(:title)
+          #sidebar
+            %h1.title= yield :title
+        #content-inner{ :class => "#{"with-sidebar" if content_for?(:title)}" }
+          - if content_for?(:ipad_hint) && request_ipad?
+            #ipad_hint{ :title => "iPad Hint:" }= yield :ipad_hint
+          = render :partial => "layouts/shared/alerts"
+          = yield
+      #footer
+        %p.as_of.print_only= "As of: #{Time.now}"
+      = render :partial => "layouts/shared/utility"
     = render :partial => "layouts/shared/default_javascript"
     = yield :script

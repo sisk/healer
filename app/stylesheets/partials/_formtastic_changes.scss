@@ -9,7 +9,7 @@ form.formtastic {
   }
   input, textarea, select {
     @include bordered(1px, $grey-light);
-    @include border-radius(6px);
+    @include border-radius($border-radius);
     padding: 6px;
   }
   fieldset > ol > li label {
@@ -18,7 +18,7 @@ form.formtastic {
   .buttons {
     input {
       border: none;
-      @include border-radius(6px);
+      @include border-radius($border-radius);
       background-color: $grey-dark;
       font-size: 1em;
       padding: 8px;

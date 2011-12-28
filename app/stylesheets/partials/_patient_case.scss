@@ -1,49 +1,19 @@
-.ui-tabs .ui-tabs-panel {
-  padding: $blueprint-grid-width / 2;
-}
-
-.patient_case_list {
-  div.patient_case {
-    @include inline_record;
-    .navigation { @include column(4, true); }
-    form.patient_case {
-      padding: 0;
-      border-bottom: none;
-    }
-  }
-  .patient {
-    @include clearfix;
-  }
-  .treatment {
-    @include treatment_data;
-  }
-}
-
+/*
 .patient_list .patient {
   .cases {
     margin: -10px -15px -15px -15px;
     @include clearfix;
-    /*
     .patient_case {
       margin-left: 10px;
       padding: 10px;
-      @include border-radius(6px);
+      @include border-radius($border-radius);
       margin-bottom: 10px;
       @include float-left;
       border: solid 1px $grey-very-light;
     }
-    */
     .case_list {
       padding: 10px;
       @include clearfix;
-      .case_group {
-        padding: 5px;
-        border: solid 1px $grey11;
-        @include border-radius(6px);
-        background-color: $grey14;
-        margin-bottom: 10px;
-        &:last-child { margin-bottom: 0; }
-      }
       .header {
         @include clearfix;
         h3 { @include column(7); }
@@ -76,9 +46,10 @@
         margin-bottom: 10px;
         &:last-child { margin-bottom: 0; }
         background-color: $indicator-yellow;
-        @include border-radius(6px);
+        @include border-radius($border-radius);
         border: solid 1px rgba($grey-medium, 0.3);
       }
     }
   }
 }
+*/

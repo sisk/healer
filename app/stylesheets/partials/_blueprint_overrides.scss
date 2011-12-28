@@ -1,5 +1,5 @@
 body.bp {
   .error, .success, .notice {
-    @include border-radius(6px);
+    @include border-radius($border-radius);
   }
 }
