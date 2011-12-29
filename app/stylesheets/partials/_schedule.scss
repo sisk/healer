@@ -90,6 +90,15 @@ table.schedule {
         white-space: nowrap;
       }
     }
+    ol.case_groups {
+      li.case_group {
+        p { margin-bottom: 0.5em; }
+        border-bottom: solid 1px $grey13;
+        ul { font-size: 0.8em; }
+        padding-bottom: $margin-increment;
+        margin-bottom: $margin-increment;
+      }
+    }
     white-space: nowrap;
     .patient_case {
       margin-bottom: $margin-increment;
