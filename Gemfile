@@ -22,6 +22,8 @@ gem "will_paginate", '3.0.pre2'
 gem "dotiw", '1.1.1'
 gem 'jquery-rails', '>= 0.2.6'
 gem "airbrake"
+gem "friendly_id"
+gem "rake", "0.9.2.2"
 
 group :development, :test do
   gem "test_notifier"

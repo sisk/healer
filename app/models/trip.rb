@@ -1,6 +1,10 @@
 class Trip < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :nickname
+
   belongs_to :facility
-  validates_presence_of :country, :message => "can't be blank"
+  validates_presence_of :country, :nickname, :start_date
+  validates_uniqueness_of :nickname
   has_many :patient_cases
   has_many :case_groups
   has_many :operations
@@ -9,6 +13,8 @@ class Trip < ActiveRecord::Base
   has_and_belongs_to_many :users, :uniq => true
 
   default_scope order(:start_date)
+
+  before_validation :set_nickname
 
   # TODO these scopes need to be revised to reflect practical realities
   scope :current, lambda {
@@ -75,6 +81,15 @@ class Trip < ActiveRecord::Base
 
   def alert_users
     users.in_role(:admin)
+  end
+
+  private #####################################################################
+
+  def set_nickname
+    unless nickname.present?
+      year = start_date.blank? ? "" : start_date.strftime("%Y")
+      self.nickname = Carmen::country_name(country).to_s.downcase + year
+    end
   end
 
 end
