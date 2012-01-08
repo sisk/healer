@@ -11,7 +11,10 @@ describe Trip do
   should_have_column :daily_hours, :type => :integer
   should_have_column :available_rooms, :type => :integer
   should_have_column :number_of_operation_days, :type => :integer
+  should_have_column :nickname, :type => :string
   should_validate_presence_of :country
+  should_validate_presence_of :nickname
+  should_validate_presence_of :start_date
   # should_have_and_belong_to_many :staff
   should_belong_to :facility
   should_have_many :patient_cases
@@ -137,6 +140,22 @@ describe Trip, "#current_day" do
     @trip.number_of_operation_days = 3
     Date.stub(:today).and_return("1975-05-05".to_date)
     @trip.current_day.should == 3
+  end
+end
+
+describe Trip, "nickname" do
+  before(:each) do
+    Carmen.stub(:country_name).with("GT").and_return("Guatemala")
+  end
+  it "sets itself on save if doesn't exist" do
+    trip1 = Trip.new(:country => "GT", :start_date => "2011-02-23")
+    lambda { trip1.save }.should change(trip1, :nickname).from(nil).to("guatemala2011")
+    trip2 = Trip.new(:country => "GT", :start_date => nil)
+    lambda { trip2.save }.should change(trip2, :nickname).from(nil).to("guatemala")
+  end
+  it "leaves nickname alone if already present" do
+    trip = Trip.new(:country => "GT", :start_date => "2011-02-23", :nickname => "already here")
+    lambda { trip.save }.should_not change(trip, :nickname)
   end
 end
 
