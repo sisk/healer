@@ -55,8 +55,8 @@ class CaseGroup < ActiveRecord::Base
     patient_cases.group_by{ |pc| pc.body_part.name_en }.each do |body_part_name, cases|
       if cases.size == 2
         # Very likely this is a bilateral scenario. Set each to the other's bilateral.
-        cases[0].bilateral=(cases[1])
-        cases[1].bilateral=(cases[0])
+        cases[0].update_attribute(:bilateral_case_id, cases[1].id)
+        cases[1].update_attribute(:bilateral_case_id, cases[0].id)
       end
     end
   end
