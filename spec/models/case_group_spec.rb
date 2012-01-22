@@ -83,3 +83,77 @@ describe CaseGroup, "unschedule!" do
     @case_group.unschedule!
   end
 end
+
+describe CaseGroup, "#to_s" do
+
+  before(:each) do
+    @left_knee = mock(BodyPart, :display_name => "Knee", :side => "L", :to_s => "Knee (L)")
+    @right_knee = mock(BodyPart, :display_name => "Knee", :side => "R", :to_s => "Knee (R)")
+    @left_hip = mock(BodyPart, :display_name => "Hip", :side => "L", :to_s => "Hip (L)")
+    @cg = CaseGroup.new
+    @cg.stub(:bilateral?)
+  end
+
+  context "standard case" do
+    before(:each) do
+      @pc1 = mock(PatientCase, :body_part => @left_knee)
+      @pc2 = mock(PatientCase, :body_part => @right_knee)
+      @pc3 = mock(PatientCase, :body_part => @left_hip)
+    end
+
+    it "outputs single body part if only single case" do
+      @cg.stub(:patient_cases).and_return([@pc1])
+      @cg.to_s.should == "Knee (L)"
+    end
+
+    it "outputs comma-separated body parts if multiple cases" do
+      @cg.stub(:patient_cases).and_return([@pc1, @pc3])
+      @cg.to_s.should == "Knee (L), Hip (L)"
+    end
+  end
+
+  context "bilateral case" do
+    before(:each) do
+      @pc4 = mock(PatientCase, :body_part => @left_knee, :bilateral_case => @pc5)
+      @pc5 = mock(PatientCase, :body_part => @right_knee, :bilateral_case => @pc4)
+    end
+
+    it "outputs bilateral-notated name" do
+      @cg.stub(:bilateral?).and_return(true)
+      @cg.stub(:patient_cases).and_return([@pc4, @pc5])
+      @cg.to_s.should == "Knee (Bilateral)"
+    end
+
+  end
+
+end
+
+describe CaseGroup, "#bilateral?" do
+
+  before(:each) do
+    @c1 = mock(PatientCase)
+    @c2 = mock(PatientCase)
+    @c3 = mock(PatientCase)
+    @c1.stub(:bilateral_case).and_return(@c2)
+    @c2.stub(:bilateral_case).and_return(@c1)
+  end
+
+  it "is true if any patient cases have a bilateral case" do
+    cg = CaseGroup.new
+    cg.stub(:patient_cases).and_return([@c1, @c2])
+    cg.bilateral?.should be_true
+  end
+
+  it "is false if case number doesn't match" do
+    cg = CaseGroup.new
+    cg.stub(:patient_cases).and_return([@c1])
+    cg.bilateral?.should be_false
+  end
+
+  it "is false if no patient cases have a bilateral case" do
+    cg = CaseGroup.new
+    cg.stub(:patient_cases).and_return([@c3])
+    cg.bilateral?.should be_false
+  end
+
+end

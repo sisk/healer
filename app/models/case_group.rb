@@ -13,6 +13,12 @@ class CaseGroup < ActiveRecord::Base
   scope :day, lambda { |num| where("case_groups.scheduled_day = ?",num) if num.present? }
   scope :no_day, where("case_groups.scheduled_day = ?",0)
 
+  after_save :join_bilateral_cases
+
+  def to_s
+    bilateral? ? "#{patient_cases.map{ |pc| pc.body_part.display_name }.uniq.join(", ")} (Bilateral)" : patient_cases.map{ |pc| pc.body_part.to_s }.join(", ")
+  end
+
   def patient
     @patient ||= patient_cases.first.try(:patient)
   end
@@ -28,6 +34,10 @@ class CaseGroup < ActiveRecord::Base
     self.destroy_all("trip_id = #{trip_id} AND id NOT IN (SELECT case_group_id FROM patient_cases where trip_id = #{trip_id} and case_group_id is not null)")
   end
 
+  def bilateral?
+    patient_cases.size > 1 && patient_cases.any?{ |pc| pc.bilateral_case.present? }
+  end
+
   # def schedule!
   #   self.status = "Scheduled" if ["Registered","Unscheduled"].include?(self.status)
   #   self.save
@@ -35,6 +45,20 @@ class CaseGroup < ActiveRecord::Base
 
   def unschedule!
     update_attributes({ :room_number => nil, :scheduled_day => 0 })
+  end
+
+  private #####################################################################
+
+  def join_bilateral_cases
+    return if bilateral?
+    # TODO this seems way too hacky. Reeking of poor design. Make it better.
+    patient_cases.group_by{ |pc| pc.body_part.name_en }.each do |body_part_name, cases|
+      if cases.size == 2
+        # Very likely this is a bilateral scenario. Set each to the other's bilateral.
+        cases[0].bilateral=(cases[1])
+        cases[1].bilateral=(cases[0])
+      end
+    end
   end
 
 end
