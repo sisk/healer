@@ -37,17 +37,6 @@ class Diagnosis < ActiveRecord::Base
     }
   end
 
-=begin
-TODO [cruft] 2011-08-15 possible cruft alert! if no one chirps for a while, kill this.
-%>
-  def has_mirror?
-    return false if !body_part.present? || siblings.empty? || !body_part.mirror.present?
-    return siblings.select{ |diagnosis| body_part.mirror.id == diagnosis.body_part_id }.size > 0
-  end
-
-<%
-=end
-
   def siblings
     return [] unless patient.present?
     patient.diagnoses - [self]
