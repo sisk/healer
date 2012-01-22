@@ -159,6 +159,9 @@ class PatientCase < ActiveRecord::Base
 
     # Destroy any case groups orphaned by this action
     CaseGroup.remove_orphans(trip_id)
+
+    # Deliberately join bilaterals if relevant
+    patient_cases.first.case_group.join_bilateral_cases
   end
 
 private

@@ -47,8 +47,6 @@ class CaseGroup < ActiveRecord::Base
     update_attributes({ :room_number => nil, :scheduled_day => 0 })
   end
 
-  private #####################################################################
-
   def join_bilateral_cases
     return if bilateral?
     # TODO this seems way too hacky. Reeking of poor design. Make it better.
