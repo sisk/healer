@@ -1,5 +1,8 @@
 - content_for :title do
   Edit Schedule
+- content_for :subnavigation do
+  %ul
+    %li= link_to "Show schedule", trip_schedule_path(@trip)
 
 - if @number_of_rooms == 0
   %p Trip must have room availability set before it can be scheduled.

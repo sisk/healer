@@ -1,7 +1,8 @@
 $sprite-default-size: 16px;
 @import "compass/utilities/sprites/sprite-img";
 
-$sprite_file: "/stylesheets/healer/images/ui-icons_ffffff_256x240.png";
+$sprite_file_light: "/stylesheets/healer/images/ui-icons_ffffff_256x240.png";
+$sprite_file_dark: "/stylesheets/healer/images/ui-icons_454545_256x240.png";
 
 @mixin sprite-default {
   a { display: block; width: 16px; height: 16px; }
@@ -10,15 +11,45 @@ $sprite_file: "/stylesheets/healer/images/ui-icons_ffffff_256x240.png";
 
 @mixin sprite-trash {
   @include sprite-default;
-  @include sprite-img($sprite_file, 12, 7);
+  @include sprite-img($sprite_file_light, 12, 7);
 }
 
 @mixin sprite-zoom {
   @include sprite-default;
-  @include sprite-img($sprite_file, 9, 8);
+  @include sprite-img($sprite_file_light, 9, 8);
 }
 
 @mixin sprite-edit {
   @include sprite-default;
-  @include sprite-img($sprite_file, 12, 8);
+  @include sprite-img($sprite_file_light, 12, 8);
+}
+
+@mixin sprite-collapsed {
+  @include sprite-default;
+  @include sprite-img($sprite_file_dark, 7, 2);
+}
+
+@mixin sprite-opened {
+  @include sprite-default;
+  @include sprite-img($sprite_file_dark, 5, 2);
+}
+
+@mixin sprite-add-dark {
+  @include sprite-default;
+  @include sprite-img($sprite_file_dark, 2, 9);
+}
+
+@mixin sprite-more-dark {
+  @include sprite-default;
+  @include sprite-img($sprite_file_dark, 2, 7);
+}
+
+@mixin sprite-trash-dark {
+  @include sprite-default;
+  @include sprite-img($sprite_file_dark, 12, 7);
+}
+
+@mixin sprite-zoom-dark {
+  @include sprite-default;
+  @include sprite-img($sprite_file_dark, 9, 8);
 }

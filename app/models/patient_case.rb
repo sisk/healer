@@ -38,6 +38,7 @@ class PatientCase < ActiveRecord::Base
   delegate :complexity_minutes, :to => :trip
   delegate :name, :to => :patient
   delegate :body_part, :to => :diagnosis, :allow_nil => true
+  delegate :disease, :to => :diagnosis, :allow_nil => true
   delegate :severity, :to => :diagnosis, :allow_nil => true
 
   # scope :authorized, where("patient_cases.approved_at is not ?", nil).joins(:trip, :diagnosis, :patient => [:risk_factors])
@@ -134,7 +135,7 @@ class PatientCase < ActiveRecord::Base
 
   def display_xray
     return nil if xrays.empty?
-    return xrays.first if xrays.size == 1 || xrays.all?{ |x| !x.primary? }
+    return xrays.first if (xrays.size == 1) || (xrays.all?{ |x| !x.primary? })
     return xrays.select{ |x| x.primary == true }.first
   end
 

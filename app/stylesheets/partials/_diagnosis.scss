@@ -14,7 +14,7 @@
     font-size: 0.75em;
     font-style: italic;
     &.mild { color: $green; }
-    &.moderate { color: $yellow; }
+    &.moderate { color: $dark-yellow; }
     &.severe { color: $red; }
   }
 }

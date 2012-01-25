@@ -28,6 +28,11 @@ describe PatientCase do
 end
 
 describe PatientCase, "authorize!" do
+
+  before(:all) do
+    CaseGroup.stub(:join_bilateral_cases)
+  end
+
   before(:each) do
     @patient_case = PatientCase.new(:patient => stub_model(Patient), :trip => mock_model(Trip))
   end
@@ -55,6 +60,11 @@ describe PatientCase, "authorize!" do
 end
 
 describe PatientCase, "deauthorize!" do
+
+  before(:all) do
+    CaseGroup.stub(:join_bilateral_cases)
+  end
+
   before(:each) do
     @patient_case = PatientCase.new(:patient => stub_model(Patient), :trip => mock_model(Trip), :approved_by_id => 1, :approved_at => Time.now)
   end
@@ -76,6 +86,11 @@ describe PatientCase, "deauthorize!" do
 end
 
 describe PatientCase, "authorized?" do
+
+  before(:all) do
+    CaseGroup.stub(:join_bilateral_cases)
+  end
+
   before(:each) do
     @patient_case = PatientCase.new(:patient => stub_model(Patient), :trip => mock_model(Trip))
   end
@@ -89,6 +104,11 @@ describe PatientCase, "authorized?" do
 end
 
 describe PatientCase, "to_s" do
+
+  before(:all) do
+    CaseGroup.stub(:join_bilateral_cases)
+  end
+
   context "no body part present" do
     it "returns Case + ID" do
       patient_case = PatientCase.new
@@ -202,9 +222,13 @@ describe PatientCase, "#display_xray" do
     @operation.xrays = [@x1]
     @operation.display_xray.should == @x1
   end
-  it "returns the first xray if > 1 exist, but none are primary" do
+  it "returns the first xray if any exist, but none are primary" do
     @operation.xrays = [@x1, @x2]
     @operation.display_xray.should == @x1
+  end
+  it "returns the only xray if it exists, but none are primary" do
+    @operation.xrays = [@x2]
+    @operation.display_xray.should == @x2
   end
   it "returns the first primary xray found" do
     # FIXME - breaking spec. dunno why.
@@ -316,6 +340,7 @@ describe PatientCase, ".group_cases" do
   before(:each) do
     @pc1 = PatientCase.new(:case_group => nil, :approved_at => Time.now, :trip_id => 1, :case_group_id => 1)
     @pc2 = PatientCase.new(:case_group => nil, :approved_at => Time.now, :trip_id => 1, :case_group_id => 2)
+    @pc1.stub_chain(:case_group, :join_bilateral_cases)
   end
 
   # Error checking
@@ -367,6 +392,12 @@ describe PatientCase, ".group_cases" do
   it "clears the orphaned case groups" do
     CaseGroup.stub(:remove_orphans)
     CaseGroup.should_receive(:remove_orphans).with(1)
+    PatientCase.group_cases([@pc1, @pc2])
+  end
+
+  it "joins the bilateral cases" do
+    CaseGroup.stub(:remove_orphans)
+    @pc1.case_group.should_receive(:join_bilateral_cases)
     PatientCase.group_cases([@pc1, @pc2])
   end
 

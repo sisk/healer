@@ -7,4 +7,28 @@
       %li= link_to "Delete case", trip_case_path(@patient_case.trip, @patient_case), :method => :delete, :confirm => "Are you sure?"
 
 .patient_list
-  = render :partial => "patient_cases/summary/record", :object => @patient_case, :as => :patient_case
+  .patient[@patient_case]
+    .basic
+      .primary.name
+        %h2= @patient_case.patient.to_s(:with_id => true)
+        %h3= "#{@patient_case.body_part}"
+    .supplement
+      .diagnosis
+        - if @patient_case.diagnosis
+          = render :partial => "diagnoses/inline", :object => @patient_case.diagnosis, :as => :diagnosis, :locals => { :options => { :remote => true, :context => :patient_case } }
+        - else
+          %p= link_to "Add diagnosis", new_case_diagnosis_path(@patient_case)
+        .xrays
+          - if @patient_case.xrays.present?
+            = xray_preview(@patient_case.display_xray)
+            - if @patient_case.xrays.size > 1
+              = link_to "More X-rays", case_xrays_path(@patient_case)
+          = link_to "Add X-ray", new_case_xray_path(@patient_case)
+
+      .operation
+        - if !@patient_case.operation
+          = link_to "New operation", new_case_operation_path(@patient_case)
+        - else
+          = render :partial => "operations/inline", :object => @patient_case.operation, :as => :operation, :locals => { :options => { :size => :tiny } }
+
+      .treatment

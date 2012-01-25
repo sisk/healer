@@ -1,12 +1,13 @@
 - # TODO this is very similar to inline_patient_case view. dry it up!.
 - patient = patient_case.patient
 %a{ :name => dom_id(patient_case) }
-.patient.case-focus[patient_case]
+.patient.case-focus.collapsible.collapsed[patient_case]
   .basic
     .primary.name
       %h2= patient.to_s(:with_id => true)
-      %h3= "Case ##{patient_case.id}"
-  .supplement
+      %h3= "#{patient_case.body_part}"
+    .toggle.ui-icon
+  .supplement{ :style => "display: none" }
     .diagnosis
       - if patient_case.diagnosis
         = render :partial => "diagnoses/inline", :object => patient_case.diagnosis, :as => :diagnosis, :locals => { :options => { :remote => true, :context => :patient_case } }

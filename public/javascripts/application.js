@@ -17,6 +17,7 @@ $(document).ready(function() {
   $("form#patient_edit").tabs();
   $(".choice_toggle").choice_toggle();
   $(".supplemental").supplementable();
+  $(".collapsible").collapsible();
 
   $(".risk_factor .record_delete").live('click', function(event){
     $(this).parents(".risk_factor").remove();
@@ -32,7 +33,7 @@ $(document).ready(function() {
     modal: true,
     width: 500
   });
-  $("#diagnosis_inline_edit").dialog({
+  $("#modal").dialog({
     autoOpen: false,
     height: 750,
     width: 750,
@@ -86,6 +87,21 @@ jQuery(function ($) {
     var toggle_trigger = $(this).find(".toggle");
     toggle_trigger.bind('click', function(event) {
       $(this).closest(".supplemental").find(".details").slideToggle("fast");
+    });
+    return this;
+  }
+}(jQuery));
+
+(function($){
+  $.fn.collapsible = function() {
+    var toggle_trigger = $(this).find(".basic");
+    toggle_trigger.bind('click', function(event) {
+      if ($(this).parent().hasClass("collapsed")) {
+        $(this).parent().removeClass("collapsed");
+      } else {
+        $(this).parent().addClass("collapsed");
+      }
+      $(this).siblings(".supplement").slideToggle("fast");
     });
     return this;
   }

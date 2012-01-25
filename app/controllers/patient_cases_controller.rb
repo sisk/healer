@@ -13,6 +13,7 @@ class PatientCasesController < ApplicationController
   belongs_to :patient, :optional => true
 
   def index
+    # TODO deprecate
     @unauthorized_count = unauthorized_patient_cases_count
     index! do |format|
       format.json {
@@ -22,6 +23,7 @@ class PatientCasesController < ApplicationController
   end
 
   def waiting
+    # TODO deprecate
     @authorized_count = authorized_patient_cases_count
     @patient_cases = end_of_association_chain.unauthorized
     index! do |format|

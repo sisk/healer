@@ -18,11 +18,11 @@ authorization do
   end
   role :nurse do
     has_permission_on [:trips], :to => :view_only
-    has_permission_on [:patients], :to => [:manage, :browse_and_update] do
+    has_permission_on [:patients], :to => [:rest] do
       has_permission_on :risk_factors, :to => :everything
       has_permission_on :diagnoses, :to => :everything
     end
-    has_permission_on :patient_cases, :to => [:manage, :browse_and_update, :unschedule, :waiting, :bulk]
+    has_permission_on :patient_cases, :to => [:rest, :unschedule, :waiting, :bulk]
   end
   role :doctor do
     includes :nurse
@@ -41,8 +41,8 @@ privileges do
   privilege :everything do
     includes :index, :show, :new, :create, :edit, :update, :destroy
   end
-  privilege :manage do
-    includes :new, :create, :read, :update, :delete
+  privilege :rest do
+    includes :index, :new, :create, :show, :update, :edit, :destroy
   end
   privilege :browse_and_update do
     includes :index, :show, :edit, :update

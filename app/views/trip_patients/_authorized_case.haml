@@ -16,6 +16,8 @@
     - if patient_case.severity && patient_case.severity > 0
       %span.severity{ :class => severity(patient_case).downcase }
         = "(#{severity(patient_case)})"
+  .operation
+
   .nav
     = label_tag "bulk_select_case_#{patient_case.id}", "Select case"
     = check_box_tag "bulk_cases[]", patient_case.id, false, :id => "bulk_select_case_#{patient_case.id}"

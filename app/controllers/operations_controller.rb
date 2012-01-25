@@ -1,6 +1,6 @@
 class OperationsController < ApplicationController
   inherit_resources
-  
+
   respond_to :html, :xml, :json
   belongs_to :case, :parent_class => PatientCase, :singleton => true, :optional => true
   # This controller is used as a singleton resource. For some reason, declarative_authorization doesn't like the use of
@@ -16,7 +16,9 @@ class OperationsController < ApplicationController
   end
 
   def new
-    new!{ redirect_to resource_path and return if resource && !resource.new_record? }
+    new! do |format|
+      format.js { render :template => "operations/new.js.erb", :layout => nil }
+    end
   end
 
   def show
@@ -32,16 +34,19 @@ class OperationsController < ApplicationController
       end
     }
   end
-  
+
   def edit
-    edit! {
-      if !resource
-        flash[:error] = "No operation exists for this case."
-        redirect_to parent_path and return
-      end
-    }
+    edit! do |format|
+      format.html {
+        if !resource
+          flash[:error] = "No operation exists for this case."
+          redirect_to parent_path and return
+        end
+      }
+      format.js { render :template => "operations/edit.js.erb", :layout => nil }
+    end
   end
-  
+
   def create
     create! { case_operation_path(parent) }
   end
@@ -55,10 +60,10 @@ class OperationsController < ApplicationController
   end
 
   def destroy
-    redirect_path = parent_path
-    destroy! { redirect_path }
+    format.js { render :template => "operations/destroy.js.erb", :layout => nil }
+    format.html { redirect_to parent_path }
   end
-  
+
   private
 
   # NOTE: This very presence of this override is a hack. Likely due to singleton.
@@ -67,21 +72,21 @@ class OperationsController < ApplicationController
   def resource
     get_resource_ivar || set_resource_ivar(end_of_association_chain.is_a?(Class) ? end_of_association_chain.find(params[:id]) : end_of_association_chain.send(resource_instance_name))
   end
-  
+
   def parent
     # normally, this shouldn't be needed. however, IR doesn't seem to handle the polymorphism combined with parent_class.
     @parent = PatientCase.find_by_id(params[:case_id])
   end
-  
+
   def parent_path
     # normally, this shouldn't be needed. however, IR doesn't seemto handle the polymorphism combined with parent_class.
     return case_path(PatientCase.find(params[:case_id])) if params[:case_id]
   end
-  
+
   def build_resource
      super
      @operation.date = Date.today if @operation.new_record?
      @operation
   end
-  
+
 end
