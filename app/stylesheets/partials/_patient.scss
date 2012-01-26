@@ -131,6 +131,21 @@ form.patient {
         &.col-2 { @include float-left; }
       }
     }
+    .extra {
+      padding-top: 5px;
+      font-size: 0.9em;
+      p.edit {
+        @include float-right;
+      }
+      .medical_history {
+        @include clearfix;
+        .category {
+          @include float-left;
+          margin-right: $margin-increment;
+        }
+      }
+    }
+
     .supplement {
       border-top: solid 1px $grey-light;
       @include border-bottom-radius($border-radius);

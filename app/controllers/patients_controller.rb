@@ -1,15 +1,15 @@
 class PatientsController < ApplicationController
   inherit_resources
-  
+
   before_filter :authenticate_user!
   filter_resource_access
-  
+
   def create
     create! { patients_path }
   end
 
   def update
-    update! { resource_path }
+    update! { edit_resource_path }
   end
 
 private
@@ -31,5 +31,5 @@ protected
     end
     @patients ||= start.paginate(:page => params[:page], :per_page => 5)
   end
-  
+
 end
