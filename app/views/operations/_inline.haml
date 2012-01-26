@@ -2,21 +2,22 @@
 - html_class = ""
 - html_class << " #{options[:size]}" if options[:size].present?
 .operation.inline[operation]{ :class => html_class }
-  .info
-    %h3= operation.procedure
-    %h4= operation.date
-    .navigation.noprint
-      %ul
-        - if permitted_to? :show, operation
-          %li= link_to "Summary", case_operation_path(operation.patient_case)
-        - if permitted_to? :edit, operation
-          %li= link_to "Edit operation", edit_case_operation_path(operation.patient_case)
+  %h4= operation
+  .navigation.noprint
+    %ul
+      - if permitted_to? :edit, operation
+        %li= link_to "Make Changes", edit_case_operation_path(operation.patient_case), :remote => true
+      - if permitted_to? :destroy, operation
+        %li= link_to "Delete", case_operation_path(operation.patient_case), :method => :delete, :remote => true, :confirm => "Are you sure you want to delete this operation and all data with it? This cannot be undone!"
+      - if permitted_to? :show, operation
+        %li= link_to "Details", case_operation_path(operation.patient_case)
   .xrays
     - if operation.xrays.present?
       = xray_preview(operation.display_xray, options)
+    %p.nav
+      [
       - if operation.xrays.size > 1
-        = link_to "More X-rays", operation_xrays_path(operation)
-        =# link_to "More X-rays", operation_xrays_path(operation), :remote => true
-    - else
-      - # TODO secure this
-      = link_to "Add X-ray", new_operation_xray_path(operation)
+        = link_to "more", operation_xrays_path(operation)
+        |
+      = link_to "add x-ray", new_operation_xray_path(operation), :remote => true, :class => "add_xray"
+      ]

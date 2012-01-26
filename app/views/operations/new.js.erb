@@ -1,2 +1,2 @@
-$('#modal').html('<%= escape_javascript(render :partial => "operations/form_new", :as => :operation, :object => @operation) %>');
+$('#modal').html('<%= escape_javascript(render :partial => "operations/form_new", :as => :operation, :object => @operation, :locals => {:remote => true}) %>');
 $("#modal").dialog('open');

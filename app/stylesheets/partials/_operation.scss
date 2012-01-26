@@ -20,4 +20,8 @@
 
 .operation.inline {
   @include summary_treatment;
+  h4 { margin-bottom: 0; }
+  .xrays {
+    margin-top: $margin-increment;
+  }
 }

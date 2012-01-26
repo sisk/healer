@@ -1,1 +1,5 @@
-$('#<%= dom_id(resource) %>').fadeOut();
+patient_case = $("#<%= dom_id(resource.patient_case) %>");
+operation = $("#<%= dom_id(resource) %>");
+operation.fadeOut();
+operation.remove();
+patient_case.find(".new_operation").removeClass("hide");

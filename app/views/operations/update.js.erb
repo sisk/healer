@@ -1,0 +1,6 @@
+patient_case = $("#<%= dom_id(@operation.patient_case) %>");
+operation = $("#<%= dom_id(@operation) %>");
+
+operation.replaceWith('<%= escape_javascript(render :partial => "operations/inline", :object => @operation, :as => :operation, :locals => { :options => { :size => :tiny } }) %>');
+$("#modal").dialog('close');
+$('#modal').html('');

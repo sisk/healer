@@ -9,12 +9,12 @@
   .supplement{ :style => "display: none" }
     .case_list{ :class => "column-#{case_group.patient_cases.size}" }
       - case_group.patient_cases.each do |patient_case|
-        .patient_case
+        .patient_case[patient_case]
           .xrays
             - if patient_case.xrays.present?
               = xray_preview(patient_case.display_xray, :size => :tiny)
               - if patient_case.xrays.size > 1
-                %p.more= link_to "[more]", case_xrays_path(patient_case)
+                %p.nav= link_to "[ more ]", case_xrays_path(patient_case)
           .diagnosis
             %p
               = patient_case.body_part
@@ -25,13 +25,6 @@
               %span.severity{ :class => severity(patient_case).downcase }
                 = "(#{severity(patient_case)})"
           .procedure
-            - if !patient_case.operation
-              - if permitted_to? :create, Operation.new(:patient_case => patient_case)
-                = link_to "New operation", new_case_operation_path(patient_case), :remote => true
-            - else
-              -# TODO Inline markup here
-              = render :partial => "operations/inline", :object => patient_case.operation, :as => :operation, :locals => { :options => { :size => :tiny } }
-              - if permitted_to? :edit, patient_case.operation
-                = link_to "Edit operation", edit_case_operation_path(patient_case), :remote => true
-              - if permitted_to? :destroy, patient_case.operation
-                = link_to "Delete operation", case_operation_path(patient_case), :method => :delete, :remote => true, :confirm => "Are you sure you want to delete this operation and all data with it? This cannot be undone!"
+            - if permitted_to? :create, Operation.new(:patient_case => patient_case)
+              = link_to "New operation", new_case_operation_path(patient_case), :remote => true, :class => "new_operation#{" hide" if !!patient_case.operation}"
+            = render :partial => "operations/inline", :object => patient_case.operation, :as => :operation, :locals => { :options => { :size => :tiny } } if patient_case.operation

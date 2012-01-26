@@ -1,0 +1,2 @@
+$('#modal').html('<%= escape_javascript(render :partial => "xrays/form", :as => :xray, :object => @xray, :locals => {:remote => true}) %>');
+$("#modal").dialog('open');

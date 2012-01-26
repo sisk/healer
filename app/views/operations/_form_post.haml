@@ -1,4 +1,7 @@
-= semantic_form_for [@diagnosis,@operation] do |f|
+- ajax = defined?(remote) ? remote : false
+- if ajax
+  %h2 New Operation
+= semantic_form_for [@diagnosis,@operation], :remote => ajax do |f|
   = f.semantic_errors
   = f.inputs do
     = f.input :primary_surgeon_id, :as => :select, :label => 'Primary Surgeon', :collection => User.doctor

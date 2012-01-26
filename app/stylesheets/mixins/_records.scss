@@ -23,8 +23,7 @@
     h4 { font-size: 1em }
   }
   .navigation {
-    margin-top: $margin-increment;
-    a { color: $grey-light; }
+    a { color: $grey-medium; }
     ul { @include horizontal-list; }
   }
 }

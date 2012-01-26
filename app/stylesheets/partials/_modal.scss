@@ -4,7 +4,7 @@ $default-box-shadow-color: $grey-light;
 
 @import "compass/css3/box-shadow";
 
-.ui-dialog {
+#modal {
   @include bordered(1px, $grey-very-light);
   @include box-shadow;
 }

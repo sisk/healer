@@ -1,0 +1,5 @@
+patient_case = $("#<%= dom_id(@operation.patient_case) %>");
+patient_case.find(".new_operation").addClass("hide");
+patient_case.find(".procedure").prepend('<%= escape_javascript(render :partial => "operations/inline", :object => @operation, :as => :operation, :locals => { :options => { :size => :tiny } }) %>');
+$("#modal").dialog('close');
+$('#modal').html('');

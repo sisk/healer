@@ -1,0 +1,4 @@
+patient_case = $("#<%= dom_id(resource.patient_case) %>");
+patient_case.find(".procedure .xrays").prepend('<%= escape_javascript(render :partial => "xrays/inline_xray_with_nav", :locals => { :xray => resource }) %>');
+$("#modal").dialog('close');
+$('#modal').html('');

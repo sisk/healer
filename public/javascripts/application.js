@@ -35,7 +35,6 @@ $(document).ready(function() {
   });
   $("#modal").dialog({
     autoOpen: false,
-    height: 750,
     width: 750,
     modal: true,
     show: "fade",

@@ -48,20 +48,24 @@ class OperationsController < ApplicationController
   end
 
   def create
-    create! { case_operation_path(parent) }
+    create! do |format|
+      format.html { redirect_to case_operation_path(parent) }
+      format.js { render :template => "operations/create.js.erb", :layout => nil }
+    end
   end
 
   def update
     update! do |format|
-      format.html {
-        redirect_to case_operation_path(parent), :notice => "Operation updated."
-      }
+      format.html { redirect_to case_operation_path(parent), :notice => "Operation updated." }
+      format.js { render :template => "operations/update.js.erb", :layout => nil }
     end
   end
 
   def destroy
-    format.js { render :template => "operations/destroy.js.erb", :layout => nil }
-    format.html { redirect_to parent_path }
+    destroy! do |format|
+      format.html { redirect_to parent_path }
+      format.js { render :template => "operations/destroy.js.erb", :layout => nil }
+    end
   end
 
   private

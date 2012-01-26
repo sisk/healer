@@ -28,6 +28,9 @@ form.formtastic {
         background-color: $grey-medium;
         color: $white;
       }
+      &.update {
+        background-color: $button-green;
+      }
     }
   }
   fieldset > ol > li.text textarea { width: auto; }
