@@ -96,6 +96,9 @@ span.inline_nav {
   select {
     @include column(4, true);
   }
+  .all {
+    clear: left;
+  }
   .criterion {
     clear: left;
   }

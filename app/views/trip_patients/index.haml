@@ -3,93 +3,51 @@
 - content_for :sidebar_utility do
   #case_filter
     .section.record_jump
-      %h4 Jump to patient
-      = select_tag :patient_anchor, options_for_select([["Select...",nil]] + @trip_patients.map{ |patient| ["#{patient.id} - #{patient}", dom_id(patient)] })
+      %p.all= link_to("Browse all patients", request.path)
+      - unless params[:patient_id]
+        = form_tag(trip_patients_path(@trip), {:method => :get}) do
+          = select_tag :patient_id, options_for_select([["Go to patient...",nil]] + @all_patients.map{ |patient| ["#{patient.id} - #{patient}", patient.id] })
     .section.body_part
-      %h4 Body part
-      - @body_part_names.each do |body_part_name|
-        .criterion
-          = check_box_tag "#{body_part_name}_filter", body_part_name, true
-          = label_tag "#{body_part_name}_filter", body_part_name
-    .section
-      %h4 Other
-      = select_tag :authorized_case_filter, options_for_select([["All cases","all"],["Authorized cases only","authorized"],["Waiting cases only","unauthorized"]])
+      %h4 Filter
+      = form_tag(trip_patients_path(@trip), {:method => :get}) do
+        = select_tag "filter[authorized_status]", options_for_select([["All cases","all"],["Authorized cases","authorized"],["Waiting cases","unauthorized"]])
+        - @body_parts_names.each do |body_part_name|
+          .criterion
+            = check_box_tag "filter[body_parts][]", body_part_name, false, :id => "#{body_part_name}_filter"
+            = label_tag "#{body_part_name}_filter", body_part_name
+        = submit_tag "Go"
+
+    /
       .criterion
         = check_box_tag :multiple_case_filter, true
-        = label_tag :multiple_case_filter, "Multiple cases only"
-
+        = label_tag :multiple_case_filter, "Show multiple/bilateral only"
 
 .record_list.patient_list
   .records
-    = render :partial => "patient", :collection => @trip_patients, :as => :patient
+    = render :partial => "patient", :collection => @paginated_patients, :as => :patient
+  = will_paginate(@paginated_patients)
 
 - content_for :script do
+  -#:javascript
+  -#  var total_number_of_pages = @trip_patients.total_pages;
+  =# javascript_include_tag "lib/endless_page.js"
+
   :javascript
-    $(function() {
-      $(".record_jump select").change(function() {
-        location.hash = $(this).val();
+    jQuery(function ($) {
+      $(window).scroll(function(){
+        url = $('.pagination .next_page').attr('href');
+        if (url && $(window).scrollTop() > ($(document).height() - $(window).height() - 150) ) {
+          $('.pagination').html("<img class='ajax_loader' src='/images/ajax-loader.gif' />");
+          $.getScript(url);
+        }
       });
     });
 
-    $("#authorized_case_filter, #case_filter .criterion input").change(function(event) {
-      var selected_body_parts, authorized_value, unauthorized_value, regex, shown_cases, actors;
 
-      // Initial hide of all patient and associated records
-      $(".records .patient").addClass("hide");
-      $(".records .patient .case_list").addClass("hide");
-      $(".records .patient .patient_case").addClass("hide");
-      $("#patient_anchor option").attr("disabled", true);
-
-      // Figure out which body parts were selected
-      selected_body_parts = $('#case_filter .body_part input:checked').map(function() { return this.value });
-      if (selected_body_parts.length > 0) {
-        regex = new RegExp(selected_body_parts.toArray().join("|"),"i");
-      }
-
-      // Determine which case lists to show based on multiple and authorized setting
-      switch ($("#authorized_case_filter").val()) {
-        case "authorized":
-          if ($("#multiple_case_filter").attr("checked") === true) {
-            actors = $(".case_list.authorized.multiple");
-          } else {
-            actors = $(".case_list.authorized");
-          }
-          break;
-        case "unauthorized":
-          if ($("#multiple_case_filter").attr("checked") === true) {
-            actors = $(".case_list.unauthorized.multiple");
-          } else {
-            actors = $(".case_list.unauthorized");
-          }
-          break;
-        default:
-          if ($("#multiple_case_filter").attr("checked") === true) {
-            actors = $(".case_list.multiple");
-          } else {
-            actors = $(".case_list");
-          }
-          break;
-      }
-
-      // Start selectively removing hide attributes
-      actors.each(function(actor) {
-
-        // 1. For case_lists
-        $(this).removeClass("hide");
-
-        // 2. For cases in the list matching body parts
-        if (regex !== undefined) {
-          shown_cases = $(this).find("p.body_part").filter(function() { return regex.test( $(this).text() ) });
-          shown_cases.each(function(the_case) {
-            $(this).closest(".patient_case").removeClass("hide");
-            // 3. For the outer patient record
-            $(this).closest(".patient").removeClass("hide");
-            $("#patient_anchor option[value='"+$(this).closest(".patient").attr("id")+"']").attr("disabled", false);
-          });
-        }
-
+    $(function() {
+      $(".record_jump select").change(function() {
+        $(this).closest("form").submit();
       });
-
     });
 
     $(".case_list .select_all").click(function(event) {

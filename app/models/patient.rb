@@ -58,6 +58,14 @@ class Patient < ActiveRecord::Base
     } if query.present?
   }
 
+  scope :body_part_name, lambda { |name|
+    if name.present?
+      { :include => { :patient_cases => {:diagnosis => :body_part} }, :conditions => ["lower(body_parts.name_en) in (?)",Array(name).map(&:downcase)] }
+    end
+  }
+  scope :authorized, includes([:patient_cases]).where("patient_cases.approved_at is not ?", nil)
+  scope :unauthorized, includes([:patient_cases]).where("patient_cases.approved_at is ?", nil)
+
   # Paperclip
   has_attached_file :photo,
     :styles => {

@@ -1,0 +1,2 @@
+$('.patient_list .records').append('<%= j render :partial => "patient", :collection => @paginated_patients, :as => :patient %>');
+$('.pagination').replaceWith('<%= j will_paginate(@paginated_patients) %>');

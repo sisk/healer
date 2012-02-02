@@ -64,6 +64,12 @@ class PatientCase < ActiveRecord::Base
     end
   }
 
+  scope :body_part_name, lambda { |name|
+    if name.present?
+      { :include => {:diagnosis => :body_part}, :conditions => ["lower(body_parts.name_en) in (?)",Array(name).map(&:downcase)] }
+    end
+  }
+
   scope :male, :include => :patient, :conditions => ["patients.male = ?", true]
   scope :female, :include => :patient, :conditions => ["patients.male = ?", false]
 
