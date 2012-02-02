@@ -26,20 +26,16 @@ class TripPatientsController < ApplicationController
     if params[:patient_id]
       subset = end_of_association_chain.find_all_by_id(params[:patient_id])
     end
-    if params[:filter]
+    if params[:authorized_status] || params[:body_parts]
       subset = end_of_association_chain
-
-      filter = params[:filter]
-
-      case filter[:authorized_status]
+      case params[:authorized_status]
       when "authorized"
         subset = subset.authorized
       when "unauthorized"
         subset = subset.unauthorized
       end
-
-      if filter[:body_parts]
-        subset = subset.body_part_name(filter[:body_parts].to_a).ordered_by_id
+      if params[:body_parts]
+        subset = subset.body_part_name(Array(params[:body_parts])).ordered_by_id
       end
 
     else

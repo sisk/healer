@@ -10,10 +10,10 @@
     .section.body_part
       %h4 Filter
       = form_tag(trip_patients_path(@trip), {:method => :get}) do
-        = select_tag "filter[authorized_status]", options_for_select([["All cases","all"],["Authorized cases","authorized"],["Waiting cases","unauthorized"]], :selected => (params[:filter][:authorized_status] || "all"))
+        = select_tag :authorized_status, options_for_select([["All cases","all"],["Authorized cases","authorized"],["Waiting cases","unauthorized"]], :selected => (params[:authorized_status] || "all"))
         - @body_parts_names.each do |body_part_name|
           .criterion
-            = check_box_tag "filter[body_parts][]", body_part_name, (params[:filter][:body_parts].present? && params[:filter][:body_parts].include?(body_part_name)), :id => "#{body_part_name}_filter"
+            = check_box_tag "body_parts[]", body_part_name, (params[:body_parts] && Array(params[:body_parts]).include?(body_part_name)), :id => "#{body_part_name}_filter"
             = label_tag "#{body_part_name}_filter", body_part_name
         = submit_tag "Go"
 
