@@ -123,7 +123,10 @@ form.patient {
         position: absolute;
         top: $blueprint-grid-margin / 2;
         right: $blueprint-grid-margin;
-        img { @include span(3); }
+        img {
+          max-width: span(3);
+          max-height: span(2);
+        }
       }
       dl {
         font-size: 0.8em;

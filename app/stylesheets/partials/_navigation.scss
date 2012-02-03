@@ -103,3 +103,15 @@ span.inline_nav {
     clear: left;
   }
 }
+
+.fetching {
+  span {
+    color: $grey-light;
+    font-size: 1.3em;
+    line-height: 2.1em;
+  }
+  img {
+    @include float-left;
+    margin-right: $margin-increment * 2;
+  }
+}
