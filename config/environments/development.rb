@@ -15,12 +15,12 @@ Healer::Application.configure do
 
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
   config.action_mailer.perform_deliveries = true
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    :domain => "derp.com",
-    :address => "localhost",
-    :port => 2525,
-  }
+  # config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.smtp_settings = {
+  #   :domain => "derp.com",
+  #   :address => "localhost",
+  #   :port => 2525,
+  # }
 
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = false
@@ -32,6 +32,13 @@ Healer::Application.configure do
   config.action_dispatch.best_standards_support = :builtin
 
   Paperclip.options[:command_path] = "/usr/local/bin"
+
+  config.middleware.use ExceptionNotifier,
+    :email_prefix => "[Healer] ",
+    :sender_address => %{"Healer" <healer.app@gmail.com>},
+    :exception_recipients => %w{healer.app@gmail.com}
+
+  config.action_mailer.delivery_method = :letter_opener
 
 end
 

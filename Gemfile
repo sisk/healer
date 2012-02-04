@@ -21,7 +21,7 @@ gem 'inherited_resources', '~> 1.2.1'
 gem "will_paginate", '3.0.pre2'
 gem "dotiw", '1.1.1'
 gem 'jquery-rails', '>= 0.2.6'
-gem "airbrake"
+gem "exception_notification"
 gem "friendly_id"
 gem "rake", "0.9.2.2"
 
@@ -32,6 +32,7 @@ group :development, :test do
   gem "factory_girl_rails"
   gem "newrelic_rpm"
   gem "pry"
+  gem "letter_opener"
 end
 
 # Use unicorn as the web server
