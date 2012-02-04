@@ -9,7 +9,7 @@ class TripPatientsController < ApplicationController
     @body_parts_names = parent.patient_cases.map(&:body_part).uniq.compact.map(&:name_en).uniq
 
     @all_patients = collection
-    @paginated_patients = collection.paginate( :page => params[:page], :per_page => 5 )
+    @paginated_patients = collection.paginate( :page => params[:page], :per_page => 10 )
     index! do |format|
       format.html
       format.js { render :template => "trip_patients/index.js.erb", :layout => nil }
