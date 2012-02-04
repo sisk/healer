@@ -12,7 +12,7 @@ class Trip < ActiveRecord::Base
   has_many :authorized_patients, :through => :patient_cases, :source => :patient, :conditions => ["patient_cases.approved_at is not ?", nil], :uniq => true
   has_and_belongs_to_many :users, :uniq => true
 
-  default_scope order(:start_date)
+  default_scope order('start_date desc')
 
   before_validation :set_nickname
 

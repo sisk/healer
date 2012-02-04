@@ -12,6 +12,7 @@
   %body.bp
     #wrapper
       #head.noprint
+        = render :partial => "layouts/shared/trip_list"
         - if @trip
           .trip_nav= render :partial => "layouts/shared/trip_nav", :locals => { :trip => @trip }
         .utility_nav
