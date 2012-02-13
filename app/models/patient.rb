@@ -19,7 +19,6 @@ class Patient < ActiveRecord::Base
   has_many :patient_cases, :dependent => :destroy
   has_many :risk_factors, :dependent => :destroy
   has_many :risks, :through => :risk_factors
-  has_many :diagnoses, :through => :patient_cases
   has_many :case_groups, :through => :patient_cases, :uniq => true
 
   accepts_nested_attributes_for :risk_factors, :allow_destroy => true, :reject_if => proc { |attributes| attributes['risk_id'].blank? }
@@ -60,7 +59,7 @@ class Patient < ActiveRecord::Base
 
   scope :body_part_name, lambda { |name|
     if name.present?
-      { :include => { :patient_cases => {:diagnosis => :body_part} }, :conditions => ["lower(body_parts.name_en) in (?)",Array(name).map(&:downcase)] }
+      { :include => { :patient_cases => :body_part }, :conditions => ["lower(body_parts.name_en) in (?)",Array(name).map(&:downcase)] }
     end
   }
   scope :authorized, includes([:patient_cases]).where("patient_cases.approved_at is not ?", nil)
@@ -121,17 +120,6 @@ class Patient < ActiveRecord::Base
     return photo.url(size) if photo.exists?
     (self.male.nil? || self.male?) ? "male-generic.gif" : "female-generic.gif"
   end
-
-=begin
-TODO [cruft] 2011-08-15 possible cruft alert! if no one chirps for a while, kill this.
-%>
-  def bilateral_diagnosis?
-    return false if diagnoses.empty?
-    return diagnoses.any?{ |diagnosis| diagnosis.has_mirror? }
-  end
-
-<%
-=end
 
   def has_medical_detail?
     return (risk_factors.present? || other_diseases.present? || medications.present? || allergies.present?)

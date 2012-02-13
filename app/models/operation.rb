@@ -30,14 +30,14 @@ class Operation < ActiveRecord::Base
 
   has_many :xrays, :dependent => :destroy
   accepts_nested_attributes_for :xrays, :allow_destroy => true, :reject_if => proc { |attributes| attributes['photo'].blank? }
-  
+
   # validates_presence_of :date
   validates_presence_of :patient_case
   validates_numericality_of :difficulty
   validates_inclusion_of :difficulty, :in => self.difficulty_table.keys
   validates_inclusion_of :approach, :in => self.approaches, :allow_nil => true, :allow_blank => true
   validates_inclusion_of :ambulatory_order, :in => self.ambulatory_orders, :allow_nil => true, :allow_blank => true
-  
+
   accepts_nested_attributes_for :knee_implant
   accepts_nested_attributes_for :hip_implant
   accepts_nested_attributes_for :patient_case
@@ -48,7 +48,7 @@ class Operation < ActiveRecord::Base
   scope :incomplete, where("operations.end is ?", nil)
   scope :complete, where("operations.end is not ?", nil)
 
-  delegate :location, :location=, :patient, :diagnosis, :body_part, :trip, :to => :patient_case, :allow_nil => true
+  delegate :location, :location=, :patient, :body_part, :trip, :to => :patient_case, :allow_nil => true
 
   def to_s
     if procedure.present?
@@ -59,11 +59,11 @@ class Operation < ActiveRecord::Base
       return body_part.present? ? body_part.to_s : "[Unspecified operation]"
     end
   end
-  
+
   def as_json(options={})
     { :id => self.id, :patient_case_id => patient_case_id, :to_s => self.to_s, :photo => self.patient.displayed_photo(:tiny), :patient => self.patient.to_s, :location => self.location }
   end
-  
+
   # def build_implant(*args)
   #   # override method to deal with STI
   #   return implant if implant.present?
@@ -81,7 +81,7 @@ class Operation < ActiveRecord::Base
     return xrays.first if xrays.size == 1 || xrays.all?{ |x| !x.primary? }
     return xrays.select{ |x| x.primary == true }.first
   end
-  
+
   private
-  
+
 end

@@ -13,7 +13,6 @@
       = d.input :body_part_id, :as => :select, :label => 'Body Part', :collection => BodyPart.all.collect{ |bp| [bp.to_s, bp.id] }
       = d.input :disease_id, :as => :select, :label => 'Disease', :collection => Disease.all.collect{ |d| [d.to_s, d.id] }
       = d.input :severity, :as => :radio, :label => "Severity", :collection => Diagnosis::severity_table.invert
-      =# d.input :assessed_date, :as => :datepicker, :label => "Assessed Date"
       = d.input :revision, :as => :boolean
   #xrays
     %h3 X-Rays

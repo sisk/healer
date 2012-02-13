@@ -33,11 +33,6 @@ Healer::Application.configure do
 
   Paperclip.options[:command_path] = "/usr/local/bin"
 
-  config.middleware.use ExceptionNotifier,
-    :email_prefix => "[Healer] ",
-    :sender_address => %{"Healer" <healer.app@gmail.com>},
-    :exception_recipients => %w{healer.app@gmail.com}
-
   config.action_mailer.delivery_method = :letter_opener
 
 end

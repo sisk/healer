@@ -1,0 +1,25 @@
+- content_for :title do
+  = "#{@patient_case.patient} - #{@patient_case}"
+- content_for :subnavigation do
+  %ul
+    %li= link_to "Full patient record", patient_path(@patient_case.patient)
+    - if permitted_to? :destroy, @patient_case
+      %li= link_to "Delete case", trip_case_path(@patient_case.trip, @patient_case), :method => :delete, :confirm => "Are you sure?"
+
+.column-2
+  = render :partial => "patients/shared/snapshot", :locals => { :patient => resource.patient }
+.column-2
+  = semantic_form_for [parent,resource], :url => trip_case_path(parent, resource), :html => { :multipart => true } do |f|
+    = f.semantic_errors
+    = render :partial => "case_details_form", :locals => { :f => f }
+    %h4 X-Rays
+    - if permitted_to? :create, Xray.new(:patient_case => resource)
+      = f.inputs do
+        = render :partial => 'xrays/fields', :object => resource.xrays.build, :as => :xray, :locals => { :f => f }
+    - if resource.xrays.present?
+      = xray_preview(resource.display_xray, :size => :tiny)
+      - if resource.xrays.size > 1
+        = link_to "More X-rays", case_xrays_path(resource)
+
+    = f.buttons do
+      = f.commit_button "Save Case"

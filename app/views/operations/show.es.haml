@@ -12,7 +12,7 @@
       %dt Nombre del paciente
       %dd= resource.patient
       %dt Diagnostico
-      %dd= resource.diagnosis
+      %dd= resource.disease
       %dt Cirugía
       %dd= resource.procedure
   - if resource.patient.photo.exists?
@@ -20,10 +20,10 @@
 .section
   .xrays
     %h2 Rayos X
-    - if resource.diagnosis.display_xray.present?
+    - if resource.display_xray.present?
       .before
         %h3 Antes
-        .xray= image_tag(resource.diagnosis.display_xray.photo.url(:original))
+        .xray= image_tag(resource.display_xray.photo.url(:original))
     - if resource.display_xray.present?
       .after
         %h3 Despues

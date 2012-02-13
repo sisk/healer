@@ -1,4 +1,5 @@
 - ajax = defined?(remote) ? remote : false
+- operation ||= @operation
 - if ajax
   %h2 New Operation
 = semantic_form_for [parent,@operation], :url => case_operation_path(parent), :remote => ajax do |f|

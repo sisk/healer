@@ -13,7 +13,7 @@
     - if patient_case.revision?
       %span.asterisk (Revision)
   %p.diagnosis
-    = patient_case.diagnosis.try(:disease)
+    = patient_case.disease
     - if patient_case.severity && patient_case.severity > 0
       %span.severity{ :class => severity(patient_case).downcase }
         = "(#{severity(patient_case)})"

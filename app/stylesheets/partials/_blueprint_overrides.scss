@@ -1,5 +1,14 @@
 body.bp {
   .error, .success, .notice {
     @include border-radius($border-radius);
+    color: $grey14;
+    border: none;
+    @include box-shadow;
+  }
+  .error {
+    background-color: #600;
+  }
+  .notice, .success {
+    background-color: #060;
   }
 }

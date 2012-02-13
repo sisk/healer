@@ -12,6 +12,7 @@
 
 // To configure blueprint, edit the partials/base.sass file.
 @import "partials/base";
+@import "compass/css3/border-radius";
 
 @import "partials/formtastic";
 @import "partials/formtastic_changes";

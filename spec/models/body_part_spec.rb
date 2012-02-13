@@ -7,7 +7,6 @@ describe BodyPart do
   should_validate_presence_of :name_en
   should_validate_inclusion_of :side, :in => %w(L R), :allow_nil => true, :allow_blank => true
 
-  should_have_many :diagnoses
   should_belong_to :mirror
 end
 

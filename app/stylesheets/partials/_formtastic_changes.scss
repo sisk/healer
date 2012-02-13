@@ -8,15 +8,62 @@ form.formtastic {
     height: 1.1em * 6;
   }
   input, textarea, select {
-    @include bordered(1px, $grey-light);
+    @include bordered(1px, $grey13);
+    color: $grey-medium;
+    background-color: $grey-ultra-light;
     @include border-radius($border-radius);
     padding: 6px;
+    width: span(5);
+    &:focus {
+      @include bordered(1px, $grey-dark);
+      color: $grey-dark;
+      background-color: $white;
+    }
   }
-  fieldset > ol > li label {
-    padding-top: .5em;
+  fieldset.inputs label {
+    float: none;
+    text-align: left;
+    color: $grey-medium;
   }
-  .buttons {
+  fieldset > ol > li {
+    margin-bottom: 0.75em;
+    label {
+      padding-top: .5em;
+      width: auto;
+    }
+    &.boolean {
+      label {
+        padding-left: 0;
+        input {
+          width: auto;
+        }
+      }
+    }
+    &.radio, &.date {
+      fieldset {
+        legend, legend label {
+          position: static;
+        }
+        ol {
+          clear: both;
+          padding-left: span(1);
+          input, select {
+            width: auto;
+          }
+          li {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+    &.date fieldset ol {
+      padding-left: 0;
+    }
+  }
+  .buttons, fieldset.buttons {
+    padding-left: 0;
     input {
+      width: auto;
       border: none;
       @include border-radius($border-radius);
       background-color: $grey-dark;
@@ -28,10 +75,18 @@ form.formtastic {
         background-color: $grey-medium;
         color: $white;
       }
-      &.update {
+      &.update, &.create {
         background-color: $button-green;
+        &:hover {
+          background-color: $button-green - #444;
+          color: $white;
+        }
       }
     }
   }
   fieldset > ol > li.text textarea { width: auto; }
+}
+
+.column-2 {
+  @include float-left;
 }

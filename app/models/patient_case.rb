@@ -6,11 +6,16 @@ class PatientCase < ActiveRecord::Base
   def self.possible_statuses
     ["Pre-Screen","Registered","Checked In","Scheduled","Unscheduled","Preparation","Procedure","Recovery","Discharge","Checked Out"]
   end
+
   def self.complexity_units
     [1,2,3,4,5,6,7,8,9,10]
   end
 
-  @patient_case_join = 'left outer join `trips` ON `trips`.`id` = `patient_cases`.`trip_id` left outer join `diagnoses` ON `diagnoses`.`patient_case_id` = `patient_cases`.`id` left outer join `patients` ON `patients`.`id` = `patient_cases`.`patient_id` left outer join `risk_factors` ON `risk_factors`.`patient_id` = `patients`.`id`'
+  def self.severity_table
+    { 0 => "Unremarkable", 1 => "Mild", 2 => "Moderate", 3 => "Severe" }
+  end
+
+  @patient_case_join = 'left outer join `trips` ON `trips`.`id` = `patient_cases`.`trip_id` left outer join `patients` ON `patients`.`id` = `patient_cases`.`patient_id` left outer join `risk_factors` ON `risk_factors`.`patient_id` = `patients`.`id`'
 
   before_create :set_pre_screen
   after_save :sync_bilateral, :set_case_group
@@ -19,10 +24,12 @@ class PatientCase < ActiveRecord::Base
   belongs_to :patient
   belongs_to :case_group
   belongs_to :trip
+  belongs_to :disease
+  belongs_to :body_part
+
   belongs_to :approved_by, :class_name => "User", :foreign_key => "approved_by_id"
   belongs_to :created_by, :class_name => "User", :foreign_key => "created_by_id"
   has_one :operation, :dependent => :destroy
-  has_one :diagnosis, :dependent => :destroy
   has_many :xrays, :dependent => :destroy
   has_many :physical_therapies, :dependent => :destroy
   has_one :bilateral_case, :class_name => "PatientCase", :foreign_key => "bilateral_case_id"
@@ -31,18 +38,15 @@ class PatientCase < ActiveRecord::Base
   validates_presence_of :trip
   validates_inclusion_of :status, :in => self.possible_statuses, :allow_nil => true
 
+  validates_numericality_of :severity
+  validates_inclusion_of :severity, :in => self.severity_table.keys
+
   accepts_nested_attributes_for :patient
-  accepts_nested_attributes_for :diagnosis
-  accepts_nested_attributes_for :xrays
+  accepts_nested_attributes_for :xrays, :allow_destroy => true, :reject_if => proc { |attributes| attributes['photo'].blank? }
 
   delegate :complexity_minutes, :to => :trip
   delegate :name, :to => :patient
-  delegate :body_part, :to => :diagnosis, :allow_nil => true
-  delegate :disease, :to => :diagnosis, :allow_nil => true
-  delegate :severity, :to => :diagnosis, :allow_nil => true
 
-  # scope :authorized, where("patient_cases.approved_at is not ?", nil).joins(:trip, :diagnosis, :patient => [:risk_factors])
-  # scope :unauthorized, where("patient_cases.approved_at is ?", nil).joins(:trip, :patient => [:diagnosis, :risk_factors])
   scope :authorized, includes([:patient, :trip]).where("patient_cases.approved_at is not ?", nil)
   scope :unauthorized, includes([:patient, :trip]).where("patient_cases.approved_at is ?", nil)
 
@@ -66,7 +70,7 @@ class PatientCase < ActiveRecord::Base
 
   scope :body_part_name, lambda { |name|
     if name.present?
-      { :include => {:diagnosis => :body_part}, :conditions => ["lower(body_parts.name_en) in (?)",Array(name).map(&:downcase)] }
+      { :include => :body_part, :conditions => ["lower(body_parts.name_en) in (?)",Array(name).map(&:downcase)] }
     end
   }
 
@@ -133,10 +137,6 @@ class PatientCase < ActiveRecord::Base
     return "Time Unknown" if complexity.blank?
     str = distance_of_time_in_words(Time.now, Time.now + (complexity_minutes * complexity.to_i).to_i.minutes, false, { :two_words_connector => ", " })
     return str.blank? ? "Time Unknown" : str
-  end
-
-  def revision?
-    diagnosis.try(:revision) || false
   end
 
   def display_xray

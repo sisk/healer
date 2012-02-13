@@ -1,9 +1,8 @@
 class Xray < ActiveRecord::Base
-  
-  belongs_to :diagnosis # 2011-07-10 marked for death when case transition complete
+
   belongs_to :operation
   belongs_to :patient_case
-  
+
   scope :pre_op, where('xrays.operation_id is ?', nil)
   scope :post_op, where('xrays.operation_id is not ?', nil)
 
@@ -24,14 +23,10 @@ class Xray < ActiveRecord::Base
 
   validates_attachment_presence :photo
 
-  def patient_case
-    diagnosis.try(:patient_case) || operation.try(:patient_case)
-  end
-
   def to_s
     str = "X-ray: #{patient_case.to_s}"
     str += " - " + date_time.to_s if date_time.present?
     return str
   end
-  
+
 end

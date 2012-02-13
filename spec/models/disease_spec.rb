@@ -7,8 +7,6 @@ describe Disease do
   should_have_column :display_order, :type => :integer
 
   should_validate_presence_of :name_en
-  
-  should_have_many :diagnoses
 end
 
 describe Procedure, "#to_s" do

@@ -6,32 +6,11 @@ class PatientCasesController < ApplicationController
   actions :all
 
   before_filter :authenticate_user!
-  before_filter :set_unregistered_patients, :only => :new
+  before_filter :set_unregistered_patients, :only => [:new, :create]
   filter_resource_access :collection => [:index, :review, :waiting, :bulk]
 
   belongs_to :trip, :optional => true
   belongs_to :patient, :optional => true
-
-  def index
-    # TODO deprecate
-    @unauthorized_count = unauthorized_patient_cases_count
-    index! do |format|
-      format.json {
-        render :text => "{\"patient_cases\" : #{@patient_cases.to_json}}"
-      }
-    end
-  end
-
-  def waiting
-    # TODO deprecate
-    @authorized_count = authorized_patient_cases_count
-    @patient_cases = end_of_association_chain.unauthorized
-    index! do |format|
-      format.json {
-        render :text => "{\"patient_cases\" : #{@patient_cases.to_json}}"
-      }
-    end
-  end
 
   def bulk
     @patient_cases = PatientCase.find(params[:bulk_cases])
@@ -91,18 +70,18 @@ class PatientCasesController < ApplicationController
     end
   end
 
-  def new
-    new!{
-      if @trip
-        render :action => "trips_new"
-        return
-      elsif @patient
-        render :action => "patients_new"
-        return
-      else
-      end
-    }
-  end
+  # def new
+  #   new!{
+  #     if @trip
+  #       render :action => "trips_new"
+  #       return
+  #     elsif @patient
+  #       render :action => "patients_new"
+  #       return
+  #     else
+  #     end
+  #   }
+  # end
 
   def create
     create! do |success, failure|
@@ -116,8 +95,9 @@ class PatientCasesController < ApplicationController
         return
       }
       failure.html {
+        flash[:error] = resource.errors.full_messages.to_sentence
         if @trip
-          render_action = "trips_new"
+          render_action = :new
         elsif @patient
           render_action = "patients_new"
         end
@@ -134,7 +114,7 @@ class PatientCasesController < ApplicationController
       flash[:notice] = "Case updated."
     end
     respond_with(@patient_case) do |format|
-      format.html { redirect_to trip_cases_path(@patient_case.trip) }
+      format.html { redirect_to trip_case_path(@patient_case.trip, @patient_case) }
       format.js { render :template => "patient_cases/update.js.erb", :layout => nil }
     end
   end
@@ -188,7 +168,6 @@ private
   def build_resource
     super
     @patient_case.build_patient(params[:patient]) unless @patient_case.patient.present?
-    # @patient_case.build_diagnosis unless @patient_case.diagnosis.present?
     @patient_case
   end
 

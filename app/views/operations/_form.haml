@@ -3,22 +3,22 @@
   %h2 Edit Operation
 = semantic_form_for [@operation.patient_case, @operation], :url => case_operation_path(@operation.patient_case), :remote => ajax do |f|
   = f.semantic_errors
-  = f.inputs do
-    = f.input :approach, :as => :select, :label => 'Approach', :collection => Operation::approaches
-    = f.input :difficulty, :as => :radio, :label => "Difficulty", :collection => Operation::difficulty_table.invert
-    = f.input :graft, :label => 'Graft'
-    = f.input :anesthesia_type, :as => :select, :label => 'Anesthesia', :collection => Operation::anesthsia_types
-    = f.input :peripheral_nerve_block_type, :as => :select, :label => 'Peripheral Nerve Block', :collection => Operation::peripheral_nerve_block_types
-    = f.input :ambulatory_order, :as => :select, :label => 'Ambulatory Order', :collection => Operation::ambulatory_orders
-    = f.input :notes, :label => 'Notes'
-  = f.inputs do
-    = f.input :complete, :label => 'Procedure complete'
-  = f.buttons do
-    = f.commit_button "Save Changes"
-  = f.inputs do
-    = f.input :procedure_id, :as => :select, :label => 'Procedure', :collection => Procedure.all.collect{ |p| [p.to_s, p.id] }
-    = f.input :primary_surgeon_id, :as => :select, :label => 'Primary Surgeon', :collection => User.doctor
-    = f.input :secondary_surgeon_id, :as => :select, :label => 'Secondary Surgeon', :collection => User.doctor
-    = f.input :anesthesiologist_id, :as => :select, :label => 'Anesthesiologist', :collection => User.anesthesiologist
+  .column-2
+    = f.inputs do
+      = f.input :approach, :as => :select, :label => 'Approach', :collection => Operation::approaches
+      = f.input :difficulty, :as => :radio, :label => "Difficulty", :collection => Operation::difficulty_table.invert
+      = f.input :graft, :label => 'Graft'
+      = f.input :anesthesia_type, :as => :select, :label => 'Anesthesia', :collection => Operation::anesthsia_types
+      = f.input :peripheral_nerve_block_type, :as => :select, :label => 'Peripheral Nerve Block', :collection => Operation::peripheral_nerve_block_types
+      = f.input :ambulatory_order, :as => :select, :label => 'Ambulatory Order', :collection => Operation::ambulatory_orders
+      = f.input :notes, :label => 'Notes'
+  .column-2
+    = f.inputs do
+      = f.input :procedure_id, :as => :select, :label => 'Procedure', :collection => Procedure.all.collect{ |p| [p.to_s, p.id] }
+      = f.input :primary_surgeon_id, :as => :select, :label => 'Primary Surgeon', :collection => User.doctor
+      = f.input :secondary_surgeon_id, :as => :select, :label => 'Secondary Surgeon', :collection => User.doctor
+      = f.input :anesthesiologist_id, :as => :select, :label => 'Anesthesiologist', :collection => User.anesthesiologist
+    = f.inputs do
+      = f.input :complete, :label => 'Procedure complete'
   = f.buttons do
     = f.commit_button "Save Changes"

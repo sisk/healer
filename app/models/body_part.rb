@@ -3,11 +3,10 @@ class BodyPart < ActiveRecord::Base
   @@all_body_parts ||= all
 
   validates_presence_of :name_en, :message => "can't be blank"
-  has_many :diagnoses
   belongs_to :mirror, :class_name => "BodyPart", :foreign_key => "mirror_id"
   validates_inclusion_of :side, :in => ["L", "R", ""], :allow_nil => true
   default_scope :order => 'body_parts.name_en, body_parts.side'
-  
+
   after_save :sync_mirror
 
   def to_s
@@ -25,17 +24,17 @@ class BodyPart < ActiveRecord::Base
   def all_body_parts
     @@all_body_parts
   end
-  
+
   def side_es
     return "I" if side.downcase == "l" # izquierda
     return "D" if side.downcase == "r" # derecha
     nil
   end
-  
+
   def sync_mirror
     mirror.update_attributes(:mirror => self) if mirror.present? && mirror.mirror_id != self.id
   end
-  
+
 end
 
 # == Schema Information

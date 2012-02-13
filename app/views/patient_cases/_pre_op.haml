@@ -1,0 +1,10 @@
+.pre_op
+  %p
+    = patient_case.body_part
+    - if patient_case.revision?
+      %span.asterisk (Revision)
+  %p
+    = patient_case.disease
+    - if patient_case.severity && patient_case.severity > 0
+      %span.severity{ :class => severity(patient_case).downcase }
+        = "(#{severity(patient_case)})"

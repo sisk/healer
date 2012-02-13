@@ -6,18 +6,23 @@ describe PatientCase do
   should_have_column :approved_by_id, :type => :integer
   should_have_column :created_by_id, :type => :integer
   should_have_column :trip_id, :type => :integer
+  should_have_column :disease_id, :type => :integer
   should_have_column :approved_at, :type => :datetime
   should_have_column :notes, :type => :text
   should_have_column :status, :type => :string
   should_have_column :complexity, :type => :integer
+  should_have_column :revision, :type => :boolean
+  should_have_column :severity, :type => :integer
 
   should_belong_to :patient
   should_belong_to :case_group
   should_belong_to :trip
+  should_belong_to :disease
+  should_belong_to :body_part
+
   should_belong_to :approved_by
   should_belong_to :created_by
   should_have_one :operation
-  should_have_one :diagnosis
   should_have_many :physical_therapies
   should_have_many :xrays
   should_have_one :bilateral_case
@@ -179,31 +184,6 @@ describe PatientCase, "#time_in_words" do
   end
   it "returns unknown if complexity is not set" do
     @patient_case.time_in_words.should == "Time Unknown"
-  end
-end
-
-describe PatientCase, "revision?" do
-  before(:each) do
-    @patient_case = PatientCase.new
-  end
-  context "case has a diagnosis" do
-    before(:each) do
-      @patient_case.stub(:patient).and_return(@patient)
-    end
-    it "is true if diagnosis is revision" do
-      @patient_case.diagnosis = stub_model(Diagnosis, :revision => true)
-      @patient_case.revision?.should be_true
-    end
-    it "is false if diagnosis is not revision" do
-      @patient_case.diagnosis = stub_model(Diagnosis, :revision => false)
-      @patient_case.revision?.should be_false
-    end
-  end
-  context "case has no diagnosis" do
-    it "is false" do
-      @patient_case.stub(:patient).and_return(@patient)
-      @patient_case.revision?.should be_false
-    end
   end
 end
 
@@ -401,4 +381,10 @@ describe PatientCase, ".group_cases" do
     PatientCase.group_cases([@pc1, @pc2])
   end
 
+end
+
+describe PatientCase, ".severity_table" do
+  it "returns an indexed hash of the expected values" do
+    PatientCase::severity_table.should == { 0 => "Unremarkable", 1 => "Mild", 2 => "Moderate", 3 => "Severe" }
+  end
 end

@@ -27,7 +27,6 @@ describe Patient do
   should_have_column :medications, :type => :text
   should_have_column :other_diseases, :type => :text
   should_have_column :allergies, :type => :text
-  should_have_many :diagnoses, :through => :patient_cases
   should_have_many :case_groups, :through => :patient_cases
 
   should_validate_presence_of :name_first
@@ -39,7 +38,6 @@ describe Patient do
   end
 
   should_have_many :patient_interactions
-  should_have_many :diagnoses
   should_have_many :operations, :through => :patient_cases
   should_have_many :patient_cases
   should_have_many :risk_factors
@@ -217,32 +215,6 @@ describe Patient, "displayed_photo" do
     @patient.displayed_photo(:thumb).should == "female-generic.gif"
   end
 end
-
-=begin
-TODO [cruft] 2011-08-15 possible cruft alert! if no one chirps for a while, kill this.
-%>
-describe Patient, "#bilateral_diagnosis?" do
-  before(:each) do
-    @patient = Patient.new
-    @bilateral = stub_model(Diagnosis, :has_mirror? => true)
-    @non_bilateral = stub_model(Diagnosis, :has_mirror? => false)
-  end
-  it "is false if no diagnoses exist" do
-    @patient.diagnoses = []
-    @patient.bilateral_diagnosis?.should be_false
-  end
-  it "is true if any of patient's diagnoses are part of bilateral" do
-    @patient.stub(:diagnoses).and_return([mock_model(Diagnosis, :has_mirror? => true)])
-    @patient.bilateral_diagnosis?.should be_true
-  end
-  it "is false if none of patient's diagnoses are part of bilateral" do
-    @patient.stub(:diagnoses).and_return([mock_model(Diagnosis, :has_mirror? => false)])
-    @patient.bilateral_diagnosis?.should be_false
-  end
-end
-
-<%
-=end
 
 describe Patient, "#has_medical_detail?" do
   it "is true if patient has risk_factors" do

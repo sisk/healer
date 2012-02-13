@@ -3,8 +3,8 @@
 - content_for :subnavigation do
   %ul
     %li= link_to "Full patient record", patient_path(@patient_case.patient)
-    - if permitted_to? :destroy, @patient_case
-      %li= link_to "Delete case", trip_case_path(@patient_case.trip, @patient_case), :method => :delete, :confirm => "Are you sure?"
+    - if permitted_to? :edit, @patient_case
+      %li= link_to "Edit case", edit_trip_case_path(@patient_case.trip, @patient_case)
 
 .patient_list
   .patient[@patient_case]
@@ -14,10 +14,7 @@
         %h3= "#{@patient_case.body_part}"
     .supplement
       .diagnosis
-        - if @patient_case.diagnosis
-          = render :partial => "diagnoses/inline", :object => @patient_case.diagnosis, :as => :diagnosis, :locals => { :options => { :remote => true, :context => :patient_case } }
-        - else
-          %p= link_to "Add diagnosis", new_case_diagnosis_path(@patient_case)
+        = render :partial => "pre_op", :object => @patient_case, :as => :patient_case
         .xrays
           - if @patient_case.xrays.present?
             = xray_preview(@patient_case.display_xray)

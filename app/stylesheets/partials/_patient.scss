@@ -262,12 +262,6 @@ form.patient {
         @include column(14, true);
       }
     }
-    &.column-2 {
-      .patient_case {
-        @include column(7);
-        &:last-child { @include column(7, true); }
-      }
-    }
     .xrays {
       .nav {
         float: none;
@@ -283,5 +277,22 @@ form.patient {
       clear: both;
       margin-top: 70px;
     }
+  }
+}
+
+#new_case_form {
+  form#new_patient_case {
+    @include clearfix;
+    .column-3 {
+      width: span(6);
+      @include float-left;
+    }
+  }
+  form#existing_patient_case {
+    @include clearfix;
+    width: span(6);
+  }
+  .buttons {
+    clear: left;
   }
 }

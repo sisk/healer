@@ -12,14 +12,7 @@ class PatientsController < ApplicationController
     update! { edit_resource_path }
   end
 
-private
-  # def build_resource
-  #   super
-  #   @patient.risk_factors = [] unless @patient.risk_factors.present?
-  #   @patient
-  # end
-
-protected
+  private #####################################################################
 
   def collection
     start = end_of_association_chain
