@@ -5,6 +5,6 @@
     - if permitted_to? :show, @patient
       %li= link_to "Back to summary", @patient
     - if permitted_to? :destroy, @patient
-      %li.delete= link_to "Delete patient", patient_path(@patient), :method => :delete, :confirm => "Are you sure you want to delete the entire patient record for #{@patient}? This will erase all history, procedures, and diagnoses for this patient. Also, this action cannot be undone."
+      %li.delete= link_to "Delete patient", patient_path(@patient), :method => :delete, :confirm => "Are you sure you want to delete the entire patient record for #{@patient}? This will erase all history, procedures, and cases for this patient. This action cannot be undone."
 
 = render :partial => "form"

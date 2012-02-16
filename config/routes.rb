@@ -51,7 +51,6 @@ Healer::Application.routes.draw do
     member do
       put :authorize, :deauthorize, :unschedule
     end
-    resources :diagnoses
     resources :xrays
     resource :operation
     resources :physical_therapies

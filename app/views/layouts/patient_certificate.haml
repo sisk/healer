@@ -11,8 +11,6 @@
         = "#{yield :document_title}"
   %body.bp.patient_certificate
     #wrapper
-      #head.noprint
-        = render :partial => "layouts/shared/trip_nav"
       #content
         #summary_header
           #org_logo
@@ -26,12 +24,8 @@
               %h1.title= yield :title
             - if content_for?(:subtitle)
               %h2.subtitle= yield :subtitle
-          #org_credentials
-            = image_tag("organization/fundaorto_logo.png")
-            %p
-              Guillermo Claverie, M.D.
-              %br/
-              Presidente, Fundaorto
+          - if content_for?(:sponsor_org)
+            #org_credentials= yield :sponsor_org
         = yield
       #footer
         %p.as_of.print_only= "#{Date.today}"

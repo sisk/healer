@@ -4,8 +4,7 @@
   Operation Summary
 - content_for :subnavigation do
   %ul
-    - if resource.patient_case.present?
-      %li= link_to "Return to case", trip_case_path(resource.patient_case.trip, resource.patient_case)
+    %li= link_to "Return to case", trip_case_path(resource.patient_case.trip, resource.patient_case)
     - if permitted_to? :edit, resource
       %li= link_to "Edit operation details", edit_case_operation_path(resource.patient_case)
     - if resource.implant.blank?
@@ -13,14 +12,18 @@
     - else
       %li= link_to "Edit implant details", edit_operation_implant_path(resource)
     %li= link_to "Certificado de la Cirugía", case_operation_path(resource.patient_case, :locale => "es")
-      
+
 .operation
   .section
     .pre_op
       %h2 Pre-Operation
       .diagnosis
-        #diagnosis_list
-          = render :partial => "diagnoses/inline", :object => resource.diagnosis, :as => :diagnosis, :locals => { :options => { :size => :tiny, :remote => true } }
+        = render :partial => "patient_cases/pre_op", :object => resource.patient_case, :as => :patient_case
+        .xrays
+          - if resource.patient_case.xrays.present?
+            = xray_preview(resource.patient_case.display_xray)
+            - if resource.patient_case.xrays.size > 1
+              = link_to "More X-rays", case_xrays_path(resource.patient_case)
     .post_op
       %h2 Post-Operation X-Rays
       - if resource.xrays.present?

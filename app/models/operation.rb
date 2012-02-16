@@ -48,7 +48,7 @@ class Operation < ActiveRecord::Base
   scope :incomplete, where("operations.end is ?", nil)
   scope :complete, where("operations.end is not ?", nil)
 
-  delegate :location, :location=, :patient, :body_part, :trip, :to => :patient_case, :allow_nil => true
+  delegate :location, :location=, :patient, :body_part, :trip, :disease, :to => :patient_case, :allow_nil => true
 
   def to_s
     if procedure.present?

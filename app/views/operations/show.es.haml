@@ -28,3 +28,14 @@
       .after
         %h3 Despues
         .xray= image_tag(resource.display_xray.photo.url(:original))
+
+- content_for :sponsor_org do
+  -# TODO move this stuff to a presenter class
+  - if resource.trip.country == "GT"
+    = image_tag("organization/fundaorto_logo.png")
+    %p
+      Guillermo Claverie, M.D.
+      %br/
+      Presidente, Fundaorto
+  - else
+    %p Marco Salas, M.D.

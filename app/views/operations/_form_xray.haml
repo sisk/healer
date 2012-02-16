@@ -1,8 +1,0 @@
-= semantic_form_for [@diagnosis,@operation] do |f|
-  = f.semantic_errors
-  = f.semantic_fields_for :xrays, xray do |x|
-    = x.input :diagnosis_id, :as => :hidden
-    = x.inputs do
-      = x.input :photo, :as => :file, :label => "Photo"
-  = f.buttons do
-    = f.commit_button
