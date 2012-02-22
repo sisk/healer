@@ -6,6 +6,8 @@ class Xray < ActiveRecord::Base
   scope :pre_op, where('xrays.operation_id is ?', nil)
   scope :post_op, where('xrays.operation_id is not ?', nil)
 
+  validates_presence_of :patient_case
+
   # Paperclip
   has_attached_file :photo,
     :styles => {

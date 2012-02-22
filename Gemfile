@@ -24,6 +24,7 @@ gem 'jquery-rails', '>= 0.2.6'
 gem "exception_notification"
 gem "friendly_id"
 gem "rake", "0.9.2.2"
+gem "remotipart"
 
 group :development, :test do
   gem "test_notifier"
@@ -33,6 +34,7 @@ group :development, :test do
   gem "newrelic_rpm"
   gem "pry"
   gem "letter_opener"
+  gem "hamls_comment"
 end
 
 # Use unicorn as the web server

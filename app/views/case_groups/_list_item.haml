@@ -7,24 +7,25 @@
       %h3= "#{case_group}"
     .toggle.ui-icon
   .supplement{ :style => "display: none" }
-    .case_list{ :class => "column-#{case_group.patient_cases.size}" }
-      - case_group.patient_cases.each do |patient_case|
-        .patient_case[patient_case]
-          .xrays
-            - if patient_case.xrays.present?
-              = xray_preview(patient_case.display_xray, :size => :tiny)
-              - if patient_case.xrays.size > 1
-                %p.nav= link_to "[ more ]", case_xrays_path(patient_case)
-          .diagnosis
-            %p
+    - case_group.patient_cases.each do |patient_case|
+      .patient_case[patient_case]
+        .diagnosis
+          .case_detail
+            %h4
               = patient_case.body_part
               - if patient_case.revision?
                 %span.asterisk (Revision)
-            %p= patient_case.disease
-            - if patient_case.severity && patient_case.severity > 0
-              %span.severity{ :class => severity(patient_case).downcase }
-                = "(#{severity(patient_case)})"
-          .procedure
-            - if permitted_to? :create, Operation.new(:patient_case => patient_case)
-              = link_to "New operation", new_case_operation_path(patient_case), :remote => true, :class => "new_operation#{" hide" if !!patient_case.operation}"
-            = render :partial => "operations/inline", :object => patient_case.operation, :as => :operation, :locals => { :options => { :size => :tiny } } if patient_case.operation
+            %p.aux
+              = patient_case.disease
+              - if patient_case.severity && patient_case.severity > 0
+                %span.severity{ :class => severity(patient_case).downcase }
+                  = "(#{severity(patient_case)})"
+            .navigation.noprint
+              %ul
+                %li.edit= link_to("<span>Make Changes</span>".html_safe, edit_trip_case_path(patient_case.trip, patient_case))
+          = render :partial => "xrays/collection", :locals => { :patient_case => patient_case, :xrays => patient_case.xrays.pre_op, :editable => false }
+
+        .procedure
+          - if permitted_to? :create, Operation.new(:patient_case => patient_case)
+            = link_to "New operation", new_case_operation_path(patient_case), :remote => true, :class => "new_operation#{" hide" if !!patient_case.operation}"
+          = render :partial => "operations/inline", :object => patient_case.operation, :as => :operation, :locals => { :options => { :size => :tiny } } if patient_case.operation

@@ -31,3 +31,20 @@
     margin: $margin-increment * 2;
   }
 }
+
+.xray_collection {
+  .xray {
+    @include column(1);
+    @include float-left;
+    position: relative;
+    img { width: $blueprint-grid-width; }
+    .delete {
+      position: absolute;
+      bottom: -10px;
+      right: 0px;
+      @include sprite-trash-dark;
+    }
+    border-bottom: solid 1px $grey-very-light;
+    margin-bottom: $margin-increment;
+  }
+}

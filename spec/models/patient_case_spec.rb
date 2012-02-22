@@ -109,26 +109,15 @@ describe PatientCase, "authorized?" do
 end
 
 describe PatientCase, "to_s" do
-
   before(:all) do
     CaseGroup.stub(:join_bilateral_cases)
   end
 
-  context "no body part present" do
-    it "returns Case + ID" do
-      patient_case = PatientCase.new
-      patient_case.stub(:id).and_return(1)
-      patient_case.stub(:body_part).and_return(nil)
-      patient_case.to_s.should == "Case #1"
-    end
-  end
-  context "body part present" do
-    it "returns Case + ID + Body part" do
-      patient_case = PatientCase.new
-      patient_case.stub(:id).and_return(1)
-      patient_case.stub_chain(:body_part, :to_s).and_return("Gersnickle")
-      patient_case.to_s.should == "Case #1 - Gersnickle"
-    end
+  it "returns Case + ID" do
+    patient_case = PatientCase.new
+    patient_case.stub(:id).and_return(1)
+    patient_case.stub(:body_part).and_return(nil)
+    patient_case.to_s.should == "Case #1"
   end
 end
 

@@ -16,12 +16,7 @@
       .diagnosis
         = render :partial => "pre_op", :object => @patient_case, :as => :patient_case
         .xrays
-          - if @patient_case.xrays.present?
-            = xray_preview(@patient_case.display_xray)
-            - if @patient_case.xrays.size > 1
-              = link_to "More X-rays", case_xrays_path(@patient_case)
-          = link_to "Add X-ray", new_case_xray_path(@patient_case)
-
+          = render :partial => "xrays/collection", :locals => { :patient_case => @patient_case, :xrays => @patient_case.xrays.pre_op, :editable => false }
       .operation
         - if !@patient_case.operation
           = link_to "New operation", new_case_operation_path(@patient_case)

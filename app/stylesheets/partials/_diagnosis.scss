@@ -7,9 +7,6 @@
     font-size: 1.3em !important;
     margin-bottom: 0.5em !important;
   }
-  h4 {
-    margin-bottom: 0.5em !important;
-  }
   .severity {
     font-size: 0.75em;
     font-style: italic;
@@ -48,8 +45,4 @@
     @include float-left;
     ol { padding-left: 0; }
   }
-}
-
-.diagnosis.inline {
-  @include summary_treatment;
 }

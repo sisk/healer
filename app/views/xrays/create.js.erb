@@ -1,4 +1,5 @@
-patient_case = $("#<%= dom_id(resource.patient_case) %>");
-patient_case.find(".procedure .xrays").prepend('<%= escape_javascript(render :partial => "xrays/inline_xray_with_nav", :locals => { :xray => resource }) %>');
+xrays_collection = $("#<%= dom_id(resource.patient_case) %>_xrays");
+xrays_collection.find(".group").append('<%= escape_javascript(render :partial => "xrays/xray", :locals => { :xray => resource, :editable => true }) %>');
 $("#modal").dialog('close');
 $('#modal').html('');
+resetZoomable();

@@ -9,21 +9,3 @@
     &> * { margin: $blueprint-grid-margin; }
   }
 }
-
-@mixin summary_treatment() {
-  @include clearfix;
-  padding: $margin-increment;
-  .info, .xrays {
-    @include float-left;
-  }
-  .info {
-    @include span(6);
-    h3, h4, .asterisk { margin-bottom: 0.2em; }
-    h3 { font-size: 1.3em; font-weight: bold; }
-    h4 { font-size: 1em }
-  }
-  .navigation {
-    a { color: $grey-medium; }
-    ul { @include horizontal-list; }
-  }
-}

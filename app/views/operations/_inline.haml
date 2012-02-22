@@ -3,21 +3,17 @@
 - html_class << " #{options[:size]}" if options[:size].present?
 .operation.inline[operation]{ :class => html_class }
   %h4= operation
+  %p.aux
+    = operation.primary_surgeon
+    - if operation.date
+      = operation.date.to_s
   .navigation.noprint
     %ul
       - if permitted_to? :edit, operation
-        %li= link_to "Make Changes", edit_case_operation_path(operation.patient_case), :remote => true
-      - if permitted_to? :destroy, operation
-        %li= link_to "Delete", case_operation_path(operation.patient_case), :method => :delete, :remote => true, :confirm => "Are you sure you want to delete this operation and all data with it? This cannot be undone!"
+        %li.edit= link_to "<span>Make Changes</span>".html_safe, edit_case_operation_path(operation.patient_case), :remote => true
       - if permitted_to? :show, operation
-        %li= link_to "Details", case_operation_path(operation.patient_case)
+        %li.show= link_to "<span>Details</span>".html_safe, case_operation_path(operation.patient_case)
+      - if permitted_to? :destroy, operation
+        %li.delete= link_to "<span>Delete</span>".html_safe, case_operation_path(operation.patient_case), :method => :delete, :remote => true, :confirm => "Are you sure you want to delete this operation and all data with it? This cannot be undone!"
   .xrays
-    - if operation.xrays.present?
-      = xray_preview(operation.display_xray, options)
-    %p.nav
-      [
-      - if operation.xrays.size > 1
-        = link_to "more", operation_xrays_path(operation)
-        |
-      = link_to "add x-ray", new_operation_xray_path(operation), :remote => true, :class => "add_xray"
-      ]
+    = render :partial => "xrays/collection", :locals => { :operation => operation, :patient_case => operation.patient_case, :xrays => operation.patient_case.xrays.post_op, :editable => true }

@@ -1,0 +1,8 @@
+- options ||= {}
+- editable = defined?(editable) ? editable : false
+- operation_id = defined?(operation) ? operation.id : nil
+.xray_collection{ :id => "#{dom_id(patient_case)}_xrays" }
+  .group
+    = render :partial => "xrays/xray", :as => :xray, :collection => xrays, :locals => { :editable => editable }
+  - if editable && permitted_to?(:create, Xray.new(:patient_case => patient_case))
+    %p.add_new= link_to "<span>Add New X-ray</span>".html_safe, new_case_xray_path(patient_case, :operation_id => operation_id), :remote => true

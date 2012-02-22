@@ -37,10 +37,10 @@ describe Operation do
 
   should_validate_numericality_of :difficulty
   should_validate_inclusion_of :difficulty, :in => Operation::difficulty_table.keys
-  
+
   should_validate_inclusion_of :approach, :in => Operation::approaches, :allow_nil => true, :allow_blank => true
   should_validate_inclusion_of :ambulatory_order, :in => Operation::ambulatory_orders, :allow_nil => true, :allow_blank => true
-  
+
 end
 
 describe Operation, ".approaches" do
@@ -84,12 +84,8 @@ describe Operation, "#to_s" do
     before(:each) do
       @operation.procedure = nil
     end
-    it "returns body part string if set" do
-      @operation.stub(:body_part).and_return(@body_part)
-      @operation.to_s.should == "BodyPart (L)"
-    end
-    it "returns '[Unspecified operation]' if no body part present'" do
-      @operation.to_s.should == "[Unspecified operation]"
+    it "returns '[Unspecified procedure]'" do
+      @operation.to_s.should == "[Unspecified procedure]"
     end
   end
   context "procedure is set" do
@@ -99,10 +95,6 @@ describe Operation, "#to_s" do
     it "Uses the procedure string" do
       @operation.stub(:body_part)
       @operation.to_s.should == "Derp"
-    end
-    it "adds parenthesis side if body part has a side" do
-      @operation.stub(:body_part).and_return(@body_part)
-      @operation.to_s.should == "Derp (L)"
     end
   end
 end

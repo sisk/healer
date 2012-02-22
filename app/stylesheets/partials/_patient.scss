@@ -176,12 +176,6 @@ form.patient {
           padding: $blueprint-grid-margin;
           @include clearfix;
           border-bottom: solid 1px rgba($grey-medium, 0.3);
-          .xrays {
-            @include column(2);
-            .tiny img {
-              height: 40px;
-            }
-          }
           p {
             line-height: 1em;
             margin: 0;
@@ -256,18 +250,7 @@ form.patient {
     margin: 0;
     .patient_case {
       border-bottom: none;
-    }
-    &.column-1 {
-      .patient_case {
-        @include column(14, true);
-      }
-    }
-    .xrays {
-      .nav {
-        float: none;
-        font-size: 0.7em;
-        margin-top: 0;
-      }
+      position: relative;
     }
     .diagnosis {
       margin-left: $blueprint-grid-margin;
@@ -294,5 +277,40 @@ form.patient {
   }
   .buttons {
     clear: left;
+  }
+}
+
+.case_group_list .case-focus.collapsible {
+  .supplement {
+    .patient_case {
+      margin: 0;
+    }
+    h4 { margin-bottom: 0; }
+    .navigation ul {
+      font-size: 0.7em;
+      @include horizontal-list(3px);
+      /*
+      .edit { @include sprite-edit-dark; }
+      .delete { @include sprite-trash-dark; }
+      .show { @include sprite-zoom-dark; }
+      */
+    }
+    p.aux {
+      margin-bottom: 0;
+      color: $grey-medium;
+    }
+    p.add_new {
+      clear: left;
+      font-size: 0.7em;
+    }
+    .diagnosis, .procedure {
+      &> *, .xray_collection { margin: $blueprint-grid-margin; }
+    }
+    .diagnosis {
+      @include column(7);
+    }
+    .procedure {
+      @include column(8, true);
+    }
   }
 }

@@ -80,10 +80,7 @@ class PatientCase < ActiveRecord::Base
   scope :bilateral, :conditions => ["patient_cases.bilateral_case_id is not ?", nil]
 
   def to_s
-    # TODO there's a performance thing here where we query patients and trips table separately. improve it!
-    str = "Case ##{id}"
-    str += " - #{body_part.to_s}" if body_part
-    str
+    "Case ##{id}"
   end
 
   def as_json(options={})
@@ -171,7 +168,7 @@ class PatientCase < ActiveRecord::Base
     patient_cases.first.case_group.join_bilateral_cases
   end
 
-private
+  private #####################################################################
 
   def set_case_group
     # TODO evaluate use of self here. Superfluous?

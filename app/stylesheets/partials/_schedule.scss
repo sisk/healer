@@ -1,53 +1,4 @@
 @import "compass/utilities/general/min";
-/*
-#schedule_edit {
-  .wrapper {
-    @include bordered;
-    @include float-left;
-    @include column(6);
-    @include border-radius($border-radius);
-    margin-top: $margin-increment * 3;
-    margin-bottom: $margin-increment * 3;
-    .header {
-      @include clearfix;
-      background-color: $grey-dark;
-      padding: $margin-increment ($margin-increment * 2);
-      h2 {
-        font-size: 1.5em;
-        color: $grey-light;
-        @include float-left;
-      }
-      h2, p {
-        margin-bottom: 0;
-      }
-      p {
-        @include float-right;
-        padding-top: .5em;
-        margin-left: 1em;
-        a {
-          color: $white;
-        }
-      }
-    }
-  }
-  .patient_case {
-    img {
-      @include column(1);
-      width: $blueprint-grid-width;
-      height: $blueprint-grid-width;
-      margin-right: 5px;
-    }
-    .details {
-      h3 { @include widget_title; }
-      dl {
-        @include inline_dl(5, 2);
-        font-size: 0.75em;
-        margin-bottom: 0.5em;
-      }
-    }
-  }
-}
-*/
 
 #schedule_edit {
   @include clearfix;
@@ -150,6 +101,9 @@ table#schedule {
   .sortable {
     position: relative;
     @include sortable;
+    p {
+      margin-bottom: 0;
+    }
   }
   img.ajax_loader {
     background-color: $white;

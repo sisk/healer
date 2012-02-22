@@ -1,10 +1,9 @@
 class XraysController < ApplicationController
   inherit_resources
-  belongs_to :operation, :polymorphic => true, :optional => true
-  belongs_to :patient_case, :parent_class => PatientCase, :polymorphic => true, :optional => true
+  belongs_to :patient_case, :parent_class => PatientCase, :optional => true
 
   def new
-    @xray = parent.xrays.build
+    @xray = parent.xrays.build(:operation_id => params[:operation_id])
     new! do |format|
       format.html
       format.js { render :template => "xrays/new.js.erb", :layout => nil }
@@ -44,15 +43,6 @@ private
       @parent ||= PatientCase.find(params[:case_id])
     else
       @parent ||= Operation.find(params[:operation_id])
-    end
-  end
-
-  def parent_path
-    # normally, this shouldn't be needed. however, IR doesn't seemto handle the polymorphism combined with parent_class.
-    if params[:case_id]
-      return case_path(PatientCase.find(params[:case_id]))
-    else
-      return operation_path(Operation.find(params[:operation_id]))
     end
   end
 

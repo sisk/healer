@@ -30,7 +30,7 @@
         .xrays
           - resource.xrays.each do |xray|
             = xray_preview(xray, :size => :tiny)
-      .add_new= link_to "Add an x-ray", new_operation_xray_path(resource)
+      .add_new= link_to "Add an x-ray", new_case_xray_path(resource.patient_case, :operation_id => resource.id)
   .section
     .summary
       %h2 Operation

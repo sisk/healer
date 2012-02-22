@@ -7,6 +7,9 @@ $sprite_file_dark: "/stylesheets/healer/images/ui-icons_454545_256x240.png";
 @mixin sprite-default {
   a { display: block; width: 16px; height: 16px; }
   span { display: none; }
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 @mixin sprite-trash {
@@ -52,4 +55,9 @@ $sprite_file_dark: "/stylesheets/healer/images/ui-icons_454545_256x240.png";
 @mixin sprite-zoom-dark {
   @include sprite-default;
   @include sprite-img($sprite_file_dark, 9, 8);
+}
+
+@mixin sprite-edit-dark {
+  @include sprite-default;
+  @include sprite-img($sprite_file_dark, 12, 8);
 }

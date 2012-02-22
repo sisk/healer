@@ -1,17 +1,9 @@
--# inherited_resources deficiencies and my stubbornness to make the resource path "/cases" requires this convolution (for now)
-- if @parent.is_a?(PatientCase)
-  - new_item_path = new_case_xray_path(@parent)
-  - parent_path = case_path(@parent)
-- else
-  - new_item_path = new_operation_xray_path(@parent)
-  - parent_path = operation_path(@parent)
-
 - content_for :title do
   X-Rays
 - content_for :subnavigation do
   %ul
-    %li= link_to "Add new X-Ray", new_item_path
-    %li= link_to "Back to #{@parent}", parent_path
+    %li= link_to "Add new X-Ray", new_case_xray_path(@parent)
+    %li= link_to "Back to #{@parent}", case_path(@parent)
 
 .xray_index
   - collection.each do |xray|

@@ -51,13 +51,7 @@ class Operation < ActiveRecord::Base
   delegate :location, :location=, :patient, :body_part, :trip, :disease, :to => :patient_case, :allow_nil => true
 
   def to_s
-    if procedure.present?
-      str = procedure.to_s
-      str += " (#{body_part.side})" if body_part.try(:side).present?
-      return str
-    else
-      return body_part.present? ? body_part.to_s : "[Unspecified operation]"
-    end
+    procedure.present? ? procedure.to_s : "[Unspecified procedure]"
   end
 
   def as_json(options={})

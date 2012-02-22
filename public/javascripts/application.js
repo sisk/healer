@@ -8,10 +8,7 @@ $(document).ready(function() {
 
   $('input.ui-datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
 
-  $(".zoom a").fancybox({
-    'hideOnContentClick': true,
-    'titlePosition': 'over'
-  });
+  resetZoomable();
 
   $("#show_schedule_list").tabs();
   $("form#patient_edit").tabs();
@@ -124,3 +121,10 @@ jQuery(function ($) {
     return this;
   }
 }(jQuery));
+
+function resetZoomable() {
+  $(".zoom a").fancybox({
+    'hideOnContentClick': true,
+    'titlePosition': 'over'
+  });
+}

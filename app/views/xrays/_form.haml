@@ -1,8 +1,7 @@
 - ajax = defined?(remote) ? remote : false
 - if ajax
   %h2 New X-Ray
-- url = @parent.is_a?(PatientCase) ? case_xrays_path(@parent) : operation_xrays_path(@parent)
-= semantic_form_for [@parent,resource], :url => url, :html => { :multipart => true }, :remote => ajax do |f|
+= semantic_form_for [@parent,resource], :url => case_xrays_path(@parent), :html => { :multipart => true, :id => :xray_form }, :remote => ajax do |f|
   = f.semantic_errors
   = f.input :operation_id, :as => :hidden
   = f.input :patient_case_id, :as => :hidden

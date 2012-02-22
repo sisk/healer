@@ -13,13 +13,7 @@
     = f.semantic_errors
     = render :partial => "case_details_form", :locals => { :f => f }
     %h4 X-Rays
-    - if permitted_to? :create, Xray.new(:patient_case => resource)
-      = f.inputs do
-        = render :partial => 'xrays/fields', :object => resource.xrays.build, :as => :xray, :locals => { :f => f }
-    - if resource.xrays.present?
-      = xray_preview(resource.display_xray, :size => :tiny)
-      - if resource.xrays.size > 1
-        = link_to "More X-rays", case_xrays_path(resource)
-
+    .xrays
+      = render :partial => "xrays/collection", :locals => { :patient_case => @patient_case, :xrays => @patient_case.xrays.pre_op, :editable => true }
     = f.buttons do
       = f.commit_button "Save Case"

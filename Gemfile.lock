@@ -74,6 +74,8 @@ GEM
     friendly_id (4.0.0)
     fssm (0.2.7)
     haml (3.1.4)
+    hamls_comment (0.0.1)
+      haml
     has_scope (0.5.1)
     heroku (2.14.0)
       launchy (>= 0.3.2)
@@ -88,7 +90,7 @@ GEM
     jquery-rails (1.0.19)
       railties (~> 3.0)
       thor (~> 0.14)
-    json (1.6.2)
+    json (1.6.5)
     launchy (2.0.5)
       addressable (~> 2.2.6)
     letter_opener (0.0.2)
@@ -100,7 +102,7 @@ GEM
     method_source (0.6.7)
       ruby_parser (>= 2.3.1)
     mime-types (1.17.2)
-    multi_json (1.0.4)
+    multi_json (1.1.0)
     mysql2 (0.3.7)
     newrelic_rpm (3.3.0)
     notifier (0.1.4)
@@ -117,7 +119,7 @@ GEM
       method_source (~> 0.6.7)
       ruby_parser (>= 2.3.1)
       slop (~> 2.1.0)
-    rack (1.3.5)
+    rack (1.3.6)
     rack-cache (1.0.3)
       rack (>= 0.4)
     rack-mount (0.8.3)
@@ -142,7 +144,7 @@ GEM
       rdoc (~> 3.4)
       thor (~> 0.14.6)
     rake (0.9.2.2)
-    rdoc (3.11)
+    rdoc (3.12)
       json (~> 1.4)
     remarkable (4.0.0.alpha4)
       rspec (>= 2.0.0.alpha11)
@@ -153,6 +155,7 @@ GEM
       remarkable (~> 4.0.0.alpha4)
       remarkable_activemodel (~> 4.0.0.alpha4)
       rspec (>= 2.0.0.alpha11)
+    remotipart (1.0.2)
     responders (0.6.4)
     rest-client (1.6.7)
       mime-types (>= 1.16)
@@ -222,6 +225,7 @@ DEPENDENCIES
   formtastic (~> 1.1.0)
   friendly_id
   haml
+  hamls_comment
   heroku
   inherited_resources (~> 1.2.1)
   jquery-rails (>= 0.2.6)
@@ -234,6 +238,7 @@ DEPENDENCIES
   rails (= 3.1)
   rake (= 0.9.2.2)
   remarkable_activerecord (>= 4.0.0.alpha4)
+  remotipart
   rspec-rails (>= 2.0.0)
   taps
   test-unit
