@@ -33,6 +33,7 @@
 }
 
 .xray_collection {
+  padding-bottom: 3px;
   .xray {
     @include column(1);
     @include float-left;
@@ -44,7 +45,6 @@
       right: 0px;
       @include sprite-trash-dark;
     }
-    border-bottom: solid 1px $grey-very-light;
     margin-bottom: $margin-increment;
   }
 }

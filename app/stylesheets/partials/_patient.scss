@@ -173,9 +173,15 @@ form.patient {
         .patient_case {
           margin-bottom: $blueprint-grid-margin;
           &:last-child { border-bottom: none; }
-          padding: $blueprint-grid-margin;
           @include clearfix;
           border-bottom: solid 1px rgba($grey-medium, 0.3);
+          .case_title {
+            @include column(5);
+            .name {
+              font-size: 1.1em;
+              margin-bottom: 0.5em;
+            }
+          }
           p {
             line-height: 1em;
             margin: 0;
