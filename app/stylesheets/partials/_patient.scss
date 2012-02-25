@@ -296,8 +296,13 @@ form.patient {
     }
     h4 { margin-bottom: 0; }
     .navigation ul {
-      font-size: 0.7em;
       @include horizontal-list(3px);
+      margin-bottom: $margin-increment;
+      font-size: 0.7em;
+      li {
+        width: auto;
+        a { margin: 0; }
+      }
       /*
       .edit { @include sprite-edit-dark; }
       .delete { @include sprite-trash-dark; }

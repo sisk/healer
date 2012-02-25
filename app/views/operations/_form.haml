@@ -4,21 +4,24 @@
 = semantic_form_for [@operation.patient_case, @operation], :url => case_operation_path(@operation.patient_case), :remote => ajax do |f|
   = f.semantic_errors
   .column-2
-    = f.inputs do
+    = f.inputs :name => "Procedure Details" do
       = f.input :approach, :as => :select, :label => 'Approach', :collection => Operation::approaches
       = f.input :difficulty, :as => :radio, :label => "Difficulty", :collection => Operation::difficulty_table.invert
       = f.input :graft, :label => 'Graft'
       = f.input :anesthesia_type, :as => :select, :label => 'Anesthesia', :collection => Operation::anesthsia_types
       = f.input :peripheral_nerve_block_type, :as => :select, :label => 'Peripheral Nerve Block', :collection => Operation::peripheral_nerve_block_types
       = f.input :ambulatory_order, :as => :select, :label => 'Ambulatory Order', :collection => Operation::ambulatory_orders
-      = f.input :notes, :label => 'Notes'
+      = f.input :notes, :label => 'Operation General Notes'
   .column-2
-    = f.inputs do
+    = f.inputs :name => "Procedure Information" do
       = f.input :procedure_id, :as => :select, :label => 'Procedure', :collection => Procedure.all.collect{ |p| [p.to_s, p.id] }
       = f.input :primary_surgeon_id, :as => :select, :label => 'Primary Surgeon', :collection => @operation.trip.users.doctor
       = f.input :secondary_surgeon_id, :as => :select, :label => 'Secondary Surgeon', :collection => @operation.trip.users.doctor
       = f.input :anesthesiologist_id, :as => :select, :label => 'Anesthesiologist', :collection => @operation.trip.users.anesthesiologist
+      - if permitted_to? :users, operation.trip
+        %p!= "(Don't see who you're looking for? #{link_to("Add personnel.", trip_users_path(operation.trip))})"
+      = f.input :date, :as => :datepicker, :label => "Date"
     = f.inputs do
       = f.input :complete, :label => 'Procedure complete'
-  = f.buttons do
-    = f.commit_button "Save Changes"
+    = f.buttons do
+      = f.commit_button "Save Changes"

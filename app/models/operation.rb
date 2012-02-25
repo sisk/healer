@@ -58,24 +58,22 @@ class Operation < ActiveRecord::Base
     { :id => self.id, :patient_case_id => patient_case_id, :to_s => self.to_s, :photo => self.patient.displayed_photo(:tiny), :patient => self.patient.to_s, :location => self.location }
   end
 
-  # def build_implant(*args)
-  #   # override method to deal with STI
-  #   return implant if implant.present?
-  #   case body_part.try(:name_en).try(:downcase)
-  #   when "knee"
-  #     self.implant = KneeImplant.new(:operation => self, :body_part => self.body_part)
-  #   when "hip"
-  #     self.implant = HipImplant.new(:operation => self, :body_part => self.body_part)
-  #   else
-  #     self.implant = Implant.new(:operation => self, :body_part => self.body_part)
-  #   end
-  # end
+  def build_implant(*args)
+    return implant if implant.present?
+    case body_part.try(:name_en).try(:downcase)
+    when "knee"
+      KneeImplant.new(:operation => self, :body_part => self.body_part)
+    when "hip"
+      HipImplant.new(:operation => self, :body_part => self.body_part)
+    else
+      Implant.new(:operation => self, :body_part => self.body_part)
+    end
+  end
+
   def display_xray
     return nil if xrays.empty?
     return xrays.first if xrays.size == 1 || xrays.all?{ |x| !x.primary? }
     return xrays.select{ |x| x.primary == true }.first
   end
-
-  private
 
 end

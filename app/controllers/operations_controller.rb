@@ -68,7 +68,7 @@ class OperationsController < ApplicationController
     end
   end
 
-  private
+  private #####################################################################
 
   # NOTE: This very presence of this override is a hack. Likely due to singleton.
   # Lifted a fix from https://github.com/josevalim/inherited_resources/issues/136
@@ -90,6 +90,7 @@ class OperationsController < ApplicationController
   def build_resource
      super
      @operation.date = Date.today if @operation.new_record?
+     @operation.implant = @operation.build_implant
      @operation
   end
 

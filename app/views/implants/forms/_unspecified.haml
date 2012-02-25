@@ -1,9 +1,10 @@
-%h2 Unspecified Implant
-= semantic_form_for implant, :url => operation_implant_path(@operation) do |f|
-  = f.input :operation_id, :as => :hidden
+- ajax = defined?(remote) ? remote : false
+- if ajax
+  %h2 Implant
+= semantic_form_for [@operation, @implant], :url => operation_implant_path(@operation), :remote => ajax do |f|
   = f.inputs do
     = f.input :cement_used, :as => :boolean, :label => 'Cement Used'
     = f.input :spacer_used, :as => :boolean, :label => 'Spacer Used'
-    = f.input :notes, :as => :text, :label => 'Notes'
+    = f.input :notes, :as => :text, :label => 'Implant Notes'
   = f.buttons do
-    = f.commit_button
+    = f.commit_button "Save Changes"

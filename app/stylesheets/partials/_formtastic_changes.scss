@@ -84,7 +84,7 @@ form.formtastic {
       }
     }
   }
-  fieldset > ol > li.text textarea { width: auto; }
+  fieldset > ol > li.text textarea { width: span(5); }
 }
 
 .column-2 {

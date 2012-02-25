@@ -1,0 +1,4 @@
+patient_case = $("#<%= dom_id(@implant.operation) %>");
+patient_case.html('<%= escape_javascript(render :partial => "operations/inline", :object => @implant.operation, :as => :operation, :locals => { :options => { :size => :tiny } }) %>');
+$("#modal").dialog('close');
+$('#modal').html('');

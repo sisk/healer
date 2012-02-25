@@ -1,16 +1,21 @@
-%h2 Hip Implant
-= semantic_form_for implant, :url => operation_implant_path(@operation) do |f|
+- ajax = defined?(remote) ? remote : false
+- if ajax
+  %h2 Hip Implant
+= semantic_form_for [@operation, @implant], :url => operation_implant_path(@operation), :remote => ajax do |f|
   = f.input :operation_id, :as => :hidden
-  = f.inputs do
-    = f.input :prosthesis_type, :as => :select, :label => 'Prosthesis Type', :collection => HipImplant::prosthesis_types
-    = f.input :femur_diameter, :as => :select, :label => 'Femur Diameter', :collection => HipImplant::femur_diameters
-    = f.input :femur_length, :as => :select, :label => 'Femur Length', :collection => HipImplant::femur_lengths
-    = f.input :femur_head_size, :as => :select, :label => 'Femur Head Size', :collection => HipImplant::femur_head_sizes
-    = f.input :neck_length, :as => :select, :label => 'Neck Length', :collection => HipImplant::neck_lengths
-    = f.input :acetabulum_size, :as => :select, :label => 'Acetabulum Size', :collection => HipImplant::acetabulum_sizes
-    = f.input :cement_used, :as => :boolean, :label => 'Cement Used'
-    = f.input :spacer_used, :as => :boolean, :label => 'Spacer Used'
-    = f.input :total_screws, :label => '# total screws'
-    = f.input :notes, :as => :text, :label => 'Notes'
-  = f.buttons do
-    = f.commit_button
+  .column-2
+    = f.inputs do
+      = f.input :prosthesis_type, :as => :select, :label => 'Prosthesis Type', :collection => HipImplant::prosthesis_types
+      = f.input :femur_diameter, :as => :select, :label => 'Femur Diameter', :collection => HipImplant::femur_diameters
+      = f.input :femur_length, :as => :select, :label => 'Femur Length', :collection => HipImplant::femur_lengths
+      = f.input :femur_head_size, :as => :select, :label => 'Femur Head Size', :collection => HipImplant::femur_head_sizes
+      = f.input :neck_length, :as => :select, :label => 'Neck Length', :collection => HipImplant::neck_lengths
+      = f.input :acetabulum_size, :as => :select, :label => 'Acetabulum Size', :collection => HipImplant::acetabulum_sizes
+  .column-2
+    = f.inputs do
+      = f.input :cement_used, :as => :boolean, :label => 'Cement Used'
+      = f.input :spacer_used, :as => :boolean, :label => 'Spacer Used'
+      = f.input :total_screws, :label => '# total screws'
+      = f.input :notes, :as => :text, :label => 'Implant Notes'
+    = f.buttons do
+      = f.commit_button "Save Changes"

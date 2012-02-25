@@ -1,0 +1,7 @@
+<% case @implant.class.name
+when "KneeImplant" then implant_partial = "implants/forms/knee_implant"
+when "HipImplant" then implant_partial = "implants/forms/hip_implant"
+else implant_partial = "implants/forms/unspecified"
+end %>
+$('#modal').html('<%= escape_javascript(render :partial => implant_partial, :object => @implant, :locals => {:operation => @operation, :remote => true}) %>');
+$("#modal").dialog('open');

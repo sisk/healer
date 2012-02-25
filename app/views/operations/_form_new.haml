@@ -5,13 +5,12 @@
 = semantic_form_for [parent,@operation], :url => case_operation_path(parent), :remote => ajax do |f|
   = f.semantic_errors
   = f.inputs do
-    =# f.input :body_part_id, :as => :select, :label => 'Body Part', :collection => BodyPart.all.collect{ |bp| [bp.to_s, bp.id] }
     = f.input :procedure_id, :as => :select, :label => 'Procedure', :collection => Procedure.all.collect{ |p| [p.to_s, p.id] }
     = f.input :primary_surgeon_id, :as => :select, :label => 'Primary Surgeon', :collection => operation.trip.users.doctor
     = f.input :secondary_surgeon_id, :as => :select, :label => 'Secondary Surgeon', :collection => operation.trip.users.doctor
     = f.input :anesthesiologist_id, :as => :select, :label => 'Anesthesiologist', :collection => operation.trip.users.anesthesiologist
     - if permitted_to? :users, operation.trip
       %p!= "(Don't see who you're looking for? #{link_to("Add personnel.", trip_users_path(operation.trip))})"
-    =# f.input :date, :as => :datepicker, :label => "Operation Date"
+    = f.input :date, :as => :datepicker, :label => "Date"
   = f.buttons do
     = f.commit_button "Save".html_safe

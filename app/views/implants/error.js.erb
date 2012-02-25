@@ -1,0 +1,9 @@
+errors = 0;
+$("#modal form .required :input").map(function(){
+  if( !$(this).val() ) {
+    $(this).parents('li').addClass('error');
+    errors++;
+  } else if ($(this).val()) {
+    $(this).parents('li').removeClass('error');
+  }
+});

@@ -7,23 +7,41 @@ class ImplantsController < ApplicationController
 
   def new
     @implant = setup_implant_type(@operation)
+    respond_to do |format|
+      format.html
+      format.js { render :template => "implants/new.js.erb", :layout => nil }
+    end
   end
 
   def show
     @implant = @operation.implant
+    respond_to do |format|
+      format.html
+      format.js { render :template => "implants/show.js.erb", :layout => nil }
+    end
   end
 
   def edit
     @implant = @operation.implant
+    respond_to do |format|
+      format.html
+      format.js { render :template => "implants/edit.js.erb", :layout => nil }
+    end
   end
 
   def create
     @implant = setup_implant_type(@operation)
     @implant.attributes = params[@implant.type.underscore]
     if @implant.save
-      redirect_to operation_path(@operation), :notice => "Implant created."
+      respond_to do |format|
+        format.html { redirect_to operation_path(@operation), :notice => "Implant created." }
+        format.js { render :template => "implants/create.js.erb", :layout => nil }
+      end
     else
-      render :action => "new", :error => "Error creating implant."
+      respond_to do |format|
+        format.html{ render :action => "new", :error => "Error creating implant." }
+        format.js { render :template => "implants/error.js.erb", :layout => nil }
+      end
     end
   end
 
@@ -31,14 +49,20 @@ class ImplantsController < ApplicationController
     @implant = @operation.implant
     @implant.attributes = params[@implant.type.underscore]
     if @implant.save
-      redirect_to operation_path(@operation), :notice => "Implant updated."
+      respond_to do |format|
+        format.html { redirect_to operation_path(@operation), :notice => "Implant updated." }
+        format.js { render :template => "implants/update.js.erb", :layout => nil }
+      end
     else
-      render :action => "edit", :error => "Error saving implant."
+      respond_to do |format|
+        format.html{ render :action => "edit", :error => "Error saving implant." }
+        format.js { render :template => "implants/error.js.erb", :layout => nil }
+      end
     end
   end
 
-  private
-  
+  private #####################################################################
+
   def setup_implant_type(operation)
     return operation.implant if operation.implant.present?
 

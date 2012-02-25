@@ -54,6 +54,12 @@ form {
       @include float-left;
     }
   }
+
+}
+
+body.bp form fieldset .error {
+  border: solid 1px #f00;
+  background-color: #fff;
 }
 
 .datepicker {

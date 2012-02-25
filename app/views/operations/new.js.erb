@@ -1,2 +1,3 @@
 $('#modal').html('<%= escape_javascript(render :partial => "operations/form_new", :as => :operation, :object => @operation, :locals => {:remote => true}) %>');
 $("#modal").dialog('open');
+$('input.ui-datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
