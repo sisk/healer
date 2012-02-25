@@ -209,12 +209,14 @@ form.patient {
         h2 {
           @include float-left;
           margin-bottom: 0;
+          font-size: 1.3em;
         }
         h3 {
           @include float-right;
           margin-top: $margin-increment;
           margin-right: $margin-increment;
           margin-bottom: 0;
+          font-size: 1.3em;
         }
       }
       .supplement {
@@ -308,7 +310,7 @@ form.patient {
       &> *, .xray_collection { margin: $blueprint-grid-margin; }
     }
     .diagnosis {
-      @include column(7);
+      @include column(5);
     }
     .procedure {
       @include column(8, true);

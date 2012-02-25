@@ -26,7 +26,7 @@ table {
   border-spacing: 0;
   thead {
     th {
-      padding: 8pt;
+      padding: 5pt;
       text-align: left;
       border-right: dotted 1px $grey-very-light;
       border-bottom: solid 1px $black;
@@ -40,7 +40,7 @@ table {
     tr.day {
       td {
         vertical-align: top;
-        padding: 8pt 8pt 4pt 0;
+        padding: 4pt 4pt 4pt 0;
         border-right: dotted 1px $grey-very-light;
         border-bottom: dashed 1px $grey-medium;
         &.indicator {
@@ -51,13 +51,16 @@ table {
         ol {
           margin-left: 10pt;
           padding-left: 8pt;
-          font-size: 7pt;
+          font-size: 6pt;
           margin-top: 0;
           list-style-position: outside;
           p {
-            line-height: 7pt;
             margin: 0;
-            &.body_part {
+            &.name {
+              margin-bottom: 3pt;
+            }
+            &.case_group {
+              font-size: 5pt;
               margin-top: 2pt;
             }
           }
