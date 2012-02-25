@@ -21,7 +21,7 @@
             .system= render :partial => "layouts/shared/system_settings"
       #content-outer{ :class => "#{"with-sidebar" if content_for?(:subnavigation) || content_for?(:title)}" }
         - if content_for?(:subnavigation) || content_for?(:title) || content_for?(:sidebar_utility)
-          #sidebar
+          #sidebar.noprint
             - if content_for?(:title)
               %h1.title= yield :title
             - if content_for?(:subtitle)

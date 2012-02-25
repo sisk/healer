@@ -377,3 +377,25 @@ describe PatientCase, ".severity_table" do
     PatientCase::severity_table.should == { 0 => "Unremarkable", 1 => "Mild", 2 => "Moderate", 3 => "Severe" }
   end
 end
+
+describe PatientCase, "#title" do
+
+  it "returns the body part" do
+    pc = PatientCase.new
+    pc.stub_chain(:body_part, :to_s).and_return("derp")
+    pc.title.should == "derp"
+  end
+
+  it "returns '[Unspecified body part]' if body_part is not present" do
+    pc = PatientCase.new
+    pc.stub(:body_part).and_return(nil)
+    pc.title.should == "[Unspecified body part]"
+  end
+
+  it "prepends 'Revision ' if it's a revision" do
+    pc = PatientCase.new(:revision => true)
+    pc.stub_chain(:body_part, :to_s).and_return("derp")
+    pc.title.should == "Revision derp"
+  end
+
+end

@@ -19,7 +19,7 @@ class BodyPart < ActiveRecord::Base
     (I18n.locale.to_sym == :es && name_es.present?) ? name_es : name_en
   end
 
-  private
+  private #####################################################################
 
   def all_body_parts
     @@all_body_parts

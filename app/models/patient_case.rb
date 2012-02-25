@@ -83,6 +83,13 @@ class PatientCase < ActiveRecord::Base
     "Case ##{id}"
   end
 
+  def title
+    str = ""
+    str += "Revision " if revision?
+    str += body_part.try(:to_s) || "[Unspecified body part]"
+    return str
+  end
+
   def as_json(options={})
     # serializable_hash(options.merge({ :only => ["id", "trip_id", "status"], :joins => [:patient] }))
     {

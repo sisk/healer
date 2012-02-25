@@ -15,8 +15,11 @@ class CaseGroup < ActiveRecord::Base
 
   after_save :join_bilateral_cases
 
+  has_many :operations, :through => :patient_cases
+
   def to_s
-    bilateral? ? "#{patient_cases.map{ |pc| pc.body_part.display_name }.uniq.join(", ")} (Bilateral)" : patient_cases.map{ |pc| pc.body_part.to_s }.join(", ")
+    return "Revision #{body_part_names} (Bilateral)" if bilateral? && all_revisions?
+    return (bilateral? && !any_revisions?) ? "#{body_part_names} (Bilateral)" : patient_cases.map{ |pc| pc.title }.join(", ")
   end
 
   def patient
@@ -57,6 +60,20 @@ class CaseGroup < ActiveRecord::Base
         cases[1].update_attribute(:bilateral_case_id, cases[0].id)
       end
     end
+  end
+
+  private #####################################################################
+
+  def body_part_names
+    patient_cases.map{ |pc| pc.body_part.display_name }.uniq.join(", ")
+  end
+
+  def any_revisions?
+    patient_cases.any?{ |pc| pc.revision? }
+  end
+
+  def all_revisions?
+    patient_cases.all?{ |pc| pc.revision? }
   end
 
 end
