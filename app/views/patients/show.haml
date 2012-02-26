@@ -2,7 +2,6 @@
   ="#{@patient} - Patient record"
 - content_for :subnavigation do
   %ul
-    %li= link_to "Patient Index", patients_path
     - if permitted_to? :edit, @patient
       %li= link_to "Edit record", edit_patient_path(@patient)
 .section.basic

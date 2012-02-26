@@ -8,6 +8,11 @@ $default-box-shadow-color: $grey-light;
   @include bordered(1px, $grey-very-light);
   @include box-shadow;
 }
-.ui-dialog.instructions {
-  font-size: 2em;
+.ui-dialog {
+  &.instructions {
+    font-size: 2em;
+  }
+  form ol {
+    padding-left: 0;
+  }
 }
