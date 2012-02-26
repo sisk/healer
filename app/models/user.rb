@@ -16,8 +16,9 @@ class User < ActiveRecord::Base
   validates :email, :presence => true,
                     :length => {:minimum => 3, :maximum => 254},
                     :uniqueness => true,
-                    :format => {:with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i}
-                    # :email => true
+                    :format => {:with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i},
+                    :if => lambda { |u| u.authorized? }
+
 
   validates_presence_of :name_first, :message => "can't be blank"
   validates_presence_of :name_last, :message => "can't be blank"
@@ -81,6 +82,7 @@ class User < ActiveRecord::Base
   def grant_role!(role_name)
     self.roles << Role.find_or_create_by_name(role_name.to_s) unless has_role?(role_name)
   end
+
   def revoke_role!(role_name)
     self.roles.delete(Role.find_by_name(role_name.to_s)) unless !has_role?(role_name)
   end

@@ -87,7 +87,7 @@ class PatientCasesController < ApplicationController
     create! do |success, failure|
       success.html {
         if @trip
-          redirect = trip_case_path(@patient_case.trip, @patient_case)
+          redirect = trip_patients_path(@patient_case.trip, :patient_id => @patient_case.patient_id)
         elsif @patient
           redirect = patient_path(@patient_case.patient)
         end

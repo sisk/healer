@@ -175,6 +175,14 @@ class PatientCase < ActiveRecord::Base
     patient_cases.first.case_group.join_bilateral_cases
   end
 
+  def authorize=(val)
+    self.approved_at = val.to_i.zero? ? nil : Time.now
+  end
+
+  def authorize
+    authorized?
+  end
+
   private #####################################################################
 
   def set_case_group
