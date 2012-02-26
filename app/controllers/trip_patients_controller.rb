@@ -16,6 +16,12 @@ class TripPatientsController < ApplicationController
     end
   end
 
+  def room_signs
+    @trip = Trip.find(params[:trip_id])
+    @all_cases = @trip.case_groups.scheduled.sort_by{ |cg| cg.patient.id }
+    render :layout => "sign"
+  end
+
   private ######################################################################
 
   def begin_of_association_chain

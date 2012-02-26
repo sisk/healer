@@ -90,7 +90,6 @@ class OperationsController < ApplicationController
   def build_resource
      super
      @operation.date = Date.today if @operation.new_record?
-     @operation.implant = @operation.build_implant
      @operation
   end
 

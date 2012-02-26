@@ -1,0 +1,6 @@
+- @all_cases.each do |case_group|
+  .patient.room_sign{ :class => "#{cycle("odd", "even")}" }
+    = image_tag("organization/operation_walk_logo.jpg")
+    %h1= case_group.patient.id
+    %h2= case_group.patient
+    %h3= case_group
