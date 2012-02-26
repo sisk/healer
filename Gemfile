@@ -10,7 +10,7 @@ gem 'mysql2', '0.3.7'
 gem 'pg'
 gem "haml"
 gem "compass"
-gem "devise", "1.4.9"
+gem "devise", "1.5.3"
 gem "declarative_authorization", '0.5.3'
 gem "formtastic", '~> 1.1.0'
 gem "validation_reflection"
