@@ -21,7 +21,7 @@
           = label_tag :filter, "Filter"
           = text_field_tag :filter, nil, :id => "unscheduled_filter"
         #unscheduled.case_groups.connectedSortable{ :class => "#{@to_schedule.empty? ? "empty" : ""}" }
-          = render :partial => "schedule/unscheduled", :collection => @to_schedule, :as => :case_group
+          = render :partial => "schedule/unscheduled", :collection => @to_schedule, :as => :case_group, :locals => { :links => false }
 
     %table.schedule#schedule
       %thead
@@ -47,7 +47,7 @@
               - case_groups = @trip.case_groups.room(room_number).day(day_num)
               %td{ :class => "day_schedule day_#{day_num} room_#{room_number} hide" }
                 .room.connectedSortable{ :class => "day_#{day_num} room_#{room_number} #{case_groups.empty? ? "empty" : ""}", :id => "day_#{day_num}_room_#{room_number}" }
-                  = render :partial => "schedule/scheduled", :collection => case_groups, :as => :case_group
+                  = render :partial => "schedule/scheduled", :collection => case_groups, :as => :case_group, :locals => { :links => false }
 
 - content_for :script do
   = javascript_include_tag "lib/schedule.js"

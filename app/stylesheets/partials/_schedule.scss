@@ -94,6 +94,7 @@ table#schedule {
 .connectedSortable {
   &#unscheduled {
     height: 500px;
+    color: #000;
   }
   background-color: $white;
   /*@include column(6);*/
