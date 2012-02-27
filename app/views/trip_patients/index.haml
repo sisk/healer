@@ -24,7 +24,7 @@
 
 .record_list.patient_list
   .records
-    = render :partial => "patient", :collection => @paginated_patients, :as => :patient
+    = render :partial => "patient", :collection => @paginated_patients, :as => :patient, :locals => { :trip => @trip }
   = will_paginate(@paginated_patients)
 
 - content_for :script do

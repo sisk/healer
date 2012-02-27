@@ -9,6 +9,15 @@ $default-box-shadow-color: $grey-light;
   @include box-shadow;
 }
 .ui-dialog {
+  .collapsible {
+    @include clearfix;
+    .basic {
+      padding: $margin-increment;
+      border-bottom: solid 1px $underline-color;
+      h3 { margin-bottom: 0; }
+      margin-bottom: $margin-increment;
+    }
+  }
   &.instructions {
     font-size: 2em;
   }

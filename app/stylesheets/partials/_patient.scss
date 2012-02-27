@@ -174,7 +174,7 @@ form.patient {
           margin-bottom: $blueprint-grid-margin;
           &:last-child { border-bottom: none; }
           @include clearfix;
-          border-bottom: solid 1px rgba($grey-medium, 0.3);
+          border-bottom: solid 1px rgba($underline-color, 0.3);
           .case_title {
             @include column(5);
             .name {
@@ -236,15 +236,13 @@ form.patient {
 }
 
 .collapsible {
-  .basic {
+  .basic, .header {
     padding-right: 20px;
     position: relative;
     &:hover { cursor: pointer; }
   }
   .toggle {
-    position: absolute;
-    top: 8px;
-    right: 0;
+    @include float-left;
     @include sprite-opened;
   }
   &.collapsed {

@@ -1,0 +1,6 @@
+patient_case = $("#<%= dom_id(@patient) %>");
+
+patient_case.find(".basic").html('<%= escape_javascript(render :partial => "patients/header", :locals => { :patient => @patient }) %>');
+$("#modal").dialog('close');
+$('#modal').html('');
+$(".supplemental").supplementable();

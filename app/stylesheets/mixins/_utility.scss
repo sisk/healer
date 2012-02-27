@@ -8,7 +8,7 @@
 @mixin sortable {
   @include clearfix;
   padding: 3px;
-  border-bottom: solid 1px $grey-very-light;
+  border-bottom: solid 1px $underline-color;
   background-color: $white;
   margin-bottom: 0;
   &:hover {

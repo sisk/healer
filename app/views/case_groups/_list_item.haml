@@ -2,10 +2,10 @@
 %a{ :name => dom_id(case_group) }
 .patient.case-focus.collapsible.collapsed[case_group]
   .basic
+    .toggle.ui-icon
     .primary.name
       %h2= patient.to_s(:with_id => true)
       %h3= "#{case_group}"
-    .toggle.ui-icon
   .supplement{ :style => "display: none" }
     - case_group.patient_cases.each do |patient_case|
       .patient_case[patient_case]

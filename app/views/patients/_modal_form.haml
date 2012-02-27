@@ -1,0 +1,89 @@
+- ajax = defined?(remote) ? remote : false
+- if ajax
+  %h2= patient
+= semantic_form_for patient, :html => { :multipart => true, :id => "patient_edit" }, :remote => ajax do |f|
+
+  .collapsible.collapsed
+    .basic
+      .toggle.ui-icon
+      %h3 Name & Photo
+    .supplement{ :style => "display: none" }
+      .column-2
+        = f.inputs do
+          = f.input :name_first, :label => 'First Name'
+          = f.input :name_middle, :label => 'Middle Name'
+          = f.input :name_last, :label => 'Last Name'
+      .column-2
+        = f.inputs do
+          - if patient.photo.present?
+            = patient_image(patient, :small)
+          = f.input :photo, :as => :file, :label => "Change Photo"
+
+  .collapsible.collapsed
+    .basic
+      .toggle.ui-icon
+      %h3 Gender / Age / Height & Weight
+    .supplement{ :style => "display: none" }
+      .column-2
+        = f.inputs do
+          = f.input :male, :as => :radio, :label => "Gender", :collection => [["Male", true], ["Female", false]]
+      .column-2
+        = f.inputs do
+          = f.input :birth, :as => :date, :label => "Birth", :start_year => 1900, :end_year => Time.now.year
+          = f.input :death, :as => :date, :label => "Death"
+      = f.inputs do
+        .complex
+          = f.input :height_cm, :label => 'Height', :wrapper_html => { :class => 'supplemented' }
+          = f.input :height_unit, :label => false, :wrapper_html => { :class => 'supplemental' }, :collection => ['centimeters','inches'], :selected => 'centimeters'
+        .complex
+          = f.input :weight_kg, :label => 'Weight', :wrapper_html => { :class => 'supplemented' }
+          = f.input :weight_unit, :label => false, :as => :select, :wrapper_html => { :class => 'supplemental' }, :collection => ['kilograms','pounds'], :selected => 'kilograms'
+
+  .collapsible.collapsed
+    .basic
+      .toggle.ui-icon
+      %h3 Medical
+    .supplement{ :style => "display: none" }
+      #history.medical_history
+        .column-3
+          %h4 Medications
+          = f.inputs do
+            = f.input :medications, :label => false, :hint => "Separate entries with commas or return."
+        .column-3
+          %h4 Other Diseases
+          = f.inputs do
+            = f.input :other_diseases, :label => false, :hint => "Separate entries with commas or return."
+        .column-3
+          %h4 Allergies
+          = f.inputs do
+            = f.input :allergies, :label => false, :hint => "Separate entries with commas or return."
+
+      #risks.risk_factors
+        %h4 Risk Factors
+        = render :partial => 'patients/risk_factor', :collection => patient.risk_factors, :locals => { :f => f }
+        - if permitted_to? :create, RiskFactor.new(:patient => patient)
+          = link_to_function 'Add a risk factor', "$('#new_risk_factors').append('#{escape_javascript render :partial => 'patients/new_risk_factor', :object => RiskFactor.new(:patient => patient), :locals => { :f => f }}')", :id => "add_risk_factor"
+          #new_risk_factors
+
+  .collapsible.collapsed
+    .basic
+      .toggle.ui-icon
+      %h3 Contact
+    .supplement{ :style => "display: none" }
+      .column-3
+        = f.inputs do
+          = f.input :address1, :label => 'Address 1'
+          = f.input :address2, :label => 'Address 2'
+      .column-3
+        = f.inputs do
+          = f.input :city, :label => 'City'
+          = f.input :state, :label => 'State/Region'
+          = f.input :zip, :label => 'Zip/Postal'
+          = f.input :country, :as => :select, :label => 'Country', :collection => Carmen::COUNTRIES
+      .column-3
+        = f.inputs do
+          = f.input :phone, :label => 'Phone'
+          = f.input :email, :label => 'Email'
+
+  = f.buttons do
+    = f.commit_button

@@ -17,7 +17,7 @@
   .header {
     margin-bottom: $margin-increment;
     padding-bottom: $margin-increment;
-    border-bottom: solid 1px $grey-light;
+    border-bottom: solid 1px $underline-color;
   }
 }
 table.schedule {
@@ -44,7 +44,7 @@ table.schedule {
     ol.case_groups {
       li.case_group {
         p { margin-bottom: 0.5em; }
-        border-bottom: solid 1px $grey13;
+        border-bottom: solid 1px $underline-color;
         ul { font-size: 0.8em; }
         padding-bottom: $margin-increment;
         margin-bottom: $margin-increment;

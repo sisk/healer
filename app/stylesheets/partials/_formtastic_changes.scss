@@ -26,7 +26,7 @@ form.formtastic {
     color: $grey-medium;
   }
   fieldset > ol > li {
-    margin-bottom: 0.75em;
+    margin-bottom: 0.5em;
     label {
       padding-top: .5em;
       width: auto;
@@ -88,5 +88,9 @@ form.formtastic {
 }
 
 .column-2 {
+  @include float-left;
+}
+.column-3 {
+  width: span(6);
   @include float-left;
 }

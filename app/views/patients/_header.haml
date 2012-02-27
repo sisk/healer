@@ -1,0 +1,11 @@
+%h2= patient.to_s(:with_id => true)
+= render :partial => "patients/shared/patient_demographic", :locals => { :patient => patient }
+.image= patient_image(patient, :small)
+.section.extra
+  - if permitted_to?(:edit, patient)
+    %p.edit= link_to("Edit record", edit_patient_path(patient), :remote => true)
+  - if patient.has_medical_detail?
+    .medical_history.supplemental
+      %p.fake_link.toggle= "Medical history"
+      .details{ :style => "display: none;" }
+        = render :partial => "patients/medical_details", :locals => { :patient => patient, :hide => true }

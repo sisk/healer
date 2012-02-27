@@ -12,7 +12,7 @@
   %body.bp
     #wrapper
       - if Rails.env == "development"
-        #dev_notice
+        #dev_notice.noprint
           %p Beware: you're in development mode.
       #head.noprint
         = render :partial => "layouts/shared/trip_list"

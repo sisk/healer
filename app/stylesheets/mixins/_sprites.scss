@@ -29,7 +29,7 @@ $sprite_file_dark: "/stylesheets/healer/images/ui-icons_454545_256x240.png";
 
 @mixin sprite-collapsed {
   @include sprite-default;
-  @include sprite-img($sprite_file_dark, 7, 2);
+  @include sprite-img($sprite_file_dark, 3, 2);
 }
 
 @mixin sprite-opened {

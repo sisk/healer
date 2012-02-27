@@ -8,9 +8,19 @@ class PatientsController < ApplicationController
     create! { patients_path }
   end
 
-  def update
-    update! { edit_resource_path }
+  def edit
+    edit! do |format|
+      format.js { render :template => "patients/edit.js.erb", :layout => nil }
+    end
   end
+
+  def update
+    update! do |format|
+      format.html { redirect_to patient_path(resource), :notice => "Patient updated." }
+      format.js { render :template => "patients/update.js.erb", :layout => nil }
+    end
+  end
+
 
   private #####################################################################
 
