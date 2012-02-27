@@ -42,6 +42,4 @@
             %td{ :class => "day_#{day_num} room_#{room_number}" }
               %ol.case_groups.scheduled
                 - case_groups.each do |case_group|
-                  %li.case_group
-                    %p.name= link_to case_group.patient.to_s(:with_id => true), trip_patients_path(@trip, :patient_id => case_group.patient.id)
-                    %p.case_group= link_to case_group, trip_patients_path(@trip, :patient_id => case_group.patient.id)
+                  %li= render :partial => "schedule/scheduled", :locals => { :case_group => case_group, :links => false }

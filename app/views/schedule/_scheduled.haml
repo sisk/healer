@@ -1,7 +1,10 @@
 .sortable[case_group]
   .patient
-    %p
-      - if defined?(links) && !links
-        = "#{case_group.patient.to_s(:with_id => true)} - #{case_group}"
-      - else
-        = link_to "#{case_group.patient.to_s(:with_id => true)} - #{case_group}", trip_patients_path(@trip, :patient_id => case_group.patient.id)
+    .record_id= case_group.patient.id
+    .description
+      .name
+        - if defined?(links) && !links
+          = case_group.patient
+        - else
+          = link_to case_group.patient, trip_patients_path(@trip, :patient_id => case_group.patient.id)
+      .case= case_group

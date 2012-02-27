@@ -42,6 +42,8 @@ table.schedule {
       }
     }
     ol.case_groups {
+      padding-left: 0;
+      margin: 0;
       li.case_group {
         p { margin-bottom: 0.5em; }
         border-bottom: solid 1px $underline-color;
@@ -53,6 +55,24 @@ table.schedule {
     .patient_case {
       margin-bottom: $margin-increment;
       p { margin: 0px; }
+    }
+  }
+  .case_group {
+    .patient {
+      @include clearfix;
+      border-bottom: solid 1px $underline-color;
+      &:last-child { border-bottom: none; }
+      padding-bottom: 3px;
+      .record_id {
+        font-weight: bold;
+        font-size: 1.3em;
+        line-height: 1em;
+        @include float-left;
+        margin-right: 5px;
+      }
+      .description {
+        padding-left: 30px;
+      }
     }
   }
 }
@@ -101,10 +121,11 @@ table#schedule {
   overflow: auto;
   .sortable {
     position: relative;
+    padding: 3px;
+    background-color: $white;
+    margin-bottom: 0;
     @include sortable;
-    p {
-      margin-bottom: 0;
-    }
+    p { margin-bottom: 0; }
   }
   img.ajax_loader {
     background-color: $white;
