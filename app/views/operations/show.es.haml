@@ -5,29 +5,36 @@
 - content_for :subtitle do
   = resource.patient
 
-.section
-  .summary
-    %h2.date= "Fecha: #{resource.date}"
-    %dl
-      %dt Nombre del paciente
-      %dd= resource.patient
-      %dt Diagnostico
-      %dd= resource.disease
-      %dt Cirugía
-      %dd= resource.procedure
+.section.summary
   - if resource.patient.photo.exists?
     .photo= patient_image(resource.patient, :small)
-.section
-  .xrays
-    %h2 Rayos X
-    - if resource.display_xray.present?
-      .before
-        %h3 Antes
-        .xray= image_tag(resource.display_xray.photo.url(:original))
-    - if resource.display_xray.present?
-      .after
-        %h3 Despues
-        .xray= image_tag(resource.display_xray.photo.url(:original))
+  .data
+    %p
+      %strong Nombre del paciente
+      = resource.patient
+    %p
+      %strong Parte de Cuerpo
+      = resource.body_part
+    %p
+      %strong Diagnostico
+      = resource.disease
+    %p
+      %strong Cirugía
+      = resource.procedure
+    %p
+      %strong Fecha
+      = resource.date
+
+.section.xrays
+  %h2 Rayos X
+  - if resource.patient_case.diagnosis_display_xray.present?
+    .before
+      %h3 Antes
+      .xray= image_tag(resource.patient_case.diagnosis_display_xray.photo.url(:original))
+  - if resource.display_xray.present?
+    .after
+      %h3 Despues
+      .xray= image_tag(resource.display_xray.photo.url(:original))
 
 - content_for :sponsor_org do
   -# TODO move this stuff to a presenter class
@@ -38,4 +45,8 @@
       %br/
       Presidente, Fundaorto
   - else
-    %p Marco Salas, M.D.
+    = image_tag("organization/ni_hospital_militar_logo.png")
+    %p
+      Dr. Marco Salas
+      %br/
+      Jefe de Servicio de Orthopedia

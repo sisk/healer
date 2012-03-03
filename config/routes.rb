@@ -22,6 +22,9 @@ Healer::Application.routes.draw do
     end
   end
   resources :trips do
+    member do
+      get :reports
+    end
     resources :users, :controller => :trip_users
     resources :cases, :controller => :patient_cases do
       member do

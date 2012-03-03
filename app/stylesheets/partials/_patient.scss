@@ -224,6 +224,7 @@ form.patient {
           margin-bottom: 0;
           font-size: 1.3em;
         }
+        img { height: 20px; }
       }
       .supplement {
         .diagnosis {
@@ -246,7 +247,9 @@ form.patient {
     @include sprite-opened;
   }
   &.collapsed {
-    .toggle { @include sprite-collapsed; }
+    .toggle {
+      @include sprite-collapsed;
+    }
   }
 }
 

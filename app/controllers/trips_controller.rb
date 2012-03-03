@@ -26,4 +26,59 @@ class TripsController < ApplicationController
     update! { trips_path }
   end
 
+  def reports
+    @trip = Trip.find(params[:id])
+    @report = {}
+    @trip.number_of_operation_days.times do |i|
+      day_num = i + 1
+      @report["Day #{day_num}"] = report_hash(@trip, day_num)
+    end
+    @report[:totals] = report_hash(@trip)
+  end
+
+  private #####################################################################
+
+  def report_hash(trip, day_number = nil)
+    if day_number.nil?
+      # totals
+      case_groups = trip.case_groups.scheduled
+    else
+      # per day
+      case_groups = trip.case_groups.day(day_number)
+    end
+
+    if params[:surgeon_id].present?
+      @surgeon = User.find(params[:surgeon_id])
+      case_groups.reject!{ |cg| !cg.surgeons.include?(@surgeon) }
+    end
+
+    males = case_groups.select{ |cg| cg.patient.male? }
+    females = case_groups.select{ |cg| !cg.patient.male? }
+    patient_cases = case_groups.map(&:patient_cases).flatten
+    unique_body_parts = patient_cases.map{ |pc| pc.body_part.try(:name_en) }.uniq.compact.sort
+
+    hash = {
+      "Total Patients" => case_groups.size,
+      "Total Male" => males.size,
+      "Total Female" => females.size,
+      :surgeries => {
+        :bilateral => {},
+        :revision => {},
+        :individual => {},
+        :total_cases => 0
+      }
+    }
+    unique_body_parts.each do |body_part_name|
+      individual_count = patient_cases.select{ |pc| pc.body_part.try(:name_en) == body_part_name }.size
+      bilateral_count = case_groups.select{ |cg| (cg.bilateral? && !cg.any_revisions?) }.select{ |cg| cg.likely_body_part.name_en == body_part_name }.size
+      revision_count = patient_cases.select{ |pc| pc.revision? && (pc.body_part.try(:name_en) == body_part_name) }.size
+      hash[:surgeries][:bilateral][body_part_name] = bilateral_count
+      hash[:surgeries][:revision][body_part_name] = revision_count
+      hash[:surgeries][:individual][body_part_name] = individual_count
+      hash[:surgeries][:total_cases] += individual_count
+    end
+
+    return hash
+  end
+
 end

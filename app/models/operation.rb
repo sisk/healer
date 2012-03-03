@@ -1,6 +1,6 @@
 class Operation < ActiveRecord::Base
   def self.approaches
-    ["Anterior","Lateral","Medial","Posterior","Dorsal","Planter","Lateral Transfibular"]
+    ["Anterior","Lateral","Medial","Posterior","Dorsal","Planter","Lateral Transfibular","Transtrochanteric"]
   end
   def self.difficulty_table
     { 0 => "Routine", 1 => "Moderate", 2 => "Severe" }
@@ -9,10 +9,10 @@ class Operation < ActiveRecord::Base
     ["Weight Bearing as Tolerated","Non-Weight Bearing","Partial Weight Bearing"]
   end
   def self.anesthsia_types
-    ["spinal","general"]
+    ["spinal","general","local"]
   end
   def self.peripheral_nerve_block_types
-    ["femoral", "sciatic", "popliteal", "ankle", "none"]
+    ["femoral", "sciatic", "sciatic/femoral", "popliteal", "ankle", "local", "none"]
   end
 
   default_scope order(:date)

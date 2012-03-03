@@ -1,8 +1,8 @@
 #!/bin/sh
 
 # custom script to pull S3 assets for local app sync
-echo "Syncing xray assets..."
+echo "Pulling x-ray photos..."
 s3cmd get --delete-removed --skip-existing --recursive s3://healer-production/xrays/ public/system/xrays
 
-echo "Syncing patient assets..."
+echo "Pulling patient photos..."
 s3cmd get --delete-removed --skip-existing --recursive s3://healer-production/patients/ public/system/patients

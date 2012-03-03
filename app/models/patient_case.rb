@@ -47,6 +47,9 @@ class PatientCase < ActiveRecord::Base
   delegate :complexity_minutes, :to => :trip
   delegate :name, :to => :patient
 
+  delegate :primary_surgeon, :to => :operation, :allow_nil => true
+  delegate :secondary_surgeon, :to => :operation, :allow_nil => true
+
   scope :authorized, includes([:patient, :trip]).where("patient_cases.approved_at is not ?", nil)
   scope :unauthorized, includes([:patient, :trip]).where("patient_cases.approved_at is ?", nil)
 
@@ -147,6 +150,16 @@ class PatientCase < ActiveRecord::Base
     return nil if xrays.empty?
     return xrays.first if (xrays.size == 1) || (xrays.all?{ |x| !x.primary? })
     return xrays.select{ |x| x.primary == true }.first
+  end
+
+  def operation_display_xray
+    return nil if xrays.empty?
+    return xrays.select{ |x| x.primary == true && x.operation_id.present? }.first
+  end
+
+  def diagnosis_display_xray
+    return nil if xrays.empty?
+    return xrays.select{ |x| x.primary == true && !x.operation_id.present? }.first
   end
 
   def related_untreated_cases

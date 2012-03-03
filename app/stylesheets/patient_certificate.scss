@@ -10,40 +10,45 @@ body.patient_certificate {
   #summary_header {
     @include clearfix;
     margin-bottom: 15px;
-    #org_logo {
-      @include column(6);
+    #sponsor_org {
+      @include float-left;
       img { height: 80px; }
-      text-align: center;
     }
-    #org_credentials {
-      @include column(5, true);
+    #host_org {
+      @include float-right;
       img { height: 75px; }
       text-align: center;
     }
     .title_section {
       margin-top: 10px;
-      text-align: center;
-      @include column($blueprint-grid-columns - 11);
-      .subtitle {
-        margin-bottom: 0;
-      }
+      .subtitle { margin-bottom: 0; }
     }
   }
 
   .section {
     padding-top: 1pt;
+    @include clearfix;
+    h2, h3 {
+      margin-bottom: 6pt;
+    }
   }
 
   .summary {
-    @include column($blueprint-grid-columns - 6);
-    dl {
-      @include inline_dl($blueprint-grid-columns - 6, 6);
-      font-size: 1.4em;
+    padding-top: 12pt;
+    .photo {
+      @include column(4);
+      @include float-left;
+      img {
+        @include column(4);
+        @include bordered(1px, #000);
+      }
     }
-  }
-  .photo {
-    @include column(6, true);
-    img { @include bordered(1px, #000); }
+    .data {
+      @include float-left;
+      font-size: 11pt;
+      line-height: 10pt;
+      p { margin-bottom: 10pt; }
+    }
   }
 
   .xrays {
@@ -56,11 +61,8 @@ body.patient_certificate {
         @include bordered(1px, #000);
       }
     }
-    .before {
-      @include column($blueprint-grid-columns / 2);
-    }
-    .after {
-      @include column($blueprint-grid-columns / 2, true);
+    .before, .after {
+      @include float-left;
     }
   }
 

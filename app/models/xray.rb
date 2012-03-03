@@ -1,5 +1,7 @@
 class Xray < ActiveRecord::Base
 
+  PHOTO_DIR = (Rails.env == "development") ? "_development/xrays/:attachment/:id/:style.:extension" : "xrays/:attachment/:id/:style.:extension"
+
   belongs_to :operation
   belongs_to :patient_case
 
@@ -20,8 +22,8 @@ class Xray < ActiveRecord::Base
       :secret_access_key => ENV['S3_SECRET']
     },
     :bucket => ENV['S3_BUCKET'],
-    :path => ENV['S3_BUCKET'].present? ? "xrays/:attachment/:id/:style.:extension" : ":rails_root/public/system/xrays/:attachment/:id/:style.:extension",
-    :url => ENV['S3_BUCKET'].present? ? "xrays/:attachment/:id/:style.:extension" : "/system/xrays/:attachment/:id/:style.:extension"
+    :path => ENV['S3_BUCKET'].present? ? PHOTO_DIR : ":rails_root/public/system/#{PHOTO_DIR}",
+    :url => ENV['S3_BUCKET'].present? ? PHOTO_DIR : "/system/#{PHOTO_DIR}"
 
   validates_attachment_presence :photo
 

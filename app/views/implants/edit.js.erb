@@ -5,3 +5,4 @@ else implant_partial = "implants/forms/unspecified"
 end %>
 $('#modal').html('<%= escape_javascript(render :partial => implant_partial, :object => @implant, :locals => {:operation => @operation, :remote => true}) %>');
 $("#modal").dialog('open');
+$("#modal").dialog('option', 'resizable', false);

@@ -81,10 +81,36 @@ table {
                 @include float-left;
               }
               .description {
-                padding-left: 15pt;
+                padding-left: 16pt;
               }
             }
           }
+        }
+      }
+    }
+  }
+}
+
+table.summary_report {
+  width: 100%;
+  p { margin-bottom: 0.5em !important; }
+  margin-bottom: 1.5em;
+  td {
+    h3 {
+      margin-bottom: 0;
+    }
+    border-bottom: solid 1px #000;
+    vertical-align: top;
+    &.title {
+      font-size: 2em;
+    }
+    ul {
+      padding-left: 0;
+      list-style-type: none;
+      li {
+        font-weight: normal;
+        &.subtotal {
+          font-weight: bold;
         }
       }
     }

@@ -17,7 +17,7 @@
   .column-2
     = f.inputs do
       = f.input :patella_size, :as => :select, :label => 'Patella Size', :collection => KneeImplant::patella_sizes.invert
-      = f.input :patella_resurfaced, :as => :boolean, :label => 'Patella Resurfaced'
+      = f.input :patella_not_resurfaced, :as => :boolean, :label => 'Patella Not Resurfaced'
       = f.input :cement_used, :as => :boolean, :label => 'Cement Used'
       = f.input :spacer_used, :as => :boolean, :label => 'Spacer Used'
       =# TODO JS calc this from above two

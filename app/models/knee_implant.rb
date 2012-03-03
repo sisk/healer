@@ -9,7 +9,7 @@ class KneeImplant < Implant
     [60,65,70,75,80]
   end
   def self.tibia_thicknesses
-    [10,12,14,16,20,22]
+    [10,12,14,16,18,20,22]
   end
   def self.tibia_types
     ["Metal-backed"]
@@ -24,19 +24,19 @@ class KneeImplant < Implant
   validates_numericality_of :femur_diameter, :allow_blank => false
   validates_numericality_of :tibia_diameter, :allow_blank => false
   validates_numericality_of :tibia_thickness, :allow_blank => false
-  validates_numericality_of :patella_size, :allow_blank => false
+  validates_numericality_of :patella_size, :allow_blank => true
 
   validates_inclusion_of :femur_diameter, :in => self.femur_diameters, :allow_blank => false
   validates_inclusion_of :tibia_type, :in => self.tibia_types, :allow_blank => false
   validates_inclusion_of :tibia_diameter, :in => self.tibia_diameters, :allow_blank => false
   validates_inclusion_of :tibia_thickness, :in => self.tibia_thicknesses, :allow_blank => false
-  validates_inclusion_of :patella_size, :in => self.patella_sizes.keys, :allow_blank => false
+  # validates_inclusion_of :patella_size, :in => self.patella_sizes.keys, :allow_blank => false
   validates_inclusion_of :knee_type, :in => self.knee_types, :allow_blank => false
 
   validates_presence_of :femur_diameter
   validates_presence_of :tibia_diameter
   validates_presence_of :tibia_thickness
-  validates_presence_of :patella_size
+  # validates_presence_of :patella_size
   validates_presence_of :tibia_type
   validates_presence_of :knee_type
 

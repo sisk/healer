@@ -1,0 +1,96 @@
+- content_for :title do
+  = "#{@trip} - Reports"
+- content_for :subnavigation do
+  %ul
+    %li= link_to "Edit trip details", edit_trip_path(@trip)
+    %li= link_to "Schedule", trip_schedule_path(@trip)
+    %li= link_to "Cases", trip_cases_path(@trip)
+
+- if @surgeon
+  %h2= @surgeon
+
+%table.summary_report
+  %tbody
+    - @trip.number_of_operation_days.times do |i|
+      %tr
+        %td.title{ :valign => :top }= "Day #{i + 1}"
+        %td{ :valign => :top }
+          %h3 Patients
+          %ul
+            %li
+              Female
+              %span= @report["Day #{i + 1}"]["Total Female"]
+            %li
+              Male
+              %span= @report["Day #{i + 1}"]["Total Male"]
+            %li.subtotal
+              Total Patients
+              %span.subtotal= @report["Day #{i + 1}"]["Total Patients"]
+        %td{ :valign => :top }
+          %h3 All Cases
+          %ul
+            - @report["Day #{i + 1}"][:surgeries][:individual].each do |body_part, count|
+              - if count > 0
+                %li
+                  = body_part.pluralize
+                  %span= count
+            %li.subtotal
+              Total Cases
+              %span.subtotal= @report["Day #{i + 1}"][:surgeries][:total_cases]
+        %td{ :valign => :top }
+          %h3 Bilaterals
+          %ul
+            - @report["Day #{i + 1}"][:surgeries][:bilateral].each do |body_part, count|
+              - if count > 0
+                %li
+                  = body_part.pluralize
+                  %span= count
+        %td{ :valign => :top }
+          %h3 Revision Cases
+          %ul
+            - @report["Day #{i + 1}"][:surgeries][:revision].each do |body_part, count|
+              - if count > 0
+                %li
+                  = body_part.pluralize
+                  %span= count
+    %tr.totals
+      %td.title{ :valign => :top }= "Totals"
+      %td{ :valign => :top }
+        %h3 Patients
+        %ul
+          %li
+            Female
+            %span= @report[:totals]["Total Female"]
+          %li
+            Male
+            %span= @report[:totals]["Total Male"]
+          %li.subtotal
+            Total Patients
+            %span.subtotal= @report[:totals]["Total Patients"]
+      %td{ :valign => :top }
+        %h3 All Cases
+        %ul
+          - @report[:totals][:surgeries][:individual].each do |body_part, count|
+            - if count > 0
+              %li
+                = body_part.pluralize
+                %span= count
+          %li.subtotal
+            Total Cases
+            %span.subtotal= @report[:totals][:surgeries][:total_cases]
+      %td{ :valign => :top }
+        %h3 Bilaterals
+        %ul
+          - @report[:totals][:surgeries][:bilateral].each do |body_part, count|
+            - if count > 0
+              %li
+                = body_part.pluralize
+                %span= count
+      %td{ :valign => :top }
+        %h3 Revision Cases
+        %ul
+          - @report[:totals][:surgeries][:revision].each do |body_part, count|
+            - if count > 0
+              %li
+                = body_part.pluralize
+                %span= count

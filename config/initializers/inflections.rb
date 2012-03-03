@@ -23,3 +23,6 @@ class String
     ActiveSupport::Inflector.dehumanize(self)
   end
 end
+ActiveSupport::Inflector.inflections do |inflect|
+  inflect.irregular 'foot', 'feet'
+end

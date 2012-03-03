@@ -31,8 +31,10 @@ class ImplantsController < ApplicationController
 
   def create
     @implant = setup_implant_type(@operation)
-    @implant.attributes = params[@implant.type.underscore]
+    inbound_params = @implant.type.present? ? @implant.type.underscore : "implant"
+    @implant.attributes = params[inbound_params]
     if @implant.save
+      @implant.operation.reload
       respond_to do |format|
         format.html { redirect_to operation_path(@operation), :notice => "Implant created." }
         format.js { render :template => "implants/create.js.erb", :layout => nil }

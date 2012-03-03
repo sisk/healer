@@ -62,10 +62,10 @@ class CaseGroup < ActiveRecord::Base
     end
   end
 
-  private #####################################################################
-
-  def body_part_names
-    patient_cases.map{ |pc| pc.body_part.display_name }.uniq.join(", ")
+  def likely_body_part
+    # Bush coding alert!
+    # This is smelly and used for reporting only. Beware...it's days are already numbered on its birth.
+    patient_cases.map(&:body_part).first
   end
 
   def any_revisions?
@@ -74,6 +74,16 @@ class CaseGroup < ActiveRecord::Base
 
   def all_revisions?
     patient_cases.all?{ |pc| pc.revision? }
+  end
+
+  def surgeons
+    (patient_cases.map(&:primary_surgeon) + patient_cases.map(&:secondary_surgeon)).flatten.compact
+  end
+
+  private #####################################################################
+
+  def body_part_names
+    patient_cases.map{ |pc| pc.body_part.display_name }.uniq.join(", ")
   end
 
 end

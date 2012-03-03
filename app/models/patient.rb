@@ -1,5 +1,7 @@
 class Patient < ActiveRecord::Base
 
+  PHOTO_DIR = (Rails.env == "development") ? "_development/patients/:attachment/:id/:style.:extension" : "patients/:attachment/:id/:style.:extension"
+
   attr_accessor :weight_unit, :height_unit
   before_save :set_weight, :set_height
 
@@ -77,8 +79,8 @@ class Patient < ActiveRecord::Base
       :secret_access_key => ENV['S3_SECRET']
     },
     :bucket => ENV['S3_BUCKET'],
-    :path => ENV['S3_BUCKET'].present? ? "patients/:attachment/:id/:style.:extension" : ":rails_root/public/system/patients/:attachment/:id/:style.:extension",
-    :url => ENV['S3_BUCKET'].present? ? "patients/:attachment/:id/:style.:extension" : "/system/patients/:attachment/:id/:style.:extension"
+    :path => ENV['S3_BUCKET'].present? ? PHOTO_DIR : ":rails_root/public/system/#{PHOTO_DIR}",
+    :url => ENV['S3_BUCKET'].present? ? PHOTO_DIR : "/system/#{PHOTO_DIR}"
 
   def to_s(*args)
     name(args.extract_options!)
@@ -133,7 +135,7 @@ class Patient < ActiveRecord::Base
     end
   end
 
-private
+  private ######################################################################
 
   def set_weight
     self.weight_kg = to_kg(self.weight_kg) if self.weight_unit == "pounds"

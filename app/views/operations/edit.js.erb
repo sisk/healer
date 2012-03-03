@@ -1,4 +1,5 @@
 $('#modal').html('<%= escape_javascript(render :partial => "operations/form", :as => :operation, :object => @operation, :locals => {:remote => true}) %>');
 $("#modal").dialog('open');
+$("#modal").dialog('option', 'resizable', false);
 $('input.ui-datepicker').datepicker({ dateFormat: 'yy-mm-dd' });
 $(".choice_toggle").choice_toggle();

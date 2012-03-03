@@ -11,7 +11,7 @@ describe KneeImplant do
   should_have_column :tibia_type, :type => :string
   should_have_column :knee_type, :type => :string
 
-  should_have_column :patella_resurfaced, :type => :boolean
+  should_have_column :patella_not_resurfaced, :type => :boolean
   should_have_column :femur_screws, :type => :integer
   should_have_column :tibia_screws, :type => :integer
   should_have_column :femur_stems, :type => :boolean
