@@ -3,6 +3,7 @@
 - content_for :subnavigation do
   %ul
     %li= link_to "Full patient record", patient_path(@patient_case.patient)
+    %li= link_to "Log new adverse event", new_patient_adverse_event_path(@patient_case.patient, :case_id => @patient_case.id)
     - if permitted_to? :destroy, @patient_case
       %li= link_to "Delete case", trip_case_path(@patient_case.trip, @patient_case), :method => :delete, :confirm => "Are you sure?"
 

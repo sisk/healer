@@ -20,6 +20,7 @@ class Patient < ActiveRecord::Base
   has_many :operations, :through => :patient_cases
   has_many :patient_cases, :dependent => :destroy
   has_many :risk_factors, :dependent => :destroy
+  has_many :adverse_events, :dependent => :destroy
   has_many :risks, :through => :risk_factors
   has_many :case_groups, :through => :patient_cases, :uniq => true
 
@@ -32,6 +33,7 @@ class Patient < ActiveRecord::Base
   scope :ordered_by_name_last, :order => 'patients.name_last, patients.name_first'
 
   scope :no_patient_cases, :conditions => ["patients.id NOT IN (SELECT patient_id FROM patient_cases)"]
+
   scope :search, Proc.new { |term|
     query = term.strip.gsub(',', '')
     first_last = query.split(" ")
@@ -43,14 +45,6 @@ class Patient < ActiveRecord::Base
         { :conditions => ["patients.name_last like ? or patients.name_first like ?","%#{query}%","%#{query}%" ] }
       end
     end
-  }
-
-  scope :lookup, Proc.new { |term|
-    query = term.strip.gsub(',', '').gsub(/[^\w@\.]/x,'').gsub(' ','|')
-    {
-      :conditions => ["people.name_last regexp ? or people.name_first regexp ? or people.employee_id regexp ? or people.email regexp ?",query,query,query,query],
-      :order => 'people.name_last, people.name_first'
-    } if query.present?
   }
 
   scope :country, Proc.new { |query|

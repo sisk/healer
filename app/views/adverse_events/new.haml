@@ -1,0 +1,3 @@
+- content_for :title do
+  = "New Adverse Event for #{[@patient,@patient_case.try(:title)].compact.join(" - ")}"
+= render :partial => "form"

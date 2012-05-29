@@ -137,7 +137,6 @@ class PatientCasesController < ApplicationController
   end
 
   def authorize
-    # redirect_to trip_cases_path(@patient_case.trip, :anchor => "waiting")
     @patient_case.authorize!(current_user.id)
     respond_with(@patient_case) do |format|
       format.html {
@@ -151,7 +150,6 @@ class PatientCasesController < ApplicationController
   def deauthorize
     @patient_case.deauthorize!
     flash[:notice] = "Moved case for #{@patient_case.patient} to waiting."
-    # redirect_to trip_cases_path(@patient_case.trip, :anchor => "approved")
     redirect_to :back
   end
 

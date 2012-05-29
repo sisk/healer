@@ -1,0 +1,7 @@
+- content_for :title do
+  = "Adverse Events for #{@patient}"
+- content_for :subnavigation do
+  %ul
+    %li= link_to "Log new adverse event", new_patient_adverse_event_path(@patient)
+- collection.each do |adverse_event|
+  = link_to adverse_event, edit_patient_adverse_event_path(@patient, adverse_event)
