@@ -1,15 +1,14 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1'
+gem 'rails', '3.1.1'
 
-gem 'heroku'
-gem 'taps'
 gem 'aws-s3'
 # gem 'sqlite3-ruby', :require => 'sqlite3'
 gem 'mysql2', '0.3.7'
 gem 'pg'
 gem "haml"
 gem "compass"
+gem "compass-rails"
 gem "devise", "1.5.3"
 gem "declarative_authorization", '0.5.3'
 gem "formtastic", '~> 1.1.0'
