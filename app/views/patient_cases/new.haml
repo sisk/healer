@@ -31,7 +31,8 @@
             = p.input :weight_kg, :label => 'Weight (kg)'
       = f.buttons do
         = f.commit_button "Save Case"
-        = f.input :authorize, :as => :boolean, :label => "Authorize now"
+        - if permitted_to? :authorize, resource
+          = f.input :authorize, :as => :boolean, :label => "Authorize now"
 
   .existing{ :class => "#{"hide" unless params[:person_id]}" }
     = semantic_form_for [parent,resource], :url => trip_cases_path(parent), :html => { :multipart => true, :id => "existing_patient_case" } do |f|

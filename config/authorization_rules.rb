@@ -30,7 +30,7 @@ authorization do
     has_permission_on :patient_cases, :to => [:authorize, :deauthorize]
   end
   role :liaison do
-    has_permission_on [:trips], :to => :show
+    has_permission_on [:trips], :to => [:index, :show]
     has_permission_on [:patients, :patient_cases, :risk_factors, :xrays], :to => :everything
     has_permission_on [:patient_cases], :to => [:waiting]
   end
