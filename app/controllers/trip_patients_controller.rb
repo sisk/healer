@@ -1,4 +1,6 @@
 class TripPatientsController < ApplicationController
+  require 'will_paginate/array' 
+
   inherit_resources
   defaults :resource_class => Patient, :collection_name => 'patients', :instance_name => 'patient'
 

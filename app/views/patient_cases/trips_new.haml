@@ -30,8 +30,8 @@
             = p.input :country, :as => :select, :label => 'Country', :collection => Carmen::COUNTRIES, :selected => @trip.try(:country)
             = p.input :phone, :label => 'Phone'
             = p.input :email, :label => 'Email'
-        = f.buttons do
-          = f.commit_button
+        = f.actions do
+          = f.action :submit
   .choice
     %p.fake_link.toggle I want to add a patient that is already in the system.
     .data.hide
@@ -41,5 +41,5 @@
         = f.input :created_by_id, :as => :hidden, :input_html => { :value => current_user.id }
         = f.inputs do
           = f.input :patient_id, :as => :select, :label => 'Existing Patients', :collection => @all_patients.map{ |p| ["#{p.id} - #{p.to_s}", p.id] }
-        = f.buttons do
-          = f.commit_button
+        = f.actions do
+          = f.action :submit

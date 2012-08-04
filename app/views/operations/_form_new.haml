@@ -12,5 +12,5 @@
     - if permitted_to? :users, operation.trip
       %p!= "(Don't see who you're looking for? #{link_to("Add personnel.", trip_users_path(operation.trip))})"
     = f.input :date, :as => :datepicker, :label => "Date"
-  = f.buttons do
-    = f.commit_button "Save".html_safe
+  = f.actions do
+    = f.action :submit, :label => "Save".html_safe

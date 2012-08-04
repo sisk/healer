@@ -4,5 +4,5 @@
       = rf.input :patient_id, :as => :hidden, :input_html => { :value => @patient.id }
       %li.risk= risk_factor.risk
       = rf.input :severity, :as => :select, :label => "Severity", :collection => RiskFactor::severity_table.invert, :wrapper_html => { :class => "severity" }
-    = rf.buttons do
+    = rf.actions do
       = link_to "delete", patient_risk_factor_path(@patient, risk_factor), :method => :delete, :remote => true, :confirm => "Are you sure?", :class => "inline record_delete"

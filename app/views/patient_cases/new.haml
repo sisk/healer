@@ -3,9 +3,9 @@
 
 %ul#new_case_context_toggle
   %li.new
-    %span.fake_link Add new patient
+    %span.fake_link For new patient
   %li.existing
-    %span.fake_link Attach to existing patient
+    %span.fake_link For existing patient
 
 #new_case_form
   .new{ :class => "#{"hide" if params[:person_id]}" }
@@ -29,8 +29,8 @@
             =# f.input :death, :as => :date, :label => "Death"
             = p.input :height_cm, :label => 'Height (cm)'
             = p.input :weight_kg, :label => 'Weight (kg)'
-      = f.buttons do
-        = f.commit_button "Save Case"
+      = f.actions do
+        = f.action :submit, :label => "Save Case"
         - if permitted_to? :authorize, resource
           = f.input :authorize, :as => :boolean, :label => "Authorize now"
 
@@ -41,9 +41,10 @@
       = f.inputs do
         = f.input :patient_id, :as => :select, :label => 'Patient', :collection => @all_patients.map{ |p| ["#{p.id} - #{p.to_s}", p.id] }, :selected => params[:person_id]
       #case_details_form= render :partial => "case_details_form", :locals => { :f => f, :patient_case => resource }
-      = f.buttons do
-        = f.commit_button "Save Case"
-        = f.input :authorize, :as => :boolean, :label => "Authorize now"
+      = f.actions do
+        = f.action :submit, :label => "Save Case"
+        - if permitted_to? :authorize, resource
+          = f.input :authorize, :as => :boolean, :label => "Authorize now"
 
 - content_for :script do
   :javascript

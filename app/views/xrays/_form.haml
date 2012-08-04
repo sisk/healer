@@ -9,5 +9,5 @@
     = f.input :photo, :as => :file, :label => "Photo"
   = f.inputs do
     = f.input :primary, :as => :boolean, :label => "Mark as most important x-ray", :hint => "This will be the x-ray used in displays and print-outs."
-  = f.buttons do
-    = f.commit_button
+  = f.actions do
+    = f.action :submit

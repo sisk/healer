@@ -44,6 +44,5 @@
     = f.input :patient_id, :as => :hidden, :input_html => { :value => resource.patient.id }
     = render :partial => "patients/shared/snapshot", :locals => { :patient => resource.patient }
 
-
-  = f.buttons do
-    = f.commit_button "Save Case"
+  = f.actions do
+    = f.action :submit, :label => "Save Case"

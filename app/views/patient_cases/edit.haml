@@ -16,5 +16,5 @@
     %h4 X-Rays
     .xrays
       = render :partial => "xrays/collection", :locals => { :patient_case => @patient_case, :xrays => @patient_case.xrays.pre_op, :editable => true }
-    = f.buttons do
-      = f.commit_button "Save Case"
+    = f.actions do
+      = f.action :submit, :label => "Save Case"

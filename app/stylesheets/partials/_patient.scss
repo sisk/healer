@@ -30,7 +30,6 @@ form.patient {
         }
       }
       &#medications_list {
-        /*@include prepend(5);*/
       }
       &#allergy_list {
         @include column(($blueprint-grid-columns) / 3, true);
@@ -42,7 +41,7 @@ form.patient {
     .risk_factor {
       @include float-left;
     }
-    .buttons {
+    .buttons, .actions {
       @include column(6, true);
       ol {
         padding-left: 0;
@@ -68,7 +67,7 @@ form.patient {
     }
     fieldset.risk_factor {
       clear: left;
-      &+ fieldset.buttons {
+      &+ fieldset.buttons, &+ fieldset.actions {
         padding-left: 0;
         @include inline-block;
       }
@@ -91,7 +90,6 @@ form.patient {
             @include float-left;
             &>fieldset {
               &> legend {
-                /*@include float-left;*/
                 text-align: right;
               }
               &> ol {
@@ -108,7 +106,6 @@ form.patient {
     }
   }
 }
-
 .patient_list {
   @include clearfix;
   overflow: visible;
@@ -201,14 +198,6 @@ form.patient {
       }
 
     }
-    /*
-    .record {
-      .navigation { @include column(4, true); }
-      @include clearfix;
-    }
-    .treatment {
-    }
-    */
     &.case-focus {
       .name {
         @include clearfix;
@@ -235,7 +224,6 @@ form.patient {
 
   }
 }
-
 .collapsible {
   .basic, .header {
     padding-right: 20px;
@@ -244,11 +232,11 @@ form.patient {
   }
   .toggle {
     @include float-left;
-    @include sprite-opened;
+//    @include sprite-opened;
   }
   &.collapsed {
     .toggle {
-      @include sprite-collapsed;
+  //    @include sprite-collapsed;
     }
   }
 }
@@ -284,10 +272,11 @@ form.patient {
     @include clearfix;
     width: span(6);
   }
-  .buttons {
+  .buttons, .actions {
     clear: left;
   }
 }
+
 
 .case_group_list .case-focus.collapsible {
   .supplement {
@@ -304,11 +293,6 @@ form.patient {
         width: auto;
         a { margin: 0; }
       }
-      /*
-      .edit { @include sprite-edit-dark; }
-      .delete { @include sprite-trash-dark; }
-      .show { @include sprite-zoom-dark; }
-      */
     }
     p.aux {
       margin-bottom: 0;

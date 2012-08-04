@@ -4,5 +4,5 @@
     = f.input :name_es, :as => :string, :label => 'Nombre (Español)'
     = f.input :side, :as => :radio, :label => "Side", :collection => [["Left", "L"], ["Right", "R"], ["N/A", ""]]
     = f.input :mirror_id, :as => :select, :label => "Mirror", :collection => (BodyPart.all - [resource]).map{ |bp| [bp.to_s, bp.id] }
-  = f.buttons do
-    = f.commit_button
+  = f.actions do
+    = f.action :submit

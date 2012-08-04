@@ -6,5 +6,5 @@
     = f.input :cement_used, :as => :boolean, :label => 'Cement Used'
     = f.input :spacer_used, :as => :boolean, :label => 'Spacer Used'
     = f.input :notes, :as => :text, :label => 'Implant Notes'
-  = f.buttons do
-    = f.commit_button "Save Changes"
+  = f.actions do
+    = f.action :submit, :label => "Save Changes"

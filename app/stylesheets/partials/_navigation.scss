@@ -54,7 +54,10 @@
     .session {
       ul {
         @include horizontal-list(.65em);
-        li { padding: 7px 15px 10px 7px; }
+        li {
+          padding: 7px 15px 10px 7px;
+          &:last-child { margin-right: 15px; }
+        }
         color: $white;
         a { color: $white; }
       }
@@ -65,7 +68,6 @@
       background-color: $grey-dark;
       color: $white;
       padding: 9px 15px 10px 15px;
-      margin-left: 15px;
       border-left: solid 1px $grey-medium;
       h3 {
         font-size: 1em;

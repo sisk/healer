@@ -11,7 +11,7 @@
         = "- #{yield :title}"
   %body.bp
     #wrapper
-      - if Rails.env == "development"
+      -# if Rails.env == "development"
         #dev_notice.noprint
           %p Beware: you're in development mode.
       #head.noprint
