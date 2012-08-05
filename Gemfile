@@ -4,6 +4,7 @@ ruby "1.9.3"
 gem "rails", "~> 3.1"
 
 gem "aws-s3"
+gem "aws-sdk"
 # gem "sqlite3-ruby", :require => "sqlite3"
 gem "mysql2", "~> 0.3.11"
 gem "pg"
