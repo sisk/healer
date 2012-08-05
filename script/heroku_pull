@@ -6,4 +6,4 @@
 # > 1.8.7 will cause problems
 
 puts "Pulling DB from Heroku..."
-system("heroku db:pull")
+system("heroku db:pull --app healer")

@@ -32,6 +32,8 @@ group :development, :test do
   gem "pry"
   gem "letter_opener"
   gem "hamls_comment"
+  gem "taps", :require => false # has an sqlite dependency, which heroku hates
+  gem "sqlite3"
 end
 
 group :assets do
