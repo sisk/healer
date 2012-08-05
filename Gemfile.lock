@@ -50,6 +50,13 @@ GEM
     chunky_png (1.2.5)
     cocaine (0.2.1)
     coderay (1.0.7)
+    coffee-rails (3.2.2)
+      coffee-script (>= 2.2.0)
+      railties (~> 3.2.0)
+    coffee-script (2.2.0)
+      coffee-script-source
+      execjs
+    coffee-script-source (1.3.3)
     compass (0.12.2)
       chunky_png (~> 1.2)
       fssm (>= 0.2.7)
@@ -70,6 +77,8 @@ GEM
     exception_notification (2.6.1)
       actionmailer (>= 3.0.4)
     excon (0.15.5)
+    execjs (1.4.0)
+      multi_json (~> 1.0)
     factory_girl (4.0.0)
       activesupport (>= 3.0.0)
     factory_girl_rails (4.0.0)
@@ -219,6 +228,9 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.33)
+    uglifier (1.2.7)
+      execjs (>= 0.3.0)
+      multi_json (~> 1.3)
     uuidtools (2.1.3)
     warden (1.2.1)
       rack (>= 1.0)
@@ -232,6 +244,7 @@ DEPENDENCIES
   aws-s3
   aws-sdk
   carmen!
+  coffee-rails (~> 3.2.1)
   compass-rails
   declarative_authorization (= 0.5.3)
   devise (= 1.5.3)
@@ -262,4 +275,5 @@ DEPENDENCIES
   test-unit
   test_notifier
   thin
+  uglifier
   will_paginate (~> 3.0.3)

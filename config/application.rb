@@ -2,9 +2,9 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 
-# If you have a Gemfile, require the gems listed there, including any gems
-# you've limited to :test, :development, or :production.
-Bundler.require(:default, Rails.env) if defined?(Bundler)
+if defined?(Bundler)
+    Bundler.require *Rails.groups(:assets => %w(development test))
+end
 
 module Healer
   class Application < Rails::Application
@@ -13,6 +13,13 @@ module Healer
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
+    # Enable the asset pipeline
+    config.assets.enabled = true
+
+    # Change the path that assets are served from
+    # config.assets.prefix = "/assets"
+
+    # Heroku requires this to be false.
     config.assets.initialize_on_precompile = false
 
     # Custom directories with classes and modules you want to be autoloadable.

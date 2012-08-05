@@ -42,6 +42,8 @@ end
 group :assets do
   gem "sass-rails"
   gem "compass-rails"
+  gem 'coffee-rails', "~> 3.2.1"
+  gem 'uglifier'
 end
 
 # Use thin as the web server
