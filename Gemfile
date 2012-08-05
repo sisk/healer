@@ -24,15 +24,15 @@ gem "rake"
 gem "remotipart"
 
 group :development, :test do
-  gem "test_notifier"
-  gem "rspec-rails", ">= 2.0.0"
-  gem "remarkable_activerecord", ">= 4.0.0.alpha4"
-  gem "factory_girl_rails"
-  gem "newrelic_rpm"
+  gem "test_notifier", :require => false
+  gem "rspec-rails", ">= 2.0.0", :require => false
+  gem "remarkable_activerecord", ">= 4.0.0.alpha4", :require => false
+  gem "factory_girl_rails", :require => false
+  gem "newrelic_rpm", :require => false
   gem "heroku", :require => false
   gem "pry", :require => false
-  gem "letter_opener"
-  gem "hamls_comment"
+  gem "letter_opener", :require => false
+  gem "hamls_comment", :require => false
   gem "taps", :require => false # has an sqlite dependency, which heroku hates
   gem "sqlite3", :require => false
 end
