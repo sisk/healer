@@ -43,8 +43,8 @@ group :assets do
   gem "compass-rails"
 end
 
-# Use unicorn as the web server
-# gem "unicorn"
+# Use thin as the web server
+gem "thin"
 
 # Deploy with Capistrano
 # gem "capistrano"
