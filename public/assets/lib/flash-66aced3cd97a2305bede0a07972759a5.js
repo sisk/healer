@@ -1,0 +1,1 @@
+jQuery.fn.flash=function(e,t){var n,e,t;n=$(this).css("background-color"),e=e||"#fffd99",t=t||1500,$(this).animate({backgroundColor:e},t/2),$(this).animate({backgroundColor:n},t)};

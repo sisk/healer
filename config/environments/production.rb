@@ -20,6 +20,20 @@ Healer::Application.configure do
   # Generate digests for assets URLs
   config.assets.digest = true
 
+  config.assets.precompile += %w(
+    fancybox/*.js
+    lib/*.js
+    ipad.js
+    jquery.js
+    jquery.min.js
+    jquery_ujs.js
+    jquiery-ui.min.js
+  )
+
+  config.assets.manifest = Rails.root.join("public/assets")
+  
+  config.assets.debug = true
+
   # Defaults to nil and saved in location specified by config.assets.prefix
   # config.assets.manifest = YOUR_PATH
 
