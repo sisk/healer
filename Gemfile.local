@@ -1,5 +1,0 @@
-eval File.read(File.dirname(__FILE__) + "/Gemfile"), binding, __FILE__, __LINE__
-
-gem "pry"
-gem 'heroku'
-gem 'taps'

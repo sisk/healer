@@ -29,11 +29,12 @@ group :development, :test do
   gem "remarkable_activerecord", ">= 4.0.0.alpha4"
   gem "factory_girl_rails"
   gem "newrelic_rpm"
-  gem "pry"
+  gem "heroku", :require => false
+  gem "pry", :require => false
   gem "letter_opener"
   gem "hamls_comment"
   gem "taps", :require => false # has an sqlite dependency, which heroku hates
-  gem "sqlite3"
+  gem "sqlite3", :require => false
 end
 
 group :assets do
