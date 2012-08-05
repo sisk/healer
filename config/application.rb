@@ -16,9 +16,6 @@ module Healer
     # Enable the asset pipeline
     config.assets.enabled = true
 
-    # Change the path that assets are served from
-    # config.assets.prefix = "/assets"
-
     # Heroku requires this to be false.
     config.assets.initialize_on_precompile = false
 
