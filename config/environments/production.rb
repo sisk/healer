@@ -27,7 +27,13 @@ Healer::Application.configure do
     jquery.js
     jquery.min.js
     jquery_ujs.js
-    jquiery-ui.min.js
+    jquery-ui.min.js
+    healer/*.css
+    fancybox/*.css
+    print.css
+    screen.css
+    ie.css
+    ipad.css
   )
 
   config.assets.manifest = Rails.root.join("public/assets")
