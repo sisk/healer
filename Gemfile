@@ -1,5 +1,5 @@
 source "http://rubygems.org"
-ruby "1.9.3"
+#ruby "1.9.3"
 
 gem "rails", "~> 3.1"
 
@@ -35,6 +35,7 @@ group :development, :test do
   gem "pry", :require => false
   gem "letter_opener", :require => false
   gem "hamls_comment", :require => false
+  gem "heroku", :require => false
   gem "taps", :require => false # has an sqlite dependency, which heroku hates
   gem "sqlite3", :require => false
 end

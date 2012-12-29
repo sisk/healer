@@ -14,3 +14,4 @@ public/system/patients/*
 TODO
 .env
 Gemfile.local*
+config/database.yml
