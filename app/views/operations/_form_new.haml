@@ -11,6 +11,8 @@
     = f.input :anesthesiologist_id, :as => :select, :label => 'Anesthesiologist', :collection => operation.trip.users.anesthesiologist
     - if permitted_to? :users, operation.trip
       %p!= "(Don't see who you're looking for? #{link_to("Add personnel.", trip_users_path(operation.trip))})"
-    = f.input :date, :as => :datepicker, :label => "Date"
+    =# f.input :date, :as => :datepicker, :label => "Date"
+    = f.input :date, :label => "Date"
   = f.actions do
     = f.action :submit, :label => "Save".html_safe
+    

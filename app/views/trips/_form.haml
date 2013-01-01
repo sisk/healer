@@ -3,9 +3,12 @@
     =# f.input :country, :as => :country, :label => 'Country', :priority_countries => ['GT', 'NI', 'CU', 'US']
     = f.input :country, :as => :select, :label => 'Country', :collection => Carmen::COUNTRIES
     = f.input :city, :label => 'City'
-    = f.input :start_date, :as => :datepicker, :label => 'Trip Begins'
-    = f.input :procedure_start_date, :as => :datepicker, :label => 'Procedures Start On'
-    = f.input :end_date, :as => :datepicker, :label => 'Trip Ends'
+    = f.input :start_date, :label => 'Trip Begins'
+    =# f.input :start_date, :as => :datepicker, :label => 'Trip Begins'
+    = f.input :procedure_start_date, :label => 'Procedures Start On'
+    =# f.input :procedure_start_date, :as => :datepicker, :label => 'Procedures Start On'
+    = f.input :end_date, :label => 'Trip Ends'
+    =# f.input :end_date, :as => :datepicker, :label => 'Trip Ends'
     = f.input :facility_id, :label => 'Facility', :collection => Facility.all
     = f.input :available_rooms, :as => :select, :label => 'Rooms Available', :collection => [1,2,3,4,5,6,7,8,9,10]
     = f.input :complexity_minutes, :as => :select, :label => 'Case Complexity Metric', :collection => [["15 minutes",15],["30 minutes",30],["60 minutes",60]]
