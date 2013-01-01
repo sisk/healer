@@ -18,8 +18,8 @@
       = f.input :primary_surgeon_id, :as => :select, :label => 'Primary Surgeon', :collection => @operation.trip.users.doctor
       = f.input :secondary_surgeon_id, :as => :select, :label => 'Secondary Surgeon', :collection => @operation.trip.users.doctor
       = f.input :anesthesiologist_id, :as => :select, :label => 'Anesthesiologist', :collection => @operation.trip.users.anesthesiologist
-      - if permitted_to? :users, operation.trip
-        %p!= "(Don't see who you're looking for? #{link_to("Add personnel.", trip_users_path(operation.trip))})"
+      - if permitted_to? :users, @operation.trip
+        %p!= "(Don't see who you're looking for? #{link_to("Add personnel.", trip_users_path(@operation.trip))})"
       =# f.input :date, :as => :datepicker, :label => "Date"
       = f.input :date, :label => "Date"
     = f.inputs do
