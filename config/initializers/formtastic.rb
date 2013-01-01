@@ -52,3 +52,14 @@
 # You can add custom inputs or override parts of Formtastic by subclassing SemanticFormBuilder and
 # specifying that class here.  Defaults to SemanticFormBuilder.
 # Formtastic::SemanticFormHelper.builder = MyCustomBuilder
+
+class DatepickerInput < Formtastic::Inputs::StringInput
+  def input_html_options
+    unless object.nil?
+      value = I18n.l(object.send(method))
+    else
+      value =""
+    end
+    super.merge(:class => "#{super[:class]} ui-datepicker", :value => value)
+  end
+end
