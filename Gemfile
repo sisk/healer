@@ -24,6 +24,7 @@ gem "exception_notification"
 gem "friendly_id"
 gem "rake"
 gem "remotipart"
+gem "google_drive"
 
 group :development, :test do
   gem "test_notifier", :require => false
