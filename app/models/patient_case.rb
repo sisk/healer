@@ -201,7 +201,7 @@ class PatientCase < ActiveRecord::Base
   def set_case_group
     # TODO evaluate use of self here. Superfluous?
     if self.authorized?
-      self.update_attribute(:case_group_id, CaseGroup.create(:trip_id => self.trip_id).try(:id)) unless self.case_group.present?
+      self.update_column(:case_group_id, CaseGroup.create(:trip_id => self.trip_id).try(:id)) unless self.case_group.present?
     else
       self.case_group.remove(self) if self.case_group.present?
     end
