@@ -25,6 +25,7 @@ gem "friendly_id"
 gem "rake"
 gem "remotipart"
 gem "google_drive"
+gem "highline"
 
 group :development, :test do
   gem "test_notifier", :require => false

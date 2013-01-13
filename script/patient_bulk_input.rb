@@ -34,6 +34,7 @@ class PatientBulkInput
       :birth => birth_date,
       :country => trip.country
     )
+    puts "Created patient: #{patient.name}"
     cases = []
     case_info[:sites].each do |body_part|
       side, anatomy = body_part.to_s.split("_")
@@ -49,6 +50,7 @@ class PatientBulkInput
     cases.each{ |c| c.update_column(:notes, case_info[:notes]) } if case_info[:notes]
     cases.map(&:authorize!)
     PatientCase.group_cases(cases)
+    puts "Authorized case IDs: #{cases.map(&:id).join(", ")}"
   end
 
   def data
@@ -129,15 +131,23 @@ class PatientBulkInput
   end
 
   def username
-    "jason@sisk.org"
+    get_username_from_user
   end
 
   def password
-    File.exists?(pass_path) ? File.open(pass_path,"r").read.chomp : ""
+    get_password_from_user
   end
 
   def pass_path
     File.dirname(__FILE__) + "/../.pass"
+  end
+
+  def get_username_from_user
+    HighLine.new.ask("Google Docs Username:  ") { |q| q.echo = true }
+  end
+
+  def get_password_from_user
+    HighLine.new.ask("Password:  ") { |q| q.echo = false }
   end
 
   def all_body_parts
