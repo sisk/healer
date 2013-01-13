@@ -31,7 +31,8 @@ class PatientBulkInput
       :name_first => name[:first],
       :name_middle => name[:middle],
       :male => (gender == "M") ? true : false,
-      :birth => birth_date
+      :birth => birth_date,
+      :country => trip.country
     )
     cases = []
     case_info[:sites].each do |body_part|

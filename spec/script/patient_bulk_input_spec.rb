@@ -32,7 +32,7 @@ describe PatientBulkInput do
     end
 
     let(:key) { "abcdefg" }
-    let(:trip) { mock_model("Trip") }
+    let(:trip) { mock_model("Trip", :country => "GT") }
 
     before do
       Trip.stub(:next).and_return([trip])
@@ -43,7 +43,9 @@ describe PatientBulkInput do
 
     it "Adds new patients with proper names" do
       Patient.count.should == 11
-      Patient.all.map(&:name).should include("Yenni Pérez")
+      all_patients = Patient.all
+      all_patients.map(&:name).should include("Yenni Pérez")
+      all_patients.all?{ |p| p.country == "GT" }.should be_true
     end
 
     it "Adds new cases" do
@@ -65,13 +67,14 @@ describe PatientBulkInput do
     end
 
     it "authorizes all cases" do
-      PatientCase.all.all?{ |pc| pc.authorized? }.should == true
+      PatientCase.all.all?{ |pc| pc.authorized? }.should be_true
     end
 
     it "sets notes" do
-      PatientCase.all.map(&:notes).should include("with plate and screws")
-      PatientCase.all.map(&:notes).should include("Revision (infection?)")
-      PatientCase.all.map(&:notes).should include("(but only RK x-ray in sleeve)")
+      all_cases = PatientCase.all
+      all_cases.map(&:notes).should include("with plate and screws")
+      all_cases.map(&:notes).should include("Revision (infection?)")
+      all_cases.map(&:notes).should include("(but only RK x-ray in sleeve)")
     end
   end
 
