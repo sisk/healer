@@ -12,6 +12,8 @@
 .column-2
   = semantic_form_for [parent,resource], :url => trip_case_path(parent, resource), :html => { :multipart => true } do |f|
     = f.semantic_errors
+    = hidden_field_tag :return_to, params[:return_to] if params[:return_to]
+    = hidden_field_tag :day, params[:day] if params[:day]
     = render :partial => "case_details_form", :locals => { :f => f }
     %h4 X-Rays
     .xrays

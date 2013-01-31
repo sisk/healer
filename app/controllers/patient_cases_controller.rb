@@ -114,7 +114,13 @@ class PatientCasesController < ApplicationController
       flash[:notice] = "Case updated."
     end
     respond_with(@patient_case) do |format|
-      format.html { redirect_to trip_case_path(@patient_case.trip, @patient_case) }
+      format.html do
+        if params[:return_to] == "schedule"
+          redirect_to trip_schedule_path(@patient_case.trip, :day => params[:day])
+        else
+          redirect_to trip_case_path(@patient_case.trip, @patient_case)
+        end
+      end
       format.js { render :template => "patient_cases/update.js.erb", :layout => nil }
     end
   end

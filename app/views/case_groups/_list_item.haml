@@ -24,7 +24,7 @@
                   = "(#{severity(patient_case)})"
             .navigation.noprint
               %ul
-                %li.edit= link_to("<span>Make Changes</span>".html_safe, edit_trip_case_path(patient_case.trip, patient_case))
+                %li.edit= link_to("<span>Make Changes</span>".html_safe, edit_trip_case_path(patient_case.trip, patient_case, return_to: "schedule", day: params[:day]))
           = render :partial => "xrays/collection", :locals => { :patient_case => patient_case, :xrays => patient_case.xrays.pre_op, :editable => false }
 
         .procedure
