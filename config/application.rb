@@ -46,6 +46,6 @@ module Healer
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
 
-    config.autoload_paths += %W(#{Rails.root}/lib #{Rails.root}/script)
+    config.autoload_paths += %W(#{Rails.root}/lib #{Rails.root}/script #{Rails.root}/utility)
   end
 end
