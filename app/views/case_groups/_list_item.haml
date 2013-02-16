@@ -5,7 +5,7 @@
     .toggle.ui-icon
     .primary.name
       %h2
-        = image_tag(patient.photo.url(:tiny))
+        =# image_tag(patient.photo.url(:tiny))
         = patient.to_s(:with_id => true)
       %h3= case_group
   .supplement{ :style => "display: none" }
@@ -29,5 +29,5 @@
 
         .procedure
           - if permitted_to? :create, Operation.new(:patient_case => patient_case)
-            = link_to "New operation", new_case_operation_path(patient_case), :remote => true, :class => "new_operation#{" hide" if !!patient_case.operation}"
+            %p= link_to "New operation", new_case_operation_path(patient_case), :remote => true, :class => "new_operation#{" hide" if !!patient_case.operation}"
           = render :partial => "operations/inline", :object => patient_case.operation, :as => :operation, :locals => { :options => { :size => :tiny } } if patient_case.operation
