@@ -31,6 +31,12 @@ Healer::Application.configure do
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
 
+  # Do not compress assets
+  config.assets.compress = false
+
+  # Expands the lines which load the assets
+  config.assets.debug = true
+
   Paperclip.options[:command_path] = "/usr/local/bin"
 
   config.action_mailer.delivery_method = :letter_opener
