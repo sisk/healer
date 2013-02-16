@@ -13,6 +13,7 @@ class Xray < ActiveRecord::Base
   # Paperclip
   has_attached_file :photo,
     :styles => {
+      :original => "50000x50000>",
       :tiny=> "60x60#",
       :thumb=> "100x100#",
       :small  => "200x200>" },
@@ -23,7 +24,8 @@ class Xray < ActiveRecord::Base
     },
     :bucket => ENV['S3_BUCKET'],
     :path => ENV['S3_BUCKET'].present? ? PHOTO_DIR : ":rails_root/public/system/#{PHOTO_DIR}",
-    :url => ENV['S3_BUCKET'].present? ? PHOTO_DIR : "/system/#{PHOTO_DIR}"
+    :url => ENV['S3_BUCKET'].present? ? PHOTO_DIR : "/system/#{PHOTO_DIR}",
+    :auto_orient => true
 
   validates_attachment_presence :photo
 
