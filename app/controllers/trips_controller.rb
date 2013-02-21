@@ -1,8 +1,9 @@
 class TripsController < ApplicationController
   inherit_resources
+  actions :all, :except => [ :current ]
 
-  before_filter :authenticate_user!
-  filter_resource_access
+  before_filter :authenticate
+  filter_resource_access :collection => [:index, :current, :reports]
 
   def index
     if params[:jump_to]
@@ -36,7 +37,20 @@ class TripsController < ApplicationController
     @report[:totals] = report_hash(@trip)
   end
 
+  def current
+    current_trip = Trip.current.first
+    if current_trip
+      redirect_to trip_path(current_trip)
+    else
+      redirect_to :back, :error => "No current trip."
+    end
+  end
+
   private #####################################################################
+
+  def authenticate
+    authenticate_user! unless signed_in?
+  end
 
   def report_hash(trip, day_number = nil)
     if day_number.nil?

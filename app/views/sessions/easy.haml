@@ -1,0 +1,6 @@
+- content_for :title do
+  Log in
+
+= form_tag(easy_session_create_path, {:method => :post}) do
+  = select_tag :user_id, options_for_select(@users.map{ |u| [u, u.id] })
+  = submit_tag "Go"

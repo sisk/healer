@@ -1,6 +1,6 @@
 authorization do
   role :guest do
-    has_permission_on :trips, :to => [:show]
+    has_permission_on :trips, :to => [:show, :current]
     has_permission_on :users, :to => [:show, :edit] do
       if_attribute :user => is { user }
     end
@@ -13,7 +13,7 @@ authorization do
   end
   role :admin do
     has_permission_on [:patients, :diseases, :risks, :risk_factors, :patient_cases, :implants, :operations, :adverse_events, :xrays], :to => :everything
-    has_permission_on [:trips], :to => [:view_only, :reports]
+    has_permission_on [:trips], :to => [:view_only, :reports, :current]
     has_permission_on [:patient_cases], :to => [:authorize, :deauthorize, :unschedule, :review, :waiting, :bulk]
   end
   role :nurse do

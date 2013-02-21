@@ -15,6 +15,14 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   layout :layout_by_resource
 
+  def authenticate_user!
+    if allow_easy_login? && !signed_in?
+      redirect_to easy_session_path
+    else
+      super
+    end
+  end
+
   def layout_by_resource
     devise_controller? ? "session" : "application"
   end
@@ -24,7 +32,7 @@ class ApplicationController < ActionController::Base
 
   # TODO implement the Rails 3 version of this.
   # filter_parameter_logging :password
-  
+
   def request_ipad?
     request.user_agent.match(/iPad/)
   end
@@ -35,6 +43,20 @@ class ApplicationController < ActionController::Base
     flash[:error] = t(:page_access_denied)
     # "Sorry, you are not allowed to access that page."
     redirect_to root_url
+  end
+
+  def allow_easy_login?
+    in_field? && Trip.current.present?
+  end
+
+  def in_field?
+    # TODO js: this is pretty crude. need something better.
+    !env["HTTP_HOST"].include?("healer.ws")
+  end
+
+  def easy_users
+    Trip.next.first.users
+    # Trip.current.first.users
   end
 
 end

@@ -3,6 +3,9 @@ Healer::Application.routes.draw do
   # match "logout" => "user_sessions#destroy"
 
   devise_for :users, :path_names => { :sign_in => "login", :sign_out => "logout", :sign_up => "register" }
+  get 'easy_session' => 'sessions#easy'
+  post 'easy_session_create' => 'sessions#create_easy'
+
   resources :users
 
   resources :body_parts
@@ -22,6 +25,9 @@ Healer::Application.routes.draw do
     end
   end
   resources :trips do
+    collection do
+      get :current
+    end
     member do
       get :reports
     end
