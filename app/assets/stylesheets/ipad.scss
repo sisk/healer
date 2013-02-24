@@ -1,6 +1,18 @@
 // overrides for iPad. Load these last.
 body.bp {
   font-size: 1.1em;
+
+  .case_group_list .case-focus.collapsible {
+
+    .inline-navigation ul {
+      li {
+        font-size: 19px;
+        margin-left: -28px;
+        padding: 10px 0;
+
+      }
+    }
+  }
 }
 
 .xray.preview {

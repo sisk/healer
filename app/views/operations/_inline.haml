@@ -7,16 +7,16 @@
     = operation.primary_surgeon
     - if operation.date
       = operation.date.to_s
-  .navigation.noprint
+  .inline-navigation.noprint
     %ul
       - if permitted_to? :edit, operation
-        %li.procedure= link_to "<span>Edit Procedure</span>".html_safe, edit_case_operation_path(operation.patient_case), :remote => true
-        %li.implant
+        %li= link_to "Edit Procedure", edit_case_operation_path(operation.patient_case), :remote => true
+        %li
           - if operation.implant.present?
-            = link_to "<span>Edit Implant</span>".html_safe, edit_operation_implant_path(operation), :remote => true
+            = link_to "Edit Implant", edit_operation_implant_path(operation), :remote => true
           - else
-            = link_to "<span class=\"incomplete\">Add Implant</span>".html_safe, new_operation_implant_path(operation), :remote => true
+            = link_to "Add Implant", new_operation_implant_path(operation), :remote => true, :class => :incomplete
       - if permitted_to? :show, operation
-        %li.show= link_to "<span>Details</span>".html_safe, case_operation_path(operation.patient_case)
-  .xrays
-    = render :partial => "xrays/collection", :locals => { :operation => operation, :patient_case => operation.patient_case, :xrays => operation.patient_case.xrays.post_op, :editable => true }
+        -#%li.show= link_to "Details", case_operation_path(operation.patient_case)
+      - if permitted_to? :edit, operation
+        %li= render :partial => "xrays/collection", :locals => { :operation => operation, :patient_case => operation.patient_case, :xrays => operation.patient_case.xrays.post_op, :editable => true }

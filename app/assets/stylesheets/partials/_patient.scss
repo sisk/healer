@@ -288,19 +288,31 @@ form.patient {
     .navigation ul {
       @include horizontal-list(3px);
       margin-bottom: $margin-increment;
-      font-size: 0.7em;
       li {
         width: auto;
-        a { margin: 0; }
+        a {
+          margin: 0;
+        }
       }
     }
+
+    .inline-navigation ul {
+      margin-bottom: $margin-increment;
+      li {
+        font-size: 14px;
+        list-style: none;
+        margin-left: -20px;
+        padding: 7px 0;
+      }
+    }
+
+
     p.aux {
       margin-bottom: 0;
       color: $grey-medium;
     }
     p.add_new {
       clear: left;
-      font-size: 0.7em;
     }
     .diagnosis, .procedure {
       &> *, .xray_collection { margin: $blueprint-grid-margin; }
