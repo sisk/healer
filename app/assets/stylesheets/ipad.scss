@@ -8,9 +8,16 @@ body.bp {
       li {
         font-size: 19px;
         margin-left: -28px;
-        padding: 10px 0;
+        padding: 5px 0;
 
       }
+    }
+  }
+
+  #sidebar {
+    ul li {
+      font-size: 19px;
+      padding: 10px 0;
     }
   }
 }

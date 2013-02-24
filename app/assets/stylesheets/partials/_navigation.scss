@@ -120,6 +120,8 @@ span.inline_nav {
     clear: left;
   }
   ul {
+    list-style: none;
+    margin-left: -5px;
     font-size: 1.2em;
   }
 }

@@ -3,12 +3,14 @@
 - content_for :subnavigation do
   %ul
     %li= link_to "Edit schedule", edit_trip_schedule_path(@trip)
-  %h3 Day Schedule
+  %h3 Day Schedules
   %ul
     - @number_of_days.times do |i|
       - day_num = i + 1
       %li= link_to "Day #{day_num}", trip_schedule_path(@trip, :day => day_num)
-  %h3 Room Schedule
+
+  %br
+  %h3 Room Schedules
   %ul
     - (1..@number_of_rooms).each do |room_number|
       %li= link_to "Room #{room_number}", trip_schedule_path(@trip, :room_number => room_number)
