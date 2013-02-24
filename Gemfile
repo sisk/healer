@@ -14,7 +14,7 @@ gem "declarative_authorization", "0.5.3"
 gem "formtastic", "~> 2.2.1"
 # gem "validation_reflection"
 gem "carmen", :git => "http://github.com/grobie/carmen.git"
-gem "paperclip", "3.4.0"
+gem "paperclip"
 gem "test-unit"
 gem "inherited_resources", "~> 1.3.1"
 gem "will_paginate", "~> 3.0.3"
@@ -26,6 +26,7 @@ gem "rake"
 gem "remotipart"
 gem "google_drive"
 gem "highline"
+gem "puma"
 
 group :development, :test do
   gem "test_notifier", :require => false
