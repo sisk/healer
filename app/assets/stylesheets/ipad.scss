@@ -20,6 +20,22 @@ body.bp {
   }
 }
 
+form.easy {
+  select, input {
+    font-size: 25px;
+  }
+}
+
+form.trip_list {
+  select, input {
+    font-size: 18px;
+  }
+}
+
+#head .trip_nav ul li {
+  font-size: 19px;
+}
+
 .xray.preview {
   & > .nav {
     position: absolute;
