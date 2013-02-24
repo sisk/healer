@@ -6,7 +6,7 @@
   = f.submit "Add User"
 
 %h2 Trip users
-- parent.users.each do |user|
+- @existing_users.each do |user|
   .user
     %p
       = user

@@ -7,7 +7,8 @@ class TripUsersController < ApplicationController
   before_filter :authenticate_user!
   
   def index
-    @available_users = User.all - parent.users
+    @existing_users = parent.users.sort_by(&:to_s)
+    @available_users = (User.all - @existing_users).sort_by(&:to_s)
   end
   
   def create
