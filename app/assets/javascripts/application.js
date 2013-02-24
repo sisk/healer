@@ -97,7 +97,7 @@ jQuery(function ($) {
       } else {
         $(this).parent().addClass("collapsed");
       }
-      $(this).siblings(".supplement").slideToggle("fast");
+      $(this).siblings(".supplement").toggle();
     });
     return this;
   }
