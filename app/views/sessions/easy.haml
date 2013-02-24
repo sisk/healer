@@ -1,6 +1,7 @@
 - content_for :title do
   Log in
 
-= form_tag(easy_session_create_path, {:method => :post}) do
-  = select_tag :user_id, options_for_select(@users.map{ |u| [u, u.id] })
+= form_tag(easy_session_create_path, {:method => :post, :class => "easy"}) do
+  - login_users = ([User.find_by_email("marittermd@mindspring.com")] + @users).map{ |u| [u, u.id] }
+  = select_tag :user_id, options_for_select(login_users)
   = submit_tag "Go"
