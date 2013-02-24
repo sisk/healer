@@ -63,12 +63,16 @@ table.schedule {
       border-bottom: solid 1px $underline-color;
       &:last-child { border-bottom: none; }
       padding-bottom: 3px;
-      .record_id {
-        font-weight: bold;
-        font-size: 1.3em;
-        line-height: 1em;
+      .identifier {
         @include float-left;
         margin-right: 5px;
+        .record_id {
+          font-weight: bold;
+          font-size: 1.3em;
+          line-height: 1em;
+        }
+        .other_id {
+        }
       }
       .description {
         padding-left: 30px;
