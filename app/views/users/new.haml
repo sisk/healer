@@ -21,3 +21,7 @@
     = f.input :language, :as => :select, :collection => User::languages.invert
   = f.actions do
     = f.action :submit
+
+- content_for :script do
+  :javascript
+    $('#user_name_first').focus();

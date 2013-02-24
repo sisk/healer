@@ -3,7 +3,8 @@
 
 = form_for :user, :url => trip_users_path(parent) do |f|
   = f.select :user_id, @available_users.map{ |u| [u.to_s, u.id] }, :include_blank => true
-  = f.submit "Add User"
+  = f.submit "Add to trip"
+  = link_to "Create new user", new_user_path
 
 %h2 Trip users
 - @existing_users.each do |user|
