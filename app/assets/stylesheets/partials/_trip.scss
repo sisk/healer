@@ -7,7 +7,7 @@
   }
 }
 
-table.summary_report {
+table.summary_report, table.details_report {
   width: 100%;
   p { margin-bottom: 0.5em !important; }
   margin-bottom: 1.5em;
@@ -31,5 +31,13 @@ table.summary_report {
         }
       }
     }
+  }
+}
+
+table.details_report {
+  td {
+    padding: 10px 0;
+    border-bottom: solid 1px #CCC;
+    vertical-align: top;
   }
 }

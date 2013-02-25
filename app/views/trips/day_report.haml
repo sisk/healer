@@ -53,3 +53,38 @@
               %li
                 = body_part.pluralize
                 %span= count
+
+
+%h2 Details
+%table.details_report{cellpadding: 15}
+  %thead
+    %th Patient
+    %th Case
+    %th Procedure
+    %th Surgeon
+    %th Ambulatory Orders
+
+  %tbody
+    - @trip.case_groups.day(@day_num).each do |cg|
+      %tr
+        %td{ :valign => :top }
+          %strong
+            = cg.patient
+        %td{ :valign => :top }= cg.to_s
+
+        %td{ :valign => :top }
+          - cg.operations.each do |operation|
+            - if operation.procedure.present?
+              == #{operation.procedure} - #{operation.body_part}<br>
+
+        %td{ :valign => :top }
+          - cg.operations.each do |operation|
+            == #{operation.primary_surgeon.name_first[0]}. #{operation.primary_surgeon.name_last} - #{operation.body_part}<br>
+
+        - orders = cg.operations.collect(&:ambulatory_order).uniq
+        - if orders.size < 2
+          %td{ :valign => :top }= orders.first
+        - else
+          %td{ :valign => :top }
+            -  cg.operations.each do |operation|
+              == #{operation.ambulatory_order} - #{operation.body_part}<br>
