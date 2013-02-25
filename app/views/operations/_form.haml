@@ -1,6 +1,6 @@
 - ajax = defined?(remote) ? remote : false
 - if ajax
-  %h2 Edit Procedure
+  %h2 Operation
 = semantic_form_for [@operation.patient_case, @operation], :url => case_operation_path(@operation.patient_case), :remote => ajax do |f|
   = f.semantic_errors
   .column-2
