@@ -32,11 +32,6 @@
             = "Room #{room_number}"
             %span.fake_link.toggle
               = link_to_function "hide", "$('#show_room_#{room_number}').removeClass('hide'); $('#schedule').find('.room_#{room_number}').addClass('hide'); toggleScroller();"
-        - if request_ipad?
-          %tr.scroller
-            %td{ :colspan => "#{@trip.case_groups.size + 1}" }
-              .horizontal_scroller.hide
-                %p [Use two fingers here to scroll left and right]
       %tbody
         - @number_of_days.times do |i|
           - day_num = i + 1
