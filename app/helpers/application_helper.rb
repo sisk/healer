@@ -6,4 +6,8 @@ module ApplicationHelper
   def request_ipad?
     request.user_agent.match(/iPad/)
   end
+
+  def request_iphone?
+    request.user_agent.match(/iPhone/)
+  end
 end

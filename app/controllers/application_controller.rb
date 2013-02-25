@@ -37,6 +37,10 @@ class ApplicationController < ActionController::Base
     request.user_agent.match(/iPad/)
   end
 
+  def request_iphone?
+    request.user_agent.match(/iPhone/)
+  end
+
   protected
 
   def permission_denied

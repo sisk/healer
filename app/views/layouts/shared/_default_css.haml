@@ -4,5 +4,5 @@
 = stylesheet_link_tag "screen.css"
 /[if lt IE 8]
   = stylesheet_link_tag "ie.css"
-- if request_ipad?
+- if request_ipad? && request_iphone?
   = stylesheet_link_tag "ipad.css"
