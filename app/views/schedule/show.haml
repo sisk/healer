@@ -26,7 +26,7 @@
 
   %table.schedule#show_schedule
     %thead
-      %th
+      %th Day
       - (1..@number_of_rooms).each do |room_number|
         %th{ :id => "room_#{room_number}_header", :class => "room_#{room_number}" }
           %p
@@ -38,7 +38,7 @@
         - day_num = i + 1
         %tr.day
           %td.indicator
-            %p.day_num= "Day #{day_num}"
+            %p.day_num= "#{day_num}"
           - (1..@number_of_rooms).each do |room_number|
             - case_groups = @trip.case_groups.room(room_number).day(day_num)
             %td{ :class => "day_#{day_num} room_#{room_number}" }

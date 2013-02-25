@@ -27,7 +27,7 @@ class TripsController < ApplicationController
     update! { trips_path }
   end
 
-  def reports
+  def summary_report
     @trip = Trip.find(params[:id])
     @report = {}
     @trip.number_of_operation_days.times do |i|
@@ -35,6 +35,13 @@ class TripsController < ApplicationController
       @report["Day #{day_num}"] = report_hash(@trip, day_num)
     end
     @report[:totals] = report_hash(@trip)
+  end
+
+  def day_report
+    @trip = Trip.find(params[:id])
+    @report = {}
+    @day_num = params[:day]
+    @report["Day #{@day_num}"] = report_hash(@trip, @day_num)
   end
 
   def current

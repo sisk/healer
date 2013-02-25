@@ -29,7 +29,8 @@ Healer::Application.routes.draw do
       get :current
     end
     member do
-      get :reports
+      get :summary_report
+      get :day_report
     end
     resources :users, :controller => :trip_users
     resources :cases, :controller => :patient_cases do

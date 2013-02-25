@@ -1,0 +1,55 @@
+- content_for :title do
+  = "Day #{@day_num} Report"
+- content_for :subnavigation do
+  %ul
+    %li= link_to "Schedule", trip_schedule_path(@trip)
+    %li= link_to "Patients", trip_patients_path(@trip)
+    %li= link_to "Summary Report", summary_report_trip_path(@trip)
+    %li= link_to "Edit trip details", edit_trip_path(@trip)
+
+- if @surgeon
+  %h2= @surgeon
+
+%h2 Summary
+%table.summary_report
+  %tbody
+    %tr
+      %td{ :valign => :top }
+        %h3 Patients
+        %ul
+          %li
+            Female
+            %span= @report["Day #{@day_num}"]["Total Female"]
+          %li
+            Male
+            %span= @report["Day #{@day_num}"]["Total Male"]
+          %li.subtotal
+            Total Patients
+            %span.subtotal= @report["Day #{@day_num}"]["Total Patients"]
+      %td{ :valign => :top }
+        %h3 All Cases
+        %ul
+          - @report["Day #{@day_num}"][:surgeries][:individual].each do |body_part, count|
+            - if count > 0
+              %li
+                = body_part.pluralize
+                %span= count
+          %li.subtotal
+            Total Cases
+            %span.subtotal= @report["Day #{@day_num}"][:surgeries][:total_cases]
+      %td{ :valign => :top }
+        %h3 Bilaterals
+        %ul
+          - @report["Day #{@day_num}"][:surgeries][:bilateral].each do |body_part, count|
+            - if count > 0
+              %li
+                = body_part.pluralize
+                %span= count
+      %td{ :valign => :top }
+        %h3 Revision Cases
+        %ul
+          - @report["Day #{@day_num}"][:surgeries][:revision].each do |body_part, count|
+            - if count > 0
+              %li
+                = body_part.pluralize
+                %span= count

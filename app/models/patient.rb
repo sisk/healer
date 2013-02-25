@@ -86,7 +86,7 @@ class Patient < ActiveRecord::Base
     if options[:last_first].present? && options[:last_first]
       str << [name_last, name_first].join(", ")
     else
-      str << [name_first, name_last].join(" ")
+      str << [name_first, name_middle, name_last].join(" ")
     end
     return str
   end

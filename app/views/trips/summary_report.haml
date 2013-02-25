@@ -12,35 +12,36 @@
 %table.summary_report
   %tbody
     - @trip.number_of_operation_days.times do |i|
+      - day_num = i + 1
       %tr
-        %td.title{ :valign => :top }= "Day #{i + 1}"
+        %td.title{ :valign => :top }= link_to "Day #{day_num}", day_report_trip_path(@trip, :day => day_num)
         %td{ :valign => :top }
           %h3 Patients
           %ul
             %li
               Female
-              %span= @report["Day #{i + 1}"]["Total Female"]
+              %span= @report["Day #{day_num}"]["Total Female"]
             %li
               Male
-              %span= @report["Day #{i + 1}"]["Total Male"]
+              %span= @report["Day #{day_num}"]["Total Male"]
             %li.subtotal
               Total Patients
-              %span.subtotal= @report["Day #{i + 1}"]["Total Patients"]
+              %span.subtotal= @report["Day #{day_num}"]["Total Patients"]
         %td{ :valign => :top }
           %h3 All Cases
           %ul
-            - @report["Day #{i + 1}"][:surgeries][:individual].each do |body_part, count|
+            - @report["Day #{day_num}"][:surgeries][:individual].each do |body_part, count|
               - if count > 0
                 %li
                   = body_part.pluralize
                   %span= count
             %li.subtotal
               Total Cases
-              %span.subtotal= @report["Day #{i + 1}"][:surgeries][:total_cases]
+              %span.subtotal= @report["Day #{day_num}"][:surgeries][:total_cases]
         %td{ :valign => :top }
           %h3 Bilaterals
           %ul
-            - @report["Day #{i + 1}"][:surgeries][:bilateral].each do |body_part, count|
+            - @report["Day #{day_num}"][:surgeries][:bilateral].each do |body_part, count|
               - if count > 0
                 %li
                   = body_part.pluralize
@@ -48,7 +49,7 @@
         %td{ :valign => :top }
           %h3 Revision Cases
           %ul
-            - @report["Day #{i + 1}"][:surgeries][:revision].each do |body_part, count|
+            - @report["Day #{day_num}"][:surgeries][:revision].each do |body_part, count|
               - if count > 0
                 %li
                   = body_part.pluralize

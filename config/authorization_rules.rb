@@ -7,17 +7,17 @@ authorization do
   end
   role :superuser do
     has_permission_on [:trips, :facilities, :rooms, :users, :patients, :body_parts, :diseases, :risks, :risk_factors, :patient_cases, :implants, :operations, :procedures, :xrays, :adverse_events], :to => :everything
-    has_permission_on [:trips], :to => [:users, :new_user, :reports]
+    has_permission_on [:trips], :to => [:users, :new_user, :summary_report, :day_report]
     has_permission_on :patient_cases, :to => [:authorize, :deauthorize, :unschedule, :review, :waiting, :bulk]
     has_permission_on [:diseases, :procedures, :risks, :rooms], :to => [:sort]
   end
   role :admin do
     has_permission_on [:patients, :diseases, :risks, :risk_factors, :patient_cases, :implants, :operations, :adverse_events, :xrays], :to => :everything
-    has_permission_on [:trips], :to => [:view_only, :reports, :current]
+    has_permission_on [:trips], :to => [:view_only, :summary_report, :day_report, :current]
     has_permission_on [:patient_cases], :to => [:authorize, :deauthorize, :unschedule, :review, :waiting, :bulk]
   end
   role :nurse do
-    has_permission_on [:trips], :to => [:view_only, :reports]
+    has_permission_on [:trips], :to => [:view_only, :summary_report, :day_report, :current]
     has_permission_on [:patients], :to => [:rest] do
       has_permission_on :risk_factors, :to => :everything
     end
