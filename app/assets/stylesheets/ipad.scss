@@ -18,6 +18,16 @@ body.bp {
       padding: 10px 0;
     }
   }
+
+  .trip .schedule ul {
+    list-style: none;
+
+    li {
+      font-size: 19px;
+      padding: 10px 0;
+
+    }
+  }
 }
 
 form.easy {
@@ -28,7 +38,7 @@ form.easy {
 
 form.trip_list {
   select, input {
-    font-size: 18px;
+    font-size: 15px;
   }
 }
 
