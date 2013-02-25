@@ -6,7 +6,7 @@ class Operation < ActiveRecord::Base
     { 0 => "Routine", 1 => "Moderate", 2 => "Severe" }
   end
   def self.ambulatory_orders
-    ["Weight Bearing as Tolerated","Non-Weight Bearing","Partial Weight Bearing"]
+    ["Weight Bearing as Tolerated","Non-Weight Bearing","Partial Weight Bearing","Heel Weight Bearing"]
   end
   def self.anesthsia_types
     ["spinal","general","local"]
