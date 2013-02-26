@@ -23,6 +23,8 @@
     %li.header Show:
     - (1..@number_of_rooms).each do |room_number|
       %li.hide{ :id => "show_room_#{room_number}" }= link_to_function "Room #{room_number}", "$('#show_schedule').find('.room_#{room_number}').removeClass('hide'); $(this).closest('li').addClass('hide');"
+    - (1..@number_of_days).each do |day_number|
+      %li.hide{ :id => "show_day_#{day_number}" }= link_to_function "Day #{day_number}", "$('#show_schedule').find('.day_#{day_number}').removeClass('hide'); $(this).closest('li').addClass('hide');"
 
   %table.schedule#show_schedule
     %thead
@@ -36,11 +38,11 @@
     %tbody
       - @number_of_days.times do |i|
         - day_num = i + 1
-        %tr.day{class: "day-#{day_num}"}
+        %tr.day{class: "day_#{day_num}"}
           %td.indicator
             %p.day_num= "#{day_num}"
             %span.fake_link.toggle.noprint
-              = link_to_function "hide", "$('#show_day_#{day_num}').removeClass('hide'); $('#show_schedule').find('.day-#{day_num}').addClass('hide');"
+              = link_to_function "hide", "$('#show_day_#{day_num}').removeClass('hide'); $('#show_schedule').find('.day_#{day_num}').addClass('hide');"
 
           - (1..@number_of_rooms).each do |room_number|
             - case_groups = @trip.case_groups.room(room_number).day(day_num)
