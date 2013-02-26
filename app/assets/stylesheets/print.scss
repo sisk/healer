@@ -1,5 +1,6 @@
 @import "blueprint/print";
 @import "constants/colors";
+@import "compass/utilities/general/clearfix";
 
 // To generate css equivalent to the blueprint css but with your configuration applied, uncomment:
 // +blueprint-print
@@ -68,7 +69,12 @@ table {
           li {
             margin-bottom: 5pt;
           }
+
           .case_group {
+            clear:both;
+            padding-bottom: 10px;
+            @include clearfix;
+
             .patient {
               border-bottom: solid 1px $underline-color;
               &:last-child { border-bottom: none; }
@@ -86,7 +92,9 @@ table {
                 }
               }
               .description {
-                padding-left: 16pt;
+                @include float-right;
+                width: 75px;
+                padding-left: 0;
               }
             }
           }

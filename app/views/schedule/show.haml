@@ -36,9 +36,12 @@
     %tbody
       - @number_of_days.times do |i|
         - day_num = i + 1
-        %tr.day
+        %tr.day{class: "day-#{day_num}"}
           %td.indicator
             %p.day_num= "#{day_num}"
+            %span.fake_link.toggle.noprint
+              = link_to_function "hide", "$('#show_day_#{day_num}').removeClass('hide'); $('#show_schedule').find('.day-#{day_num}').addClass('hide');"
+
           - (1..@number_of_rooms).each do |room_number|
             - case_groups = @trip.case_groups.room(room_number).day(day_num)
             %td{ :class => "day_#{day_num} room_#{room_number}" }
