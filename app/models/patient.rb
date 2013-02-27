@@ -3,7 +3,7 @@ class Patient < ActiveRecord::Base
   PHOTO_DIR = (Rails.env == "development") ? "_development/patients/:attachment/:id/:style.:extension" : "patients/:attachment/:id/:style.:extension"
 
   attr_accessor :weight_unit, :height_unit
-  before_save :set_weight, :set_height
+  before_save :set_weight, :set_height, :set_name_full
 
   validates_presence_of :name_first, :message => "can't be blank"
   validates_presence_of :name_last, :message => "can't be blank"
@@ -34,16 +34,11 @@ class Patient < ActiveRecord::Base
 
   scope :no_patient_cases, :conditions => ["patients.id NOT IN (SELECT patient_id FROM patient_cases)"]
 
-  scope :search, Proc.new { |term|
-    query = term.strip.gsub(',', '')
-    first_last = query.split(" ")
-    if query.present?
-      if first_last.size == 2
-        { :conditions => ["patients.name_first like ? and patients.name_last like ?","%#{first_last[0]}%","%#{first_last[1]}%" ] }
-      else
-        query = query.gsub(/[^\w@\.]/x,'')
-        { :conditions => ["patients.name_last like ? or patients.name_first like ?","%#{query}%","%#{query}%" ] }
-      end
+  scope :search, Proc.new { |query|
+    if connection_config[:adapter] == "postgresql"
+      { :conditions => ["patients.name_full ILIKE ?", "%#{query}%"] }
+    else
+      { :conditions => ["patients.name_full like ?", "%#{query}%"] }
     end
   }
 
@@ -86,7 +81,7 @@ class Patient < ActiveRecord::Base
     if options[:last_first].present? && options[:last_first]
       str << [name_last, name_first].join(", ")
     else
-      str << [name_first, name_middle, name_last].join(" ")
+      str << [name_first.strip, name_middle.strip, name_last.strip].reject{ |e| e.empty? }.join(" ")
     end
     return str
   end
@@ -137,6 +132,10 @@ class Patient < ActiveRecord::Base
 
   def set_height
     self.height_cm = to_cm(self.height_cm) if self.height_unit == "inches"
+  end
+
+  def set_full_name
+    self.name_full = "#{self.name_first} #{self.name_middle} #{self.name_last}"
   end
 
   def to_kg(pounds)
