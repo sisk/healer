@@ -34,11 +34,14 @@ Healer::Application.configure do
     screen.css
     ie.css
     ipad.css
+    patient_certificate.css
   )
 
   config.assets.manifest = Rails.root.join("public/assets")
   
   config.assets.debug = true
+
+  # config.action_mailer.perform_deliveries = false
 
   # Defaults to nil and saved in location specified by config.assets.prefix
   # config.assets.manifest = YOUR_PATH
