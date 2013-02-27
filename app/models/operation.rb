@@ -1,6 +1,6 @@
 class Operation < ActiveRecord::Base
   def self.approaches
-    ["Anterior","Lateral","Medial","Posterior","Dorsal","Planter","Lateral Transfibular","Transtrochanteric"]
+    ["Anterior","Lateral","Medial","Posterior","Dorsal","Planter","Lateral Transfibular","Transtrochanteric","Tibial Tubercal Osteotomy"]
   end
   def self.difficulty_table
     { 0 => "Routine", 1 => "Moderate", 2 => "Severe" }
@@ -12,7 +12,7 @@ class Operation < ActiveRecord::Base
     ["spinal","general","local"]
   end
   def self.peripheral_nerve_block_types
-    ["femoral", "sciatic", "sciatic/femoral", "popliteal", "ankle", "local", "none"]
+    ["femoral", "sciatic", "sciatic/femoral", "popliteal", "ankle", "local", "ExParel", "none"]
   end
 
   default_scope order(:date)
