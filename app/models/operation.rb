@@ -1,11 +1,11 @@
 class Operation < ActiveRecord::Base
 
   def self.approaches
-    ["Anterior","Lateral","Medial","Posterior","Dorsal","Planter","Lateral Transfibular","Transtrochanteric","Tibial Tubercal Osteotomy"]
+    ["Anterior","Lateral","Medial","Posterior","Dorsal","Planter","Lateral Transfibular","Transtrochanteric"]
   end
 
   def self.osteotomy_options
-    ["None","Trochanteric","Sub-trochanteric"]
+    ["None","Trochanteric","Sub-trochanteric","Tibial Tubercal Osteotomy"]
   end
 
   def self.difficulty_table

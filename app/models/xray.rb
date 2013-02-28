@@ -14,6 +14,7 @@ class Xray < ActiveRecord::Base
   has_attached_file :photo,
     :styles => {
       :original => "50000x50000>",
+      :large => "2000x2000>",
       :tiny=> "60x60#",
       :thumb=> "100x100#",
       :small  => "200x200>" },

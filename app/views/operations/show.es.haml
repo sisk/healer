@@ -30,11 +30,11 @@
   - if resource.patient_case.diagnosis_display_xray.present?
     .before
       %h3 Antes
-      .xray= image_tag(resource.patient_case.diagnosis_display_xray.photo.url(:original))
+      .xray= image_tag(resource.patient_case.diagnosis_display_xray.photo.url(:large))
   - if resource.display_xray.present?
     .after
       %h3 Despues
-      .xray= image_tag(resource.display_xray.photo.url(:original))
+      .xray= image_tag(resource.display_xray.photo.url(:large))
 
 - content_for :sponsor_org do
   -# TODO move this stuff to a presenter class
