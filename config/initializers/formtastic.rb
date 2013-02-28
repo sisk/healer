@@ -55,7 +55,7 @@
 
 class DatepickerInput < Formtastic::Inputs::StringInput
   def input_html_options
-    unless object.nil?
+    unless object.nil? || object.send(method).nil?
       value = I18n.l(object.send(method))
     else
       value =""
