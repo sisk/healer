@@ -34,7 +34,7 @@ class Patient < ActiveRecord::Base
 
   scope :no_patient_cases, :conditions => ["patients.id NOT IN (SELECT patient_id FROM patient_cases)"]
 
-  scope :search, Proc.new { |query|
+  scope :name_full_like, Proc.new { |query|
     if connection_config[:adapter] == "postgresql"
       { :conditions => ["patients.name_full ILIKE ?", "%#{query}%"] }
     else
@@ -70,6 +70,18 @@ class Patient < ActiveRecord::Base
     :bucket => ENV['S3_BUCKET'],
     :path => ENV['S3_BUCKET'].present? ? PHOTO_DIR : ":rails_root/public/system/#{PHOTO_DIR}",
     :url => ENV['S3_BUCKET'].present? ? PHOTO_DIR : "/system/#{PHOTO_DIR}"
+
+  def self.search(query)
+    query_items = query.split(" ")
+
+    current_scope = name_full_like(query_items.shift)
+
+    query_items.each do |item|
+      current_scope = current_scope.name_full_like(item)
+    end
+
+    current_scope
+  end
 
   def to_s(*args)
     name(args.extract_options!)

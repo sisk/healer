@@ -330,8 +330,11 @@ form.patient {
   margin: 0 0 25px;
 }
 
-.add_adverse_event {
-  @include float-left;
+body.bp {
+  .add_adverse_event {
+    @include float-left;
+    margin: 0 10px 0 0;
+  }
 }
 
 

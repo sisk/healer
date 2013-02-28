@@ -1,5 +1,5 @@
 class TripPatientsController < ApplicationController
-  require 'will_paginate/array' 
+  require 'will_paginate/array'
 
   inherit_resources
   defaults :resource_class => Patient, :collection_name => 'patients', :instance_name => 'patient'
@@ -34,11 +34,18 @@ class TripPatientsController < ApplicationController
   end
 
   def collection
-    if params[:patient_id]
-      subset = end_of_association_chain.find_all_by_id(params[:patient_id])
-    end
-    if params[:authorized_status] || params[:body_parts]
-      subset = end_of_association_chain
+    if params[:authorized_status] || params[:body_parts] || params[:search]
+      if params[:search]
+        begin
+          patient_id = Integer(params[:search])
+          subset = end_of_association_chain.find_all_by_id(patient_id)
+        rescue ArgumentError
+          subset = end_of_association_chain.search(params[:search])
+        end
+      else
+        subset = end_of_association_chain
+      end
+
       case params[:authorized_status]
       when "authorized"
         subset = subset.authorized

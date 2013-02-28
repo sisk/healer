@@ -10,7 +10,6 @@ class AdverseEventsController < ApplicationController
   belongs_to :patient
 
   def new
-    #@patient = Patient.find(params[:patient_id])
     new! do |format|
       format.html
       format.js { render :template => "adverse_events/new.js.erb", :layout => nil }

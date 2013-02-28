@@ -3,8 +3,12 @@
 .image= patient_image(patient, :small)
 .section.extra
   - if permitted_to?(:edit, patient)
-    %p.add_adverse_event= link_to "Log adverse event", new_patient_adverse_event_path(patient), :remote => true
-    %p.edit= link_to("Edit record", edit_patient_path(patient), :remote => true)
+    %p.add_adverse_event
+      = link_to "Log adverse event", new_patient_adverse_event_path(patient), :remote => true
+      - if patient.adverse_events.count > 0
+        %br
+        = link_to "(#{pluralize(patient.adverse_events.count, "event")})", patient_adverse_events_path(patient)
+  %p.edit= link_to("Edit record", edit_patient_path(patient), :remote => true)
   - if patient.has_medical_detail?
     .medical_history.supplemental
       %p.fake_link.toggle= "Medical history"

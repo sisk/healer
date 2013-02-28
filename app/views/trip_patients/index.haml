@@ -2,14 +2,10 @@
   Patients
 - content_for :sidebar_utility do
   #case_filter
-    .section.record_jump
-      %p.all= link_to("Browse all patients", request.path)
-      - unless params[:patient_id]
-        = form_tag(trip_patients_path(@trip), {:method => :get}) do
-          = select_tag :patient_id, options_for_select([["Go to patient...",nil]] + @all_patients.map{ |patient| ["#{patient.id} - #{patient}", patient.id] })
     .section.body_part
       %h4 Filter
       = form_tag(trip_patients_path(@trip), {:method => :get}) do
+        = text_field_tag :search
         = select_tag :authorized_status, options_for_select([["All cases","all"],["Authorized cases","authorized"],["Waiting cases","unauthorized"]], :selected => (params[:authorized_status] || "all"))
         - @body_parts_names.each do |body_part_name|
           .criterion
@@ -24,7 +20,10 @@
 
 .record_list.patient_list
   .records
-    = render :partial => "patient", :collection => @paginated_patients, :as => :patient, :locals => { :trip => @trip }
+    - if @paginated_patients.size > 0
+      = render :partial => "patient", :collection => @paginated_patients, :as => :patient, :locals => { :trip => @trip }
+    - else
+      %p No results found.
   = will_paginate(@paginated_patients)
 
 - content_for :script do
