@@ -134,7 +134,7 @@ class Patient < ActiveRecord::Base
     self.height_cm = to_cm(self.height_cm) if self.height_unit == "inches"
   end
 
-  def set_full_name
+  def set_name_full
     self.name_full = "#{self.name_first} #{self.name_middle} #{self.name_last}"
   end
 
