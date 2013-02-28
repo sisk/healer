@@ -23,6 +23,13 @@ h1 {
   font-size: 16pt;
   line-height: 16pt;
 }
+
+h2 {
+  font-size: 14pt;
+  line-height: 14pt;
+  margin-bottom: 5pt;
+}
+
 table {
   border-spacing: 0;
   thead {
@@ -79,14 +86,14 @@ table {
               border-bottom: solid 1px $underline-color;
               &:last-child { border-bottom: none; }
               padding-bottom: 7pt;
-              font-size: 10pt;
-              line-height: 10pt;
+              font-size: 9pt;
+              line-height: 9pt;
               .identifier {
                 @include float-left;
                 margin-right: 5pt;
                 .record_id {
                   font-weight: bold;
-                  font-size: 12pt;
+                  font-size: 10pt;
                 }
                 .other_id {
                 }
@@ -127,5 +134,13 @@ table.summary_report {
         }
       }
     }
+  }
+}
+
+table.details_report {
+  td {
+    padding: 0.2em;
+    font-size: 0.8em;
+    border-bottom: solid 1px #888;
   }
 }
