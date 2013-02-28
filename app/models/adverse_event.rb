@@ -13,7 +13,9 @@ class AdverseEvent < ActiveRecord::Base
       "Infection",
       "Dislocation",
       "Fracture",
-      "Non-Union and Loose",
+      "Non-Union",
+      "Loose",
+      "Peripheral Nerve Palsy",
       "Other"
     ]
   end
