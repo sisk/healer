@@ -1,6 +1,6 @@
 class AdverseEventsController < ApplicationController
   inherit_resources
-  
+
   respond_to :html, :xml, :json
 
   before_filter :authenticate_user!
@@ -11,6 +11,21 @@ class AdverseEventsController < ApplicationController
 
   def create
     create! { patient_adverse_events_path(parent) }
+  end
+
+  def destroy
+    patient = Patient.find(params[:patient_id])
+    @adverse_event = AdverseEvent.find(params[:id])
+
+    if @adverse_event.destroy
+      respond_to do |format|
+        format.html { redirect_to patient_adverse_events_path(patient), :notice => "Event deleted." }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to patient_adverse_events_path(patient), :notice => "Event could not be deleted." }
+      end
+    end
   end
 
   private #####################################################################
@@ -26,25 +41,5 @@ class AdverseEventsController < ApplicationController
      @adverse_event.case_id ||= params[:case_id]
      @adverse_event
   end
-
-  # def create
-  #   create! { patient_path(@patient) }
-  # end
-  # def update
-  #   update! { patient_path(@patient) }
-  # end
-  # def destroy
-  #   respond_to do |wants|
-  #     wants.html do
-  #       destroy! { edit_patient_path(@patient) }
-  #     end
-  #     wants.js do
-  #       destroy! do
-  #         render :nothing => true
-  #         return
-  #       end
-  #     end
-  #   end
-  # end
 
 end
