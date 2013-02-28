@@ -1,9 +1,10 @@
 = semantic_form_for [@patient, @adverse_event] do |f|
   = f.inputs do
     = f.input :patient_id, :as => :hidden
-    = f.input :case_id, :as => :hidden
     = f.input :entered_by_id, :as => :hidden
-    = f.input :reason, :label => 'Reason'
-    = f.input :note, :label => 'Note'
+    = f.input :event_type, :as => :select, :label => "Event Type", :collection => AdverseEvent.event_types
+    = f.input :date_of_occurrence, :as => :datepicker, :label => "Date of Occurrence"
+    = f.input :case_id, :as => :select, :label => "Relevant Case", :collection => @patient.patient_cases
+    = f.input :note, :label => "Notes"
   = f.actions do
     = f.action :submit
