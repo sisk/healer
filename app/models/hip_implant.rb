@@ -18,6 +18,11 @@ class HipImplant < Implant
     # TODO migration to fix biometric to bimetric
     ["bimetric","calcar","taperloc","ranawat socket"]
   end
+
+  def self.surface_options
+    ["Polyethylene","Ceramic","Metal"]
+  end
+
   def self.desired_attributes
     [:femur_diameter, :femur_length, :acetabulum_size, :femur_head_size, :neck_length, :prosthesis_type]
   end

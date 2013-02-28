@@ -6,6 +6,7 @@
   .column-2
     = f.inputs :name => "Procedure Details" do
       = f.input :approach, :as => :select, :label => 'Approach', :collection => Operation::approaches
+      = f.input :osteotomy, :as => :select, :label => 'Osteotomy', :collection => Operation::osteotomy_options
       = f.input :difficulty, :as => :radio, :label => "Difficulty", :collection => Operation::difficulty_table.invert
       = f.input :graft, :label => 'Graft'
       = f.input :anesthesia_type, :as => :select, :label => 'Anesthesia', :collection => Operation::anesthsia_types
