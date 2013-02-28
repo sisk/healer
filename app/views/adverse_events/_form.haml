@@ -1,4 +1,7 @@
-= semantic_form_for [@patient, @adverse_event] do |f|
+- ajax = defined?(remote) ? remote : false
+- if ajax
+  %h2 Adverse Event
+= semantic_form_for [@patient, @adverse_event], :remote => ajax do |f|
   = f.inputs do
     = f.input :patient_id, :as => :hidden
     = f.input :entered_by_id, :as => :hidden

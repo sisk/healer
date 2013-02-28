@@ -1,0 +1,4 @@
+$('#modal').html('<%= escape_javascript(render :partial => "adverse_events/form", :as => :adverse_event, :object => @adverse_event, :locals => {:remote => true}) %>');
+$("#modal").dialog('open');
+$("#modal").dialog('option', 'resizable', false);
+$('input.ui-datepicker').datepicker({ dateFormat: 'yy-mm-dd' });

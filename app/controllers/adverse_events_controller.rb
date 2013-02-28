@@ -9,8 +9,19 @@ class AdverseEventsController < ApplicationController
 
   belongs_to :patient
 
+  def new
+    #@patient = Patient.find(params[:patient_id])
+    new! do |format|
+      format.html
+      format.js { render :template => "adverse_events/new.js.erb", :layout => nil }
+    end
+  end
+
   def create
-    create! { patient_adverse_events_path(parent) }
+    create! do |format|
+      format.html { patient_adverse_events_path(parent) }
+      format.js { render :template => "adverse_events/create.js.erb", :layout => nil }
+    end
   end
 
   def destroy

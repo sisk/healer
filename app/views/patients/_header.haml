@@ -3,6 +3,7 @@
 .image= patient_image(patient, :small)
 .section.extra
   - if permitted_to?(:edit, patient)
+    %p.add_adverse_event= link_to "Log adverse event", new_patient_adverse_event_path(patient), :remote => true
     %p.edit= link_to("Edit record", edit_patient_path(patient), :remote => true)
   - if patient.has_medical_detail?
     .medical_history.supplemental
