@@ -4,7 +4,7 @@
     = f.input :entered_by_id, :as => :hidden
     = f.input :event_type, :as => :select, :label => "Event Type", :collection => AdverseEvent.event_types
     = f.input :date_of_occurrence, :as => :datepicker, :label => "Date of Occurrence"
-    = f.input :case_id, :as => :select, :label => "Relevant Case", :collection => @patient.patient_cases
+    = f.input :case_id, :as => :select, :label => "Relevant Case", :collection => @patient.patient_cases.select(&:operation).map{|c| ["#{c.body_part} - #{c.operation} - #{c.operation.date}", c.id]}, :nil => false, :prompt => "None"
     = f.input :note, :label => "Notes"
   = f.actions do
     = f.action :submit
