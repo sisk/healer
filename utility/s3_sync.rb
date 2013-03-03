@@ -42,17 +42,31 @@ module Healer
       end
 
       def pull_command_for(asset)
-        command = "s3cmd get #{default_options_for_s3cmd}"
-        command << " s3://healer-production/#{asset}/ public/system/#{asset}"
+        command = "s3cmd #{custom_config_option} get #{default_options_for_s3cmd}"
+        command << " s3://#{s3_bucket}/#{asset}/ public/system/#{asset}"
       end
 
       def push_command_for(asset)
-        command = "s3cmd put #{default_options_for_s3cmd}"
-        command << " public/system/#{asset} s3://healer-production/#{asset}/"
+        command = "s3cmd #{custom_config_option} put #{default_options_for_s3cmd}"
+        command << " public/system/#{asset} s3://#{s3_bucket}/#{asset}/"
       end
 
       def default_options_for_s3cmd
         "--delete-removed --skip-existing --recursive"
+      end
+
+      def custom_config_option
+        if File.exists?(custom_config)
+          "--config=#{custom_config}"
+        end
+      end
+
+      def custom_config
+        "#{ENV["HOME"]}/.s3cfg-healer"
+      end
+
+      def s3_bucket
+        Healer::S3_BUCKET
       end
     end
 
