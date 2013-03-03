@@ -16,6 +16,7 @@ class AdverseEvent < ActiveRecord::Base
       "Non-Union",
       "Loose",
       "Peripheral Nerve Palsy",
+      "Heterotopic Bone",
       "Other"
     ]
   end
