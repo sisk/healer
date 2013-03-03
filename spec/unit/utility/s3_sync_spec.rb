@@ -10,6 +10,8 @@ module Healer::Utility
 
     before do
       S3Sync.any_instance.stub(:system) # neuter for unit test
+      subject.stub(:custom_config).and_return("file-does-not-exist")
+      Healer::S3_BUCKET = "healer-app-test"
     end
 
     context "patients" do
@@ -17,7 +19,7 @@ module Healer::Utility
 
         it "uses s3cmd to pull patient photos" do
           expected_call = "s3cmd get --delete-removed --skip-existing --recursive"
-          expected_call << " s3://healer-production/patients/ public/system/patients"
+          expected_call << " s3://healer-app-test/patients/ public/system/patients"
 
           subject.should_receive(:system).with(expected_call).once
 
@@ -50,7 +52,7 @@ module Healer::Utility
 
         it "uses s3cmd to push patient photos" do
           expected_call = "s3cmd put --delete-removed --skip-existing --recursive"
-          expected_call << " public/system/patients s3://healer-production/patients/"
+          expected_call << " public/system/patients s3://healer-app-test/"
 
           subject.should_receive(:system).with(expected_call)
 
@@ -65,7 +67,7 @@ module Healer::Utility
 
         it "uses s3cmd to pull xray photos" do
           expected_call = "s3cmd get --delete-removed --skip-existing --recursive"
-          expected_call << " s3://healer-production/xrays/ public/system/xrays"
+          expected_call << " s3://healer-app-test/xrays/ public/system/xrays"
 
           subject.should_receive(:system).with(expected_call).once
 
@@ -98,7 +100,7 @@ module Healer::Utility
 
         it "uses s3cmd to push xray photos" do
           expected_call = "s3cmd put --delete-removed --skip-existing --recursive"
-          expected_call << " public/system/xrays s3://healer-production/xrays/"
+          expected_call << " public/system/xrays s3://healer-app-test/"
 
           subject.should_receive(:system).with(expected_call)
 

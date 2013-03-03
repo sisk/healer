@@ -42,13 +42,13 @@ module Healer
       end
 
       def pull_command_for(asset)
-        command = "s3cmd #{custom_config_option} get #{default_options_for_s3cmd}"
+        command = "s3cmd#{custom_config_option} get #{default_options_for_s3cmd}"
         command << " s3://#{s3_bucket}/#{asset}/ public/system/#{asset}"
       end
 
       def push_command_for(asset)
-        command = "s3cmd #{custom_config_option} put #{default_options_for_s3cmd}"
-        command << " public/system/#{asset} s3://#{s3_bucket}/#{asset}/"
+        command = "s3cmd#{custom_config_option} put #{default_options_for_s3cmd}"
+        command << " public/system/#{asset} s3://#{s3_bucket}/"
       end
 
       def default_options_for_s3cmd
@@ -57,7 +57,7 @@ module Healer
 
       def custom_config_option
         if File.exists?(custom_config)
-          "--config=#{custom_config}"
+          " --config=#{custom_config}"
         end
       end
 
