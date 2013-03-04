@@ -1,7 +1,5 @@
 class BodyPart < ActiveRecord::Base
 
-  @@all_body_parts ||= all
-
   validates_presence_of :name_en, :message => "can't be blank"
   belongs_to :mirror, :class_name => "BodyPart", :foreign_key => "mirror_id"
   validates_inclusion_of :side, :in => ["L", "R", ""], :allow_nil => true
@@ -20,10 +18,6 @@ class BodyPart < ActiveRecord::Base
   end
 
   private #####################################################################
-
-  def all_body_parts
-    @@all_body_parts
-  end
 
   def side_es
     return "I" if side.downcase == "l" # izquierda
