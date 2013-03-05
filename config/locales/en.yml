@@ -3,3 +3,4 @@
 
 en:
   hello: "Hello!"
+  page_access_denied: "You do not have permission to access that function."

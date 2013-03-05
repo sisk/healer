@@ -10,11 +10,11 @@
   .xrays
   = render :partial => "xrays/collection", :locals => { :patient_case => patient_case, :xrays => patient_case.xrays.pre_op, :editable => false }
   .nav
-    - if permitted_to? :authorize, patient_case
+    - if permitted_to? :authorize, patient_case.patient
       - if !patient_case.authorized?
         = link_to "Approve", authorize_trip_case_path(patient_case.trip, patient_case), :method => :put, :remote => true
       - else
         = link_to "Return to waiting", deauthorize_trip_case_path(patient_case.trip, patient_case), :method => :put, :remote => true
-    |
+      |
     - if permitted_to? :edit, patient_case
       = link_to "Make Changes", edit_trip_case_path(patient_case.trip,patient_case)

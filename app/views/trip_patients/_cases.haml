@@ -5,9 +5,10 @@
     .header{ :class => "#{"hide" unless case_groups.present?}" }
       %h3 Cases
       .nav
-        %span.fake_link.select_all Select All
-        = select_tag :bulk_action, options_for_select([[""],["Operate together","group"],["Operate separately","ungroup"],["Return to waiting","unapprove"]])
-        = submit_tag "Go"
+        - if permitted_to? :authorize, patient
+          %span.fake_link.select_all Select All
+          = select_tag :bulk_action, options_for_select([[""],["Operate together","group"],["Operate separately","ungroup"],["Return to waiting","unapprove"]])
+          = submit_tag "Go"
     = render :partial => "trip_patients/authorized_case_group", :collection => case_groups, :as => :case_group
 
 .case_list.unauthorized{ :class => "#{unauthorized_cases.size > 1 ? "multiple" : "single"}" }
