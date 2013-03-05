@@ -18,5 +18,4 @@
             = link_to "Add Implant", new_operation_implant_path(operation), :remote => true, :class => :incomplete
       - if permitted_to? :show, operation
         -#%li.show= link_to "Details", case_operation_path(operation.patient_case)
-      - if permitted_to? :edit, operation
-        %li= render :partial => "xrays/collection", :locals => { :operation => operation, :patient_case => operation.patient_case, :xrays => operation.patient_case.xrays.post_op, :editable => true }
+      %li= render :partial => "xrays/collection", :locals => { :operation => operation, :patient_case => operation.patient_case, :xrays => operation.patient_case.xrays.post_op, :editable => true }
