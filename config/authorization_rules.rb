@@ -5,15 +5,16 @@ authorization do
       if_attribute :email => is { user.email }
     end
   end
-  role :authorizer do
-    has_permission_on :patients, :to => :authorize
-  end
   role :standard do
     includes :guest
     has_permission_on [:trips, :patients, :patient_cases, :implants, :operations, :xrays, :adverse_events], :to => [:view_only]
   end
+  role :scheduler do
+    has_permission_on :patients, :to => :authorize
+    has_permission_on :trips, :to => :schedule
+  end
   role :superuser do
-    includes :authorizer
+    includes :scheduler
     has_permission_on [:trips, :facilities, :rooms, :users, :patients, :body_parts, :diseases, :risks, :risk_factors, :patient_cases, :implants, :operations, :procedures, :xrays, :adverse_events], :to => :everything
     has_permission_on [:trips], :to => [:users, :new_user, :summary_report, :day_report]
     has_permission_on :patient_cases, :to => [:authorize, :deauthorize, :unschedule, :review, :waiting, :bulk]
@@ -21,7 +22,7 @@ authorization do
     has_permission_on :users, :to => [:administer]
   end
   role :admin do
-    includes :authorizer
+    includes :scheduler
     has_permission_on [:patients, :diseases, :risks, :risk_factors, :patient_cases, :implants, :operations, :adverse_events, :xrays], :to => :everything
     has_permission_on [:trips], :to => [:view_only, :summary_report, :day_report, :current]
     has_permission_on [:patient_cases], :to => [:authorize, :deauthorize, :unschedule, :review, :waiting, :bulk]
@@ -36,7 +37,6 @@ authorization do
     has_permission_on :adverse_events, :to => [:rest]
   end
   role :doctor do
-    includes :authorizer
     includes :nurse
     has_permission_on :patient_cases, :to => [:authorize, :deauthorize]
   end

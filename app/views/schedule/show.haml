@@ -1,8 +1,9 @@
 - content_for :title do
   = "Schedule"
 - content_for :subnavigation do
-  %ul
-    %li= link_to "Edit schedule", edit_trip_schedule_path(@trip)
+  - if permitted_to? :schedule, @trip
+    %ul
+      %li= link_to "Edit schedule", edit_trip_schedule_path(@trip)
   %h3 Day Schedules
   %ul
     - @number_of_days.times do |i|

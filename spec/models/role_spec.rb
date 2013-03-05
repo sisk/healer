@@ -6,6 +6,6 @@ end
 
 describe Role, ".available" do
   it "returns a symbolized array of the expected values" do
-    Role::available.should == %w(standard admin doctor nurse superuser anesthesiologist liaison).map{ |r| r.to_sym }
+    Role::available.should == [:standard, :doctor, :nurse, :scheduler, :anesthesiologist, :liaison, :admin, :superuser]
   end
 end
