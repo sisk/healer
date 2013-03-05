@@ -1,14 +1,15 @@
 .patient_case{ :id => dom_id(patient_case) }
-  .case_title
-    %p.name
-      = link_to patient_case.title, trip_case_path(patient_case.trip,patient_case)
-    %p.diagnosis
-      = patient_case.disease
-      - if patient_case.severity && patient_case.severity > 0
-        %span.severity{ :class => severity(patient_case).downcase }
-          = "(#{severity(patient_case)})"
-  .xrays
-  = render :partial => "xrays/collection", :locals => { :patient_case => patient_case, :xrays => patient_case.xrays.pre_op, :editable => false }
+  .pre_op
+    .case_title
+      %p.name
+        = link_to patient_case.title, trip_case_path(patient_case.trip,patient_case)
+      %p.diagnosis
+        = patient_case.disease
+        - if patient_case.severity && patient_case.severity > 0
+          %span.severity{ :class => severity(patient_case).downcase }
+            = "(#{severity(patient_case)})"
+    .xrays
+      = render :partial => "xrays/collection", :locals => { :patient_case => patient_case, :xrays => patient_case.xrays.pre_op, :editable => false }
   .nav
     - if permitted_to? :authorize, patient_case.patient
       - if !patient_case.authorized?

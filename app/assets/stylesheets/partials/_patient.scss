@@ -172,11 +172,29 @@ form.patient {
           &:last-child { border-bottom: none; }
           @include clearfix;
           border-bottom: solid 1px rgba($underline-color, 0.3);
-          .case_title {
+          .pre_op {
             @include column(5);
             .name {
               font-size: 1.1em;
               margin-bottom: 0.5em;
+            }
+            .xrays {
+
+            }
+          }
+          .post_op {
+            @include column(5);
+            h4 {
+              margin-bottom: 0.7em;
+            }
+            .inline-navigation ul {
+              margin-bottom: $margin-increment;
+              li {
+                font-size: 14px;
+                list-style: none;
+                margin-left: -20px;
+                padding: 7px 0;
+              }
             }
           }
           p {

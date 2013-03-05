@@ -4,7 +4,8 @@
 .operation.inline[operation]{ :class => html_class }
   %h4= operation
   %p.aux
-    = operation.primary_surgeon
+    - if options[:show_surgeon]
+      = operation.primary_surgeon
     - if operation.date
       = operation.date.to_s
   .inline-navigation.noprint
