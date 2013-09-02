@@ -100,8 +100,13 @@ Healer::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
-  config.middleware.use ExceptionNotifier,
+end
+
+Healer::Application.config.middleware.use ExceptionNotification::Rack,
+  :email => {
     :email_prefix => "[Healer] ",
     :sender_address => %{"Healer" <healer.app@gmail.com>},
-    :exception_recipients => %w{healer.app@gmail.com}
-end
+    :exception_recipients => %w{healer.app@gmail.com},
+    # :sections => %w{my_section1 my_section2}
+  }
+
