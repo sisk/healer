@@ -6,6 +6,6 @@
     = f.input :city, :label => 'City'
     = f.input :state, :label => 'State/Region'
     = f.input :zip, :label => 'Zip/Postal'
-    = f.input :country, :as => :select, :label => 'Country', :collection => Carmen::COUNTRIES
+    = f.input :country, :as => :select, :label => 'Country', :collection => all_countries
   = f.actions do
     = f.action :submit

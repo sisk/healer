@@ -27,7 +27,7 @@
             = p.input :city, :label => 'City'
             = p.input :state, :label => 'State/Region'
             = p.input :zip, :label => 'Zip/Postal'
-            = p.input :country, :as => :select, :label => 'Country', :collection => Carmen::COUNTRIES, :selected => @trip.try(:country)
+            = p.input :country, :as => :select, :label => 'Country', :collection => all_countries, :selected => @trip.try(:country)
             = p.input :phone, :label => 'Phone'
             = p.input :email, :label => 'Email'
         = f.actions do

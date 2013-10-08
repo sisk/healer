@@ -42,7 +42,7 @@ class Trip < ActiveRecord::Base
   end
 
   def country_name
-    Carmen::country_name(country)
+    Carmen::Country.coded(country).name
   end
 
   def destination
@@ -88,7 +88,7 @@ class Trip < ActiveRecord::Base
   def set_nickname
     unless nickname.present?
       year = start_date.blank? ? "" : start_date.strftime("%Y")
-      self.nickname = Carmen::country_name(country).to_s.downcase + year
+      self.nickname = Carmen::Country.coded(country).name.downcase + year
     end
   end
 

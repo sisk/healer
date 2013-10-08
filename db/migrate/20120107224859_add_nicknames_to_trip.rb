@@ -3,7 +3,7 @@ class AddNicknamesToTrip < ActiveRecord::Migration
   class Trip < ActiveRecord::Base
     def nickname_name
       year = start_date.blank? ? "" : start_date.strftime("%Y")
-      Carmen::country_name(country).downcase + year
+      Carmen::Country.coded(country).name.downcase + year
     end
   end
 

@@ -79,7 +79,7 @@
           = f.input :city, :label => 'City'
           = f.input :state, :label => 'State/Region'
           = f.input :zip, :label => 'Zip/Postal'
-          = f.input :country, :as => :select, :label => 'Country', :collection => Carmen::COUNTRIES
+          = f.input :country, :as => :select, :label => 'Country', :collection => all_countries
       .column-3
         = f.inputs do
           = f.input :phone, :label => 'Phone'

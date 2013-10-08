@@ -10,4 +10,8 @@ module ApplicationHelper
   def request_iphone?
     request.user_agent.match(/iPhone/)
   end
+
+  def all_countries
+    Carmen::Country.all.map{ |c| [c.name, c.code] }
+  end
 end
