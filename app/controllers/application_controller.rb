@@ -1,5 +1,8 @@
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
+  def after_sign_in_path_for(resource)
+    splash_page
+  end
 
   before_filter :set_locale
   def set_locale
@@ -42,6 +45,15 @@ class ApplicationController < ActionController::Base
   end
 
   protected
+
+  def splash_page
+    mobile_agent? ? v1_current_trip_path : current_trips_path
+  end
+
+  def mobile_agent?
+    request.user_agent.match(/iPad/) ||
+    request.user_agent.match(/iPhone/)
+  end
 
   def permission_denied
     flash[:error] = t(:page_access_denied)

@@ -49,7 +49,7 @@ class TripsController < ApplicationController
     if current_trip
       redirect_to trip_path(current_trip)
     else
-      redirect_to :back, :error => "No current trip."
+      redirect_to root_path, :error => "No current trip."
     end
   end
 

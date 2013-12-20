@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
 
   def create_easy
     sign_in(User.find(params[:user_id]))
-    redirect_to current_trips_path
+    redirect_to splash_page
   end
 
   private

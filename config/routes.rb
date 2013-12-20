@@ -1,4 +1,14 @@
 Healer::Application.routes.draw do
+
+  namespace :v1 do
+
+    get "/trips", to: "trips#index"
+    # resources :trips
+
+  end
+  # ----------------------------------------------------------------------------
+  # Below there be dragons
+
   # match "login" => "user_sessions#new"
   # match "logout" => "user_sessions#destroy"
 
