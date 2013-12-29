@@ -37,6 +37,12 @@ Healer::Application.configure do
     patient_certificate.css
   )
 
+  # v1
+  config.assets.precompile += %w(
+    v1/*.css
+    v1/*.js
+  )
+
   config.assets.manifest = Rails.root.join("public/assets")
   
   config.assets.debug = true

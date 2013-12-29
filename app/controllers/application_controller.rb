@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
+
   def after_sign_in_path_for(resource)
     splash_page
   end
@@ -47,7 +48,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def splash_page
-    mobile_agent? ? v1_current_trip_path : current_trips_path
+    mobile_agent? ? v1_trips_path : current_trips_path
   end
 
   def mobile_agent?
