@@ -47,5 +47,11 @@ module Healer
     config.filter_parameters += [:password]
 
     config.autoload_paths += %W(#{Rails.root}/lib #{Rails.root}/script #{Rails.root}/utility)
+
+    # Hack to allow foundation to exist in v1 subdirectory
+    config.sass.load_paths += [
+      "#{Gem.loaded_specs["foundation-rails"].full_gem_path}/vendor/assets/stylesheets/foundation/components",
+      "#{Gem.loaded_specs["foundation-rails"].full_gem_path}/vendor/assets/stylesheets/foundation/"
+    ]
   end
 end

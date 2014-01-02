@@ -83,6 +83,9 @@ GEM
       railties (>= 3.0.0)
     formtastic (2.2.1)
       actionpack (>= 3.0)
+    foundation-rails (5.0.2.0)
+      railties (>= 3.1.0)
+      sass (>= 3.2.0)
     friendly_id (4.0.10.1)
       activerecord (>= 3.0, < 4.0)
     fssm (0.2.10)
@@ -244,6 +247,7 @@ DEPENDENCIES
   exception_notification
   factory_girl_rails
   formtastic (~> 2.2.1)
+  foundation-rails (= 5.0.2.0)
   friendly_id
   haml
   hamls_comment

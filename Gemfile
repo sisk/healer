@@ -46,6 +46,7 @@ group :assets do
   gem 'coffee-rails', "~> 3.2.1"
   gem 'uglifier', '>=1.0.3'
   gem "compass-rails"
+  gem "foundation-rails", "5.0.2.0"
 end
 
 # Use thin as the web server
