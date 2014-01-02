@@ -6,9 +6,7 @@
     %li= link_to "Contact", "#contact"
   #basic
     = f.inputs :name => "Name & Photo" do
-      = f.input :name_first, :label => 'First Name'
-      = f.input :name_middle, :label => 'Middle Name'
-      = f.input :name_last, :label => 'Last Name'
+      = f.input :name_full, :label => "Name"
       - if @patient.photo.present?
         = patient_image(@patient, :small)
       = f.input :photo, :as => :file, :label => "Change Photo"

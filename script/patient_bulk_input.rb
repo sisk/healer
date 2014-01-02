@@ -9,7 +9,7 @@ class PatientBulkInput
 
   def perform
     data[1..-1].each do |row| # exclude header
-      name = name_for(row)
+      name = row[0].strip
       gender = row[1]
       birth_date = birth_date_for(row)
       case_info = case_info_for(row)
@@ -25,16 +25,13 @@ class PatientBulkInput
     trip = Trip.next.first
     raise "No trip" unless trip
     raise "No cases" unless case_info[:sites]
-    # require 'pry'; binding.pry
     patient = Patient.create!(
-      :name_last => name[:last],
-      :name_first => name[:first],
-      :name_middle => name[:middle],
+      :name_full => name,
       :male => (gender == "M") ? true : false,
       :birth => birth_date,
       :country => trip.country
     )
-    puts "Created patient: #{patient.name}"
+    # puts "Created patient: #{patient.name}"
     cases = []
     case_info[:sites].each do |body_part|
       side, anatomy = body_part.to_s.split("_")
@@ -50,7 +47,7 @@ class PatientBulkInput
     cases.each{ |c| c.update_column(:notes, case_info[:notes]) } if case_info[:notes]
     cases.map(&:authorize!)
     PatientCase.group_cases(cases)
-    puts "Authorized case IDs: #{cases.map(&:id).join(", ")}"
+    # puts "Authorized case IDs: #{cases.map(&:id).join(", ")}"
   end
 
   def data
@@ -65,22 +62,10 @@ class PatientBulkInput
     GoogleDrive.login(username, password)
   end
 
-  def name_for(row)
-    name_parts = row[0].split(" ")
-    name = { :last => name_parts.last }
-    name[:first] = name_parts.size > 1 ? name_parts.first : name_parts.last #ghaa!
-    name[:middle] = middle_name_for(name_parts)
-    name
-  end
-
   def birth_date_for(row)
     age = row[2]
     return nil unless age.to_i > 0
     (Date.today - (age.to_i * 365))
-  end
-
-  def middle_name_for(parts)
-    (parts - [parts.first, parts.last]).join(" ")
   end
 
   def case_info_for(row)

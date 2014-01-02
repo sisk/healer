@@ -8,9 +8,7 @@ def to_cm(inches)
 end
 
 describe Patient do
-  should_have_column :name_first, :type => :string
-  should_have_column :name_last, :type => :string
-  should_have_column :name_middle, :type => :string
+  should_have_column :name_full, :type => :string
   should_have_column :male, :type => :boolean
   should_have_column :birth, :type => :date
   should_have_column :death, :type => :date
@@ -29,9 +27,6 @@ describe Patient do
   should_have_column :allergies, :type => :text
   should_have_many :case_groups, :through => :patient_cases
 
-  should_validate_presence_of :name_first
-  should_validate_presence_of :name_last
-
   it "is invalid if male is nil" do
     @patient = Patient.new(:male => nil)
     @patient.should_not be_valid
@@ -48,7 +43,7 @@ end
 # TODO js: move ID-concatenated concern to decorator
 describe Patient, "#name" do
   before(:each) do
-    @patient = Patient.new(:name_first => "First", :name_last => "Last")
+    @patient = Patient.new(:name_full => "First Last")
   end
   it "returns First Last if no arguments are passed" do
     @patient.name.should == "First Last"
@@ -66,18 +61,6 @@ describe Patient, "#to_s" do
   it "returns the value of name with no arguments" do
     @patient.stub(:name).and_return("Derp")
     @patient.to_s.should == "Derp"
-  end
-end
-
-describe Patient, "#short_name" do
-  it "returns first name if set" do
-    Patient.new(:name_first => "Derp").short_name.should == "Derp"
-  end
-  it "returns middle name if first is not set" do
-    Patient.new(:name_middle => "Derp").short_name.should == "Derp"
-  end
-  it "returns last name if neither first nor middle is set" do
-    Patient.new(:name_last => "Derp").short_name.should == "Derp"
   end
 end
 

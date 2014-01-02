@@ -15,9 +15,7 @@
           = f.semantic_fields_for :patient do |p|
             = p.semantic_errors
             = p.inputs :name => "Name & Photo" do
-              = p.input :name_first, :label => 'First Name'
-              = p.input :name_middle, :label => 'Middle Name'
-              = p.input :name_last, :label => 'Last Name'
+              = p.input :name_full, :label => "Name"
               = p.input :photo, :as => :file, :label => "Photo"
             = p.inputs :name => "Demographics" do
               = p.input :male, :as => :radio, :label => "Gender", :collection => [["Male", true], ["Female", false]]

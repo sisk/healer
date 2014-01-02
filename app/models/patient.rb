@@ -3,7 +3,7 @@ class Patient < ActiveRecord::Base
   PHOTO_DIR = (Rails.env == "development") ? "_development/patients/:attachment/:id/:style.:extension" : "patients/:attachment/:id/:style.:extension"
 
   attr_accessor :weight_unit, :height_unit
-  before_save :set_weight, :set_height, :set_name_full
+  before_save :set_weight, :set_height
 
   validates_presence_of :name_full
   validates_inclusion_of :male, :in => [true, false]
@@ -25,11 +25,7 @@ class Patient < ActiveRecord::Base
 
   accepts_nested_attributes_for :risk_factors, :allow_destroy => true, :reject_if => proc { |attributes| attributes['risk_id'].blank? }
 
-  # default_scope :order => 'patients.name_first, patients.name_last'
-
   scope :ordered_by_id, :order => 'patients.id'
-  scope :ordered_by_name_first, :order => 'patients.name_first, patients.name_last'
-  scope :ordered_by_name_last, :order => 'patients.name_last, patients.name_first'
 
   scope :no_patient_cases, :conditions => ["patients.id NOT IN (SELECT patient_id FROM patient_cases)"]
 
@@ -90,7 +86,7 @@ class Patient < ActiveRecord::Base
   def name(options = {})
     str = ""
     str << "#{id} - " if options[:with_id].present? && options[:with_id]
-    str << [name_first.strip, name_middle.strip, name_last.strip].reject{ |e| e.empty? }.join(" ")
+    str << name_full
     return str
   end
 
@@ -136,10 +132,6 @@ class Patient < ActiveRecord::Base
 
   def set_height
     self.height_cm = to_cm(self.height_cm) if self.height_unit == "inches"
-  end
-
-  def set_name_full
-    self.name_full = "#{self.name_first} #{self.name_middle} #{self.name_last}"
   end
 
   def to_kg(pounds)

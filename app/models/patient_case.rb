@@ -59,15 +59,10 @@ class PatientCase < ActiveRecord::Base
   scope :future, includes([:trip]).where("trips.start_date IS NULL OR (trips.start_date > ? AND (trips.end_date IS NULL OR trips.end_date > ?))", Time.zone.now, Time.zone.now)
 
   scope :search, Proc.new { |term|
-    query = term.strip.gsub(',', '')
-    first_last = query.split(" ")
+    query = term.strip
     if query.present?
-      if first_last.size == 2
-        { :include => [:patient], :conditions => ["patients.name_first like ? and patients.name_last like ?","%#{first_last[0]}%","%#{first_last[1]}%" ] }
-      else
-        query = query.gsub(/[^\w@\.]/x,'')
-        { :include => [:patient], :conditions => ["patients.name_last like ? or patients.name_first like ?","%#{query}%","%#{query}%" ] }
-      end
+      { :include => [:patient],
+        :conditions => [name_full_query_fragment, "%#{query}%"] }
     end
   }
 
@@ -219,6 +214,14 @@ class PatientCase < ActiveRecord::Base
     if created_by.present? && created_by.has_role?("liaison")
       emails = trip.alert_users.map(&:email).compact.uniq
       Mailer.case_added(self,emails).deliver
+    end
+  end
+
+  def self.name_full_query_fragment
+    if connection_config[:adapter] == "postgresql"
+      "patients.name_full ILIKE ?"
+    else
+      "patients.name_full like ?"
     end
   end
 

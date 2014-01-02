@@ -18,9 +18,7 @@
         = p.input :country, :as => :hidden, :value => @trip.try(:country)
         .column-3
           = p.inputs do
-            = p.input :name_first, :label => 'First Name'
-            = p.input :name_middle, :label => 'Middle Name'
-            = p.input :name_last, :label => 'Last Name'
+            = p.input :name_full, :label => "Name"
             = p.input :photo, :as => :file, :label => "Photo"
         .column-3
           = p.inputs do
