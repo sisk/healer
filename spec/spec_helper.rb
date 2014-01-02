@@ -5,6 +5,7 @@ ENV["RAILS_ENV"] ||= "test"
 require File.expand_path("../../config/environment", __FILE__)
 require "rspec/rails"
 require "remarkable/active_record"
+require "factory_girl_rails"
 
 require "devise/test_helpers"
 include Devise::TestHelpers
@@ -23,15 +24,18 @@ RSpec.configure do |config|
 
   config.use_transactional_fixtures = true
   config.global_fixtures = :all
+  config.include FactoryGirl::Syntax::Methods
 end
 
 def stub_user
+  allow_message_expectations_on_nil
   user = double("user", :language => "en")
   request.env["warden"].stub :authenticate! => user
   controller.stub :current_user => user
 end
 
 def stub_no_user
+  allow_message_expectations_on_nil
   request.env["warden"].stub(:authenticate!).
   and_throw(:warden, {:scope => :user})
 end

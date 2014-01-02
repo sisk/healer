@@ -1,16 +1,18 @@
-Factory.define :user do |u|
-  u.name_first 'Aaron'
-  u.name_last 'Aaronson'
-  u.email 'aaron@aaron.com'
-  u.password 'blahblah'
-end
+FactoryGirl.define do
+  factory :user do
+    name_first 'Aaron'
+    name_last 'Aaronson'
+    email 'aaron@aaron.com'
+    password 'blahblah'
+  end
 
-Factory.define :user_admin, :parent => :user do |f|
-  f.roles {|roles| [roles.association(:role_admin)]}
-end
-Factory.define :user_doctor, :parent => :user do |f|
-  f.roles {|roles| [roles.association(:role_doctor)]}
-end
-Factory.define :user_nurse, :parent => :user do |f|
-  f.roles {|roles| [roles.association(:role_nurse)]}
+  factory :user_admin, class: User do
+    roles {|roles| [roles.association(:role_admin)]}
+  end
+  factory :user_doctor, class: User do
+    roles {|roles| [roles.association(:role_doctor)]}
+  end
+  factory :user_nurse, class: User do
+    roles {|roles| [roles.association(:role_nurse)]}
+  end
 end

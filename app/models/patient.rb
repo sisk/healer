@@ -5,8 +5,7 @@ class Patient < ActiveRecord::Base
   attr_accessor :weight_unit, :height_unit
   before_save :set_weight, :set_height, :set_name_full
 
-  validates_presence_of :name_first, :message => "can't be blank"
-  validates_presence_of :name_last, :message => "can't be blank"
+  validates_presence_of :name_full
   validates_inclusion_of :male, :in => [true, false]
 
   validates :email, :length => {:minimum => 3, :maximum => 254},
@@ -87,14 +86,11 @@ class Patient < ActiveRecord::Base
     name(args.extract_options!)
   end
 
+  # TODO js: make this a decorator concern
   def name(options = {})
     str = ""
     str << "#{id} - " if options[:with_id].present? && options[:with_id]
-    if options[:last_first].present? && options[:last_first]
-      str << [name_last, name_first].join(", ")
-    else
-      str << [name_first.strip, name_middle.strip, name_last.strip].reject{ |e| e.empty? }.join(" ")
-    end
+    str << [name_first.strip, name_middle.strip, name_last.strip].reject{ |e| e.empty? }.join(" ")
     return str
   end
 

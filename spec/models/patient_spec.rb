@@ -45,15 +45,13 @@ describe Patient do
 
 end
 
+# TODO js: move ID-concatenated concern to decorator
 describe Patient, "#name" do
   before(:each) do
     @patient = Patient.new(:name_first => "First", :name_last => "Last")
   end
   it "returns First Last if no arguments are passed" do
     @patient.name.should == "First Last"
-  end
-  it "returns Last, First if :last_first argument is true" do
-    @patient.name(:last_first => true).should == "Last, First"
   end
   it "prepends patient id if :with_id is options argument" do
     @patient.stub(:id).and_return(1975)
@@ -68,11 +66,6 @@ describe Patient, "#to_s" do
   it "returns the value of name with no arguments" do
     @patient.stub(:name).and_return("Derp")
     @patient.to_s.should == "Derp"
-  end
-  it "returns the value of name with arguments" do
-    @patient.stub(:name)
-    @patient.stub(:name).with(:last_first => true).and_return("Derp, Dee")
-    @patient.to_s(:last_first => true).should == "Derp, Dee"
   end
 end
 

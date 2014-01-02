@@ -1,13 +1,15 @@
-Factory.define :role do |f|
-  f.name "derp"
-end
+FactoryGirl.define do
+  factory :role do
+    name "derp"
+  end
 
-Factory.define :role_admin, :class => Role do |f|
-  f.name "administrator"
-end
-Factory.define :role_doctor, :class => Role do |f|
-  f.name "doctor"
-end
-Factory.define :role_nurse, :class => Role do |f|
-  f.name "nurse"
+  factory :role_admin, class: Role do
+    name "administrator"
+  end
+  factory :role_doctor, class: Role do
+    name "doctor"
+  end
+  factory :role_nurse, class: Role do
+    name "nurse"
+  end
 end
