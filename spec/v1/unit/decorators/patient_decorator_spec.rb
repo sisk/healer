@@ -3,12 +3,6 @@ require "v1/patient_decorator"
 
 describe V1::PatientDecorator do
 
-  it "is a draper decorator" do
-    decorator = V1::PatientDecorator.new(Patient.new)
-
-    decorator.should be_kind_of(Draper::Decorator)
-  end
-
   describe "#name" do
     it "delegates to model.name_full" do
       decorator = V1::PatientDecorator.new(build(:patient, name_full: "Arthur Fonzarelli"))

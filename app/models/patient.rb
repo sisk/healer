@@ -94,10 +94,6 @@ class Patient < ActiveRecord::Base
     return str
   end
 
-  def short_name
-    name_first || name_middle || name_last
-  end
-
   def inline_address(join = ", ")
     str = [address1, address2, city, state, zip, country].reject{ |a| a.blank? }.join(join)
     return str.blank? ? nil : str
