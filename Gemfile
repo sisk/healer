@@ -8,6 +8,7 @@ gem "aws-sdk"
 # gem "sqlite3-ruby", :require => "sqlite3"
 gem "mysql2", "~> 0.3.11"
 gem "pg"
+gem "draper"
 gem "haml"
 gem "devise", "1.5.3"
 gem "declarative_authorization", "0.5.3"
@@ -46,6 +47,7 @@ group :assets do
   gem 'coffee-rails', "~> 3.2.1"
   gem 'uglifier', '>=1.0.3'
   gem "compass-rails"
+  gem "foundation-rails", "5.0.2.0"
 end
 
 # Use thin as the web server

@@ -28,7 +28,7 @@
       - @patient.patient_cases.each do |patient_case|
         %li= link_to "#{patient_case.trip} - #{patient_case}", trip_case_path(patient_case.trip, patient_case)
   - else
-    %p= "#{@patient.short_name} has no cases. Select a trip to register #{@patient.short_name} for."
+    %p= "Patient has no cases. Select a trip to register a new case."
     = semantic_form_for PatientCase.new(:patient_id => @patient.id), :html => { :multipart => true } do |f|
       = f.input :patient_id, :as => :hidden, :input_html => { :value => @patient.id }
       = f.inputs do

@@ -1,7 +1,7 @@
-class V1::TripsController < ApplicationController
+class V1::TripsController < V1::BaseController
 
   def index
-    render :text => "Hello"
+    # render :text => "Hello"
   end
 
 end

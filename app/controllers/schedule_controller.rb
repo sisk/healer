@@ -2,7 +2,7 @@ class ScheduleController < ApplicationController
   before_filter :authenticate_user!
 
   def edit
-    @to_schedule = trip.case_groups.unscheduled
+    @to_schedule = trip.appointments.unscheduled
     @number_of_rooms = trip.available_rooms || 0
     @number_of_days = trip.number_of_operation_days || 0
   end
@@ -17,7 +17,7 @@ class ScheduleController < ApplicationController
       @day = params[:day]
       render :template => "schedule/show_day"
     else
-      @case_groups = trip.case_groups
+      @appointments = trip.appointments
     end
   end
 
@@ -32,13 +32,13 @@ class ScheduleController < ApplicationController
     end
     @room_number = params[:room_number].to_i
     @day_num = params[:day].to_i
-    if params[:case_group].present?
-      case_group_ids = params[:case_group.to_s]
-      CaseGroup.update_all("room_number = #{@room_number}, scheduled_day = #{@day_num}", :id => case_group_ids )
-      params[:case_group].each_with_index do |id, index|
-        CaseGroup.update_all(['schedule_order = ?', index + 1], ['id = ?', id])
+    if params[:appointment].present?
+      appointment_ids = params[:appointment.to_s]
+      Appointment.update_all("room_number = #{@room_number}, scheduled_day = #{@day_num}", :id => appointment_ids )
+      params[:appointment].each_with_index do |id, index|
+        Appointment.update_all(['schedule_order = ?', index + 1], ['id = ?', id])
       end
-      @case_groups = CaseGroup.find(case_group_ids)
+      @appointments = Appointment.find(appointment_ids)
     end
 
     respond_to do |format|
@@ -47,15 +47,15 @@ class ScheduleController < ApplicationController
   end
 
   def sort_unscheduled
-    # case_group_ids passed here should become "unscheduled"
-    if params[:case_group].present?
-      case_group_ids = params[:case_group.to_s]
-      CaseGroup.update_all({:room_number => nil, :scheduled_day => 0}, :id => case_group_ids)
-      params[:case_group].each_with_index do |id, index|
-        CaseGroup.update_all(['schedule_order = ?', index + 1], ['id = ?', id])
+    # appointment_ids passed here should become "unscheduled"
+    if params[:appointment].present?
+      appointment_ids = params[:appointment.to_s]
+      Appointment.update_all({:room_number => nil, :scheduled_day => 0}, :id => appointment_ids)
+      params[:appointment].each_with_index do |id, index|
+        Appointment.update_all(['schedule_order = ?', index + 1], ['id = ?', id])
       end
 
-      @case_groups = CaseGroup.find(case_group_ids)
+      @appointments = Appointment.find(appointment_ids)
     end
 
     respond_to do |format|

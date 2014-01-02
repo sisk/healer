@@ -41,10 +41,10 @@ table.schedule {
         white-space: nowrap;
       }
     }
-    ol.case_groups {
+    ol.appointments {
       padding-left: 0;
       margin: 0;
-      li.case_group {
+      li.appointment {
         p { margin-bottom: 0.5em; }
         border-bottom: solid 1px $underline-color;
         ul { font-size: 0.8em; }
@@ -57,7 +57,7 @@ table.schedule {
       p { margin: 0px; }
     }
   }
-  .case_group {
+  .appointment {
     .patient {
       @include clearfix;
       border-bottom: solid 1px $underline-color;
@@ -137,7 +137,7 @@ table#schedule {
   }
 }
 
-.case_group_order_placeholder {
+.appointment_order_placeholder {
   height: 2px;
   background-color: $black;
 }

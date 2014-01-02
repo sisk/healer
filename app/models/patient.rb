@@ -3,10 +3,9 @@ class Patient < ActiveRecord::Base
   PHOTO_DIR = (Rails.env == "development") ? "_development/patients/:attachment/:id/:style.:extension" : "patients/:attachment/:id/:style.:extension"
 
   attr_accessor :weight_unit, :height_unit
-  before_save :set_weight, :set_height, :set_name_full
+  before_save :set_weight, :set_height
 
-  validates_presence_of :name_first, :message => "can't be blank"
-  validates_presence_of :name_last, :message => "can't be blank"
+  validates_presence_of :name_full
   validates_inclusion_of :male, :in => [true, false]
 
   validates :email, :length => {:minimum => 3, :maximum => 254},
@@ -22,15 +21,11 @@ class Patient < ActiveRecord::Base
   has_many :risk_factors, :dependent => :destroy
   has_many :adverse_events, :dependent => :destroy
   has_many :risks, :through => :risk_factors
-  has_many :case_groups, :through => :patient_cases, :uniq => true
+  has_many :appointments, :through => :patient_cases, :uniq => true
 
   accepts_nested_attributes_for :risk_factors, :allow_destroy => true, :reject_if => proc { |attributes| attributes['risk_id'].blank? }
 
-  # default_scope :order => 'patients.name_first, patients.name_last'
-
   scope :ordered_by_id, :order => 'patients.id'
-  scope :ordered_by_name_first, :order => 'patients.name_first, patients.name_last'
-  scope :ordered_by_name_last, :order => 'patients.name_last, patients.name_first'
 
   scope :no_patient_cases, :conditions => ["patients.id NOT IN (SELECT patient_id FROM patient_cases)"]
 
@@ -87,19 +82,12 @@ class Patient < ActiveRecord::Base
     name(args.extract_options!)
   end
 
+  # TODO js: make this a decorator concern
   def name(options = {})
     str = ""
     str << "#{id} - " if options[:with_id].present? && options[:with_id]
-    if options[:last_first].present? && options[:last_first]
-      str << [name_last, name_first].join(", ")
-    else
-      str << [name_first.strip, name_middle.strip, name_last.strip].reject{ |e| e.empty? }.join(" ")
-    end
+    str << name_full
     return str
-  end
-
-  def short_name
-    name_first || name_middle || name_last
   end
 
   def inline_address(join = ", ")
@@ -144,10 +132,6 @@ class Patient < ActiveRecord::Base
 
   def set_height
     self.height_cm = to_cm(self.height_cm) if self.height_unit == "inches"
-  end
-
-  def set_name_full
-    self.name_full = "#{self.name_first} #{self.name_middle} #{self.name_last}"
   end
 
   def to_kg(pounds)

@@ -7,5 +7,5 @@ if (cases.find(".unauthorized .patient_case").length === 0) {
 }
 
 cases.find(".authorized .header").removeClass("hide");
-cases.find(".authorized form").append('<%= escape_javascript(render :partial => "trip_patients/authorized_case_group", :object => @patient_case.case_group, :as => :case_group) %>');
+cases.find(".authorized form").append('<%= escape_javascript(render :partial => "trip_patients/authorized_appointment", :object => @patient_case.appointment, :as => :appointment) %>');
 cases.find(".authorized").removeClass("hide");

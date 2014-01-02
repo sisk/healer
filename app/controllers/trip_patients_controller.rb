@@ -20,7 +20,7 @@ class TripPatientsController < ApplicationController
 
   def room_signs
     @trip = Trip.find(params[:trip_id])
-    @all_cases = @trip.case_groups.scheduled.sort_by{ |cg| cg.patient.id }
+    @all_cases = @trip.appointments.scheduled.sort_by{ |cg| cg.patient.id }
     if params[:patient_ids]
       @all_cases = @all_cases.select{ |c| params[:patient_ids].map(&:to_i).include?(c.patient.id) }
     end

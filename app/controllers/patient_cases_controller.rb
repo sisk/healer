@@ -16,7 +16,7 @@ class PatientCasesController < ApplicationController
     @patient_cases = PatientCase.find(params[:bulk_cases])
     @patient = @patient_cases.first.patient
     @trip = @patient_cases.first.trip
-    @old_case_groups = @patient_cases.map(&:case_group_id).uniq
+    @old_appointments = @patient_cases.map(&:appointment_id).uniq
 
     case params[:bulk_action]
     when "group"
@@ -25,7 +25,7 @@ class PatientCasesController < ApplicationController
 
       # Reload all cases for re-drawing
       @patient_cases.each{ |pc| pc.reload }
-      @new_case_groups = @patient_cases.map(&:case_group).uniq.compact
+      @new_appointments = @patient_cases.map(&:appointment).uniq.compact
       authorized_cases = @patient_cases.select{ |pc| pc.authorized? }
       unauthorized_cases = @patient_cases.select{ |pc| !pc.authorized? }
 
@@ -41,10 +41,10 @@ class PatientCasesController < ApplicationController
       (@patient_cases - [@patient_cases.first]).each do |revised_patient_case|
         # clear all case groups from everythign but the first patient case submitted for bulk.
         # the model should handle recreating new case groups on save.
-        revised_patient_case.update_attributes(:case_group => nil)
+        revised_patient_case.update_attributes(:appointment => nil)
       end
       @patient_cases.each{ |pc| pc.reload }
-      @new_case_groups = @patient_cases.map(&:case_group).uniq.compact
+      @new_appointments = @patient_cases.map(&:appointment).uniq.compact
       respond_to do |format|
         format.html {
           redirect_to :back, :notice => "Grouped cases."

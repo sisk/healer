@@ -10,9 +10,7 @@
     .supplement{ :style => "display: none" }
       .column-2
         = f.inputs do
-          = f.input :name_first, :label => 'First Name'
-          = f.input :name_middle, :label => 'Middle Name'
-          = f.input :name_last, :label => 'Last Name'
+          = f.input :name_full, :label => "Name"
       .column-2
         = f.inputs do
           - if patient.photo.present?

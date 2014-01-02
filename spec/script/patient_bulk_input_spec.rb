@@ -9,7 +9,7 @@ def data
     ["Sonia Amanda Rivas Ozuna", "F", "63", "BTKR", "10", ""],
     ["Carlos Antonio Guzman Samayoa", "M", "33", "LTKR", "63", ""],
     ["Jesus Moya Leonardo", "F", "72", "RTKR", "72", ""],
-    ["Yenni Maricela Pérez", "F", "22", "RTHR with plate and screws", "19", ""],
+    [" Yenni Maricela Pérez", "F", "22", "RTHR with plate and screws", "19", ""],
     ["María Argelia Rivas Juárez", "F", "66", "BTHR", "37", ""],
     ["Deborah Vanesa Orellana Pedroza", "F", "35", "LTHR", "39", ""],
     ["Wendy Paola Lucas Guzmán", "F", "38", "BTHR", "19", ""],
@@ -44,7 +44,7 @@ describe PatientBulkInput do
     it "Adds new patients with proper names" do
       Patient.count.should == 11
       all_patients = Patient.all
-      all_patients.map(&:name).should include("Yenni Pérez")
+      all_patients.map(&:name_full).should include("Yenni Maricela Pérez")
       all_patients.all?{ |p| p.country == "GT" }.should be_true
     end
 

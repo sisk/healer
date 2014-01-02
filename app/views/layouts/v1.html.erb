@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="apple-mobile-web-app-capable" content="default" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <title><%= content_for?(:title) ? yield(:title) : "Healer" %></title>
+    <%= stylesheet_link_tag "v1/application" %>
+    <%= javascript_include_tag "vendor/modernizr" %>
+    <%= javascript_include_tag "v1/jquery-2.0.3" %>
+    <%= javascript_include_tag "v1/fastclick" %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <div class="fixed">
+      <nav class="top-bar" data-topbar data-options="is_hover: false">
+        <ul class="title-area">
+          <li class="name">
+            <h1><a href="<%= root_path %>">Healer</a></h1>
+          </li>
+          <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+        </ul>
+        <section class="top-bar-section">
+          <ul class="right">
+            <li id="nav_home"><a href="<%= v1_trips_path %>">Home</a></li>
+            <li id="nav_schedule"><a href="#">Schedule</a></li>
+            <li id="nav_photo"><a href="#">Take Photo</a></li>
+            <li id="nav_report"><a href="#">Report</a></li>
+            <li class="has-dropdown" id="nav_more">
+              <a href="#">More</a>
+              <ul class="dropdown">
+                <li><a href="#">First link in dropdown</a></li>
+                <li><a href="#">Second link in dropdown</a></li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+      </nav>
+    </div>
+    <%= yield %>
+    <%= javascript_include_tag "v1/application" %>
+  </body>
+</html>

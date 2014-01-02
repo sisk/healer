@@ -1,0 +1,2 @@
+.appointment{ :id => dom_id(appointment) }
+  = render :partial => "trip_patients/authorized_case", :collection => appointment.patient_cases, :as => :patient_case

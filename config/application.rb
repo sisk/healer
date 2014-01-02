@@ -19,9 +19,6 @@ module Healer
     # Heroku requires this to be false.
     config.assets.initialize_on_precompile = false
 
-    # Custom directories with classes and modules you want to be autoloadable.
-    # config.autoload_paths += %W(#{config.root}/extras)
-
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
     # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
@@ -46,6 +43,17 @@ module Healer
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
 
-    config.autoload_paths += %W(#{Rails.root}/lib #{Rails.root}/script #{Rails.root}/utility)
+    config.autoload_paths += %W(
+      #{Rails.root}/app/decorators
+      #{Rails.root}/lib
+      #{Rails.root}/script
+      #{Rails.root}/utility
+    )
+
+    # Hack to allow foundation to exist in v1 subdirectory
+    config.sass.load_paths += [
+      "#{Gem.loaded_specs["foundation-rails"].full_gem_path}/vendor/assets/stylesheets/foundation/components",
+      "#{Gem.loaded_specs["foundation-rails"].full_gem_path}/vendor/assets/stylesheets/foundation/"
+    ]
   end
 end
