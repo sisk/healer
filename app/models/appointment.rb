@@ -1,17 +1,17 @@
-class CaseGroup < ActiveRecord::Base
+class Appointment < ActiveRecord::Base
   has_many :patient_cases, :dependent => :nullify, :uniq => true
   belongs_to :trip
 
-  default_scope :order => 'case_groups.schedule_order'
+  default_scope :order => 'appointments.schedule_order'
 
-  scope :with_n_cases, lambda {|n| {:joins => :patient_cases, :group => "patient_cases.case_group_id", :having => ["count(patient_cases.case_group_id) = ?", n]}}
-  scope :with_gt_n_cases, lambda {|n| {:joins => :patient_cases, :group => "patient_cases.case_group_id", :having => ["count(patient_cases.case_group_id) > ?", n]}}
+  scope :with_n_cases, lambda {|n| {:joins => :patient_cases, :group => "patient_cases.appointment_id", :having => ["count(patient_cases.appointment_id) = ?", n]}}
+  scope :with_gt_n_cases, lambda {|n| {:joins => :patient_cases, :group => "patient_cases.appointment_id", :having => ["count(patient_cases.appointment_id) > ?", n]}}
 
-  scope :unscheduled, where("case_groups.room_number is ? or case_groups.scheduled_day = ?", nil, 0)
-  scope :scheduled, where("case_groups.room_number is not ? and case_groups.scheduled_day != ?", nil, 0)
-  scope :room, lambda { |num| where("case_groups.room_number = ?",num) if num.present? }
-  scope :day, lambda { |num| where("case_groups.scheduled_day = ?",num) if num.present? }
-  scope :no_day, where("case_groups.scheduled_day = ?",0)
+  scope :unscheduled, where("appointments.room_number is ? or appointments.scheduled_day = ?", nil, 0)
+  scope :scheduled, where("appointments.room_number is not ? and appointments.scheduled_day != ?", nil, 0)
+  scope :room, lambda { |num| where("appointments.room_number = ?",num) if num.present? }
+  scope :day, lambda { |num| where("appointments.scheduled_day = ?",num) if num.present? }
+  scope :no_day, where("appointments.scheduled_day = ?",0)
 
   after_save :join_bilateral_cases
 
@@ -34,7 +34,7 @@ class CaseGroup < ActiveRecord::Base
   end
 
   def self.remove_orphans(trip_id)
-    self.destroy_all("trip_id = #{trip_id} AND id NOT IN (SELECT case_group_id FROM patient_cases where trip_id = #{trip_id} and case_group_id is not null)")
+    self.destroy_all("trip_id = #{trip_id} AND id NOT IN (SELECT appointment_id FROM patient_cases where trip_id = #{trip_id} and appointment_id is not null)")
   end
 
   def bilateral?
@@ -62,20 +62,25 @@ class CaseGroup < ActiveRecord::Base
     end
   end
 
+  # TODO js: this should be a decorator concern
+  # i.e. appointment was "knee" or "hip" even if bilateral
   def likely_body_part
     # Bush coding alert!
     # This is smelly and used for reporting only. Beware...it's days are already numbered on its birth.
     patient_cases.map(&:body_part).first
   end
 
+  # TODO js: this should be a decorator concern
   def any_revisions?
     patient_cases.any?{ |pc| pc.revision? }
   end
 
+  # TODO js: this should be a decorator concern
   def all_revisions?
     patient_cases.all?{ |pc| pc.revision? }
   end
 
+  # TODO js: this should be a decorator concern
   def surgeons
     (patient_cases.map(&:primary_surgeon) + patient_cases.map(&:secondary_surgeon)).flatten.compact
   end

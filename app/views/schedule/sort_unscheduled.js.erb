@@ -1,5 +1,5 @@
-<% if @case_groups.present? %>
-  $('#unscheduled').html('<%= escape_javascript(render :partial => "schedule/unscheduled", :collection => @case_groups, :as => :case_group) %>');
+<% if @appointments.present? %>
+  $('#unscheduled').html('<%= escape_javascript(render :partial => "schedule/unscheduled", :collection => @appointments, :as => :appointment) %>');
 <% else %>
   $("#unscheduled").html("");
 <% end %>

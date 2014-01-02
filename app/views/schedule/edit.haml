@@ -20,8 +20,8 @@
           %h3= "Unscheduled (#{@to_schedule.size})"
           = label_tag :filter, "Filter"
           = text_field_tag :filter, nil, :id => "unscheduled_filter"
-        #unscheduled.case_groups.connectedSortable{ :class => "#{@to_schedule.empty? ? "empty" : ""}" }
-          = render :partial => "schedule/unscheduled", :collection => @to_schedule, :as => :case_group, :locals => { :links => false }
+        #unscheduled.appointments.connectedSortable{ :class => "#{@to_schedule.empty? ? "empty" : ""}" }
+          = render :partial => "schedule/unscheduled", :collection => @to_schedule, :as => :appointment, :locals => { :links => false }
 
     %table.schedule#schedule
       %thead
@@ -39,10 +39,10 @@
             %td.indicator
               = "Day #{day_num}"
             - (1..@number_of_rooms).each do |room_number|
-              - case_groups = @trip.case_groups.room(room_number).day(day_num)
+              - appointments = @trip.appointments.room(room_number).day(day_num)
               %td{ :class => "day_schedule day_#{day_num} room_#{room_number} hide" }
-                .room.connectedSortable{ :class => "day_#{day_num} room_#{room_number} #{case_groups.empty? ? "empty" : ""}", :id => "day_#{day_num}_room_#{room_number}" }
-                  = render :partial => "schedule/scheduled", :collection => case_groups, :as => :case_group, :locals => { :links => false }
+                .room.connectedSortable{ :class => "day_#{day_num} room_#{room_number} #{appointments.empty? ? "empty" : ""}", :id => "day_#{day_num}_room_#{room_number}" }
+                  = render :partial => "schedule/scheduled", :collection => appointments, :as => :appointment, :locals => { :links => false }
 
 - content_for :script do
   = javascript_include_tag "lib/schedule.js"

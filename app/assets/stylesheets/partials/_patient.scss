@@ -159,7 +159,7 @@ form.patient {
             @include float-right;
           }
         }
-        .case_group {
+        .appointment {
           &> * { margin: $blueprint-grid-margin; }
           border: solid 1px $grey11;
           @include border-radius($border-radius);
@@ -296,7 +296,7 @@ form.patient {
 }
 
 
-.case_group_list .case-focus.collapsible {
+.appointment_list .case-focus.collapsible {
   .supplement {
     .patient_case {
       margin: 0;

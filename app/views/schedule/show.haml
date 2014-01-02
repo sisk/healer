@@ -46,8 +46,8 @@
               = link_to_function "hide", "$('#show_day_#{day_num}').removeClass('hide'); $('#show_schedule').find('.day_#{day_num}').addClass('hide');"
 
           - (1..@number_of_rooms).each do |room_number|
-            - case_groups = @trip.case_groups.room(room_number).day(day_num)
+            - appointments = @trip.appointments.room(room_number).day(day_num)
             %td{ :class => "day_#{day_num} room_#{room_number}" }
-              %ol.case_groups.scheduled
-                - case_groups.each do |case_group|
-                  %li= render :partial => "schedule/scheduled", :locals => { :case_group => case_group, :links => false }
+              %ol.appointments.scheduled
+                - appointments.each do |appointment|
+                  %li= render :partial => "schedule/scheduled", :locals => { :appointment => appointment, :links => false }

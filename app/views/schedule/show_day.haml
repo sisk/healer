@@ -14,12 +14,12 @@
       - (1..@number_of_rooms).each do |room_number|
         %li= link_to "Room #{room_number}", "#room_#{room_number}"
     - (1..@number_of_rooms).each do |room_number|
-      - case_groups = @trip.case_groups.room(room_number).day(@day)
-      .case_group_list.day{ :id => "room_#{room_number}" }
+      - appointments = @trip.appointments.room(room_number).day(@day)
+      .appointment_list.day{ :id => "room_#{room_number}" }
         %p= link_to "Show all days for Room #{room_number}", trip_schedule_path(@trip, :room_number => room_number)
 
         #patient_cases.patient_list
-          = render :partial => "case_groups/list_item", :collection => case_groups, :as => :case_group
+          = render :partial => "appointments/list_item", :collection => appointments, :as => :appointment
 
 - content_for :script do
   = javascript_include_tag "lib/jquery.fancybox.overrides"

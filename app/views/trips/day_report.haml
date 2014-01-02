@@ -64,7 +64,7 @@
     %th Ambulatory Orders
 
   %tbody
-    - @trip.case_groups.day(@day_num).each do |cg|
+    - @trip.appointments.day(@day_num).each do |cg|
       %tr
         %td{ :valign => :top }
           %strong

@@ -18,11 +18,11 @@ class PatientCase < ActiveRecord::Base
   @patient_case_join = 'left outer join `trips` ON `trips`.`id` = `patient_cases`.`trip_id` left outer join `patients` ON `patients`.`id` = `patient_cases`.`patient_id` left outer join `risk_factors` ON `risk_factors`.`patient_id` = `patients`.`id`'
 
   before_create :set_pre_screen
-  after_save :sync_bilateral, :set_case_group
+  after_save :sync_bilateral, :set_appointment
   after_create :send_email_alert
 
   belongs_to :patient
-  belongs_to :case_group
+  belongs_to :appointment
   belongs_to :trip
   belongs_to :disease
   belongs_to :body_part
@@ -53,8 +53,8 @@ class PatientCase < ActiveRecord::Base
   scope :authorized, includes([:patient, :trip]).where("patient_cases.approved_at is not ?", nil)
   scope :unauthorized, includes([:patient, :trip]).where("patient_cases.approved_at is ?", nil)
 
-  scope :scheduled, where("patient_cases.case_group_id is not ?", nil)
-  scope :unscheduled, where("patient_cases.case_group_id is ?", nil)
+  scope :scheduled, where("patient_cases.appointment_id is not ?", nil)
+  scope :unscheduled, where("patient_cases.appointment_id is ?", nil)
 
   scope :future, includes([:trip]).where("trips.start_date IS NULL OR (trips.start_date > ? AND (trips.end_date IS NULL OR trips.end_date > ?))", Time.zone.now, Time.zone.now)
 
@@ -171,16 +171,16 @@ class PatientCase < ActiveRecord::Base
 
     # Try to find the first relevant case group from cases. We're bundling them together, so it doesn't really matter which is which.
     # If we don't have a valid ID, then no case groups existed. Make one.
-    case_group_id = patient_cases.map(&:case_group_id).uniq.compact.first || CaseGroup.create(:trip_id => trip_id).try(:id)
+    appointment_id = patient_cases.map(&:appointment_id).uniq.compact.first || Appointment.create(:trip_id => trip_id).try(:id)
 
     # Make single case group applicable to all cases
-    patient_cases.each{ |pc| pc.update_attributes(:case_group_id => case_group_id) }
+    patient_cases.each{ |pc| pc.update_attributes(:appointment_id => appointment_id) }
 
     # Destroy any case groups orphaned by this action
-    CaseGroup.remove_orphans(trip_id)
+    Appointment.remove_orphans(trip_id)
 
     # Deliberately join bilaterals if relevant
-    patient_cases.first.case_group.join_bilateral_cases
+    patient_cases.first.appointment.join_bilateral_cases
   end
 
   def authorize=(val)
@@ -193,12 +193,12 @@ class PatientCase < ActiveRecord::Base
 
   private #####################################################################
 
-  def set_case_group
+  def set_appointment
     # TODO evaluate use of self here. Superfluous?
     if self.authorized?
-      self.update_column(:case_group_id, CaseGroup.create(:trip_id => self.trip_id).try(:id)) unless self.case_group.present?
+      self.update_column(:appointment_id, Appointment.create(:trip_id => self.trip_id).try(:id)) unless self.appointment.present?
     else
-      self.case_group.remove(self) if self.case_group.present?
+      self.appointment.remove(self) if self.appointment.present?
     end
   end
 
