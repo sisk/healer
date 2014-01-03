@@ -29,10 +29,10 @@
       %td{ :valign => :top }
         %h3 All Cases
         %ul
-          - @report["Day #{@day_num}"][:surgeries][:individual].each do |body_part, count|
+          - @report["Day #{@day_num}"][:surgeries][:individual].each do |anatomy, count|
             - if count > 0
               %li
-                = body_part.pluralize
+                = anatomy.pluralize
                 %span= count
           %li.subtotal
             Total Cases
@@ -40,18 +40,18 @@
       %td{ :valign => :top }
         %h3 Bilaterals
         %ul
-          - @report["Day #{@day_num}"][:surgeries][:bilateral].each do |body_part, count|
+          - @report["Day #{@day_num}"][:surgeries][:bilateral].each do |anatomy, count|
             - if count > 0
               %li
-                = body_part.pluralize
+                = anatomy.pluralize
                 %span= count
       %td{ :valign => :top }
         %h3 Revision Cases
         %ul
-          - @report["Day #{@day_num}"][:surgeries][:revision].each do |body_part, count|
+          - @report["Day #{@day_num}"][:surgeries][:revision].each do |anatomy, count|
             - if count > 0
               %li
-                = body_part.pluralize
+                = anatomy.pluralize
                 %span= count
 
 
@@ -59,27 +59,28 @@
 %table.details_report{cellpadding: 15}
   %thead
     %th Patient
-    %th Case
     %th Procedure
     %th Ambulatory Orders
 
   %tbody
-    - @trip.appointments.day(@day_num).each do |cg|
+    - @trip.appointments.day(@day_num).each do |app|
       %tr
         %td{ :valign => :top }
           %strong
-            = cg.patient
-        %td{ :valign => :top }= cg.to_s
-
+            = app.patient
         %td{ :valign => :top }
-          - cg.operations.each do |operation|
+          - app.operations.each do |operation|
+            = V1::PatientCaseDecorator.new(operation.patient_case).title
+            = " - "
             - if operation.procedure.present?
-              == #{operation.procedure} - #{operation.body_part}<br>
+              == #{operation.procedure}<br>
 
-        - orders = cg.operations.collect(&:ambulatory_order).uniq
+        - orders = app.operations.collect(&:ambulatory_order).uniq
         - if orders.size < 2
           %td{ :valign => :top }= orders.first
         - else
           %td{ :valign => :top }
-            -  cg.operations.each do |operation|
-              == #{operation.ambulatory_order} - #{operation.body_part}<br>
+            -  app.operations.each do |operation|
+              = V1::PatientCaseDecorator.new(operation.patient_case).title
+              = " - "
+              == #{operation.ambulatory_order}<br>

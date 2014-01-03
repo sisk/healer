@@ -43,9 +43,9 @@ class Patient < ActiveRecord::Base
     } if query.present?
   }
 
-  scope :body_part_name, lambda { |name|
+  scope :anatomy, lambda { |name|
     if name.present?
-      { :include => { :patient_cases => :body_part }, :conditions => ["lower(body_parts.name_en) in (?)",Array(name).map(&:downcase)] }
+      { :include => :patient_cases, :conditions => ["lower(patient_cases.anatomy) in (?)",Array(name).map(&:downcase)] }
     end
   }
   scope :authorized, includes([:patient_cases]).where("patient_cases.approved_at is not ?", nil)

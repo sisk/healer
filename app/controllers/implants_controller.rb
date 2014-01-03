@@ -66,16 +66,7 @@ class ImplantsController < ApplicationController
   private #####################################################################
 
   def setup_implant_type(operation)
-    return operation.implant if operation.implant.present?
-
-    case operation.body_part.try(:name_en).try(:downcase)
-    when "knee"
-      KneeImplant.new(:operation => operation, :body_part => operation.body_part)
-    when "hip"
-      HipImplant.new(:operation => operation, :body_part => operation.body_part)
-    else
-      Implant.new(:operation => operation, :body_part => operation.body_part)
-    end
+    operation.build_implant
   end
 
   def setup_operation

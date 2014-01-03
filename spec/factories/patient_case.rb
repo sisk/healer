@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :patient_case do
-    association :patient, factory: :patient
+    patient
+    trip
   end
 
   factory :left_knee_case, class: PatientCase do

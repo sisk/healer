@@ -5,7 +5,7 @@
     /
       %dl
         %dt Body Part(s)
-        %dd= patient_case.body_part
+        %dd= V1::PatientCaseDecorator.new(patient_case).anatomy
         - unless patient_case.location.blank?
           %dt Location
           %dd= patient_case.location

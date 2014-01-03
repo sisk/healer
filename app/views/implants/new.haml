@@ -1,5 +1,5 @@
 - title = @implant.operation.to_s
-- title << " - #{@implant.operation.body_part}" if @implant.operation.body_part.present?
+- title << " - #{@implant.operation.anatomy}" if @implant.operation.anatomy.present?
 - content_for :title do
   = title
 - content_for :subtitle do

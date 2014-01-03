@@ -30,10 +30,10 @@
         %td{ :valign => :top }
           %h3 All Cases
           %ul
-            - @report["Day #{day_num}"][:surgeries][:individual].each do |body_part, count|
+            - @report["Day #{day_num}"][:surgeries][:individual].each do |anatomy, count|
               - if count > 0
                 %li
-                  = body_part.pluralize
+                  = anatomy.pluralize
                   %span= count
             %li.subtotal
               Total Cases
@@ -41,18 +41,18 @@
         %td{ :valign => :top }
           %h3 Bilaterals
           %ul
-            - @report["Day #{day_num}"][:surgeries][:bilateral].each do |body_part, count|
+            - @report["Day #{day_num}"][:surgeries][:bilateral].each do |anatomy, count|
               - if count > 0
                 %li
-                  = body_part.pluralize
+                  = anatomy.pluralize
                   %span= count
         %td{ :valign => :top }
           %h3 Revision Cases
           %ul
-            - @report["Day #{day_num}"][:surgeries][:revision].each do |body_part, count|
+            - @report["Day #{day_num}"][:surgeries][:revision].each do |anatomy, count|
               - if count > 0
                 %li
-                  = body_part.pluralize
+                  = anatomy.pluralize
                   %span= count
     %tr.totals
       %td.title{ :valign => :top }= "Totals"
@@ -71,10 +71,10 @@
       %td{ :valign => :top }
         %h3 All Cases
         %ul
-          - @report[:totals][:surgeries][:individual].each do |body_part, count|
+          - @report[:totals][:surgeries][:individual].each do |anatomy, count|
             - if count > 0
               %li
-                = body_part.pluralize
+                = anatomy.pluralize
                 %span= count
           %li.subtotal
             Total Cases
@@ -82,16 +82,16 @@
       %td{ :valign => :top }
         %h3 Bilaterals
         %ul
-          - @report[:totals][:surgeries][:bilateral].each do |body_part, count|
+          - @report[:totals][:surgeries][:bilateral].each do |anatomy, count|
             - if count > 0
               %li
-                = body_part.pluralize
+                = anatomy.pluralize
                 %span= count
       %td{ :valign => :top }
         %h3 Revision Cases
         %ul
-          - @report[:totals][:surgeries][:revision].each do |body_part, count|
+          - @report[:totals][:surgeries][:revision].each do |anatomy, count|
             - if count > 0
               %li
-                = body_part.pluralize
+                = anatomy.pluralize
                 %span= count

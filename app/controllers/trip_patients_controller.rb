@@ -8,7 +8,7 @@ class TripPatientsController < ApplicationController
   before_filter :authenticate_user!
 
   def index
-    @body_parts_names = parent.patient_cases.map(&:body_part).uniq.compact.map(&:name_en).uniq
+    @anatomies = parent.patient_cases.map(&:anatomy).uniq.compact
 
     @all_patients = collection
     @paginated_patients = collection.paginate( :page => params[:page], :per_page => 10 )
@@ -34,7 +34,7 @@ class TripPatientsController < ApplicationController
   end
 
   def collection
-    if params[:authorized_status] || params[:body_parts] || params[:search]
+    if params[:authorized_status] || params[:anatomies] || params[:search]
       if params[:search]
         begin
           patient_id = Integer(params[:search])
@@ -52,8 +52,8 @@ class TripPatientsController < ApplicationController
       when "unauthorized"
         subset = subset.unauthorized
       end
-      if params[:body_parts]
-        subset = subset.body_part_name(Array(params[:body_parts])).ordered_by_id
+      if params[:anatomies]
+        subset = subset.anatomy(Array(params[:anatomies])).ordered_by_id
       end
 
     else

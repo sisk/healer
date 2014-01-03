@@ -9,4 +9,4 @@
 					= appointment.patient
 				- else
 					= link_to appointment.patient, trip_patients_path(@trip, :patient_id => appointment.patient.id)
-			.case= appointment
+			.case= V1::AppointmentDecorator.new(appointment).title

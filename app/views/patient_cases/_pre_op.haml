@@ -1,6 +1,6 @@
 .pre_op
   %p
-    = patient_case.body_part
+    = V1::PatientCaseDecorator.new(patient_case).anatomy
     - if patient_case.revision?
       %span.asterisk (Revision)
   %p

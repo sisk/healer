@@ -17,11 +17,6 @@ class Appointment < ActiveRecord::Base
 
   has_many :operations, :through => :patient_cases
 
-  def to_s
-    return "Revision #{body_part_names} (Bilateral)" if bilateral? && all_revisions?
-    return (bilateral? && !any_revisions?) ? "#{body_part_names} (Bilateral)" : patient_cases.map{ |pc| pc.title }.join(", ")
-  end
-
   def patient
     @patient ||= patient_cases.first.try(:patient)
   end
@@ -38,22 +33,18 @@ class Appointment < ActiveRecord::Base
   end
 
   def bilateral?
-    patient_cases.size > 1 && patient_cases.any?{ |pc| pc.bilateral_case.present? }
+    anatomy_sides.size == 2 && anatomies.size == 1
   end
-
-  # def schedule!
-  #   self.status = "Scheduled" if ["Registered","Unscheduled"].include?(self.status)
-  #   self.save
-  # end
 
   def unschedule!
     update_attributes({ :room_number => nil, :scheduled_day => 0 })
   end
 
+  # TODO js: kill this!
   def join_bilateral_cases
     return if bilateral?
     # TODO this seems way too hacky. Reeking of poor design. Make it better.
-    patient_cases.group_by{ |pc| pc.body_part.name_en }.each do |body_part_name, cases|
+    patient_cases.group_by{ |pc| pc.anatomy }.each do |anatomy, cases|
       if cases.size == 2
         # Very likely this is a bilateral scenario. Set each to the other's bilateral.
         cases[0].update_column(:bilateral_case_id, cases[1].id)
@@ -62,33 +53,35 @@ class Appointment < ActiveRecord::Base
     end
   end
 
-  # TODO js: this should be a decorator concern
+  # TODO js: this should be a decorator concern only
   # i.e. appointment was "knee" or "hip" even if bilateral
-  def likely_body_part
-    # Bush coding alert!
-    # This is smelly and used for reporting only. Beware...it's days are already numbered on its birth.
-    patient_cases.map(&:body_part).first
+  def likely_anatomy
+    patient_cases.map(&:anatomy).first
   end
 
-  # TODO js: this should be a decorator concern
+  # TODO js: this should be a decorator concern only
   def any_revisions?
     patient_cases.any?{ |pc| pc.revision? }
   end
 
-  # TODO js: this should be a decorator concern
-  def all_revisions?
-    patient_cases.all?{ |pc| pc.revision? }
-  end
-
-  # TODO js: this should be a decorator concern
+  # TODO js: this should be a decorator concern only
   def surgeons
     (patient_cases.map(&:primary_surgeon) + patient_cases.map(&:secondary_surgeon)).flatten.compact
   end
 
+  def anatomies
+    anatomy_info.map{ |v| v[0] }.uniq
+  end
+
+  def anatomy_sides
+    anatomy_info.map{ |v| v[1] }.uniq
+  end
+
+
   private #####################################################################
 
-  def body_part_names
-    patient_cases.map{ |pc| pc.body_part.display_name }.uniq.join(", ")
+  def anatomy_info
+    @anatomy_info ||= patient_cases.map{ |pc| [pc.anatomy,pc.side] }
   end
 
 end

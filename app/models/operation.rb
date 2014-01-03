@@ -54,7 +54,7 @@ class Operation < ActiveRecord::Base
   scope :incomplete, where("operations.end is ?", nil)
   scope :complete, where("operations.end is not ?", nil)
 
-  delegate :location, :location=, :patient, :body_part, :trip, :disease, :to => :patient_case, :allow_nil => true
+  delegate :location, :location=, :patient, :trip, :disease, :anatomy, :to => :patient_case, :allow_nil => true
 
   def to_s
     procedure.present? ? procedure.to_s : "[Unspecified procedure]"
@@ -66,13 +66,13 @@ class Operation < ActiveRecord::Base
 
   def build_implant(*args)
     return implant if implant.present?
-    case body_part.try(:name_en).try(:downcase)
+    case patient_case.anatomy
     when "knee"
-      KneeImplant.new(:operation => self, :body_part => self.body_part)
+      KneeImplant.new(:operation => self)
     when "hip"
-      HipImplant.new(:operation => self, :body_part => self.body_part)
+      HipImplant.new(:operation => self)
     else
-      Implant.new(:operation => self, :body_part => self.body_part)
+      Implant.new(:operation => self)
     end
   end
 

@@ -1,3 +1,15 @@
 es:
-  hello: "¡Hola, amigos!"
+  hello: "Hola"
   page_access_denied: "Usted no tiene permiso para acceder a la función."
+
+  anatomy:
+    ankle: "tobillo"
+    foot: "pie"
+    hip: "cadera"
+    knee: "rodilla"
+    unspecified: "parte del cuerpo no especificada"
+
+  left: "izquierda"
+  right: "derecha"
+  revision: "revisada"
+  bilateral: "bilateral"

@@ -5,4 +5,4 @@
         = appointment.patient.to_s(:with_id => true)
       - else
         = link_to appointment.patient.to_s(:with_id => true), trip_patients_path(@trip, :patient_id => appointment.patient.id)
-    %p= appointment
+    %p= V1::AppointmentDecorator.new(appointment).title

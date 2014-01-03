@@ -1,6 +1,7 @@
 = f.input :trip_id, :as => :hidden, :input_html => { :value => parent.id }
 = f.inputs do
-  = f.input :body_part_id, :as => :select, :label => 'Body Part', :collection => BodyPart.all.collect{ |bp| [bp.to_s, bp.id] }
+  = f.input :anatomy, :as => :select, :label => "Body Part", :collection => PatientCase::ANATOMIES.map{ |a| [I18n.t("anatomy.#{a}").titlecase, a] }
+  = f.input :side, :as => :radio, :label => "Side", :collection => [["L", "left"], ["R", "right"]]
   = f.input :revision, :as => :boolean
   = f.input :disease_id, :as => :select, :label => 'Disease', :collection => Disease.all.collect{ |d| [d.to_s, d.id] }
   = f.input :severity, :as => :radio, :label => "Severity", :collection => PatientCase::severity_table.invert
