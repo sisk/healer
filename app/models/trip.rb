@@ -35,21 +35,6 @@ class Trip < ActiveRecord::Base
     } if query.present?
   }
 
-
-  def to_s
-    year = start_date.blank? ? "" : start_date.strftime("%Y")
-    [year, country_name].join(" ").strip
-  end
-
-  def country_name
-    Carmen::Country.coded(country).name
-  end
-
-  def destination
-    return [city, country_name].join(", ").strip unless city.blank?
-    return country_name
-  end
-
   def daily_complexity_units
     return 0 if [complexity_minutes, daily_hours].any?{ |i| i.blank? }
     (60/complexity_minutes) * daily_hours
