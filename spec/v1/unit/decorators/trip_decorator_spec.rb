@@ -49,4 +49,22 @@ describe V1::TripDecorator do
     end
   end
 
+  describe "#link" do
+    it "returns the internal URL for the trip" do
+      trip = create(:trip, :nickname => "derp")
+      decorator = V1::TripDecorator.new(trip)
+
+      decorator.link.should == "/v1/trips/derp"
+    end
+  end
+
+  describe "#edit_link" do
+    it "returns the internal edit URL for the trip" do
+      trip = create(:trip, :nickname => "derp")
+      decorator = V1::TripDecorator.new(trip)
+
+      decorator.edit_link.should == "/v1/trips/derp/edit"
+    end
+  end
+
 end

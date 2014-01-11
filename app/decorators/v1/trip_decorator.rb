@@ -15,4 +15,12 @@ class V1::TripDecorator < V1::BaseDecorator
     Carmen::Country.coded(model.country).name
   end
 
+  def link
+    "/v1/trips/#{model.nickname}"
+  end
+
+  def edit_link
+    "/v1/trips/#{model.nickname}/edit"
+  end
+
 end
