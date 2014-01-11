@@ -3,7 +3,7 @@ Healer::Application.routes.draw do
   namespace :v1 do
 
     get "/trips", to: "trips#index"
-    # resources :trips
+    get "/trips/:nickname", to: "trips#show"
 
   end
   # ----------------------------------------------------------------------------

@@ -1,4 +1,5 @@
 class Trip < ActiveRecord::Base
+  # TODO js: deprecate friendly_id
   extend FriendlyId
   friendly_id :nickname
 
