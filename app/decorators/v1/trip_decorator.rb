@@ -1,6 +1,7 @@
 require "v1/base_decorator"
 
 class V1::TripDecorator < V1::BaseDecorator
+  delegate :nickname
 
   def name
     year = model.start_date.blank? ? "" : model.start_date.strftime("%Y")

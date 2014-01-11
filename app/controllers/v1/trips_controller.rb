@@ -7,7 +7,7 @@ class V1::TripsController < V1::BaseController
   end
 
   def show
-    @trip = Trip.find_by_nickname(params[:nickname])
+    @trip = V1::TripDecorator.decorate(Trip.find_by_nickname(params[:nickname]))
   end
 
 end

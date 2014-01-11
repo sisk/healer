@@ -32,12 +32,14 @@ describe V1::TripsController, :type => :controller do
       expect(response).to render_template("v1")
     end
 
-    it "assigns decorate @trip by nickname lookup" do
+    it "assigns decorated @trip by nickname lookup" do
       trip = create(:trip, :start_date => Date.today + 1.month, :nickname => "test")
       trip2 = create(:trip, :start_date => Date.today - 1.week, :nickname => "lastweek")
       get :show, :nickname => "test"
 
-      expect(assigns(:trip)).to eq(V1::TripDecorator.decorate(trip))
+      # indirectly testing view decorator here
+      assigns(:trip).nickname.should == "test"
+      assigns(:trip).should respond_to(:name)
     end
   end
 

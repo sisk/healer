@@ -67,4 +67,14 @@ describe V1::TripDecorator do
     end
   end
 
+  describe "#nickname" do
+    it "delegates to Trip model" do
+      trip = build(:trip, :nickname => "derpy")
+
+      decorator = V1::TripDecorator.new(trip)
+
+      decorator.nickname.should == "derpy"
+    end
+  end
+
 end
