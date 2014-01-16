@@ -77,4 +77,15 @@ describe V1::TripDecorator do
     end
   end
 
+  describe "#dom_id" do
+    it "returns the helper dom_id value for the model" do
+      trip = create(:trip, :nickname => "derp")
+      trip_id = trip.id
+
+      decorator = V1::TripDecorator.new(trip)
+
+      decorator.dom_id.should == "trip_#{trip_id}"
+    end
+  end
+
 end
