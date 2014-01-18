@@ -1,0 +1,7 @@
+<div id="trips">
+  <% @trips.each do |trip| %>
+  <div class="trip button">
+    <h3><%= link_to(trip.name, trip.link) %></h3>
+  </div>
+  <% end %>
+</div>

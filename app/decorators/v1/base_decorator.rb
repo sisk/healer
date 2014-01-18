@@ -1,5 +1,9 @@
 class V1::BaseDecorator < Draper::Decorator
 
+  def dom_id
+    h.dom_id(model)
+  end
+
   private ######################################################################
 
   def spanish?

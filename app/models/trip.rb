@@ -1,4 +1,5 @@
 class Trip < ActiveRecord::Base
+  # TODO js: deprecate friendly_id
   extend FriendlyId
   friendly_id :nickname
 
@@ -7,7 +8,6 @@ class Trip < ActiveRecord::Base
   validates_uniqueness_of :nickname
   has_many :patient_cases
   has_many :appointments
-  has_many :operations
   has_many :patients, :through => :patient_cases, :uniq => true
   has_many :authorized_patients, :through => :patient_cases, :source => :patient, :conditions => ["patient_cases.approved_at is not ?", nil], :uniq => true
   has_and_belongs_to_many :users, :uniq => true
@@ -34,21 +34,6 @@ class Trip < ActiveRecord::Base
       :conditions => ["trips.country = ?",query]
     } if query.present?
   }
-
-
-  def to_s
-    year = start_date.blank? ? "" : start_date.strftime("%Y")
-    [year, country_name].join(" ").strip
-  end
-
-  def country_name
-    Carmen::Country.coded(country).name
-  end
-
-  def destination
-    return [city, country_name].join(", ").strip unless city.blank?
-    return country_name
-  end
 
   def daily_complexity_units
     return 0 if [complexity_minutes, daily_hours].any?{ |i| i.blank? }

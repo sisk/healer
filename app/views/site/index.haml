@@ -2,7 +2,7 @@
   Home
 - current_user.trips.current.each do |trip|
   .trip
-    %h2= trip
+    %h2= V1::TripDecorator.new(trip).name
     %ul
       - if permitted_to? :create, PatientCase.new(:trip => trip)
         %li= link_to "New case", new_trip_case_path(trip)

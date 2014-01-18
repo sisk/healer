@@ -1,4 +1,4 @@
 - trip_list = permitted_to?(:everything, :trips) ? Trip.all : current_user.trips
 = form_tag(trips_path, {:method => :get, :class => :trip_list}) do
-  = select_tag :jump_to, options_for_select(trip_list.map{ |trip| [trip, trip.nickname] }, :selected => @trip.try(:nickname))
+  = select_tag :jump_to, options_for_select(trip_list.map{ |trip| [V1::TripDecorator.new(trip).name, trip.nickname] }, :selected => @trip.try(:nickname))
   = submit_tag "Go"

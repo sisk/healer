@@ -1,7 +1,13 @@
+require "v1/trip_decorator"
+
 class V1::TripsController < V1::BaseController
 
   def index
-    # render :text => "Hello"
+    @trips = V1::TripDecorator.decorate_collection(Trip.all)
+  end
+
+  def show
+    @trip = V1::TripDecorator.decorate(Trip.find_by_nickname(params[:nickname]))
   end
 
 end

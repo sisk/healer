@@ -9,7 +9,7 @@
   %tbody
     - trips.each do |trip|
       %tr.trip
-        %td= link_to trip.destination, trip
+        %td= link_to V1::TripDecorator.new(trip).destination, trip
         %td= trip.facility
         %td= trip.start_date
         %td= trip.end_date
