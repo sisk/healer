@@ -4,6 +4,7 @@ Healer::Application.routes.draw do
 
     get "/trips", to: "trips#index"
     get "/trips/:nickname", to: "trips#show"
+    get "/cases/new", to: "cases#new"#, as: "new_case_path"
 
   end
   # ----------------------------------------------------------------------------
