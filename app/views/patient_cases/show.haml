@@ -11,7 +11,7 @@
     .basic
       .primary.name
         %h2= @patient_case.patient.to_s(:with_id => true)
-        %h3= "#{@patient_case.body_part}"
+        %h3= V1::PatientCaseDecorator.new(@patient_case).anatomy
     .supplement
       .diagnosis
         = render :partial => "pre_op", :object => @patient_case, :as => :patient_case

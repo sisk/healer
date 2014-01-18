@@ -7,14 +7,14 @@
       %h2
         =# image_tag(patient.photo.url(:tiny))
         = patient.to_s(:with_id => true)
-      %h3= appointment
+      %h3= V1::AppointmentDecorator.new(appointment).title
   .supplement{ :style => "display: none" }
     - appointment.patient_cases.each do |patient_case|
       .patient_case[patient_case]
         .diagnosis
           .case_detail
             %h4
-              = patient_case.body_part
+              = patient_case.anatomy
               - if patient_case.revision?
                 %span.asterisk (Revision)
             %p.aux

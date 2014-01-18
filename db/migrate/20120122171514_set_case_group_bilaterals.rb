@@ -1,6 +1,6 @@
 class SetCaseGroupBilaterals < ActiveRecord::Migration
 
-  class CaseGroup < ActiveRecord::Base
+  class Appointment < ActiveRecord::Base
 
     has_many :patient_cases
 
@@ -8,6 +8,7 @@ class SetCaseGroupBilaterals < ActiveRecord::Migration
       patient_cases.size > 1 && patient_cases.any?{ |pc| pc.bilateral_case.present? }
     end
 
+    # TODO js: kill this
     def join_bilateral_cases
       return if bilateral?
       # TODO this seems way too hacky. Reeking of poor design. Make it better.
@@ -23,8 +24,8 @@ class SetCaseGroupBilaterals < ActiveRecord::Migration
   end
 
   def up
-    CaseGroup.all.each do |case_group|
-      case_group.join_bilateral_cases
+    Appointment.all.each do |appointment|
+      appointment.join_bilateral_cases
     end
   end
 

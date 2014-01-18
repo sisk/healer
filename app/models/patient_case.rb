@@ -15,6 +15,8 @@ class PatientCase < ActiveRecord::Base
     { 0 => "Unremarkable", 1 => "Mild", 2 => "Moderate", 3 => "Severe" }
   end
 
+  ANATOMIES = ["ankle", "foot", "hip", "knee"]
+
   @patient_case_join = 'left outer join `trips` ON `trips`.`id` = `patient_cases`.`trip_id` left outer join `patients` ON `patients`.`id` = `patient_cases`.`patient_id` left outer join `risk_factors` ON `risk_factors`.`patient_id` = `patients`.`id`'
 
   before_create :set_pre_screen
@@ -25,7 +27,6 @@ class PatientCase < ActiveRecord::Base
   belongs_to :appointment
   belongs_to :trip
   belongs_to :disease
-  belongs_to :body_part
 
   belongs_to :approved_by, :class_name => "User", :foreign_key => "approved_by_id"
   belongs_to :created_by, :class_name => "User", :foreign_key => "created_by_id"
@@ -40,6 +41,7 @@ class PatientCase < ActiveRecord::Base
 
   validates_numericality_of :severity
   validates_inclusion_of :severity, :in => self.severity_table.keys
+  validates_inclusion_of :anatomy, :in => ANATOMIES + [nil]
 
   accepts_nested_attributes_for :patient
   accepts_nested_attributes_for :xrays, :allow_destroy => true, :reject_if => proc { |attributes| attributes['photo'].blank? }
@@ -66,9 +68,9 @@ class PatientCase < ActiveRecord::Base
     end
   }
 
-  scope :body_part_name, lambda { |name|
+  scope :anatomy, lambda { |name|
     if name.present?
-      { :include => :body_part, :conditions => ["lower(body_parts.name_en) in (?)",Array(name).map(&:downcase)] }
+      { :conditions => ["lower(anatomy) in (?)",Array(name).map(&:downcase)] }
     end
   }
 
@@ -81,13 +83,6 @@ class PatientCase < ActiveRecord::Base
     "Case ##{id}"
   end
 
-  def title
-    str = ""
-    str += "Revision " if revision?
-    str += body_part.try(:to_s) || "[Unspecified body part]"
-    return str
-  end
-
   def as_json(options={})
     # serializable_hash(options.merge({ :only => ["id", "trip_id", "status"], :joins => [:patient] }))
     {
@@ -97,7 +92,7 @@ class PatientCase < ActiveRecord::Base
       :photo => self.patient.displayed_photo(:tiny),
       :patient => self.patient.to_s,
       :location => self.location,
-      :body_part => self.body_part,
+      :anatomy => self.anatomy,
       :time_in_words => self.time_in_words,
       :revision => self.revision?
     }

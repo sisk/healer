@@ -200,7 +200,7 @@ form.patient {
           p {
             line-height: 1em;
             margin: 0;
-            &.body_part { @include column(3); }
+            &.anatomy { @include column(3); }
             &.diagnosis { @include column(7); }
           }
           .nav { @include float-right; }

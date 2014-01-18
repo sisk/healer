@@ -15,7 +15,7 @@ authorization do
   end
   role :superuser do
     includes :scheduler
-    has_permission_on [:trips, :facilities, :rooms, :users, :patients, :body_parts, :diseases, :risks, :risk_factors, :patient_cases, :implants, :operations, :procedures, :xrays, :adverse_events], :to => :everything
+    has_permission_on [:trips, :facilities, :rooms, :users, :patients, :diseases, :risks, :risk_factors, :patient_cases, :implants, :operations, :procedures, :xrays, :adverse_events], :to => :everything
     has_permission_on [:trips], :to => [:users, :new_user, :summary_report, :day_report]
     has_permission_on :patient_cases, :to => [:authorize, :deauthorize, :unschedule, :review, :waiting, :bulk]
     has_permission_on [:diseases, :procedures, :risks, :rooms], :to => [:sort]

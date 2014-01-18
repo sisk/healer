@@ -38,7 +38,7 @@
         %dt Case ID
         %dd= resource.patient_case_id
         %dt Body Part
-        %dd= resource.body_part
+        %dd= V1::PatientCaseDecorator.new(resource.patient_case).anatomy
         %dt Procedure
         %dd= resource.procedure
         %dt Primary Surgeon

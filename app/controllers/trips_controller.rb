@@ -70,13 +70,13 @@ class TripsController < ApplicationController
 
     if params[:surgeon_id].present?
       @surgeon = User.find(params[:surgeon_id])
-      appointments.reject!{ |cg| !cg.surgeons.include?(@surgeon) }
+      appointments.reject!{ |app| !app.surgeons.include?(@surgeon) }
     end
 
-    males = appointments.select{ |cg| cg.patient.male? }
-    females = appointments.select{ |cg| !cg.patient.male? }
+    males = appointments.select{ |app| app.patient.male? }
+    females = appointments.select{ |app| !app.patient.male? }
     patient_cases = appointments.map(&:patient_cases).flatten
-    unique_body_parts = patient_cases.map{ |pc| pc.body_part.try(:name_en) }.uniq.compact.sort
+    unique_anatomies = patient_cases.map{ |pc| pc.anatomy }.uniq.compact.sort
 
     hash = {
       "Total Patients" => appointments.size,
@@ -89,13 +89,13 @@ class TripsController < ApplicationController
         :total_cases => 0
       }
     }
-    unique_body_parts.each do |body_part_name|
-      individual_count = patient_cases.select{ |pc| pc.body_part.try(:name_en) == body_part_name }.size
-      bilateral_count = appointments.select{ |cg| (cg.bilateral? && !cg.any_revisions?) }.select{ |cg| cg.likely_body_part.name_en == body_part_name }.size
-      revision_count = patient_cases.select{ |pc| pc.revision? && (pc.body_part.try(:name_en) == body_part_name) }.size
-      hash[:surgeries][:bilateral][body_part_name] = bilateral_count
-      hash[:surgeries][:revision][body_part_name] = revision_count
-      hash[:surgeries][:individual][body_part_name] = individual_count
+    unique_anatomies.each do |anatomy|
+      individual_count = patient_cases.select{ |pc| pc.anatomy == anatomy }.size
+      bilateral_count = appointments.select{ |app| (app.bilateral? && !app.any_revisions?) }.select{ |app| app.likely_anatomy == anatomy }.size
+      revision_count = patient_cases.select{ |pc| pc.revision? && (pc.anatomy == anatomy) }.size
+      hash[:surgeries][:bilateral][anatomy] = bilateral_count
+      hash[:surgeries][:revision][anatomy] = revision_count
+      hash[:surgeries][:individual][anatomy] = individual_count
       hash[:surgeries][:total_cases] += individual_count
     end
 

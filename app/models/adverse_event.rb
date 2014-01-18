@@ -22,7 +22,7 @@ class AdverseEvent < ActiveRecord::Base
   end
 
   def to_s
-    "#{event_type} - #{self.patient_case ? "on #{patient_case.body_part} - #{patient_case.operation} - #{date_of_occurrence}" : "" }"
+    "#{event_type} - #{self.patient_case ? "on #{patient_case.anatomy} - #{patient_case.operation} - #{date_of_occurrence}" : "" }"
   end
 
 end

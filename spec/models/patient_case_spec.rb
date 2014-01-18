@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe PatientCase do
   should_have_column :patient_id, :type => :integer
-  should_have_column :case_group_id, :type => :integer
+  should_have_column :appointment_id, :type => :integer
   should_have_column :approved_by_id, :type => :integer
   should_have_column :created_by_id, :type => :integer
   should_have_column :trip_id, :type => :integer
@@ -15,7 +15,7 @@ describe PatientCase do
   should_have_column :severity, :type => :integer
 
   should_belong_to :patient
-  should_belong_to :case_group
+  should_belong_to :appointment
   should_belong_to :trip
   should_belong_to :disease
   should_belong_to :body_part
@@ -35,7 +35,7 @@ end
 describe PatientCase, "authorize!" do
 
   before(:all) do
-    CaseGroup.stub(:join_bilateral_cases)
+    Appointment.stub(:join_bilateral_cases)
   end
 
   before(:each) do
@@ -67,7 +67,7 @@ end
 describe PatientCase, "deauthorize!" do
 
   before(:all) do
-    CaseGroup.stub(:join_bilateral_cases)
+    Appointment.stub(:join_bilateral_cases)
   end
 
   before(:each) do
@@ -93,7 +93,7 @@ end
 describe PatientCase, "authorized?" do
 
   before(:all) do
-    CaseGroup.stub(:join_bilateral_cases)
+    Appointment.stub(:join_bilateral_cases)
   end
 
   before(:each) do
@@ -110,7 +110,7 @@ end
 
 describe PatientCase, "to_s" do
   before(:all) do
-    CaseGroup.stub(:join_bilateral_cases)
+    Appointment.stub(:join_bilateral_cases)
   end
 
   it "returns Case + ID" do
@@ -265,41 +265,41 @@ describe PatientCase, "treated?" do
   end
 end
 
-describe PatientCase, "#set_case_group" do
+describe PatientCase, "#set_appointment" do
   before(:each) do
     @patient_case = PatientCase.new
     PatientCase.stub(:find).and_return(@patient_case)
   end
-  context "no case group" do
-    it ", when authorized, attaches itself to a new CaseGroup if one doesn't exist" do
+  context "no appointment" do
+    it ", when authorized, attaches itself to a new Appointment if one doesn't exist" do
       @patient_case.stub(:authorized?).and_return(true)
-      lambda { @patient_case.send(:set_case_group) }.should change(@patient_case, :case_group_id)
+      lambda { @patient_case.send(:set_appointment) }.should change(@patient_case, :appointment_id)
     end
-    it ", when unauthorized, does not alter the CaseGroup" do
+    it ", when unauthorized, does not alter the Appointment" do
       @patient_case.stub(:authorized?).and_return(false)
-      lambda { @patient_case.send(:set_case_group) }.should_not change(@patient_case, :case_group_id)
+      lambda { @patient_case.send(:set_appointment) }.should_not change(@patient_case, :appointment_id)
     end
   end
-  context "with case group" do
+  context "with appointment" do
     before(:each) do
       @patient_case = PatientCase.new
       PatientCase.stub(:find).and_return(@patient_case)
     end
-    it ", when authorized, does not alter the CaseGroup" do
-      @patient_case.case_group = stub_model(CaseGroup, :id => 3)
+    it ", when authorized, does not alter the Appointment" do
+      @patient_case.appointment = stub_model(Appointment, :id => 3)
       @patient_case.stub(:authorized?).and_return(true)
-      lambda { @patient_case.send(:set_case_group) }.should_not change(@patient_case, :case_group_id)
+      lambda { @patient_case.send(:set_appointment) }.should_not change(@patient_case, :appointment_id)
     end
-    it ", when unauthorized, removes itself from the CaseGroup" do
+    it ", when unauthorized, removes itself from the Appointment" do
       @patient_case.stub(:authorized?).and_return(false)
-      @patient_case.case_group = stub_model(CaseGroup, :id => 3)
-      @patient_case.case_group.should_receive(:remove).with(@patient_case)
-      @patient_case.send(:set_case_group)
+      @patient_case.appointment = stub_model(Appointment, :id => 3)
+      @patient_case.appointment.should_receive(:remove).with(@patient_case)
+      @patient_case.send(:set_appointment)
     end
-    # it ", when unauthorized, clears the CaseGroup" do
+    # it ", when unauthorized, clears the Appointment" do
     #   @patient_case.stub(:authorized?).and_return(false)
-    #   @patient_case.case_group = stub_model(CaseGroup, :id => 3)
-    #   lambda { @patient_case.send(:set_case_group) }.should change(@patient_case, :case_group_id).from(3).to(nil)
+    #   @patient_case.appointment = stub_model(Appointment, :id => 3)
+    #   lambda { @patient_case.send(:set_appointment) }.should change(@patient_case, :appointment_id).from(3).to(nil)
     # end
   end
 end
@@ -307,9 +307,9 @@ end
 describe PatientCase, ".group_cases" do
 
   before(:each) do
-    @pc1 = PatientCase.new(:case_group => nil, :approved_at => Time.now, :trip_id => 1, :case_group_id => 1)
-    @pc2 = PatientCase.new(:case_group => nil, :approved_at => Time.now, :trip_id => 1, :case_group_id => 2)
-    @pc1.stub_chain(:case_group, :join_bilateral_cases)
+    @pc1 = PatientCase.new(:appointment => nil, :approved_at => Time.now, :trip_id => 1, :appointment_id => 1)
+    @pc2 = PatientCase.new(:appointment => nil, :approved_at => Time.now, :trip_id => 1, :appointment_id => 2)
+    @pc1.stub_chain(:appointment, :join_bilateral_cases)
   end
 
   # Error checking
@@ -331,42 +331,42 @@ describe PatientCase, ".group_cases" do
 
   it "ensures all cases have a group id" do
     PatientCase.group_cases([@pc1, @pc2])
-    [@pc1, @pc2].all?{ |pc| pc.case_group_id.present? }.should be_true
+    [@pc1, @pc2].all?{ |pc| pc.appointment_id.present? }.should be_true
   end
 
-  it "uses the first case_group_id in the set" do
+  it "uses the first appointment_id in the set" do
     PatientCase.group_cases([@pc1, @pc2])
-    [@pc1, @pc2].map(&:case_group_id).uniq.compact.first.should == 1
+    [@pc1, @pc2].map(&:appointment_id).uniq.compact.first.should == 1
   end
 
   it "ensures all cases' groups match" do
     PatientCase.group_cases([@pc1, @pc2])
-    [@pc1, @pc2].map(&:case_group_id).uniq.compact.size.should == 1
+    [@pc1, @pc2].map(&:appointment_id).uniq.compact.size.should == 1
   end
 
-  it "creates a new CaseGroup when no case has a grouping" do
-    @pc1.case_group_id = nil
-    @pc2.case_group_id = nil
-    CaseGroup.stub(:create)
-    CaseGroup.should_receive(:create)
+  it "creates a new Appointment when no case has a grouping" do
+    @pc1.appointment_id = nil
+    @pc2.appointment_id = nil
+    Appointment.stub(:create)
+    Appointment.should_receive(:create)
     PatientCase.group_cases([@pc1, @pc2])
   end
 
-  it "uses the first valid non-nil case_group_id" do
-    @pc1.case_group_id = nil
+  it "uses the first valid non-nil appointment_id" do
+    @pc1.appointment_id = nil
     PatientCase.group_cases([@pc1, @pc2])
-    [@pc1, @pc2].map(&:case_group_id).uniq.compact.first.should == 2
+    [@pc1, @pc2].map(&:appointment_id).uniq.compact.first.should == 2
   end
 
-  it "clears the orphaned case groups" do
-    CaseGroup.stub(:remove_orphans)
-    CaseGroup.should_receive(:remove_orphans).with(1)
+  it "clears the orphaned appointments" do
+    Appointment.stub(:remove_orphans)
+    Appointment.should_receive(:remove_orphans).with(1)
     PatientCase.group_cases([@pc1, @pc2])
   end
 
   it "joins the bilateral cases" do
-    CaseGroup.stub(:remove_orphans)
-    @pc1.case_group.should_receive(:join_bilateral_cases)
+    Appointment.stub(:remove_orphans)
+    @pc1.appointment.should_receive(:join_bilateral_cases)
     PatientCase.group_cases([@pc1, @pc2])
   end
 
@@ -376,26 +376,4 @@ describe PatientCase, ".severity_table" do
   it "returns an indexed hash of the expected values" do
     PatientCase::severity_table.should == { 0 => "Unremarkable", 1 => "Mild", 2 => "Moderate", 3 => "Severe" }
   end
-end
-
-describe PatientCase, "#title" do
-
-  it "returns the body part" do
-    pc = PatientCase.new
-    pc.stub_chain(:body_part, :to_s).and_return("derp")
-    pc.title.should == "derp"
-  end
-
-  it "returns '[Unspecified body part]' if body_part is not present" do
-    pc = PatientCase.new
-    pc.stub(:body_part).and_return(nil)
-    pc.title.should == "[Unspecified body part]"
-  end
-
-  it "prepends 'Revision ' if it's a revision" do
-    pc = PatientCase.new(:revision => true)
-    pc.stub_chain(:body_part, :to_s).and_return("derp")
-    pc.title.should == "Revision derp"
-  end
-
 end

@@ -1,5 +1,5 @@
 - title = resource.to_s
-- title << " - #{resource.body_part}" if resource.body_part.present?
+- title << " - #{resource.anatomy}" if resource.anatomy.present?
 - content_for :title do
   = title
 - content_for :subtitle do

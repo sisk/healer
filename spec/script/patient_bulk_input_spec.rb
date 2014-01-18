@@ -61,9 +61,9 @@ describe PatientBulkInput do
       PatientCase.last.patient.should == Patient.last
     end
 
-    it "makes expected case groups" do
-      CaseGroup.count.should == 11
-      CaseGroup.all.select{ |cg| cg.bilateral? }.size.should == 4
+    it "makes expected appointments" do
+      Appointment.count.should == 11
+      Appointment.all.select{ |cg| cg.bilateral? }.size.should == 4
     end
 
     it "authorizes all cases" do

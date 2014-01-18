@@ -11,7 +11,7 @@ describe Room do
   should_validate_presence_of :facility
 
   should_have_many :operations
-  should_have_many :case_groups
+  should_have_many :appointments
 end
 
 describe Room, "#to_s" do

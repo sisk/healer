@@ -25,7 +25,7 @@ describe Patient do
   should_have_column :medications, :type => :text
   should_have_column :other_diseases, :type => :text
   should_have_column :allergies, :type => :text
-  should_have_many :case_groups, :through => :patient_cases
+  should_have_many :appointments, :through => :patient_cases
 
   it "is invalid if male is nil" do
     @patient = Patient.new(:male => nil)

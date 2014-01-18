@@ -3,4 +3,4 @@
     = image_tag("organization/operation_walk_logo.jpg")
     %h1= appointment.patient.id
     %h2= appointment.patient
-    %h3= appointment
+    %h3= V1::AppointmentDecorator.new(appointment).title

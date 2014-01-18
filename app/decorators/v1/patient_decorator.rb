@@ -1,4 +1,6 @@
-class V1::PatientDecorator < Draper::Decorator
+require "v1/base_decorator"
+
+class V1::PatientDecorator < V1::BaseDecorator
 
   def name
     model.name_full

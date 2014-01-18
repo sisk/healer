@@ -10,7 +10,7 @@
     - else
       %h3= adverse_event.event_type
     - if adverse_event.patient_case
-      .case== #{adverse_event.patient_case.body_part} - #{adverse_event.patient_case.operation}
+      .case== #{adverse_event.patient_case.anatomy} - #{adverse_event.patient_case.operation}
     .notes== #{adverse_event.note}
     = link_to "Edit", edit_patient_adverse_event_path(@patient, adverse_event)
     = link_to "Delete", patient_adverse_event_path(@patient, adverse_event), :method => :delete, :confirm => "Are you sure?"

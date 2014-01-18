@@ -18,7 +18,6 @@ Healer::Application.routes.draw do
 
   resources :users
 
-  resources :body_parts
   resources :diseases do
     collection do
       put :sort

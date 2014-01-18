@@ -2,15 +2,15 @@
   Patients
 - content_for :sidebar_utility do
   #case_filter
-    .section.body_part
+    .section.anatomy
       %h4 Filter
       = form_tag(trip_patients_path(@trip), {:method => :get}) do
         = text_field_tag :search
         = select_tag :authorized_status, options_for_select([["All cases","all"],["Authorized cases","authorized"],["Waiting cases","unauthorized"]], :selected => (params[:authorized_status] || "all"))
-        - @body_parts_names.each do |body_part_name|
+        - @anatomies.each do |anatomy|
           .criterion
-            = check_box_tag "body_parts[]", body_part_name, (params[:body_parts] && Array(params[:body_parts]).include?(body_part_name)), :id => "#{body_part_name}_filter"
-            = label_tag "#{body_part_name}_filter", body_part_name
+            = check_box_tag "anatomies[]", anatomy, (params[:anatomies] && Array(params[:anatomies]).include?(anatomy)), :id => "#{anatomy}_filter"
+            = label_tag "#{anatomy}_filter", anatomy
         = submit_tag "Go"
 
     /
