@@ -3,9 +3,8 @@
 - content_for :sidebar_utility do
   #case_filter
     .section.anatomy
-      %h4 Filter
       = form_tag(trip_patients_path(@trip), {:method => :get}) do
-        = text_field_tag :search
+        = text_field_tag :search, nil, :placeholder => "Search"
         = select_tag :authorized_status, options_for_select([["All cases","all"],["Authorized cases","authorized"],["Waiting cases","unauthorized"]], :selected => (params[:authorized_status] || "all"))
         - @anatomies.each do |anatomy|
           .criterion

@@ -1,0 +1,92 @@
+!!! 5
+%html{ xmlns: "http://www.w3.org/1999/xhtml" }
+  %head
+    %meta{ "content" => "text/html;charset=utf-8", "http-equiv" => "Content-Type" }
+    %meta{ name: "viewport", content: "width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" }
+    %meta{ name: "apple-mobile-web-app-capable", content: "default" }
+    %meta{ name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" }
+
+    = csrf_meta_tag
+    =# render :partial => "layouts/shared/default_css"
+    = stylesheet_link_tag "v1/application"
+    = javascript_include_tag "vendor/modernizr"
+    =# javascript_include_tag "v1/jquery-2.0.3"
+    = javascript_include_tag "v1/fastclick"
+
+    = yield :head
+    %title<
+      Healer
+      - if content_for?(:title)
+        = "- #{yield :title}"
+  %body.bp
+    #wrapper.row
+      .fixed.hide-for-print
+        %nav.noprint.top-bar{ "data-topbar" => true, "data-options" => "is_hover: false" }
+          %ul.title-area.collapse
+            %li.name
+            %li.toggle-topbar.menu-icon
+              %a{ href: "#" }
+                %span
+          %section.top-bar-section
+            %ul.left
+              %li.has-form
+                - trip_list = permitted_to?(:everything, :trips) ? Trip.all : current_user.trips
+                = form_tag(trips_path, {:method => :get, :class => :trip_list}) do
+                  .row
+                    .columns.small-8
+                      = select_tag :jump_to, options_for_select(trip_list.map{ |trip| [V1::TripDecorator.new(trip).name, trip.nickname] }, :selected => @trip.try(:nickname))
+                    .columns.small-4
+                      = submit_tag("Go", :class => "button")
+
+          %section.top-bar-section
+            %ul.right
+              - if @trip && @trip.persisted?
+                - if permitted_to? :create, PatientCase.new(:trip => @trip)
+                  %li= link_to "New case", new_trip_case_path(@trip)
+                %li= link_to "Patients", trip_patients_path(@trip)
+                %li= link_to "Schedule", trip_schedule_path(@trip)
+                - if permitted_to? :edit, @trip
+                  %li= link_to "Edit trip details", edit_trip_path(@trip)
+
+              - if current_user.has_role_admin
+                %li.divider
+                %li.has-dropdown
+                  %a{ href: "#" } Settings
+                  %ul.dropdown
+                    %li= link_to "Patients", patients_path
+                    %li= link_to "Trips", trips_path
+                    %li= link_to "Facilities", facilities_path
+                    %li= link_to "Diseases", diseases_path
+                    %li= link_to "Procedures", procedures_path
+                    %li= link_to "Risks", risks_path
+                    %li= link_to "Users", users_path
+
+              %li.divider
+              - if user_signed_in?
+                - if permitted_to? :edit, current_user
+                  %li= link_to current_user, edit_user_path(current_user)
+                %li= link_to("Log Out", destroy_user_session_path)
+              - else
+                %li= link_to "Log In", new_user_session_path
+
+
+      #content-outer{ :class => "#{"with-sidebar" if content_for?(:subnavigation) || content_for?(:title)}" }
+        - if content_for?(:subnavigation) || content_for?(:title) || content_for?(:sidebar_utility)
+          #sidebar.noprint
+            - if content_for?(:title)
+              %h1.title= yield :title
+            - if content_for?(:subtitle)
+              %h2.subtitle= yield :subtitle
+            - if content_for?(:subnavigation)
+              .subnav= yield :subnavigation
+            - if content_for?(:sidebar_utility)
+              .sidebar_utility= yield :sidebar_utility
+        #content-inner{ :class => "#{"with-sidebar" if content_for?(:subnavigation) || content_for?(:title)}" }
+          = render :partial => "layouts/shared/alerts"
+          = yield
+      #footer
+        %p.as_of.print_only= "As of: #{Time.now}"
+      = render :partial => "layouts/shared/utility"
+    = render :partial => "layouts/shared/default_javascript"
+    = yield :script
+    = javascript_include_tag "v1/application"
