@@ -19,7 +19,11 @@ class ApplicationController < ActionController::Base
   # end
 
   protect_from_forgery
-  layout :layout_by_resource
+  layout :get_layout
+
+  def get_layout
+    mobile_agent? || chrome? ? "mobile" : layout_by_resource
+  end
 
   def authenticate_user!
     if allow_easy_login? && !signed_in?
@@ -56,6 +60,10 @@ class ApplicationController < ActionController::Base
   def mobile_agent?
     request.user_agent.match(/iPad/) ||
     request.user_agent.match(/iPhone/)
+  end
+
+  def chrome?
+    request.user_agent.match(/Chrome/)
   end
 
   def permission_denied
