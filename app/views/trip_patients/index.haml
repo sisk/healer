@@ -1,6 +1,6 @@
 - content_for :title do
   Patients
-- content_for :sidebar_utility do
+- content_for :subnavigation do
   #case_filter
     .section.anatomy
       = form_tag(trip_patients_path(@trip), {:method => :get}) do
@@ -12,11 +12,6 @@
             = label_tag "#{anatomy}_filter", anatomy
         = submit_tag "Go"
 
-    /
-      .criterion
-        = check_box_tag :multiple_case_filter, true
-        = label_tag :multiple_case_filter, "Show multiple/bilateral only"
-
 .record_list.patient_list
   .records
     - if @paginated_patients.size > 0
@@ -26,10 +21,6 @@
   = will_paginate(@paginated_patients)
 
 - content_for :script do
-  -#:javascript
-  -#  var total_number_of_pages = @trip_patients.total_pages;
-  =# javascript_include_tag "lib/endless_page.js"
-
   :javascript
     jQuery(function ($) {
       if ($('.pagination').length) {
@@ -43,7 +34,6 @@
         $(window).scroll();
       }
     });
-
 
     $(function() {
       $(".record_jump select").change(function() {

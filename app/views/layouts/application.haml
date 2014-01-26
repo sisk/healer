@@ -23,14 +23,12 @@
           - if current_user.has_role_superuser
             .system= render :partial => "layouts/shared/system_settings"
       #content-outer{ :class => "#{"with-sidebar" if content_for?(:subnavigation) || content_for?(:title)}" }
-        - if content_for?(:subnavigation) || content_for?(:title) || content_for?(:sidebar_utility)
+        - if content_for?(:subnavigation) || content_for?(:title)
           #sidebar.noprint
             - if content_for?(:title)
               %h1.title= yield :title
             - if content_for?(:subnavigation)
               .subnav= yield :subnavigation
-            - if content_for?(:sidebar_utility)
-              .sidebar_utility= yield :sidebar_utility
         #content-inner{ :class => "#{"with-sidebar" if content_for?(:subnavigation) || content_for?(:title)}" }
           - if content_for?(:ipad_hint) && request_ipad?
             #ipad_hint{ :title => "iPad Hint:" }= yield :ipad_hint

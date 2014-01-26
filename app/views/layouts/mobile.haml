@@ -71,14 +71,12 @@
 
 
       #content-outer{ :class => "#{"with-sidebar" if content_for?(:subnavigation) || content_for?(:title)}" }
-        - if content_for?(:subnavigation) || content_for?(:title) || content_for?(:sidebar_utility)
+        - if content_for?(:subnavigation) || content_for?(:title)
           #sidebar.noprint
             - if content_for?(:title)
               %h1.title= yield :title
             - if content_for?(:subnavigation)
               .subnav= yield :subnavigation
-            - if content_for?(:sidebar_utility)
-              .sidebar_utility= yield :sidebar_utility
         #content-inner{ :class => "#{"with-sidebar" if content_for?(:subnavigation) || content_for?(:title)}" }
           = render :partial => "layouts/shared/alerts"
           = yield

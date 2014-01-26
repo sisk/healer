@@ -3,6 +3,13 @@
 - content_for :subnavigation do
   %ul
     %li= link_to "Show schedule", trip_schedule_path(@trip)
+  #source
+    .header
+      %h3= "Unscheduled (#{@to_schedule.size})"
+      = label_tag :filter, "Filter"
+      = text_field_tag :filter, nil, :id => "unscheduled_filter"
+    #unscheduled.appointments.connectedSortable{ :class => "#{@to_schedule.empty? ? "empty" : ""}" }
+      = render :partial => "schedule/unscheduled", :collection => @to_schedule, :as => :appointment, :locals => { :links => false }
 
 - if @number_of_rooms == 0
   %p Trip must have room availability set before it can be scheduled.
@@ -13,15 +20,6 @@
       %li{ :id => "show_room_#{room_number}" }= link_to_function "Room #{room_number}", "$('#schedule').find('.room_#{room_number}').removeClass('hide'); $(this).closest('li').addClass('hide'); toggleScroller();"
 
   #schedule_edit
-
-    - content_for :sidebar_utility do
-      #source
-        .header
-          %h3= "Unscheduled (#{@to_schedule.size})"
-          = label_tag :filter, "Filter"
-          = text_field_tag :filter, nil, :id => "unscheduled_filter"
-        #unscheduled.appointments.connectedSortable{ :class => "#{@to_schedule.empty? ? "empty" : ""}" }
-          = render :partial => "schedule/unscheduled", :collection => @to_schedule, :as => :appointment, :locals => { :links => false }
 
     %table.schedule#schedule
       %thead
