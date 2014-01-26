@@ -22,8 +22,6 @@
         .title_section
           - if content_for?(:title)
             %h1.title= yield :title
-          - if content_for?(:subtitle)
-            %h2.subtitle= yield :subtitle
         = yield
       #footer
         %p.as_of.print_only= "#{Date.today}"

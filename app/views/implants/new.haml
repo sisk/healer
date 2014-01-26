@@ -1,9 +1,7 @@
 - title = @implant.operation.to_s
 - title << " - #{@implant.operation.anatomy}" if @implant.operation.anatomy.present?
 - content_for :title do
-  = title
-- content_for :subtitle do
-  New Implant
+  = "#{title} - New Implant"
 .section
   -# TODO this is funky. make it more elegant and bulletproof, or consider revising the controller/view.
   = render :partial => "implants/forms/#{output_type(@implant)}", :object => @implant, :as => :implant

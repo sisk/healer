@@ -2,10 +2,7 @@
 - content_for :document_title do
   = "#{resource.patient} - #{anatomy} - #{resource.procedure}"
 - content_for :title do
-  Certificado de la Cirugía
-- content_for :subtitle do
-  = resource.patient
-
+  = "Certificado de la Cirugía - #{V1::PatientDecorator.new(resource.patient).name}"
 .section.summary
   - if resource.patient.photo.exists?
     .photo= patient_image(resource.patient, :small)

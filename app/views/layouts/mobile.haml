@@ -75,8 +75,6 @@
           #sidebar.noprint
             - if content_for?(:title)
               %h1.title= yield :title
-            - if content_for?(:subtitle)
-              %h2.subtitle= yield :subtitle
             - if content_for?(:subnavigation)
               .subnav= yield :subnavigation
             - if content_for?(:sidebar_utility)

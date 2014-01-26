@@ -1,9 +1,7 @@
 - title = resource.to_s
 - title << " - #{resource.anatomy}" if resource.anatomy.present?
 - content_for :title do
-  = title
-- content_for :subtitle do
-  Edit Operation
+  = "#{title} - Edit Operation"
 - content_for :subnavigation do
   %ul
     %li= link_to "Operation overview", case_operation_path(resource.patient_case)

@@ -1,7 +1,5 @@
 - content_for :title do
   = "#{parent.try(:patient)} - New Physical Therapy"
-- content_for :subtitle do
-  = parent
 - content_for :subnavigation do
   %ul
     %li= link_to "Therapy index", parent_path

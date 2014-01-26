@@ -1,7 +1,5 @@
 - content_for :title do
-  = @operation
-- content_for :subtitle do
-  Edit Implant
+  = "#{@operation} - Edit Implant"
 - content_for :subnavigation do
   %ul
     %li= link_to "Operation overview", operation_path(@operation)

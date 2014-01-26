@@ -1,9 +1,7 @@
 - title = @implant.operation.to_s
 - title << " - #{@implant.operation.anatomy}" if @implant.operation.anatomy.present?
 - content_for :title do
-  = title
-- content_for :subtitle do
-  Implant Summary
+  = "#{title} - Implant Summary"
 - content_for :subnavigation do
   %ul
     - if @implant.present?

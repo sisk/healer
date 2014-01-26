@@ -1,7 +1,5 @@
 - content_for :title do
-  = resource.to_s
-- content_for :subtitle do
-  Operation Summary
+  = "#{resource.to_s} - Operation Summary"
 - content_for :subnavigation do
   %ul
     %li= link_to "Return to case", trip_case_path(resource.patient_case.trip, resource.patient_case)
