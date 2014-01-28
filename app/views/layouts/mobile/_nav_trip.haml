@@ -1,0 +1,6 @@
+- if permitted_to? :create, PatientCase.new(:trip => @trip)
+  %li= link_to "New case", new_trip_case_path(@trip)
+%li= link_to "Patients", trip_patients_path(@trip)
+%li= link_to "Schedule", trip_schedule_path(@trip)
+- if permitted_to? :edit, @trip
+  %li= link_to "Edit trip details", edit_trip_path(@trip)

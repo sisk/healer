@@ -1,10 +1,13 @@
 #alerts
   - if flash[:notice]
-    .notice
+    %div.alert-box{ "data-alert" => true }
       = flash[:notice]
+      %a.close{ href: "#" } &times;
   - if flash[:alert]
-    .error.alert
+    %div.alert.alert-box{ "data-alert" => true }
       = flash[:alert]
+      %a.close{ href: "#" } &times;
   - if flash[:error]
-    .error
+    %div.warning.alert-box{ "data-alert" => true }
       = flash[:error]
+      %a.close{ href: "#" } &times;
