@@ -1,35 +1,5 @@
 require 'spec_helper'
 
-describe Operation, ".approaches" do
-  it "returns an array of the expected values" do
-    Operation::approaches.should == ["Anterior","Lateral","Medial","Posterior","Dorsal","Planter","Lateral Transfibular"]
-  end
-end
-
-describe Operation, ".ambulatory_orders" do
-  it "returns an array of the expected values" do
-    Operation::ambulatory_orders.should == ["Weight Bearing as Tolerated","Non-Weight Bearing","Partial Weight Bearing"]
-  end
-end
-
-describe Operation, ".difficulty_table" do
-  it "returns an indexed hash of the expected values" do
-    Operation::difficulty_table.should == { 0 => "Routine", 1 => "Moderate", 2 => "Severe" }
-  end
-end
-
-describe Operation, ".anesthsia_types" do
-  it "returns an array of the expected values" do
-    Operation::anesthsia_types.should == ["spinal","general"]
-  end
-end
-
-describe Operation, ".peripheral_nerve_block_types" do
-  it "returns an array of the expected values" do
-    Operation::peripheral_nerve_block_types.should == ["femoral", "sciatic", "popliteal", "ankle", "none"]
-  end
-end
-
 describe Operation, "#to_s" do
   before(:each) do
     @operation = Operation.new

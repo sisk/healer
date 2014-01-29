@@ -13,6 +13,7 @@ gem "haml"
 gem "devise", "1.5.3"
 gem "declarative_authorization", "0.5.3"
 gem "formtastic", "~> 2.2.1" # TODO deprecate
+gem "hashie", "~> 2.0.5"
 gem "carmen", "~> 1.0.0"
 gem "paperclip"
 gem "test-unit" # TODO deprecate

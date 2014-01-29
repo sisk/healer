@@ -5,13 +5,13 @@
   = f.semantic_errors
   .column-2
     = f.inputs :name => "Procedure Details" do
-      = f.input :approach, :as => :select, :label => 'Approach', :collection => Operation::approaches
-      = f.input :osteotomy, :as => :select, :label => 'Osteotomy', :collection => Operation::osteotomy_options
-      = f.input :difficulty, :as => :radio, :label => "Difficulty", :collection => Operation::difficulty_table.invert
+      = f.input :approach, :as => :select, :label => 'Approach', :collection => Healer::Config.operation[:approaches]
+      = f.input :osteotomy, :as => :select, :label => 'Osteotomy', :collection => Healer::Config.operation[:osteotomy_options]
+      = f.input :difficulty, :as => :radio, :label => "Difficulty", :collection => Healer::Config.operation[:difficulty_table].invert
       = f.input :graft, :label => 'Graft'
-      = f.input :anesthesia_type, :as => :select, :label => 'Anesthesia', :collection => Operation::anesthsia_types
-      = f.input :peripheral_nerve_block_type, :as => :select, :label => 'Peripheral Nerve Block', :collection => Operation::peripheral_nerve_block_types
-      = f.input :ambulatory_order, :as => :select, :label => 'Ambulatory Order', :collection => Operation::ambulatory_orders
+      = f.input :anesthesia_type, :as => :select, :label => 'Anesthesia', :collection => Healer::Config.operation[:anesthsia_types]
+      = f.input :peripheral_nerve_block_type, :as => :select, :label => 'Peripheral Nerve Block', :collection => Healer::Config.operation[:peripheral_nerve_block_types]
+      = f.input :ambulatory_order, :as => :select, :label => 'Ambulatory Order', :collection => Healer::Config.operation[:ambulatory_orders]
       = f.input :notes, :label => 'Operation General Notes'
   .column-2
     = f.inputs :name => "Procedure Information" do
