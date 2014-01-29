@@ -82,14 +82,14 @@ describe Trip, "nickname" do
   before(:each) do
     Carmen.stub(:country_name).with("GT").and_return("Guatemala")
   end
+
   it "sets itself on save if doesn't exist" do
     trip1 = Trip.new(:country => "GT", :start_date => "2011-02-23")
-    lambda { trip1.save }.should change(trip1, :nickname).from(nil).to("guatemala2011")
-    trip2 = Trip.new(:country => "GT", :start_date => nil)
-    lambda { trip2.save }.should change(trip2, :nickname).from(nil).to("guatemala")
+    lambda { trip1.save! }.should change(trip1, :nickname).from(nil).to("guatemala2011")
   end
+
   it "leaves nickname alone if already present" do
     trip = Trip.new(:country => "GT", :start_date => "2011-02-23", :nickname => "already here")
-    lambda { trip.save }.should_not change(trip, :nickname)
+    lambda { trip.save! }.should_not change(trip, :nickname)
   end
 end
