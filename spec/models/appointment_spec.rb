@@ -44,20 +44,23 @@ describe Appointment, "#patient" do
 end
 
 describe Appointment, "unschedule!" do
-  # TODO state machine approach might be better for this.
-  before(:each) do
-    @appointment = Appointment.new(:trip => double(Trip), :room_number => 1, :scheduled_day => 4)
-    @appointment.stub(:save)
-  end
-  it "clears the room" do
-    lambda { @appointment.unschedule! }.should change { @appointment.room_number }.to(nil)
+  it "set the room number to nil" do
+    appointment = Appointment.create!(:trip => create(:trip), :room_number => 1)
+
+    appointment.room_number.should == 1
+
+    appointment.unschedule!
+
+    appointment.reload.room_number.should be_nil
   end
   it "sets scheduled day to zero" do
-    lambda { @appointment.unschedule! }.should change { @appointment.scheduled_day }.to(0)
-  end
-  it "saves the object" do
-    @appointment.should_receive(:save)
-    @appointment.unschedule!
+    appointment = Appointment.create!(:trip => create(:trip), :scheduled_day => 4)
+
+    appointment.scheduled_day.should == 4
+
+    appointment.unschedule!
+
+    appointment.scheduled_day.should == 0
   end
 end
 
@@ -71,22 +74,48 @@ describe Appointment, "#bilateral?" do
     @c2.stub(:bilateral_case).and_return(@c1)
   end
 
-  it "is true if any patient cases have a bilateral case" do
-    cg = Appointment.new
-    cg.stub(:patient_cases).and_return([@c1, @c2])
-    cg.bilateral?.should be_true
+  it "is true if two patient cases are present on the same trip with opposite anatomies" do
+    appointment = Appointment.new(:trip => create(:trip))
+    appointment.patient_cases << create(:patient_case, :anatomy => "knee", :side => "left", :trip => appointment.trip)
+    appointment.patient_cases << create(:patient_case, :anatomy => "knee", :side => "right", :trip => appointment.trip)
+
+    appointment.bilateral?.should be_true
   end
 
-  it "is false if case number doesn't match" do
-    cg = Appointment.new
-    cg.stub(:patient_cases).and_return([@c1])
-    cg.bilateral?.should be_false
+  it "is false if two patient cases are present on different trips with opposite anatomies" do
+    trip1 = create(:trip, :nickname => "trip1")
+    trip2 = create(:trip, :nickname => "trip2")
+    appointment = Appointment.new(:trip => trip1)
+    appointment.patient_cases << create(:patient_case, :anatomy => "knee", :side => "left", :trip => trip1)
+    appointment.patient_cases << create(:patient_case, :anatomy => "knee", :side => "right", :trip => trip2)
+
+    appointment.bilateral?.should be_false
   end
 
-  it "is false if no patient cases have a bilateral case" do
-    cg = Appointment.new
-    cg.stub(:patient_cases).and_return([@c3])
-    cg.bilateral?.should be_false
+  it "is false if no case is on the same trip as the appointment" do
+    trip1 = create(:trip, :nickname => "trip1")
+    trip2 = create(:trip, :nickname => "trip2")
+    appointment = Appointment.new(:trip => trip1)
+    appointment.patient_cases << create(:patient_case, :anatomy => "knee", :side => "left", :trip => trip2)
+    appointment.patient_cases << create(:patient_case, :anatomy => "knee", :side => "right", :trip => trip2)
+
+    appointment.bilateral?.should be_false
+  end
+
+  it "is false if only one patient case is present" do
+    trip1 = create(:trip, :nickname => "trip1")
+    appointment = Appointment.new(:trip => trip1)
+    appointment.patient_cases << create(:patient_case, :anatomy => "knee", :side => "left", :trip => trip1)
+
+    appointment.bilateral?.should be_false
+  end
+
+  it "is false if only one patient case is present" do
+    trip1 = create(:trip, :nickname => "trip1")
+    appointment = Appointment.new(:trip => trip1)
+    appointment.patient_cases << create(:patient_case, :anatomy => "knee", :side => "left", :trip => trip1)
+
+    appointment.bilateral?.should be_false
   end
 
 end
