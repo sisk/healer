@@ -1,29 +1,5 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe Trip do
-  should_have_column :start_date, :type => :date
-  should_have_column :end_date, :type => :date
-  should_have_column :procedure_start_date, :type => :date
-  should_have_column :country, :type => :string
-  should_have_column :city, :type => :string
-  should_have_column :facility_id, :type => :integer
-  should_have_column :complexity_minutes, :type => :integer
-  should_have_column :daily_hours, :type => :integer
-  should_have_column :available_rooms, :type => :integer
-  should_have_column :number_of_operation_days, :type => :integer
-  should_have_column :nickname, :type => :string
-  should_validate_presence_of :country
-  should_validate_presence_of :nickname
-  should_validate_presence_of :start_date
-  # should_have_and_belong_to_many :staff
-  should_belong_to :facility
-  should_have_many :patient_cases
-  should_have_many :appointments
-  should_have_many :patients, :through => :patient_cases
-  should_have_many :authorized_patients, :through => :patient_cases
-  should_have_and_belong_to_many :users
-end
-
 describe Trip, "#daily_complexity_units" do
   it "returns the correct product of complexity minutes and daily hours" do
     Trip.new(:complexity_minutes => 30, :daily_hours => 8).daily_complexity_units.should == 16

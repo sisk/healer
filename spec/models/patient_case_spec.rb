@@ -1,37 +1,5 @@
 require 'spec_helper'
 
-describe PatientCase do
-  should_have_column :patient_id, :type => :integer
-  should_have_column :appointment_id, :type => :integer
-  should_have_column :approved_by_id, :type => :integer
-  should_have_column :created_by_id, :type => :integer
-  should_have_column :trip_id, :type => :integer
-  should_have_column :disease_id, :type => :integer
-  should_have_column :approved_at, :type => :datetime
-  should_have_column :notes, :type => :text
-  should_have_column :status, :type => :string
-  should_have_column :complexity, :type => :integer
-  should_have_column :revision, :type => :boolean
-  should_have_column :severity, :type => :integer
-
-  should_belong_to :patient
-  should_belong_to :appointment
-  should_belong_to :trip
-  should_belong_to :disease
-  should_belong_to :body_part
-
-  should_belong_to :approved_by
-  should_belong_to :created_by
-  should_have_one :operation
-  should_have_many :physical_therapies
-  should_have_many :xrays
-  should_have_one :bilateral_case
-
-  should_validate_presence_of :patient
-  should_validate_presence_of :trip
-  should_validate_inclusion_of :status, :in => PatientCase::possible_statuses, :allow_nil => true
-end
-
 describe PatientCase, "authorize!" do
 
   before(:all) do

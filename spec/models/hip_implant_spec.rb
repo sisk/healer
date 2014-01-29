@@ -4,32 +4,6 @@ describe HipImplant do
   it "is a kind of Implant" do
     HipImplant.new.should be_a_kind_of(Implant)
   end
-  should_have_column :femur_diameter, :type => :integer
-  should_have_column :femur_length, :type => :integer
-  should_have_column :acetabulum_size, :type => :integer
-  should_have_column :femur_head_size, :type => :integer
-  should_have_column :neck_length, :type => :integer
-  should_have_column :prosthesis_type, :type => :string
-
-  should_validate_numericality_of :femur_diameter, :allow_blank => false
-  should_validate_numericality_of :femur_length, :allow_blank => false
-  should_validate_numericality_of :acetabulum_size, :allow_blank => false
-  should_validate_numericality_of :femur_head_size, :allow_blank => false
-  should_validate_numericality_of :neck_length, :allow_blank => false
-
-  should_validate_inclusion_of :femur_diameter, :in => HipImplant::femur_diameters, :allow_blank => false
-  should_validate_inclusion_of :femur_length, :in => HipImplant::femur_lengths, :allow_blank => false
-  should_validate_inclusion_of :acetabulum_size, :in => HipImplant::acetabulum_sizes, :allow_blank => false
-  should_validate_inclusion_of :femur_head_size, :in => HipImplant::femur_head_sizes, :allow_blank => false
-  should_validate_inclusion_of :neck_length, :in => HipImplant::neck_lengths, :allow_blank => false
-  
-  should_validate_presence_of :prosthesis_type
-  should_validate_presence_of :femur_length
-  should_validate_presence_of :acetabulum_size
-  should_validate_presence_of :femur_head_size
-  should_validate_presence_of :neck_length
-  should_validate_presence_of :femur_diameter
-
 end
 
 describe HipImplant, ".femur_diameters" do

@@ -1,14 +1,5 @@
 require 'spec_helper'
 
-describe Appointment do
-  should_have_column :schedule_order, :type => :integer
-  should_have_column :room_number, :type => :integer
-  should_have_column :scheduled_day, :type => :integer
-  should_have_many :patient_cases
-  should_have_many :operations
-  should_belong_to :trip
-end
-
 describe Appointment, "#remove" do
   before(:each) do
     @appointment = Appointment.new

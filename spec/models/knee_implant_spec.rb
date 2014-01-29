@@ -4,38 +4,6 @@ describe KneeImplant do
   it "is a kind of Implant" do
     KneeImplant.new.should be_a_kind_of(Implant)
   end
-  should_have_column :femur_diameter, :type => :integer
-  should_have_column :tibia_diameter, :type => :integer
-  should_have_column :tibia_thickness, :type => :integer
-  should_have_column :patella_size, :type => :integer
-  should_have_column :tibia_type, :type => :string
-  should_have_column :knee_type, :type => :string
-
-  should_have_column :patella_not_resurfaced, :type => :boolean
-  should_have_column :femur_screws, :type => :integer
-  should_have_column :tibia_screws, :type => :integer
-  should_have_column :femur_stems, :type => :boolean
-  should_have_column :tibia_stems, :type => :boolean
-
-  should_validate_numericality_of :femur_diameter, :allow_blank => false
-  should_validate_numericality_of :tibia_diameter, :allow_blank => false
-  should_validate_numericality_of :tibia_thickness, :allow_blank => false
-  should_validate_numericality_of :patella_size, :allow_blank => false
-
-  should_validate_inclusion_of :femur_diameter, :in => KneeImplant::femur_diameters, :allow_blank => false
-  should_validate_inclusion_of :tibia_type, :in => KneeImplant::tibia_types, :allow_blank => false
-  should_validate_inclusion_of :tibia_diameter, :in => KneeImplant::tibia_diameters, :allow_blank => false
-  should_validate_inclusion_of :tibia_thickness, :in => KneeImplant::tibia_thicknesses, :allow_blank => false
-  should_validate_inclusion_of :patella_size, :in => KneeImplant::patella_sizes.keys, :allow_blank => false
-  should_validate_inclusion_of :knee_type, :in => KneeImplant::knee_types, :allow_blank => false
-
-  should_validate_presence_of :femur_diameter
-  should_validate_presence_of :tibia_diameter
-  should_validate_presence_of :tibia_thickness
-  should_validate_presence_of :patella_size
-  should_validate_presence_of :tibia_type
-  should_validate_presence_of :knee_type
-
 end
 
 describe KneeImplant, ".patella_sizes" do
