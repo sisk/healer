@@ -9,20 +9,20 @@ describe Appointment, "#remove" do
     lambda { @appointment.remove }.should raise_error(ArgumentError)
   end
   it "clears the appointment_id from the case" do
-    pc = mock_model(PatientCase, :revision? => false)
+    pc = double(PatientCase, :revision? => false)
     @appointment.stub(:patient_cases).and_return([pc])
     @appointment.patient_cases.should_receive(:delete).with(pc)
     @appointment.remove(pc)
   end
   it "preserves itself if patient cases remain" do
-    @appointment.stub(:patient_cases).and_return([mock_model(PatientCase, :revision? => false)])
+    @appointment.stub(:patient_cases).and_return([double(PatientCase, :revision? => false)])
     @appointment.should_not_receive(:destroy)
-    @appointment.remove(mock_model(PatientCase, :revision? => false))
+    @appointment.remove(double(PatientCase, :revision? => false))
   end
   it "destroys itself if no patint cases remain" do
     @appointment.stub(:patient_cases).and_return([])
     @appointment.should_receive(:destroy)
-    @appointment.remove(mock_model(PatientCase, :revision? => false))
+    @appointment.remove(double(PatientCase, :revision? => false))
   end
 end
 
@@ -36,9 +36,9 @@ end
 
 describe Appointment, "#patient" do
   it "returns the patient from its first case" do
-    p = mock_model(Patient)
+    p = double(Patient)
     appointment = Appointment.new
-    appointment.stub(:patient_cases).and_return([mock_model(PatientCase, :revision? => false, :patient => p)])
+    appointment.stub(:patient_cases).and_return([double(PatientCase, :revision? => false, :patient => p)])
     appointment.patient.should == p
   end
 end
@@ -46,7 +46,7 @@ end
 describe Appointment, "unschedule!" do
   # TODO state machine approach might be better for this.
   before(:each) do
-    @appointment = Appointment.new(:trip => mock_model(Trip), :room_number => 1, :scheduled_day => 4)
+    @appointment = Appointment.new(:trip => double(Trip), :room_number => 1, :scheduled_day => 4)
     @appointment.stub(:save)
   end
   it "clears the room" do
@@ -64,9 +64,9 @@ end
 describe Appointment, "#bilateral?" do
 
   before(:each) do
-    @c1 = mock(PatientCase)
-    @c2 = mock(PatientCase)
-    @c3 = mock(PatientCase)
+    @c1 = double(PatientCase)
+    @c2 = double(PatientCase)
+    @c3 = double(PatientCase)
     @c1.stub(:bilateral_case).and_return(@c2)
     @c2.stub(:bilateral_case).and_return(@c1)
   end

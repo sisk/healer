@@ -47,7 +47,7 @@ describe User do
   end
   describe "#role_symbols" do
     it "returns a downcased symbolized list of associate role names" do
-      @roles = [mock_model(Role, :name => "Admin"), mock_model(Role, :name => "Super Duper")]
+      @roles = [double(Role, :name => "Admin"), double(Role, :name => "Super Duper")]
       @user.stub(:roles).and_return(@roles)
       @user.role_symbols.should == [:admin, :super_duper]
     end
@@ -55,12 +55,12 @@ describe User do
   Role.available.map{ |rr| rr.to_s }.each do |role|
     describe "#has_role_#{role}" do
       it "returns true if user has #{role} role" do
-        @roles = [mock_model(Role, :name => role)]
+        @roles = [double(Role, :name => role)]
         @user.stub(:roles).and_return(@roles)
         @user.send("has_role_#{role}").should be_true
       end
       it "returns false if user does not have #{role} role" do
-        @roles = [mock_model(Role, :name => "Not #{role}")]
+        @roles = [double(Role, :name => "Not #{role}")]
         @user.stub(:roles).and_return(@roles)
         @user.send("has_role_#{role}".to_sym).should be_false
       end
@@ -68,7 +68,7 @@ describe User do
     describe "#has_role_#{role}=" do
       before(:each) do
         @role = stub_model(Role, :name => role)
-        Role.stub!(:find_by_name).with(role).and_return(@role)
+        Role.stub(:find_by_name).with(role).and_return(@role)
       end
       it "assigns #{role} role to user if sent 1" do
         @user.send("has_role_#{role}=".to_sym, "1")
