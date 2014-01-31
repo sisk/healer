@@ -5,15 +5,15 @@
   = f.input :operation_id, :as => :hidden
   .column-2
     = f.inputs do
-      = f.input :prosthesis_type, :as => :select, :label => 'Prosthesis Type', :collection => HipImplant::prosthesis_types
-      = f.input :femur_surface, :as => :select, :label => 'Femoral Surface', :collection => HipImplant::surface_options
-      = f.input :acetabulum_surface, :as => :select, :label => 'Acetabular Surface', :collection => HipImplant::surface_options
+      = f.input :prosthesis_type, :as => :select, :label => 'Prosthesis Type', :collection => Healer::Config.implants[:prosthesis_types]
+      = f.input :femur_surface, :as => :select, :label => 'Femoral Surface', :collection => Healer::Config.implants[:surface_options]
+      = f.input :acetabulum_surface, :as => :select, :label => 'Acetabular Surface', :collection => Healer::Config.implants[:surface_options]
     = f.inputs do
-      = f.input :femur_diameter, :as => :select, :label => 'Femur Diameter', :collection => HipImplant::femur_diameters
-      = f.input :femur_length, :as => :select, :label => 'Femur Length', :collection => HipImplant::femur_lengths
-      = f.input :femur_head_size, :as => :select, :label => 'Femur Head Size', :collection => HipImplant::femur_head_sizes
-      = f.input :neck_length, :as => :select, :label => 'Neck Length', :collection => HipImplant::neck_lengths
-      = f.input :acetabulum_size, :as => :select, :label => 'Acetabulum Size', :collection => HipImplant::acetabulum_sizes
+      = f.input :femur_diameter, :as => :select, :label => 'Femur Diameter', :collection => Healer::Config.anatomy[:femur_diameters_hip]
+      = f.input :femur_length, :as => :select, :label => 'Femur Length', :collection => Healer::Config.anatomy[:femur_lengths]
+      = f.input :femur_head_size, :as => :select, :label => 'Femur Head Size', :collection => Healer::Config.anatomy[:femur_head_sizes]
+      = f.input :neck_length, :as => :select, :label => 'Neck Length', :collection => Healer::Config.anatomy[:neck_lengths]
+      = f.input :acetabulum_size, :as => :select, :label => 'Acetabulum Size', :collection => Healer::Config.anatomy[:acetabulum_sizes]
   .column-2
     = f.inputs do
       = f.input :cement_used, :as => :boolean, :label => 'Cement Used'

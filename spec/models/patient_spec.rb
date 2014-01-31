@@ -8,36 +8,10 @@ def to_cm(inches)
 end
 
 describe Patient do
-  should_have_column :name_full, :type => :string
-  should_have_column :male, :type => :boolean
-  should_have_column :birth, :type => :date
-  should_have_column :death, :type => :date
-  should_have_column :address1, :type => :string
-  should_have_column :address2, :type => :string
-  should_have_column :city, :type => :string
-  should_have_column :state, :type => :string
-  should_have_column :zip, :type => :string
-  should_have_column :country, :type => :string
-  should_have_column :phone, :type => :string
-  should_have_column :height_cm, :type => :decimal
-  should_have_column :weight_kg, :type => :decimal
-  should_have_column :email, :type => :string
-  should_have_column :medications, :type => :text
-  should_have_column :other_diseases, :type => :text
-  should_have_column :allergies, :type => :text
-  should_have_many :appointments, :through => :patient_cases
-
   it "is invalid if male is nil" do
     @patient = Patient.new(:male => nil)
     @patient.should_not be_valid
   end
-
-  should_have_many :patient_interactions
-  should_have_many :operations, :through => :patient_cases
-  should_have_many :patient_cases
-  should_have_many :risk_factors
-  should_have_many :risks, :through => :risk_factors
-
 end
 
 # TODO js: move ID-concatenated concern to decorator

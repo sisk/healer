@@ -13,7 +13,7 @@ gem "haml"
 gem "devise", "1.5.3"
 gem "declarative_authorization", "0.5.3"
 gem "formtastic", "~> 2.2.1" # TODO deprecate
-# gem "validation_reflection"
+gem "hashie", "~> 2.0.5"
 gem "carmen", "~> 1.0.0"
 gem "paperclip"
 gem "test-unit" # TODO deprecate
@@ -33,7 +33,6 @@ group :development, :test do
   gem "pry"
   gem "test_notifier", :require => false
   gem "rspec-rails", ">= 2.0.0", :require => false
-  gem "remarkable_activerecord", ">= 4.0.0.alpha4", :require => false
   gem "factory_girl_rails", :require => false
   gem "newrelic_rpm", :require => false
   gem "letter_opener", :require => false

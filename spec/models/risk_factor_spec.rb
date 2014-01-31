@@ -1,20 +1,5 @@
 require 'spec_helper'
 
-describe RiskFactor do
-  should_have_column :patient_id, :type => :integer
-  should_have_column :risk_id, :type => :integer
-  should_have_column :severity, :type => :integer, :default => 0
-
-  should_validate_presence_of :patient
-  should_validate_presence_of :risk
-
-  should_belong_to :patient
-  should_belong_to :risk
-
-  should_validate_numericality_of :severity
-  should_validate_inclusion_of :severity, :in => RiskFactor::severity_table.keys
-end
-
 describe RiskFactor, "#to_s" do
   before(:each) do
     @risk = mock_model(Risk)

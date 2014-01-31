@@ -1,26 +1,5 @@
 class Operation < ActiveRecord::Base
 
-  def self.approaches
-    ["Anterior","Lateral","Medial","Posterior","Dorsal","Planter","Lateral Transfibular","Transtrochanteric"]
-  end
-
-  def self.osteotomy_options
-    ["None","Trochanteric","Sub-trochanteric","Tibial Tubercal Osteotomy"]
-  end
-
-  def self.difficulty_table
-    { 0 => "Routine", 1 => "Moderate", 2 => "Severe" }
-  end
-  def self.ambulatory_orders
-    ["Weight Bearing as Tolerated","Non-Weight Bearing","Partial Weight Bearing","Heel Weight Bearing"]
-  end
-  def self.anesthsia_types
-    ["spinal","general","local"]
-  end
-  def self.peripheral_nerve_block_types
-    ["femoral", "sciatic", "sciatic/femoral", "popliteal", "ankle", "local", "ExParel", "none"]
-  end
-
   default_scope order(:date)
 
   belongs_to :procedure
@@ -40,9 +19,9 @@ class Operation < ActiveRecord::Base
   # validates_presence_of :date
   validates_presence_of :patient_case
   validates_numericality_of :difficulty
-  validates_inclusion_of :difficulty, :in => self.difficulty_table.keys
-  validates_inclusion_of :approach, :in => self.approaches, :allow_nil => true, :allow_blank => true
-  validates_inclusion_of :ambulatory_order, :in => self.ambulatory_orders, :allow_nil => true, :allow_blank => true
+  validates_inclusion_of :difficulty, :in => Healer::Config.operation[:difficulty_table].keys
+  validates_inclusion_of :approach, :in => Healer::Config.operation[:approaches], :allow_nil => true, :allow_blank => true
+  validates_inclusion_of :ambulatory_order, :in => Healer::Config.operation[:ambulatory_orders], :allow_nil => true, :allow_blank => true
 
   accepts_nested_attributes_for :knee_implant
   accepts_nested_attributes_for :hip_implant

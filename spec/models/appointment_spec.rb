@@ -1,14 +1,5 @@
 require 'spec_helper'
 
-describe Appointment do
-  should_have_column :schedule_order, :type => :integer
-  should_have_column :room_number, :type => :integer
-  should_have_column :scheduled_day, :type => :integer
-  should_have_many :patient_cases
-  should_have_many :operations
-  should_belong_to :trip
-end
-
 describe Appointment, "#remove" do
   before(:each) do
     @appointment = Appointment.new
@@ -18,20 +9,20 @@ describe Appointment, "#remove" do
     lambda { @appointment.remove }.should raise_error(ArgumentError)
   end
   it "clears the appointment_id from the case" do
-    pc = mock_model(PatientCase, :revision? => false)
+    pc = double(PatientCase, :revision? => false)
     @appointment.stub(:patient_cases).and_return([pc])
     @appointment.patient_cases.should_receive(:delete).with(pc)
     @appointment.remove(pc)
   end
   it "preserves itself if patient cases remain" do
-    @appointment.stub(:patient_cases).and_return([mock_model(PatientCase, :revision? => false)])
+    @appointment.stub(:patient_cases).and_return([double(PatientCase, :revision? => false)])
     @appointment.should_not_receive(:destroy)
-    @appointment.remove(mock_model(PatientCase, :revision? => false))
+    @appointment.remove(double(PatientCase, :revision? => false))
   end
   it "destroys itself if no patint cases remain" do
     @appointment.stub(:patient_cases).and_return([])
     @appointment.should_receive(:destroy)
-    @appointment.remove(mock_model(PatientCase, :revision? => false))
+    @appointment.remove(double(PatientCase, :revision? => false))
   end
 end
 
@@ -45,57 +36,86 @@ end
 
 describe Appointment, "#patient" do
   it "returns the patient from its first case" do
-    p = mock_model(Patient)
+    p = double(Patient)
     appointment = Appointment.new
-    appointment.stub(:patient_cases).and_return([mock_model(PatientCase, :revision? => false, :patient => p)])
+    appointment.stub(:patient_cases).and_return([double(PatientCase, :revision? => false, :patient => p)])
     appointment.patient.should == p
   end
 end
 
 describe Appointment, "unschedule!" do
-  # TODO state machine approach might be better for this.
-  before(:each) do
-    @appointment = Appointment.new(:trip => mock_model(Trip), :room_number => 1, :scheduled_day => 4)
-    @appointment.stub(:save)
-  end
-  it "clears the room" do
-    lambda { @appointment.unschedule! }.should change { @appointment.room_number }.to(nil)
+  it "set the room number to nil" do
+    appointment = Appointment.create!(:trip => create(:trip), :room_number => 1)
+
+    appointment.room_number.should == 1
+
+    appointment.unschedule!
+
+    appointment.reload.room_number.should be_nil
   end
   it "sets scheduled day to zero" do
-    lambda { @appointment.unschedule! }.should change { @appointment.scheduled_day }.to(0)
-  end
-  it "saves the object" do
-    @appointment.should_receive(:save)
-    @appointment.unschedule!
+    appointment = Appointment.create!(:trip => create(:trip), :scheduled_day => 4)
+
+    appointment.scheduled_day.should == 4
+
+    appointment.unschedule!
+
+    appointment.scheduled_day.should == 0
   end
 end
 
 describe Appointment, "#bilateral?" do
 
   before(:each) do
-    @c1 = mock(PatientCase)
-    @c2 = mock(PatientCase)
-    @c3 = mock(PatientCase)
+    @c1 = double(PatientCase)
+    @c2 = double(PatientCase)
+    @c3 = double(PatientCase)
     @c1.stub(:bilateral_case).and_return(@c2)
     @c2.stub(:bilateral_case).and_return(@c1)
   end
 
-  it "is true if any patient cases have a bilateral case" do
-    cg = Appointment.new
-    cg.stub(:patient_cases).and_return([@c1, @c2])
-    cg.bilateral?.should be_true
+  it "is true if two patient cases are present on the same trip with opposite anatomies" do
+    appointment = Appointment.new(:trip => create(:trip))
+    appointment.patient_cases << create(:patient_case, :anatomy => "knee", :side => "left", :trip => appointment.trip)
+    appointment.patient_cases << create(:patient_case, :anatomy => "knee", :side => "right", :trip => appointment.trip)
+
+    appointment.bilateral?.should be_true
   end
 
-  it "is false if case number doesn't match" do
-    cg = Appointment.new
-    cg.stub(:patient_cases).and_return([@c1])
-    cg.bilateral?.should be_false
+  it "is false if two patient cases are present on different trips with opposite anatomies" do
+    trip1 = create(:trip, :nickname => "trip1")
+    trip2 = create(:trip, :nickname => "trip2")
+    appointment = Appointment.new(:trip => trip1)
+    appointment.patient_cases << create(:patient_case, :anatomy => "knee", :side => "left", :trip => trip1)
+    appointment.patient_cases << create(:patient_case, :anatomy => "knee", :side => "right", :trip => trip2)
+
+    appointment.bilateral?.should be_false
   end
 
-  it "is false if no patient cases have a bilateral case" do
-    cg = Appointment.new
-    cg.stub(:patient_cases).and_return([@c3])
-    cg.bilateral?.should be_false
+  it "is false if no case is on the same trip as the appointment" do
+    trip1 = create(:trip, :nickname => "trip1")
+    trip2 = create(:trip, :nickname => "trip2")
+    appointment = Appointment.new(:trip => trip1)
+    appointment.patient_cases << create(:patient_case, :anatomy => "knee", :side => "left", :trip => trip2)
+    appointment.patient_cases << create(:patient_case, :anatomy => "knee", :side => "right", :trip => trip2)
+
+    appointment.bilateral?.should be_false
+  end
+
+  it "is false if only one patient case is present" do
+    trip1 = create(:trip, :nickname => "trip1")
+    appointment = Appointment.new(:trip => trip1)
+    appointment.patient_cases << create(:patient_case, :anatomy => "knee", :side => "left", :trip => trip1)
+
+    appointment.bilateral?.should be_false
+  end
+
+  it "is false if only one patient case is present" do
+    trip1 = create(:trip, :nickname => "trip1")
+    appointment = Appointment.new(:trip => trip1)
+    appointment.patient_cases << create(:patient_case, :anatomy => "knee", :side => "left", :trip => trip1)
+
+    appointment.bilateral?.should be_false
   end
 
 end

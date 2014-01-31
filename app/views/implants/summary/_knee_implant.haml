@@ -21,7 +21,7 @@
       %dt Total Screws
       %dd= implant.total_screws
     %dt Patella Size
-    %dd= KneeImplant::patella_sizes[implant.patella_size]
+    %dd= Healer::Config.anatomy[:patella_sizes][implant.patella_size]
   %ul
     - if implant.femur_stems
       %li Femur Stems

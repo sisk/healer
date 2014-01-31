@@ -43,7 +43,7 @@ describe Appointment do
     end
 
     it "is true if two cases match anatomy and sides differ" do
-      appointment = Appointment.new
+      appointment = Appointment.new(:trip => @trip)
       appointment.patient_cases << build(
         :patient_case,
         :trip => @trip, :anatomy => "knee", :side => "right")

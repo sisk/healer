@@ -33,11 +33,11 @@ class Appointment < ActiveRecord::Base
   end
 
   def bilateral?
-    anatomy_sides.size == 2 && anatomies.size == 1
+    anatomy_sides.size == 2 && anatomies.size == 1 && patient_case_trips_match?
   end
 
   def unschedule!
-    update_attributes({ :room_number => nil, :scheduled_day => 0 })
+    update_attributes!({ :room_number => nil, :scheduled_day => 0 })
   end
 
   # TODO js: kill this!
@@ -82,6 +82,11 @@ class Appointment < ActiveRecord::Base
 
   def anatomy_info
     @anatomy_info ||= patient_cases.map{ |pc| [pc.anatomy,pc.side] }
+  end
+
+  def patient_case_trips_match?
+    trip_ids = patient_cases.map(&:trip_id).uniq
+    trip_ids.size == 1 && trip_ids[0] == trip_id
   end
 
 end

@@ -84,7 +84,6 @@ class PatientCase < ActiveRecord::Base
   end
 
   def as_json(options={})
-    # serializable_hash(options.merge({ :only => ["id", "trip_id", "status"], :joins => [:patient] }))
     {
       :id => self.id,
       :to_s => self.to_s,
@@ -189,7 +188,6 @@ class PatientCase < ActiveRecord::Base
   private #####################################################################
 
   def set_appointment
-    # TODO evaluate use of self here. Superfluous?
     if self.authorized?
       self.update_column(:appointment_id, Appointment.create(:trip_id => self.trip_id).try(:id)) unless self.appointment.present?
     else
