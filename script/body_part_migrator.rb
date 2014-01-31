@@ -1,6 +1,11 @@
 #encoding: UTF-8
 require File.expand_path('../../config/environment',  __FILE__)
 
+class PatientCase < ActiveRecord::Base
+  belongs_to :body_part
+end
+class BodyPart < ActiveRecord::Base; end
+
 class BodyPartMigrator
 
   def perform
