@@ -60,14 +60,14 @@ module ControllerMacros
   def login_admin
     before(:each) do
       @request.env["devise.mapping"] = Devise.mappings[:admin]
-      sign_in Factory.create(:user_admin)
+      sign_in create(:user_admin)
     end
   end
 
   def login_doctor
     before(:each) do
       @request.env["devise.mapping"] = Devise.mappings[:admin]
-      sign_in Factory.create(:user_doctor)
+      sign_in create(:user_doctor)
     end
   end
 

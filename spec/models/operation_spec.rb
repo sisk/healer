@@ -3,8 +3,6 @@ require 'spec_helper'
 describe Operation, "#to_s" do
   before(:each) do
     @operation = Operation.new
-    @body_part = stub_model(BodyPart, :side => "L")
-    @body_part.stub(:to_s).and_return("BodyPart (L)")
     @procedure = stub_model(Procedure, :to_s => "Derp")
   end
   context "procedure is not set" do
@@ -20,7 +18,6 @@ describe Operation, "#to_s" do
       @operation.procedure = @procedure
     end
     it "Uses the procedure string" do
-      @operation.stub(:body_part)
       @operation.to_s.should == "Derp"
     end
   end

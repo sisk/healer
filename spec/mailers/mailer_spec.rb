@@ -7,10 +7,13 @@ describe Mailer do
     ActionMailer::Base.deliveries = []  
   end
   
-  it "#case_added" do
-    patient_case = mock_model(PatientCase, :to_s => "Herp", :created_by => "Someone", :patient => mock_model(Patient))
-    mail = Mailer.case_added(patient_case).deliver
-    ActionMailer::Base.deliveries.size.should == 1
+  describe "#case_added" do
+    it "send an email for new case" do
+      patient_case = create(:patient_case)
+      mail = Mailer.case_added(patient_case, "a@b.com").deliver
+
+      ActionMailer::Base.deliveries.size.should == 1
+    end
   end
 
 end
