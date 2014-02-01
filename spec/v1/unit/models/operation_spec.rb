@@ -14,7 +14,6 @@ describe Operation do
 
   describe "#build_implant" do
     it "returns the existing implant if already present" do
-      require 'pry'; binding.pry
       implant = create(:implant)
       operation = Operation.new(:implant => implant)
 
