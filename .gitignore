@@ -9,7 +9,7 @@
 *.gz
 public/system/*
 public/system_dev/*
-config/database.yml
+config/*.yml
 db/schema.rb
 log/*.log
 tmp
@@ -17,5 +17,4 @@ public/assets/*
 public/system/patients/*
 TODO
 .env
-Gemfile.local*
-config/database.yml
+Gemfile.local

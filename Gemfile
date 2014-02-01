@@ -34,7 +34,6 @@ group :development, :test do
   gem "test_notifier", :require => false
   gem "rspec-rails", ">= 2.0.0", :require => false
   gem "factory_girl_rails", :require => false
-  gem "newrelic_rpm", :require => false
   gem "letter_opener", :require => false
   gem "hamls_comment", :require => false
   gem "taps", :require => false # has an sqlite dependency, which heroku hates
