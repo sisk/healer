@@ -1,0 +1,6 @@
+development:
+  bucket: "healer-app-development"
+test:
+  bucket: "healer-app-development"
+production:
+  bucket: "healer-app-production"

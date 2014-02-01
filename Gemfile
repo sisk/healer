@@ -3,8 +3,8 @@ ruby "1.9.3"
 
 gem "rails", "~> 3.2.14"
 
-gem "aws-s3"
-gem "aws-sdk"
+gem "aws-s3", "~> 0.6.3"
+gem "aws-sdk", "~> 1.33.0" # required for paperclip to upload to s3
 # gem "sqlite3-ruby", :require => "sqlite3"
 gem "mysql2", "~> 0.3.11"
 gem "pg"
@@ -34,7 +34,6 @@ group :development, :test do
   gem "test_notifier", :require => false
   gem "rspec-rails", ">= 2.0.0", :require => false
   gem "factory_girl_rails", :require => false
-  gem "newrelic_rpm", :require => false
   gem "letter_opener", :require => false
   gem "hamls_comment", :require => false
   gem "taps", :require => false # has an sqlite dependency, which heroku hates
