@@ -1,3 +1,6 @@
-bucket: "healer-app-development"
-access_key: "access_key_here"
-security_key: "security_key_here"
+development:
+  bucket: "healer-app-development"
+test:
+  bucket: "healer-app-development"
+production:
+  bucket: "healer-app-production"
