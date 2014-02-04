@@ -20,11 +20,13 @@ gem "test-unit" # TODO deprecate
 gem "inherited_resources", "~> 1.3.1" # TODO deprecate
 gem "will_paginate", "~> 3.0.3"
 gem "dotiw", "1.1.1"
-gem "jquery-rails"
+gem "jquery-rails", "~> 3.1.0"
+gem "jquery-ui-rails", "~> 4.1.1"
+gem "fancybox2-rails", "~> 0.2.4"
 gem "exception_notification"
 gem "friendly_id"
 gem "rake"
-gem "remotipart"
+gem "remotipart", "~> 1.2"
 # gem "google_drive" # enable for PatientBulkInput
 gem "highline"
 gem "puma"
