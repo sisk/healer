@@ -1,1 +1,46 @@
-//= require v1/foundation_and_overrides
+//= require foundation_and_overrides
+//= require jquery.ui.all
+//= require fancybox
+
+body {
+  background: #eee;
+}
+
+.debug {
+  border: solid 1px blue;
+}
+
+.inprogress {
+  opacity: 0.2;
+}
+
+.patient.with_cases {
+  margin-bottom: 1.375rem;
+}
+
+.patient.with_cases {
+  box-shadow: 0px 2px 10px #bbb;
+  .patient {
+    // border-top: solid 1px #999;
+    padding: 1rem 0;
+    background: #f8f8ff;
+  }
+}
+
+// #modal {
+//   background: white; 
+//   box-shadow: 0px 2px 30px #aaa;
+// }
+
+.patient_case {
+  margin-top: 1rem;
+  border-top: solid 1px #eee;
+}
+
+.inline-list .xray {
+  margin-left: 1rem;
+}
+
+.top-bar {
+  margin-bottom: 1.375rem;
+}
