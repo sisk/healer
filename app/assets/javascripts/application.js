@@ -7,3 +7,10 @@
 
 $(function(){ $(document).foundation(); });
 $(function() { $(".fancybox").fancybox(); });
+$("#modal").dialog({
+  autoOpen: false,
+  width: 750,
+  modal: true,
+  show: "fade",
+  hide: "fade"
+});
