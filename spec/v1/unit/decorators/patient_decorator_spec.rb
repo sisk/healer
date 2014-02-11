@@ -19,4 +19,13 @@ describe V1::PatientDecorator do
     end
   end
 
+  describe "#id" do
+    it "delegates to model.id" do
+      patient = create(:patient, name_full: "Arthur Fonzarelli")
+      decorator = V1::PatientDecorator.new(patient)
+
+      decorator.id.should == patient.id
+    end
+  end
+
 end
