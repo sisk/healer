@@ -54,12 +54,21 @@ class PatientCasesController < ApplicationController
         }
       end
 
-
     when "unapprove"
       @patient_cases.each{ |pc| pc.deauthorize! }
       respond_to do |format|
         format.html {
           redirect_to :back, :notice => "Deauthorized cases."
+        }
+        format.js {
+          render :template => "patient_cases/refresh_cases.js.erb", :layout => nil
+        }
+      end
+    when "approve"
+      @patient_cases.each{ |pc| pc.authorize! }
+      respond_to do |format|
+        format.html {
+          redirect_to :back, :notice => "Authorized cases."
         }
         format.js {
           render :template => "patient_cases/refresh_cases.js.erb", :layout => nil

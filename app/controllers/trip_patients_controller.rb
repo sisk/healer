@@ -38,7 +38,7 @@ class TripPatientsController < ApplicationController
       if params[:search]
         begin
           patient_id = Integer(params[:search])
-          subset = end_of_association_chain.find_all_by_id(patient_id)
+          subset = end_of_association_chain.find_all_by_id(patient_id, :include => :patient_cases)
         rescue ArgumentError
           subset = end_of_association_chain.search(params[:search])
         end

@@ -22,6 +22,7 @@ class ApplicationController < ActionController::Base
   layout :get_layout
 
   def get_layout
+    # return "modal" if ajax_request?
     mobile_agent? || chrome? ? "mobile" : layout_by_resource
   end
 
@@ -64,6 +65,11 @@ class ApplicationController < ActionController::Base
 
   def chrome?
     request.user_agent.match(/Chrome/)
+  end
+
+  def ajax_request?
+    # deliberate overkill: request.xhr? doesn't work for some modals.
+    env["HTTP_X_REQUESTED_WITH"] == "XMLHttpRequest"
   end
 
   def permission_denied
