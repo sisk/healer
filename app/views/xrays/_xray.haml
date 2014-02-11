@@ -1,4 +1,5 @@
-.xray{ :id => dom_id(xray) }
-  .zoom= link_to image_tag(xray.photo.url(:tiny), :alt => xray.to_s), xray.photo.url, :rel => "group"
-  - if editable && permitted_to?(:destroy, xray)
-    .delete= link_to "<span>[Delete]</span>".html_safe, xray_path(xray), :method => :delete, :remote => true, :confirm => "Are you sure you want to delete this x-ray? You cannot undo this!".html_safe
+- case_decorator = V1::PatientCaseDecorator.new(xray.patient_case)
+%li.xray{ :id => dom_id(xray) }
+  = link_to(image_tag(xray.photo.url(:tiny), :title => xray.to_s), xray.photo.url, :class => "fancybox", :rel => "#{case_decorator.dom_id}", :title => case_decorator.title)
+  / - if editable && permitted_to?(:destroy, xray)
+  /   .delete= link_to "<span>[Delete]</span>".html_safe, xray_path(xray), :method => :delete, :remote => true, :confirm => "Are you sure you want to delete this x-ray? You cannot undo this!".html_safe

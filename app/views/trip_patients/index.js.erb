@@ -4,7 +4,4 @@ $('.patient_list .records').append('<%= j render :partial => "patient", :collect
 <% else %>
   $('.pagination').remove();
 <% end %>
-$(".case_list .select_all").click(function(event) {
-  $(this).closest(".case_list").find(".patient_case input[type=checkbox]").attr("checked",true);
-});
 resetZoomable();

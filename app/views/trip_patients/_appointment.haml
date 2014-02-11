@@ -1,2 +1,19 @@
-.appointment{ :id => dom_id(appointment) }
-  = render :partial => "trip_patients/authorized_case", :collection => appointment.patient_cases, :as => :patient_case
+.row.appointment{ :id => dom_id(appointment) }
+  .columns.large-12
+    - appointment.patient_cases.each do |patient_case|
+      .row.patient_case{ :class => "#{patient_case.treated? ? "treated" : "untreated"}", :id => dom_id(patient_case) }
+        .columns.large-6
+          %h4
+            - if permitted_to? :edit, patient_case
+              = link_to V1::PatientCaseDecorator.new(patient_case).title, edit_trip_case_path(patient_case.trip,patient_case)
+            - else
+              = V1::PatientCaseDecorator.new(patient_case).title
+          / %p.diagnosis
+          /   = patient_case.disease
+          /   - if patient_case.severity && patient_case.severity > 0
+          /     %span.severity{ :class => severity(patient_case).downcase }
+          /       = "(#{severity(patient_case)})"
+          = render :partial => "xrays/collection", :locals => { :patient_case => patient_case, :xrays => patient_case.xrays.pre_op, :editable => false }
+        .columns.large-6
+          - if patient_case.operation
+            = render :partial => "operations/inline", :object => patient_case.operation, :as => :operation, :locals => { :options => { :size => :tiny } }

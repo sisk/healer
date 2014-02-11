@@ -1,0 +1,13 @@
+- patient_presenter = V1::PatientDecorator.new(patient)
+.row
+  .columns.large-12
+    .f-dropdown.has-form.content{ :id => "#{patient_presenter.dom_id}_schedule", "data-dropdown-content" => true }
+      %h6 Select case(s) to edit
+      = form_tag(bulk_trip_cases_path, :method => :post, :remote => true) do
+        - patient.patient_cases.each do |pc|
+          - presenter = V1::PatientCaseDecorator.new(pc)
+          = check_box_tag "bulk_cases[]", pc.id, false, :id => "bulk_select_case_#{pc.id}"
+          = label_tag "bulk_select_case_#{pc.id}", presenter.title
+          %br
+        = select_tag :bulk_action, options_for_select([[""],["Approve for surgery","approve"],["Return to waiting","unapprove"],["Operate together","group"],["Operate separately","ungroup"]])
+        = submit_tag "Go", :class => "button"

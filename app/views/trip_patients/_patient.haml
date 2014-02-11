@@ -1,5 +1,37 @@
-%a{ :name => dom_id(patient) }
-.patient{ :id => dom_id(patient) }
-  .basic= render :partial => "patients/header", :locals => { :patient => patient }
-  .supplement
-    .cases= render :partial => "cases", :locals => { :patient => patient, :trip => @trip }
+- patient_presenter = V1::PatientDecorator.new(patient)
+%a{ :name => patient_presenter.dom_id }
+.row.patient.with_cases{ :id => patient_presenter.dom_id }
+  .columns.large-12
+    .row.patient
+      .columns.large-12
+        .row
+          .columns.large-3.small-2
+            %h3.patient_id.hide-for-medium-up= patient_presenter.id
+            .image.hide-for-small= patient_image(patient, :small)
+          .columns.large-7.small-6
+            %h3
+              - if permitted_to?(:edit, patient)
+                = link_to(patient_presenter.name, edit_patient_path(patient), :remote => true)
+              - else
+                = patient_presenter.name
+              %small.image.hide-for-small= patient_presenter.id
+            =# render :partial => "patients/shared/patient_demographic", :locals => { :patient => patient }
+          .columns.large-2.small-4
+            %ul.side-nav
+              - if permitted_to?(:authorize, patient)
+                %li= link_to "Schedule", "#", { "data-dropdown" => "#{patient_presenter.dom_id}_schedule" }
+              - if permitted_to?(:edit, patient)
+                %li= link_to "Log adverse event", new_patient_adverse_event_path(patient), :remote => true
+              / - if patient.has_medical_detail?
+              /   %li
+              /     = link_to "Medical history", new_patient_adverse_event_path(patient), :remote => true
+              /     .medical_history.supplemental
+              /       %p.fake_link.toggle= "Medical history"
+              /       .details{ :style => "display: none;" }
+              /         = render :partial => "patients/medical_details", :locals => { :patient => patient, :hide => true }
+
+        - if permitted_to?(:authorize, patient)
+          = render :partial => "trip_patients/scheduling", :locals => { :patient => patient }
+    .row.cases
+      .columns.large-12
+        = render :partial => "cases", :locals => { :patient => patient, :trip => @trip }

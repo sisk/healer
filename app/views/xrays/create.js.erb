@@ -1,6 +1,6 @@
 <% dom_id_out = resource.operation.present? ? dom_id(resource.operation) : dom_id(resource.patient_case) %>
 xrays_collection = $("#<%= dom_id_out %>_xrays");
-xrays_collection.find(".group").append('<%= escape_javascript(render :partial => "xrays/xray", :locals => { :xray => resource, :editable => true }) %>');
+xrays_collection.append('<%= escape_javascript(render :partial => "xrays/xray", :locals => { :xray => resource, :editable => true }) %>');
 $("#modal").dialog('close');
 $('#modal').html('');
 resetZoomable();

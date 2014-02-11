@@ -7,9 +7,7 @@
     %meta{ name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" }
 
     = csrf_meta_tag
-    = stylesheet_link_tag "v1/application"
-    = javascript_include_tag "vendor/modernizr"
-    = javascript_include_tag "v1/fastclick"
+    = stylesheet_link_tag "application"
 
     = yield :head
     %title<
@@ -35,7 +33,7 @@
                   %li
                     %label= V1::TripDecorator.new(@trip).name
                   = render :partial => "layouts/mobile/nav_trip"
-            - if current_user.has_role_admin
+            - if current_user.try(:has_role_admin)
               %hr
                 %ul.off-canvas-list
                   = render :partial => "layouts/mobile/nav_system"
@@ -55,7 +53,7 @@
             %ul.right
               - if @trip && @trip.persisted?
                 = render :partial => "layouts/mobile/nav_trip"
-              - if current_user.has_role_admin
+              - if current_user.try(:has_role_admin)
                 %li.divider
                   = render :partial => "layouts/mobile/nav_system"
               %li.divider
@@ -78,10 +76,15 @@
             .columns.large-12
               = yield
 
-        #footer.row
-          .columns.large-12
-            %p.as_of.print_only= "As of: #{Time.now}"
-            = render :partial => "layouts/shared/utility"
-    = render :partial => "layouts/shared/default_javascript"
+        / #footer.row
+        /   .columns.large-12
+        /     %p.as_of.print_only= "As of: #{Time.now}"
+        #modal
+    = javascript_include_tag "application"
     = yield :script
-    = javascript_include_tag "v1/application"
+    = javascript_include_tag "lib/flash.js"
+    = javascript_include_tag "lib/schedule.js"
+    = javascript_include_tag "lib/collapsible.js"
+    = javascript_include_tag "lib/orderable.js"
+    = javascript_include_tag "vendor/modernizr"
+    = javascript_include_tag "fastclick"

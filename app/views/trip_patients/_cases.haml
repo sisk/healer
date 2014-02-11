@@ -1,17 +1,4 @@
 - appointments = patient.appointments(:conditions => ["trip_id = ?", trip.id])
 - unauthorized_cases = patient.patient_cases.unauthorized(:conditions => ["trip_id = ?", trip.id])
-.case_list.authorized{ :class => "#{appointments.map(&:patient_cases).flatten.size > 1 ? "multiple" : "single"}" }
-  = form_tag(bulk_trip_cases_path, :method => :post, :remote => true) do
-    .header{ :class => "#{"hide" unless appointments.present?}" }
-      %h3 Cases
-      .nav
-        - if permitted_to? :authorize, patient
-          %span.fake_link.select_all Select All
-          = select_tag :bulk_action, options_for_select([[""],["Operate together","group"],["Operate separately","ungroup"],["Return to waiting","unapprove"]])
-          = submit_tag "Go"
-    = render :partial => "trip_patients/authorized_appointment", :collection => appointments, :as => :appointment
-
-.case_list.unauthorized{ :class => "#{unauthorized_cases.size > 1 ? "multiple" : "single"}" }
-  .header{ :class => "#{"hide" unless unauthorized_cases.present?}" }
-    %h3 Waiting Cases
-  = render :partial => "trip_patients/unauthorized_case", :collection => unauthorized_cases, :as => :patient_case
+= render :partial => "trip_patients/appointment", :collection => appointments, :as => :appointment
+= render :partial => "trip_patients/unauthorized_case", :collection => unauthorized_cases, :as => :patient_case

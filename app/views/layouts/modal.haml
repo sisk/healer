@@ -1,0 +1,31 @@
+!!! 5
+%html{ xmlns: "http://www.w3.org/1999/xhtml" }
+  %head
+    %meta{ "content" => "text/html;charset=utf-8", "http-equiv" => "Content-Type" }
+    = csrf_meta_tag
+    = stylesheet_link_tag "application"
+
+    = yield :head
+    %title<
+      Healer
+      - if content_for?(:title)
+        = "- #{yield :title}"
+  %body
+    - if content_for?(:title)
+      .row
+        .columns.large-12
+          %h1= yield :title
+    .row
+      .columns.large-12
+        = render :partial => "layouts/shared/alerts"
+    .row
+      .columns.large-12
+        = yield
+    = javascript_include_tag "application"
+    = yield :script
+    = javascript_include_tag "lib/flash.js"
+    = javascript_include_tag "lib/schedule.js"
+    = javascript_include_tag "lib/collapsible.js"
+    = javascript_include_tag "lib/orderable.js"
+    = javascript_include_tag "vendor/modernizr"
+    = javascript_include_tag "fastclick"

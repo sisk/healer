@@ -1,17 +1,16 @@
 - content_for :subnavigation do
   #case_filter
-    .section.anatomy
-      = form_tag(trip_patients_path(@trip), {:method => :get}) do
-        = text_field_tag :search, nil, :placeholder => "Search"
-        = select_tag :authorized_status, options_for_select([["All cases","all"],["Authorized cases","authorized"],["Waiting cases","unauthorized"]], :selected => (params[:authorized_status] || "all"))
-        - @anatomies.each do |anatomy|
-          .criterion
-            = check_box_tag "anatomies[]", anatomy, (params[:anatomies] && Array(params[:anatomies]).include?(anatomy)), :id => "#{anatomy}_filter"
-            = label_tag "#{anatomy}_filter", anatomy
-        = submit_tag "Go"
+    = form_tag(trip_patients_path(@trip), {:method => :get}) do
+      = text_field_tag :search, nil, :placeholder => "Search"
+      = select_tag :authorized_status, options_for_select([["All cases","all"],["Authorized cases","authorized"],["Waiting cases","unauthorized"]], :selected => (params[:authorized_status] || "all"))
+      - @anatomies.each do |anatomy|
+        .criterion
+          = check_box_tag "anatomies[]", anatomy, (params[:anatomies] && Array(params[:anatomies]).include?(anatomy)), :id => "#{anatomy}_filter"
+          = label_tag "#{anatomy}_filter", anatomy
+      = submit_tag "Go"
 
 .record_list.patient_list
-  .records
+  .section.records
     - if @paginated_patients.size > 0
       = render :partial => "patient", :collection => @paginated_patients, :as => :patient, :locals => { :trip => @trip }
     - else
@@ -19,26 +18,10 @@
   = will_paginate(@paginated_patients)
 
 - content_for :script do
+  = javascript_include_tag "trip_patient_scroll"
   :javascript
-    jQuery(function ($) {
-      if ($('.pagination').length) {
-        $(window).scroll(function(){
-          url = $('.pagination .next_page').attr('href');
-          if (url && $(window).scrollTop() > ($(document).height() - $(window).height() - 250) ) {
-            $('.pagination').html("<p class='fetching'><img class='ajax_loader' src='/assets/ajax-loader.gif' /><span>Fetching more patients. Please wait...</span></p>");
-            $.getScript(url);
-          }
-        });
-        $(window).scroll();
-      }
-    });
-
     $(function() {
       $(".record_jump select").change(function() {
         $(this).closest("form").submit();
       });
-    });
-
-    $(".case_list .select_all").click(function(event) {
-      $(this).closest(".case_list").find(".patient_case input[type=checkbox]").attr("checked",true);
     });

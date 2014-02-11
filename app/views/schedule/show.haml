@@ -1,21 +1,16 @@
 - content_for :title do
   = "Schedule"
 - content_for :subnavigation do
-  - if permitted_to? :schedule, @trip
-    %ul
+  %ul.side-nav
+    - if permitted_to? :schedule, @trip
       %li= link_to "Edit schedule", edit_trip_schedule_path(@trip)
-  %h3 Day Schedules
-  %ul
+      %li.divider
     - @number_of_days.times do |i|
       - day_num = i + 1
       %li= link_to "Day #{day_num}", trip_schedule_path(@trip, :day => day_num)
-
-  %br
-  %h3 Room Schedules
-  %ul
+    %li.divider
     - (1..@number_of_rooms).each do |room_number|
       %li= link_to "Room #{room_number}", trip_schedule_path(@trip, :room_number => room_number)
-
 
 - if @number_of_rooms == 0
   %p Trip must have room availability set before it can be scheduled.

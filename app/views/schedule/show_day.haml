@@ -1,7 +1,7 @@
 - content_for :title do
   = "Schedule - Day #{@day}"
 - content_for :subnavigation do
-  %ul
+  %ul.side-nav
     %li= link_to "Full schedule", trip_schedule_path(@trip)
     - if permitted_to? :schedule, @trip
       %li= link_to "Edit schedule", edit_trip_schedule_path(@trip)
@@ -10,7 +10,7 @@
   %p Trip must have room availability set before it can be scheduled.
 - else
   #show_schedule_list
-    %ul
+    %ul.inline-list
       - (1..@number_of_rooms).each do |room_number|
         %li= link_to "Room #{room_number}", "#room_#{room_number}"
     - (1..@number_of_rooms).each do |room_number|
@@ -19,7 +19,7 @@
         %p= link_to "Show all days for Room #{room_number}", trip_schedule_path(@trip, :room_number => room_number)
 
         #patient_cases.patient_list
-          = render :partial => "appointments/list_item", :collection => appointments, :as => :appointment
+          = render :partial => "appointment", :collection => appointments, :as => :appointment
 
 - content_for :script do
   = javascript_include_tag "lib/jquery.fancybox.overrides"

@@ -1,7 +1,7 @@
 - content_for :title do
   = "#{@patient_case.patient} - #{@patient_case}"
 - content_for :subnavigation do
-  %ul
+  %ul.side-nav
     %li= link_to "Full patient record", patient_path(@patient_case.patient)
     %li= link_to "Log new adverse event", new_patient_adverse_event_path(@patient_case.patient, :case_id => @patient_case.id)
     - if permitted_to? :destroy, @patient_case

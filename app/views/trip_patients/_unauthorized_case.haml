@@ -1,21 +1,12 @@
-.patient_case{ :id => dom_id(patient_case) }
-  .pre_op
-    .case_title
-      %p.name
-        = link_to V1::PatientCaseDecorator.new(patient_case).title, trip_case_path(patient_case.trip,patient_case)
-      %p.diagnosis
-        = patient_case.disease
-        - if patient_case.severity && patient_case.severity > 0
-          %span.severity{ :class => severity(patient_case).downcase }
-            = "(#{severity(patient_case)})"
-    .xrays
-      = render :partial => "xrays/collection", :locals => { :patient_case => patient_case, :xrays => patient_case.xrays.pre_op, :editable => false }
-  .nav
-    - if permitted_to? :authorize, patient_case.patient
-      - if !patient_case.authorized?
-        = link_to "Approve", authorize_trip_case_path(patient_case.trip, patient_case), :method => :put, :remote => true
+.row.patient_case.unauthorized{ :id => dom_id(patient_case) }
+  .columns.large-10
+    %h4
+      - if permitted_to? :edit, patient_case
+        = link_to V1::PatientCaseDecorator.new(patient_case).title, edit_trip_case_path(patient_case.trip,patient_case)
       - else
-        = link_to "Return to waiting", deauthorize_trip_case_path(patient_case.trip, patient_case), :method => :put, :remote => true
-      |
-    - if permitted_to? :edit, patient_case
-      = link_to "Make Changes", edit_trip_case_path(patient_case.trip,patient_case)
+        = V1::PatientCaseDecorator.new(patient_case).title
+    = render :partial => "xrays/collection", :locals => { :patient_case => patient_case, :xrays => patient_case.xrays.pre_op, :editable => false }
+  .columns.large-2
+    %ul.side-nav
+    - if permitted_to? :authorize, patient_case.patient
+      = link_to "Approve", authorize_trip_case_path(patient_case.trip, patient_case), :method => :put, :remote => true

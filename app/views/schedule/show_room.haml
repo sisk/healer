@@ -1,12 +1,12 @@
 - content_for :title do
   = "Schedule - Room #{@room_number}"
 - content_for :subnavigation do
-  %ul
+  %ul.side-nav
     %li= link_to "Full schedule", trip_schedule_path(@trip)
     - if permitted_to? :schedule, @trip
       %li= link_to "Edit schedule", edit_trip_schedule_path(@trip)
 #show_schedule_list
-  %ul
+  %ul.inline-list
     - @number_of_days.times do |i|
       - day_num = i + 1
       %li= link_to "Day #{day_num}", "#day_#{day_num}"
@@ -17,7 +17,7 @@
       %p= link_to "Show all rooms for Day #{day_num}", trip_schedule_path(@trip, :day => day_num)
 
       #patient_cases.patient_list
-        = render :partial => "appointments/list_item", :collection => appointments, :as => :appointment
+        = render :partial => "appointment", :collection => appointments, :as => :appointment
 
 - content_for :script do
   = javascript_include_tag "lib/jquery.fancybox.overrides"

@@ -1,7 +1,4 @@
 cases = $("#<%= dom_id(@patient) %> .cases");
 cases.html('<%= escape_javascript(render :partial => "trip_patients/cases", :locals => { :patient => @patient, :trip => @trip }) %>');
+$('[data-dropdown]').trigger('click');
 resetZoomable();
-
-$(".case_list .select_all").click(function(event) {
-  $(this).closest(".case_list").find(".patient_case input[type=checkbox]").attr("checked",true);
-});
