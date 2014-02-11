@@ -4,40 +4,34 @@
   .choice
     %p.fake_link.toggle I want to add a new patient.
     .data.hide
-      = semantic_form_for [parent,resource], :url => trip_cases_path(parent), :html => { :multipart => true } do |f|
-        = f.semantic_errors
+      = simple_form_for [parent,resource], :url => trip_cases_path(parent), :html => { :multipart => true } do |f|
+        =# f.semantic_errors
         = f.input :trip_id, :as => :hidden, :input_html => { :value => @trip.id }
         = f.input :created_by_id, :as => :hidden, :input_html => { :value => current_user.id }
-        = f.semantic_fields_for :patient do |p|
-          = p.semantic_errors
-          = p.inputs :name => "Name & Photo" do
-            = p.input :name_full, :label => "Name"
-            = p.input :photo, :as => :file, :label => "Photo"
-          = p.inputs :name => "Demographics" do
-            = p.input :male, :as => :radio, :label => "Gender", :collection => [["Male", true], ["Female", false]]
-            = p.input :birth, :as => :date, :label => "Birth", :start_year => 1900, :end_year => Time.now.year
-            =# f.input :death, :as => :date, :label => "Death"
-            = p.input :height_cm, :label => 'Height (cm)'
-            = p.input :weight_kg, :label => 'Weight (kg)'
-          = p.inputs :name => "Contact" do
-            = p.input :address1, :label => 'Address 1'
-            = p.input :address2, :label => 'Address 2'
-            = p.input :city, :label => 'City'
-            = p.input :state, :label => 'State/Region'
-            = p.input :zip, :label => 'Zip/Postal'
-            = p.input :country, :as => :select, :label => 'Country', :collection => all_countries, :selected => @trip.try(:country)
-            = p.input :phone, :label => 'Phone'
-            = p.input :email, :label => 'Email'
-        = f.actions do
-          = f.action :submit
+        = f.simple_fields_for :patient do |p|
+          =# p.semantic_errors
+          = p.input :name_full, :label => "Name"
+          = p.input :photo, :as => :file, :label => "Photo"
+          = p.input :male, :as => :radio, :label => "Gender", :collection => [["Male", true], ["Female", false]]
+          = p.input :birth, :as => :date, :label => "Birth", :start_year => 1900, :end_year => Time.now.year
+          =# f.input :death, :as => :date, :label => "Death"
+          = p.input :height_cm, :label => 'Height (cm)'
+          = p.input :weight_kg, :label => 'Weight (kg)'
+          = p.input :address1, :label => 'Address 1'
+          = p.input :address2, :label => 'Address 2'
+          = p.input :city, :label => 'City'
+          = p.input :state, :label => 'State/Region'
+          = p.input :zip, :label => 'Zip/Postal'
+          = p.input :country, :as => :select, :label => 'Country', :collection => all_countries, :selected => @trip.try(:country)
+          = p.input :phone, :label => 'Phone'
+          = p.input :email, :label => 'Email'
+        = f.button :submit
   .choice
     %p.fake_link.toggle I want to add a patient that is already in the system.
     .data.hide
-      = semantic_form_for [parent,resource], :url => trip_cases_path(parent), :html => { :multipart => true } do |f|
-        = f.semantic_errors
+      = simple_form_for [parent,resource], :url => trip_cases_path(parent), :html => { :multipart => true } do |f|
+        =# f.semantic_errors
         = f.input :trip_id, :as => :hidden, :input_html => { :value => @trip.id }
         = f.input :created_by_id, :as => :hidden, :input_html => { :value => current_user.id }
-        = f.inputs do
-          = f.input :patient_id, :as => :select, :label => 'Existing Patients', :collection => @all_patients.map{ |p| ["#{p.id} - #{p.to_s}", p.id] }
-        = f.actions do
-          = f.action :submit
+        = f.input :patient_id, :as => :select, :label => 'Existing Patients', :collection => @all_patients.map{ |p| ["#{p.id} - #{p.to_s}", p.id] }
+        = f.button :submit

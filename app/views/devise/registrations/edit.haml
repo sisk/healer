@@ -2,14 +2,12 @@
   = "Edit #{resource_name.to_s.humanize}"
 - content_for :subnavigation do
   = render :partial => "devise/shared/subnav"
-= semantic_form_for(resource, :as => resource_name, :url => case_path(resource_name), :html => { :method => :put }) do |f|
+= simple_form_for(resource, :as => resource_name, :url => case_path(resource_name), :html => { :method => :put }) do |f|
   = devise_error_messages!
-  = f.inputs do
-    = f.input :name_first, :label => 'First Name'
-    = f.input :name_last, :label => 'Last Name'
-    = f.input :email, :label => 'Email'
-    = f.input :password, :as => :password, :label => 'Password', :hint => "leave blank if you don't want to change password"
-    = f.input :password_confirmation, :as => :password, :label => 'Confirm Password'
-    = f.input :current_password, :as => :password, :label => 'Current Password', :hint => "current password needed to confirm changes"
-  = f.actions do
-    = f.action :submit, :label => "Update"
+  = f.input :name_first, :label => 'First Name'
+  = f.input :name_last, :label => 'Last Name'
+  = f.input :email, :label => 'Email'
+  = f.input :password, :as => :password, :label => 'Password', :hint => "leave blank if you don't want to change password"
+  = f.input :password_confirmation, :as => :password, :label => 'Confirm Password'
+  = f.input :current_password, :as => :password, :label => 'Current Password', :hint => "current password needed to confirm changes"
+  = f.button :submit, :label => "Update"

@@ -1,8 +1,8 @@
 .risk_factor_fields
-  = f.semantic_fields_for :risk_factors, new_risk_factor, :wrapper_html => {:class => "risk_factor"} do |rf|
-    = rf.inputs :class => "associated risk_factor", :id => dom_id(new_risk_factor) do
+  = f.simple_fields_for :risk_factors, new_risk_factor, :wrapper_html => {:class => "risk_factor"} do |rf|
+    =# rf.inputs :class => "associated risk_factor", :id => dom_id(new_risk_factor) do
+    %div{ :id => dom_id(new_risk_factor) }
       = rf.input :patient_id, :as => :hidden, :input_html => { :value => @patient.id }
       = rf.input :risk_id, :as => :select, :label => 'Risk', :collection => Risk.all.collect{ |r| [r.to_s, r.id] }, :wrapper_html => { :class => "risk" }
       = rf.input :severity, :as => :select, :label => "Severity", :collection => RiskFactor::severity_table.invert, :wrapper_html => { :class => "severity" }
-    = rf.actions do
-      %li.inline= link_to_function 'delete', "$(this).closest('.risk_factor_fields').fadeOut('medium',function(){$(this).remove()});"
+    = link_to_function 'delete', "$(this).closest('.risk_factor_fields').fadeOut('medium',function(){$(this).remove()});"

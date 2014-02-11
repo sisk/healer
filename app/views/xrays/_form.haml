@@ -1,13 +1,10 @@
 - ajax = defined?(remote) ? remote : false
 - if ajax
   %h2 New X-Ray
-= semantic_form_for [@parent,resource], :url => case_xrays_path(@parent), :html => { :multipart => true, :id => :xray_form }, :remote => ajax do |f|
-  = f.semantic_errors
+= simple_form_for [@parent,resource], :url => case_xrays_path(@parent), :html => { :multipart => true, :id => :xray_form }, :remote => ajax do |f|
+  =# f.semantic_errors
   = f.input :operation_id, :as => :hidden
   = f.input :patient_case_id, :as => :hidden
-  = f.inputs do
-    = f.input :photo, :as => :file, :label => "Photo"
-  = f.inputs do
-    = f.input :primary, :as => :boolean, :label => "Mark as most important x-ray", :hint => "This will be the x-ray used in displays and print-outs."
-  = f.actions do
-    = f.action :submit
+  = f.input :photo, :as => :file, :label => "Photo"
+  = f.input :primary, :as => :boolean, :label => "Mark as most important x-ray", :hint => "This will be the x-ray used in displays and print-outs."
+  = f.button :submit

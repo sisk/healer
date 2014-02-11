@@ -10,13 +10,12 @@
 .column-2
   = render :partial => "patients/shared/snapshot", :locals => { :patient => resource.patient }
 .column-2
-  = semantic_form_for [parent,resource], :url => trip_case_path(parent, resource), :html => { :multipart => true } do |f|
-    = f.semantic_errors
+  = simple_form_for [parent,resource], :url => trip_case_path(parent, resource), :html => { :multipart => true } do |f|
+    =# f.semantic_errors
     = hidden_field_tag :return_to, params[:return_to] if params[:return_to]
     = hidden_field_tag :day, params[:day] if params[:day]
     = render :partial => "case_details_form", :locals => { :f => f }
     %h4 X-Rays
     .xrays
       = render :partial => "xrays/collection", :locals => { :patient_case => @patient_case, :xrays => @patient_case.xrays.pre_op, :editable => true }
-    = f.actions do
-      = f.action :submit, :label => "Save Case"
+    = f.button :submit, :label => "Save Case"

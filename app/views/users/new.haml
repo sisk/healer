@@ -4,23 +4,18 @@
   %ul
     %li= link_to "Users index", users_path
 
-= semantic_form_for(@user) do |f|
+= simple_form_for(@user) do |f|
   =# devise_error_messages!
-  = f.inputs do
-    = f.input :name_first, :label => 'First Name'
-    = f.input :name_last, :label => 'Last Name'
-    = f.input :email, :label => 'Email', :required => true
-  = f.inputs do
-    = f.input :authorized, :label => 'Allow login'
-    = f.input :password, :as => :password, :label => 'Password'
-    = f.input :password_confirmation, :as => :password, :label => 'Confirm Password'
-  = f.inputs :name => "Roles" do
-    - @selectable_roles.each do |role|
-      = f.input "has_role_#{role}", :as => :boolean, :label => "#{role.to_s.titlecase}"
-  = f.inputs :name => "Preferences" do
-    = f.input :language, :as => :select, :collection => User::languages.invert
-  = f.actions do
-    = f.action :submit
+  = f.input :name_first, :label => 'First Name'
+  = f.input :name_last, :label => 'Last Name'
+  = f.input :email, :label => 'Email', :required => true
+  = f.input :authorized, :label => 'Allow login'
+  = f.input :password, :as => :password, :label => 'Password'
+  = f.input :password_confirmation, :as => :password, :label => 'Confirm Password'
+  - @selectable_roles.each do |role|
+    = f.input "has_role_#{role}", :as => :boolean, :label => "#{role.to_s.titlecase}"
+  = f.input :language, :as => :select, :collection => User::languages.invert
+  = f.button :submit
 
 - content_for :script do
   :javascript

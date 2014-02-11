@@ -1,13 +1,11 @@
 - ajax = defined?(remote) ? remote : false
 - if ajax
   %h2 Adverse Event
-= semantic_form_for [@patient, @adverse_event], :remote => ajax do |f|
-  = f.inputs do
-    = f.input :patient_id, :as => :hidden
-    = f.input :entered_by_id, :as => :hidden
-    = f.input :event_type, :as => :select, :label => "Event Type", :collection => AdverseEvent.event_types
-    = f.input :date_of_occurrence, :as => :datepicker, :label => "Date of Occurrence"
-    = f.input :case_id, :as => :select, :label => "Relevant Case", :collection => @patient.patient_cases.select(&:operation).map{|c| ["#{c.anatomy} - #{c.operation} - #{c.operation.date}", c.id]}, :nil => false, :prompt => "None"
-    = f.input :note, :label => "Notes"
-  = f.actions do
-    = f.action :submit
+= simple_form_for [@patient, @adverse_event], :remote => ajax do |f|
+  = f.input :patient_id, :as => :hidden
+  = f.input :entered_by_id, :as => :hidden
+  = f.input :event_type, :as => :select, :label => "Event Type", :collection => AdverseEvent.event_types
+  = f.input :date_of_occurrence, :as => :datepicker, :label => "Date of Occurrence"
+  = f.input :case_id, :as => :select, :label => "Relevant Case", :collection => @patient.patient_cases.select(&:operation).map{|c| ["#{c.anatomy} - #{c.operation} - #{c.operation.date}", c.id]}, :nil => false, :prompt => "None"
+  = f.input :note, :label => "Notes"
+  = f.button :submit

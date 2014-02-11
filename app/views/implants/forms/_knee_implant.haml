@@ -1,27 +1,24 @@
 - ajax = defined?(remote) ? remote : false
 - if ajax
   %h2 Knee Implant
-= semantic_form_for [@operation, @implant], :url => operation_implant_path(@operation), :remote => ajax do |f|
+= simple_form_for [@operation, @implant], :url => operation_implant_path(@operation), :remote => ajax do |f|
   = f.input :operation_id, :as => :hidden
   .column-2
-    = f.inputs do
-      = f.input :knee_type, :as => :select, :label => 'Knee Type', :collection => Healer::Config.implants[:knee_types]
-      = f.input :femur_diameter, :as => :select, :label => 'Femur Diameter', :collection => Healer::Config.anatomy[:femur_diameters_knee]
-      = f.input :femur_stems, :as => :boolean, :label => "Femur Stems"
-      = f.input :femur_screws, :label => '# Femur Screws'
-      = f.input :tibia_type, :as => :select, :label => 'Tibia Type', :collection => Healer::Config.implants[:tibia_types]
-      = f.input :tibia_diameter, :as => :select, :label => 'Tibia Diameter', :collection => Healer::Config.anatomy[:tibia_diameters]
-      = f.input :tibia_thickness, :as => :select, :label => 'Tibia Thickness', :collection => Healer::Config.anatomy[:tibia_thicknesses]
-      = f.input :tibia_stems, :as => :boolean, :label => "Tibia Stems"
-      = f.input :tibia_screws, :label => '# Tibia Screws'
+    = f.input :knee_type, :as => :select, :label => 'Knee Type', :collection => Healer::Config.implants[:knee_types]
+    = f.input :femur_diameter, :as => :select, :label => 'Femur Diameter', :collection => Healer::Config.anatomy[:femur_diameters_knee]
+    = f.input :femur_stems, :as => :boolean, :label => "Femur Stems"
+    = f.input :femur_screws, :label => '# Femur Screws'
+    = f.input :tibia_type, :as => :select, :label => 'Tibia Type', :collection => Healer::Config.implants[:tibia_types]
+    = f.input :tibia_diameter, :as => :select, :label => 'Tibia Diameter', :collection => Healer::Config.anatomy[:tibia_diameters]
+    = f.input :tibia_thickness, :as => :select, :label => 'Tibia Thickness', :collection => Healer::Config.anatomy[:tibia_thicknesses]
+    = f.input :tibia_stems, :as => :boolean, :label => "Tibia Stems"
+    = f.input :tibia_screws, :label => '# Tibia Screws'
   .column-2
-    = f.inputs do
-      = f.input :patella_size, :as => :select, :label => 'Patella Size', :collection => Healer::Config.anatomy[:patella_sizes].invert
-      = f.input :patella_not_resurfaced, :as => :boolean, :label => 'Patella Not Resurfaced'
-      = f.input :cement_used, :as => :boolean, :label => 'Cement Used'
-      = f.input :spacer_used, :as => :boolean, :label => 'Spacer Used'
-      =# TODO JS calc this from above two
-      = f.input :total_screws, :label => '# total screws'
-      = f.input :notes, :as => :text, :label => 'Implant Notes'
-    = f.actions do
-      = f.action :submit, :label => "Save Changes"
+    = f.input :patella_size, :as => :select, :label => 'Patella Size', :collection => Healer::Config.anatomy[:patella_sizes].invert
+    = f.input :patella_not_resurfaced, :as => :boolean, :label => 'Patella Not Resurfaced'
+    = f.input :cement_used, :as => :boolean, :label => 'Cement Used'
+    = f.input :spacer_used, :as => :boolean, :label => 'Spacer Used'
+    =# TODO JS calc this from above two
+    = f.input :total_screws, :label => '# total screws'
+    = f.input :notes, :as => :text, :label => 'Implant Notes'
+    = f.button :submit, :label => "Save Changes"

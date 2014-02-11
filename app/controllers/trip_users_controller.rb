@@ -14,15 +14,22 @@ class TripUsersController < ApplicationController
   def create
     user = User.find(params[:user][:user_id])
     parent.users << user
-    flash[:notice] = "#{user} added to #{parent}"
+    flash[:notice] = "#{user} added to #{trip_name(parent)}"
     redirect_to :back
   end
   
   def destroy
     user = User.find(params[:id])
     parent.users.delete(user)
-    flash[:notice] = "#{user} removed from #{parent}"
+    flash[:notice] = "#{user} removed from #{trip_name(parent)}"
     redirect_to :back
+  end
+
+
+  private ######################################################################
+
+  def trip_name(trip)
+    V1::TripDecorator.new(trip).name
   end
   
 end

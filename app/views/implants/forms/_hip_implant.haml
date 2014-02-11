@@ -1,24 +1,20 @@
 - ajax = defined?(remote) ? remote : false
 - if ajax
   %h2 Hip Implant
-= semantic_form_for [@operation, @implant], :url => operation_implant_path(@operation), :remote => ajax do |f|
+= simple_form_for [@operation, @implant], :url => operation_implant_path(@operation), :remote => ajax do |f|
   = f.input :operation_id, :as => :hidden
   .column-2
-    = f.inputs do
-      = f.input :prosthesis_type, :as => :select, :label => 'Prosthesis Type', :collection => Healer::Config.implants[:prosthesis_types]
-      = f.input :femur_surface, :as => :select, :label => 'Femoral Surface', :collection => Healer::Config.implants[:surface_options]
-      = f.input :acetabulum_surface, :as => :select, :label => 'Acetabular Surface', :collection => Healer::Config.implants[:surface_options]
-    = f.inputs do
-      = f.input :femur_diameter, :as => :select, :label => 'Femur Diameter', :collection => Healer::Config.anatomy[:femur_diameters_hip]
-      = f.input :femur_length, :as => :select, :label => 'Femur Length', :collection => Healer::Config.anatomy[:femur_lengths]
-      = f.input :femur_head_size, :as => :select, :label => 'Femur Head Size', :collection => Healer::Config.anatomy[:femur_head_sizes]
-      = f.input :neck_length, :as => :select, :label => 'Neck Length', :collection => Healer::Config.anatomy[:neck_lengths]
-      = f.input :acetabulum_size, :as => :select, :label => 'Acetabulum Size', :collection => Healer::Config.anatomy[:acetabulum_sizes]
+    = f.input :prosthesis_type, :as => :select, :label => 'Prosthesis Type', :collection => Healer::Config.implants[:prosthesis_types]
+    = f.input :femur_surface, :as => :select, :label => 'Femoral Surface', :collection => Healer::Config.implants[:surface_options]
+    = f.input :acetabulum_surface, :as => :select, :label => 'Acetabular Surface', :collection => Healer::Config.implants[:surface_options]
+    = f.input :femur_diameter, :as => :select, :label => 'Femur Diameter', :collection => Healer::Config.anatomy[:femur_diameters_hip]
+    = f.input :femur_length, :as => :select, :label => 'Femur Length', :collection => Healer::Config.anatomy[:femur_lengths]
+    = f.input :femur_head_size, :as => :select, :label => 'Femur Head Size', :collection => Healer::Config.anatomy[:femur_head_sizes]
+    = f.input :neck_length, :as => :select, :label => 'Neck Length', :collection => Healer::Config.anatomy[:neck_lengths]
+    = f.input :acetabulum_size, :as => :select, :label => 'Acetabulum Size', :collection => Healer::Config.anatomy[:acetabulum_sizes]
   .column-2
-    = f.inputs do
-      = f.input :cement_used, :as => :boolean, :label => 'Cement Used'
-      = f.input :spacer_used, :as => :boolean, :label => 'Spacer Used'
-      = f.input :total_screws, :label => '# total screws'
-      = f.input :notes, :as => :text, :label => 'Implant Notes'
-    = f.actions do
-      = f.action :submit, :label => "Save Changes"
+    = f.input :cement_used, :as => :boolean, :label => 'Cement Used'
+    = f.input :spacer_used, :as => :boolean, :label => 'Spacer Used'
+    = f.input :total_screws, :label => '# total screws'
+    = f.input :notes, :as => :text, :label => 'Implant Notes'
+    = f.button :submit, :label => "Save Changes"

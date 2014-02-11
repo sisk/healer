@@ -2,11 +2,9 @@
   Change your password
 - content_for :subnavigation do
   = render :partial => "devise/shared/subnav"
-= semantic_form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put }) do |f|
+= simple_form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put }) do |f|
   = devise_error_messages!
-  = f.inputs do
-    = f.input :reset_password_token, :as => :hidden
-    = f.input :password, :as => :password, :label => 'New Password'
-    = f.input :password_confirmation, :as => :password, :label => 'Confirm New Password'
-  = f.actions do
-    = f.action :submit, :label => "Change Password"
+  = f.input :reset_password_token, :as => :hidden
+  = f.input :password, :as => :password, :label => 'New Password'
+  = f.input :password_confirmation, :as => :password, :label => 'Confirm New Password'
+  = f.button :submit, :label => "Change Password"

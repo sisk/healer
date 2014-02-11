@@ -2,15 +2,13 @@
 - operation ||= @operation
 - if ajax
   %h2 New Operation
-= semantic_form_for [parent,@operation], :url => case_operation_path(parent), :remote => ajax do |f|
-  = f.semantic_errors
-  = f.inputs do
-    = f.input :procedure_id, :as => :select, :label => 'Procedure', :collection => Procedure.all.collect{ |p| [p.to_s, p.id] }
-    = f.input :primary_surgeon_id, :as => :select, :label => 'Primary Surgeon', :collection => operation.trip.users.doctor
-    = f.input :secondary_surgeon_id, :as => :select, :label => 'Secondary Surgeon', :collection => operation.trip.users.doctor
-    = f.input :anesthesiologist_id, :as => :select, :label => 'Anesthesiologist', :collection => operation.trip.users.anesthesiologist
-    - if permitted_to? :users, operation.trip
-      %p!= "(Don't see who you're looking for? #{link_to("Add personnel.", trip_users_path(operation.trip))})"
-    = f.input :date, :as => :datepicker, :label => "Date"
-  = f.actions do
-    = f.action :submit, :label => "Save".html_safe
+= simple_form_for [parent,@operation], :url => case_operation_path(parent), :remote => ajax do |f|
+  =# f.semantic_errors
+  = f.input :procedure_id, :as => :select, :label => 'Procedure', :collection => Procedure.all.collect{ |p| [p.to_s, p.id] }
+  = f.input :primary_surgeon_id, :as => :select, :label => 'Primary Surgeon', :collection => operation.trip.users.doctor
+  = f.input :secondary_surgeon_id, :as => :select, :label => 'Secondary Surgeon', :collection => operation.trip.users.doctor
+  = f.input :anesthesiologist_id, :as => :select, :label => 'Anesthesiologist', :collection => operation.trip.users.anesthesiologist
+  - if permitted_to? :users, operation.trip
+    %p!= "(Don't see who you're looking for? #{link_to("Add personnel.", trip_users_path(operation.trip))})"
+  = f.input :date, :as => :datepicker, :label => "Date"
+  = f.button :submit, :label => "Save".html_safe

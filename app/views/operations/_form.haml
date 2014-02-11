@@ -1,28 +1,24 @@
 - ajax = defined?(remote) ? remote : false
 - if ajax
   %h2 Operation
-= semantic_form_for [@operation.patient_case, @operation], :url => case_operation_path(@operation.patient_case), :remote => ajax do |f|
-  = f.semantic_errors
+= simple_form_for [@operation.patient_case, @operation], :url => case_operation_path(@operation.patient_case), :remote => ajax do |f|
+  =# f.semantic_errors
   .column-2
-    = f.inputs :name => "Procedure Details" do
-      = f.input :approach, :as => :select, :label => 'Approach', :collection => Healer::Config.operation[:approaches]
-      = f.input :osteotomy, :as => :select, :label => 'Osteotomy', :collection => Healer::Config.operation[:osteotomy_options]
-      = f.input :difficulty, :as => :radio, :label => "Difficulty", :collection => Healer::Config.operation[:difficulty_table].invert
-      = f.input :graft, :label => 'Graft'
-      = f.input :anesthesia_type, :as => :select, :label => 'Anesthesia', :collection => Healer::Config.operation[:anesthsia_types]
-      = f.input :peripheral_nerve_block_type, :as => :select, :label => 'Peripheral Nerve Block', :collection => Healer::Config.operation[:peripheral_nerve_block_types]
-      = f.input :ambulatory_order, :as => :select, :label => 'Ambulatory Order', :collection => Healer::Config.operation[:ambulatory_orders]
-      = f.input :notes, :label => 'Operation General Notes'
+    = f.input :approach, :as => :select, :label => 'Approach', :collection => Healer::Config.operation[:approaches]
+    = f.input :osteotomy, :as => :select, :label => 'Osteotomy', :collection => Healer::Config.operation[:osteotomy_options]
+    = f.input :difficulty, :as => :radio, :label => "Difficulty", :collection => Healer::Config.operation[:difficulty_table].invert
+    = f.input :graft, :label => 'Graft'
+    = f.input :anesthesia_type, :as => :select, :label => 'Anesthesia', :collection => Healer::Config.operation[:anesthsia_types]
+    = f.input :peripheral_nerve_block_type, :as => :select, :label => 'Peripheral Nerve Block', :collection => Healer::Config.operation[:peripheral_nerve_block_types]
+    = f.input :ambulatory_order, :as => :select, :label => 'Ambulatory Order', :collection => Healer::Config.operation[:ambulatory_orders]
+    = f.input :notes, :label => 'Operation General Notes'
   .column-2
-    = f.inputs :name => "Procedure Information" do
-      = f.input :procedure_id, :as => :select, :label => 'Procedure', :collection => Procedure.all.collect{ |p| [p.to_s, p.id] }
-      = f.input :primary_surgeon_id, :as => :select, :label => 'Primary Surgeon', :collection => @operation.trip.users.doctor
-      = f.input :secondary_surgeon_id, :as => :select, :label => 'Secondary Surgeon', :collection => @operation.trip.users.doctor
-      = f.input :anesthesiologist_id, :as => :select, :label => 'Anesthesiologist', :collection => @operation.trip.users.anesthesiologist
-      - if permitted_to? :users, @operation.trip
-        %p!= "(Don't see who you're looking for? #{link_to("Add personnel.", trip_users_path(@operation.trip))})"
-      = f.input :date, :as => :datepicker, :label => "Date"
-    = f.inputs do
-      = f.input :complete, :label => 'Procedure complete'
-    = f.actions do
-      = f.action :submit, :label => "Save Changes"
+    = f.input :procedure_id, :as => :select, :label => 'Procedure', :collection => Procedure.all.collect{ |p| [p.to_s, p.id] }
+    = f.input :primary_surgeon_id, :as => :select, :label => 'Primary Surgeon', :collection => @operation.trip.users.doctor
+    = f.input :secondary_surgeon_id, :as => :select, :label => 'Secondary Surgeon', :collection => @operation.trip.users.doctor
+    = f.input :anesthesiologist_id, :as => :select, :label => 'Anesthesiologist', :collection => @operation.trip.users.anesthesiologist
+    - if permitted_to? :users, @operation.trip
+      %p!= "(Don't see who you're looking for? #{link_to("Add personnel.", trip_users_path(@operation.trip))})"
+    = f.input :date, :as => :datepicker, :label => "Date"
+    = f.input :complete, :label => 'Procedure complete'
+    = f.button :submit, :label => "Save Changes"

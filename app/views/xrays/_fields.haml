@@ -1,10 +1,9 @@
 - if xray.photo.exists?
-  = f.semantic_fields_for :xrays, xray do |x|
+  = f.simple_fields_for :xrays, xray do |x|
     = xray_preview(xray, :size => :small)
 - else
-  = f.semantic_fields_for :xrays, xray do |x|
+  = f.simple_fields_for :xrays, xray do |x|
     = x.input :diagnosis_id, :as => :hidden
-    = x.inputs do
-      = x.input :photo, :as => :file, :label => "Photo"
-      =# x.input :date_time, :as => :datepicker, :label => "When Taken"
-      =# x.input :taken_at, :label => "Facility where taken"
+    = x.input :photo, :as => :file, :label => "Photo"
+    =# x.input :date_time, :as => :datepicker, :label => "When Taken"
+    =# x.input :taken_at, :label => "Facility where taken"

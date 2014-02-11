@@ -1,5 +1,3 @@
-= semantic_form_for @risk do |f|
-  = f.inputs do
-    = f.input :name, :as => :string, :label => 'Description'
-  = f.actions do
-    = f.action :submit
+= simple_form_for @risk do |f|
+  = f.input :name, :as => :string, :label => 'Description'
+  = f.button :submit

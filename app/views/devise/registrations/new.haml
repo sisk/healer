@@ -2,13 +2,11 @@
   = "Register"
 - content_for :subnavigation do
   = render :partial => "devise/shared/subnav"
-= semantic_form_for(resource, :as => resource_name, :url => case_path(resource_name)) do |f|
+= simple_form_for(resource, :as => resource_name, :url => case_path(resource_name)) do |f|
   = devise_error_messages!
-  = f.inputs do
-    = f.input :name_first, :label => 'First Name'
-    = f.input :name_last, :label => 'Last Name'
-    = f.input :email, :label => 'Email'
-    = f.input :password, :as => :password, :label => 'Password'
-    = f.input :password_confirmation, :as => :password, :label => 'Confirm Password'
-  = f.actions do
-    = f.action :submit, :label => "Sign Up"
+  = f.input :name_first, :label => 'First Name'
+  = f.input :name_last, :label => 'Last Name'
+  = f.input :email, :label => 'Email'
+  = f.input :password, :as => :password, :label => 'Password'
+  = f.input :password_confirmation, :as => :password, :label => 'Confirm Password'
+  = f.button :submit, :label => "Sign Up"

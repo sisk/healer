@@ -1,11 +1,9 @@
-= semantic_form_for @facility, :html => { :multipart => true, :id => "facility_edit" } do |f|
-  = f.inputs do
-    = f.input :name, :label => 'Name'
-    = f.input :address1, :label => 'Address 1'
-    = f.input :address2, :label => 'Address 2'
-    = f.input :city, :label => 'City'
-    = f.input :state, :label => 'State/Region'
-    = f.input :zip, :label => 'Zip/Postal'
-    = f.input :country, :as => :select, :label => 'Country', :collection => all_countries
-  = f.actions do
-    = f.action :submit
+= simple_form_for @facility, :html => { :multipart => true, :id => "facility_edit" } do |f|
+  = f.input :name, :label => 'Name'
+  = f.input :address1, :label => 'Address 1'
+  = f.input :address2, :label => 'Address 2'
+  = f.input :city, :label => 'City'
+  = f.input :state, :label => 'State/Region'
+  = f.input :zip, :label => 'Zip/Postal'
+  = f.input :country, :as => :select, :label => 'Country', :collection => all_countries
+  = f.button :submit

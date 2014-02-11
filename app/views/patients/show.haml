@@ -29,12 +29,10 @@
         %li= link_to "#{patient_case.trip} - #{patient_case}", trip_case_path(patient_case.trip, patient_case)
   - else
     %p= "Patient has no cases. Select a trip to register a new case."
-    = semantic_form_for PatientCase.new(:patient_id => @patient.id), :html => { :multipart => true } do |f|
+    = simple_form_for PatientCase.new(:patient_id => @patient.id), :html => { :multipart => true } do |f|
       = f.input :patient_id, :as => :hidden, :input_html => { :value => @patient.id }
-      = f.inputs do
-        = f.input :trip_id, :as => :select, :label => 'Trip', :collection => Trip.all
-      = f.actions do
-        = f.action :submit, :label => "Go"
+      = f.input :trip_id, :as => :select, :label => 'Trip', :collection => Trip.all
+      = f.button :submit, :label => "Go"
 .section.medical_detail
   %h2
     Medical History

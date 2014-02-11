@@ -1,21 +1,13 @@
-- semantic_form_for [parent,resource] do |f|
-  = f.inputs do
-    = f.input :date_time, :as => :datepicker, :label => "Interaction Date"
+- simple_form_for [parent,resource] do |f|
+  = f.input :date_time, :as => :datepicker, :label => "Interaction Date"
   %h2 Check all that apply
-  = f.inputs do
-    = f.input :severe_pain, :as => :boolean, :input_html => { :class => "toggle" }
-  = f.inputs :class => "supplemental" do
-    = f.input :range_of_motion, :as => :boolean, :input_html => { :class => "toggle" }
-    .details{ :style => "display: none;" }
-      %p 1
-  = f.inputs :class => "supplemental" do
-    = f.input :ambulation, :as => :boolean, :input_html => { :class => "toggle" }
-    .details{ :style => "display: none;" }
-      = f.inputs do
-        = f.input :distance_walked, :label => "Distance walked in feet"
-        = f.input :additional_assistance, :label => "More than one assistant required", :as => :boolean
-    
-  = f.inputs do
-    = f.input :notes, :as => :text
-  = f.actions do
-    = f.action :submit, :label => "Save"
+  = f.input :severe_pain, :as => :boolean, :input_html => { :class => "toggle" }
+  = f.input :range_of_motion, :as => :boolean, :input_html => { :class => "toggle" }
+  .details{ :style => "display: none;" }
+    %p 1
+  = f.input :ambulation, :as => :boolean, :input_html => { :class => "toggle" }
+  .details{ :style => "display: none;" }
+  = f.input :distance_walked, :label => "Distance walked in feet"
+  = f.input :additional_assistance, :label => "More than one assistant required", :as => :boolean
+  = f.input :notes, :as => :text
+  = f.button :submit, :label => "Save"
