@@ -1,11 +1,18 @@
+require "highline"
+
 module Healer
   module Utility
 
     class DataSync
 
       def replace_local_from_heroku
+        dbname = local_db_name
+        username = local_db_username
+
         create_local_dump
-        system("pg_restore --verbose --clean --no-acl --no-owner -h localhost -U #{local_db_username} -d #{local_db_name} #{local_path}")
+        system("dropdb -U #{username} --if-exists #{dbname}")
+        system("createdb -O #{username} -T template0 #{dbname}")
+        system("pg_restore --verbose --no-acl --no-owner -h localhost -U #{username} -d #{dbname} #{local_path}")
       end
 
       def back_up_to_s3
@@ -18,6 +25,7 @@ module Healer
         # back_up_to_s3
         # PGPASSWORD=mypassword pg_dump -Fc --no-acl --no-owner -h localhost -U myuser mydb > mydb.dump
       end
+
 
       private ##################################################################
 
@@ -39,12 +47,21 @@ module Healer
       end
 
       def local_db_username
-        ActiveRecord::Base.connection_config[:username]
+        @local_db_username ||= if ActiveRecord::Base.connected?
+          ActiveRecord::Base.connection_config[:username]
+        else
+          HighLine.new.ask("Local db username:") { |u| u.default = "root" }
+        end
       end
 
       def local_db_name
-        ActiveRecord::Base.connection_config[:database]
+        @local_db_name ||= if ActiveRecord::Base.connected?
+          ActiveRecord::Base.connection_config[:database]
+        else
+          HighLine.new.ask("Local db:") { |u| u.default = "healer_development" }
+        end
       end
+
     end
 
   end

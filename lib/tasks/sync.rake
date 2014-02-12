@@ -41,7 +41,7 @@ namespace :sync do
 
   namespace :data do
     desc "Pull data from Heroku"
-    task :pull => :environment do
+    task :pull do
       with_confirm do
         Healer::Utility::DataSync.new.replace_local_from_heroku
       end
