@@ -38,10 +38,10 @@ Healer::Application.configure do
   )
 
   # v1
-  config.assets.precompile += %w(
-    v1/*.css
-    v1/*.js
-  )
+  # config.assets.precompile += %w(
+  #   v1/*.css
+  #   v1/*.js
+  # )
 
   config.assets.manifest = Rails.root.join("public/assets")
   

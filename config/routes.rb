@@ -1,12 +1,12 @@
 Healer::Application.routes.draw do
 
-  namespace :v1 do
+  # namespace :v1 do
 
-    get "/trips", to: "trips#index"
-    get "/trips/:nickname", to: "trips#show"
-    get "/cases/new", to: "cases#new"#, as: "new_case_path"
+  #   get "/trips", to: "trips#index"
+  #   get "/trips/:nickname", to: "trips#show"
+  #   get "/cases/new", to: "cases#new"#, as: "new_case_path"
 
-  end
+  # end
   # ----------------------------------------------------------------------------
   # Below there be dragons
 

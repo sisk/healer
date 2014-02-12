@@ -50,7 +50,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def splash_page
-    mobile_agent? ? v1_trips_path : current_trips_path
+    current_trips_path
   end
 
   def mobile_agent?
