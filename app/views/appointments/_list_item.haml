@@ -13,10 +13,7 @@
       .patient_case[patient_case]
         .diagnosis
           .case_detail
-            %h4
-              = patient_case.anatomy
-              - if patient_case.revision?
-                %span.asterisk (Revision)
+            %h4= V1::PatientCaseDecorator.new(patient_case).title
             %p.aux
               = patient_case.disease
               - if patient_case.severity && patient_case.severity > 0
