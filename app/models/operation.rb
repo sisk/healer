@@ -19,7 +19,7 @@ class Operation < ActiveRecord::Base
   # validates_presence_of :date
   validates_presence_of :patient_case
   validates_numericality_of :difficulty
-  validates_inclusion_of :difficulty, :in => Healer::Config.operation[:difficulty_table].keys
+  validates_inclusion_of :difficulty, :in => Healer::Config.operation[:difficulty_table].keys.map{ |k| k.to_i }
   validates_inclusion_of :approach, :in => Healer::Config.operation[:approaches], :allow_nil => true, :allow_blank => true
   validates_inclusion_of :ambulatory_order, :in => Healer::Config.operation[:ambulatory_orders], :allow_nil => true, :allow_blank => true
 
