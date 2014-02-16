@@ -75,6 +75,7 @@ Healer::Application.routes.draw do
   resources :cases, :controller => :patient_cases do
     member do
       put :authorize, :deauthorize, :unschedule
+      get :certificate
     end
     resources :xrays
     resource :operation

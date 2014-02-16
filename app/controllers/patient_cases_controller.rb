@@ -131,7 +131,6 @@ class PatientCasesController < ApplicationController
     end
   end
 
-  # non-CRUD
   def review
     if params[:trip_id].present?
       @new_cases = PatientCase.find(:all, :conditions => ["trip_id = ? and status = ?", params[:trip_id], "New"]).map(&:id)
@@ -165,6 +164,10 @@ class PatientCasesController < ApplicationController
     else
       redirect_to :back, :error => "Could not unschedule case."
     end
+  end
+
+  def certificate
+    @patient_case = PatientCase.find(params["id"])
   end
 
 private

@@ -12,6 +12,7 @@ authorization do
   role :scheduler do
     has_permission_on :patients, :to => :authorize
     has_permission_on :trips, :to => :schedule
+    has_permission_on :patient_cases, :to => [:certificate]
   end
   role :superuser do
     includes :scheduler

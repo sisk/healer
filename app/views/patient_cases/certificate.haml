@@ -1,0 +1,53 @@
+- decorator = V1::PatientCaseDecorator.new(@patient_case)
+- content_for :document_title do
+  = "#{decorator.patient} - #{decorator.anatomy} - #{decorator.procedure}"
+- content_for :title do
+  Certificado de la Cirugía
+- content_for :subtitle do
+  = decorator.patient
+
+.section.summary
+  - if @patient_case.patient.photo.exists?
+    .photo= patient_image(@patient_case.patient, :small)
+  .data
+    %p
+      %strong Nombre del paciente
+      = decorator.patient
+    %p
+      %strong Parte de Cuerpo
+      = decorator.anatomy
+    %p
+      %strong Diagnostico
+      = @patient_case.disease
+    %p
+      %strong Cirugía
+      = decorator.procedure
+    %p
+      %strong Fecha
+      = decorator.operation_date
+
+.section.xrays
+  %h2 Rayos X
+  - if decorator.xrays(:pre_op => true).present?
+    .before
+      %h3 Antes
+      .xray= image_tag(decorator.xrays(:pre_op => true).first.photo.url(:large))
+  - if decorator.xrays(:post_op => true).present?
+    .after
+      %h3 Despues
+      .xray= image_tag(decorator.xrays(:post_op => true).first.photo.url(:large))
+
+- content_for :sponsor_org do
+  -# TODO move this stuff to a presenter class
+  - if @patient_case.trip.country == "GT"
+    = image_tag("organization/fundaorto_logo.png")
+    %p
+      Guillermo Claverie, M.D.
+      %br/
+      Presidente, Fundaorto
+  - else
+    = image_tag("organization/ni_hospital_militar_logo.png")
+    %p
+      Dr. Marco Salas
+      %br/
+      Jefe de Servicio de Orthopedia
