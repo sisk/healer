@@ -10,10 +10,11 @@
       %h3= V1::AppointmentDecorator.new(appointment).title
   .supplement{ :style => "display: none" }
     - appointment.patient_cases.each do |patient_case|
+      - case_decorator = V1::PatientCaseDecorator.new(patient_case)
       .patient_case[patient_case]
         .diagnosis
           .case_detail
-            %h4= V1::PatientCaseDecorator.new(patient_case).title
+            %h4= case_decorator.title
             %p.aux
               = patient_case.disease
               - if patient_case.severity && patient_case.severity > 0
@@ -23,7 +24,7 @@
               - if permitted_to? :edit, patient_case
                 %ul
                   %li.edit= link_to("<span>Make Changes</span>".html_safe, edit_trip_case_path(patient_case.trip, patient_case, return_to: "schedule", day: params[:day]))
-          = render :partial => "xrays/collection", :locals => { :patient_case => patient_case, :xrays => patient_case.xrays.pre_op, :editable => false }
+          = render :partial => "xrays/collection", :locals => { :patient_case => patient_case, :xrays => case_decorator.xrays(:pre_op => true), :editable => false }
 
         .procedure
           - if permitted_to? :create, Operation.new(:patient_case => patient_case)
