@@ -13,3 +13,6 @@ es:
   right: "derecha"
   revision: "revisada"
   bilateral: "bilateral"
+
+  unspecified_operation: "Operación no especificada"
+  unspecified_date: "Fecha no especificada"
