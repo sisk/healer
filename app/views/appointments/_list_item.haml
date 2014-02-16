@@ -21,9 +21,10 @@
                 %span.severity{ :class => severity(patient_case).downcase }
                   = "(#{severity(patient_case)})"
             .navigation.noprint
-              - if permitted_to? :edit, patient_case
-                %ul
+              %ul
+                - if permitted_to? :edit, patient_case
                   %li.edit= link_to("<span>Make Changes</span>".html_safe, edit_trip_case_path(patient_case.trip, patient_case, return_to: "schedule", day: params[:day]))
+                %li= link_to("<span>Certificate</span>".html_safe, certificate_case_path(patient_case, :locale => :es))
           = render :partial => "xrays/collection", :locals => { :patient_case => patient_case, :xrays => case_decorator.xrays(:pre_op => true), :editable => false }
 
         .procedure
