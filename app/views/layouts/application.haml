@@ -20,7 +20,7 @@
           .trip_nav= render :partial => "layouts/shared/trip_nav", :locals => { :trip => @trip }
         .utility_nav
           .session= render :partial => "layouts/shared/session"
-          - if current_user.has_role_admin
+          - if current_user.has_role_superuser
             .system= render :partial => "layouts/shared/system_settings"
       #content-outer{ :class => "#{"with-sidebar" if content_for?(:subnavigation) || content_for?(:title)}" }
         - if content_for?(:subnavigation) || content_for?(:title) || content_for?(:sidebar_utility)
