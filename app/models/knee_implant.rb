@@ -19,4 +19,9 @@ class KneeImplant < Implant
   validates_presence_of :tibia_thickness
   validates_presence_of :tibia_type
   validates_presence_of :knee_type
+
+  after_initialize do
+    self.knee_type ||= Healer::Config.implants[:knee_types].first
+    self.tibia_type ||= Healer::Config.implants[:tibia_types].first
+  end
 end

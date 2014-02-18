@@ -22,12 +22,13 @@ implants:
     - "Polyethylene"
     - "Ceramic"
     - "Metal"
-  tibia_types: ["Metal-backed"]
+  tibia_types: ["Metal-backed", "All polyethylene"]
   knee_types: ["CR","PS","CC","Hinge"]
 operation:
   approaches:
     - "Anterior"
     - "Lateral"
+    - "Antero-lateral"
     - "Medial"
     - "Posterior"
     - "Dorsal"
@@ -44,11 +45,15 @@ operation:
     - "Trochanteric"
     - "Sub-trochanteric"
     - "Tibial Tubercal Osteotomy"
+    - "Mid-foot"
+    - "Hind-foot"
+    - "Metatarsal"
   anesthsia_types:
     - "spinal"
     - "general"
     - "local"
   peripheral_nerve_block_types:
+    - "none"
     - "femoral"
     - "sciatic"
     - "sciatic/femoral"
@@ -56,7 +61,6 @@ operation:
     - "ankle"
     - "local"
     - "ExParel"
-    - "none"
   difficulty_table:
     0: "Routine"
     1: "Moderate"

@@ -5,7 +5,7 @@
   = f.input :operation_id, :as => :hidden
   .column-2
     = f.inputs do
-      = f.input :knee_type, :as => :select, :label => 'Knee Type', :collection => Healer::Config.implants["knee_types"]
+      = f.input :knee_type, :as => :select, :label => 'Knee Type', :collection => Healer::Config.implants[:knee_types]
       = f.input :femur_diameter, :as => :select, :label => 'Femur Diameter', :collection => Healer::Config.anatomy[:femur_diameters_knee]
       = f.input :femur_stems, :as => :boolean, :label => "Femur Stems"
       = f.input :femur_screws, :label => '# Femur Screws'

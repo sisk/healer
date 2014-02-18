@@ -35,6 +35,13 @@ class Operation < ActiveRecord::Base
 
   delegate :location, :location=, :patient, :trip, :disease, :anatomy, :to => :patient_case, :allow_nil => true
 
+  after_initialize do
+    self.osteotomy ||= Healer::Config.operation[:osteotomy_options].first
+    self.anesthesia_type ||= Healer::Config.operation[:anesthsia_types].first
+    self.peripheral_nerve_block_type ||= Healer::Config.operation[:peripheral_nerve_block_types].first
+    self.ambulatory_order ||= Healer::Config.operation[:ambulatory_orders].first
+  end
+
   def to_s
     procedure.present? ? procedure.to_s : "[Unspecified procedure]"
   end
