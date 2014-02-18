@@ -31,11 +31,11 @@
   - if decorator.xrays(:pre_op => true).present?
     .before
       %h3 Antes
-      .xray= image_tag(decorator.xrays(:pre_op => true).first.photo.url(:large))
+      .xray= image_tag(decorator.xrays(:pre_op => true, :primary => true).first.photo.url(:large))
   - if decorator.xrays(:post_op => true).present?
     .after
       %h3 Despues
-      .xray= image_tag(decorator.xrays(:post_op => true).first.photo.url(:large))
+      .xray= image_tag(decorator.xrays(:post_op => true, :primary => true).first.photo.url(:large))
 
 - content_for :sponsor_org do
   -# TODO move this stuff to a presenter class

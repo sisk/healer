@@ -2,7 +2,8 @@
   .patient
     %p
       - if defined?(links) && !links
-        = appointment.patient.to_s(:with_id => true)
+        = appointment.patient.to_s
+        = appointment.patient.try(:id) # TODO don't show an appt with no patient
       - else
         = link_to appointment.patient.to_s(:with_id => true), trip_patients_path(@trip, :patient_id => appointment.patient.id)
     %p= V1::AppointmentDecorator.new(appointment).title

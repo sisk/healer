@@ -91,7 +91,7 @@ class PatientCasesController < ApplicationController
         elsif @patient
           redirect = patient_path(@patient_case.patient)
         end
-        redirect_to redirect, :notice => "Case created."
+        redirect_to redirect, :notice => "Created case for patient ##{@patient_case.patient_id}."
         return
       }
       failure.html {
@@ -168,6 +168,7 @@ class PatientCasesController < ApplicationController
 
   def certificate
     @patient_case = PatientCase.find(params["id"])
+    render :layout => "patient_certificate"
   end
 
 private
