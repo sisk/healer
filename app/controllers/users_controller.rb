@@ -22,7 +22,7 @@ class UsersController < ApplicationController
 
   def update
     params[:user][:password] = params[:user][:password_confirmation] = random_password if params[:user][:password].blank?
-    @user.update_attributes(params)
+    @user.update_attributes(params["user"])
     update! { edit_user_path(@user) }
   end
 
