@@ -6,6 +6,8 @@ module Healer
 
     class S3Sync
 
+      ASSETS_ROOT = "public/system"
+
       def pull_patient_photos
         pull("patients")
       end
@@ -22,7 +24,8 @@ module Healer
         push("xrays")
       end
 
-      private
+
+      private ##################################################################
 
       def pull(asset)
         setup_directory_for(asset)
@@ -33,22 +36,18 @@ module Healer
         system(push_command_for(asset))
       end
 
-      def assets
-        %w(xrays patients)
-      end
-
       def setup_directory_for(asset)
-        FileUtils.mkdir_p("public/system/#{asset}")
+        FileUtils.mkdir_p("#{ASSETS_ROOT}/#{asset}")
       end
 
       def pull_command_for(asset)
         command = "s3cmd#{custom_config_option} get #{default_options_for_s3cmd}"
-        command << " s3://#{s3_bucket}/#{asset}/ public/system/#{asset}"
+        command << " s3://#{s3_bucket}/#{asset}/ #{ASSETS_ROOT}/#{asset}"
       end
 
       def push_command_for(asset)
-        command = "s3cmd#{custom_config_option} put #{default_options_for_s3cmd}"
-        command << " public/system/#{asset} s3://#{s3_bucket}/"
+        command = "s3cmd#{custom_config_option} sync #{default_options_for_s3cmd}"
+        command << " #{ASSETS_ROOT}/#{asset}/ s3://#{s3_bucket}/#{asset}/"
       end
 
       def default_options_for_s3cmd
