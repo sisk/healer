@@ -70,6 +70,14 @@ class PatientCasesController < ApplicationController
     end
   end
 
+  def new
+    new! do
+      if params[:patient_id]
+        @patient = Patient.find(params[:patient_id])
+      end
+    end
+  end
+
   # def new
   #   new!{
   #     if @trip

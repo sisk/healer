@@ -8,7 +8,7 @@
     %span.fake_link Existing patient
 
 #new_case_form
-  .new{ :class => "#{"hide" if params[:person_id]}" }
+  .new{ :class => "#{"hide" if @patient}" }
     = semantic_form_for [parent,resource], :url => trip_cases_path(parent), :html => { :multipart => true, :id => "new_patient_case" } do |f|
       = f.semantic_errors
       = f.input :created_by_id, :as => :hidden, :input_html => { :value => current_user.id }
@@ -32,12 +32,12 @@
         - if permitted_to? :authorize, resource
           = f.input :authorize, :as => :boolean, :label => "Authorize now"
 
-  .existing{ :class => "#{"hide" unless params[:person_id]}" }
+  .existing{ :class => "#{"hide" unless @patient}" }
     = semantic_form_for [parent,resource], :url => trip_cases_path(parent), :html => { :multipart => true, :id => "existing_patient_case" } do |f|
       = f.semantic_errors
       = f.input :created_by_id, :as => :hidden, :input_html => { :value => current_user.id }
       = f.inputs do
-        = f.input :patient_id, :as => :select, :label => 'Patient', :collection => @all_patients.map{ |p| ["#{p.id} - #{p.to_s}", p.id] }, :selected => params[:person_id]
+        = f.input :patient_id, :as => :select, :label => 'Patient', :collection => @all_patients.map{ |p| ["#{p.id} - #{p.to_s}", p.id] }, :selected => @patient.try(:id)
       #case_details_form= render :partial => "case_details_form", :locals => { :f => f, :patient_case => resource }
       = f.actions do
         = f.action :submit, :label => "Save Case"

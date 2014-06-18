@@ -34,10 +34,10 @@ class TripPatientsController < ApplicationController
   end
 
   def collection
-    if params[:authorized_status] || params[:anatomies] || params[:search]
-      if params[:search]
+    if params[:authorized_status] || params[:anatomies] || params[:search] || params[:patient_id]
+      if params[:search] || params[:patient_id]
         begin
-          patient_id = Integer(params[:search])
+          patient_id = params[:search] ? Integer(params[:search]) : params[:patient_id]
           subset = end_of_association_chain.find_all_by_id(patient_id)
         rescue ArgumentError
           subset = end_of_association_chain.search(params[:search])
