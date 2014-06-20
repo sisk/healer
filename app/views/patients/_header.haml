@@ -8,6 +8,10 @@
       - if patient.adverse_events.count > 0
         %br
         = link_to "(#{pluralize(patient.adverse_events.count, "event")})", patient_adverse_events_path(patient)
+  - if permitted_to? :create, PatientCase.new(:patient => patient)
+    %p.add_case
+      - path = @trip ? new_trip_case_path(@trip, :patient_id => patient.id) : new_patient_case_path(patient)
+      = link_to "Add case for this patient", path
   - if permitted_to? :edit, patient
     %p.edit= link_to("Edit record", edit_patient_path(patient), :remote => true)
   - if patient.has_medical_detail?
