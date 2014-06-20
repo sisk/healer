@@ -9,8 +9,8 @@ class PatientCasesController < ApplicationController
   before_filter :set_unregistered_patients, :only => [:new, :create]
   filter_resource_access :collection => [:index, :review, :waiting, :bulk]
 
-  belongs_to :trip, :optional => true
   belongs_to :patient, :optional => true
+  belongs_to :trip, :optional => true
 
   def bulk
     @patient_cases = PatientCase.find(params[:bulk_cases])
@@ -70,25 +70,10 @@ class PatientCasesController < ApplicationController
     end
   end
 
-  def new
-    new! do
-      if params[:patient_id]
-        @patient = Patient.find(params[:patient_id])
-      end
-    end
-  end
-
   # def new
-  #   new!{
-  #     if @trip
-  #       render :action => "trips_new"
-  #       return
-  #     elsif @patient
-  #       render :action => "patients_new"
-  #       return
-  #     else
-  #     end
-  #   }
+  #   @patient = Patient.find(params[:patient_id]) if params[:patient_id]
+  #   @trip = Trip.find(params[:trip_id])
+  #   @patient_case = PatientCase.new(:trip_id => @trip.try(:id), :patient_id => @patient.try(:id))
   # end
 
   def create
@@ -179,7 +164,7 @@ class PatientCasesController < ApplicationController
     render :layout => "patient_certificate"
   end
 
-private
+  private
 
   def build_resource
     super
@@ -196,7 +181,7 @@ private
     end
   end
 
-protected
+  protected
 
   def collection
     end_of_association_chain.authorized
