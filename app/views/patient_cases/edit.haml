@@ -4,8 +4,12 @@
   %ul
     %li= link_to "Full patient record", patient_path(@patient_case.patient)
     %li= link_to "Log new adverse event", new_patient_adverse_event_path(@patient_case.patient, :case_id => @patient_case.id)
+    - if permitted_to? :create, PatientCase.new(:patient => @patient_case.patient)
+      %li
+        - path = @trip ? new_trip_case_path(@trip, :patient_id => @patient_case.patient_id) : new_patient_case_path(@patient_case.patient)
+        = link_to "Add case for this patient", path
     - if permitted_to? :destroy, @patient_case
-      %li= link_to "Delete case", trip_case_path(@patient_case.trip, @patient_case), :method => :delete, :confirm => "Are you sure?"
+      %li= link_to "Delete this case", trip_case_path(@patient_case.trip, @patient_case), :method => :delete, :confirm => "Are you sure?"
 
 .column-2
   = render :partial => "patients/shared/snapshot", :locals => { :patient => resource.patient }

@@ -70,11 +70,17 @@ class PatientCasesController < ApplicationController
     end
   end
 
-  # def new
-  #   @patient = Patient.find(params[:patient_id]) if params[:patient_id]
-  #   @trip = Trip.find(params[:trip_id])
-  #   @patient_case = PatientCase.new(:trip_id => @trip.try(:id), :patient_id => @patient.try(:id))
-  # end
+  def new
+    @trip = Trip.find(params[:trip_id]) || Trip.new
+
+    @patient = if params[:patient_id]
+      Patient.find(params[:patient_id])
+    else
+      Patient.new(:country => @trip.country)
+    end
+
+    @patient_case = PatientCase.new(:trip => @trip, :patient => @patient)
+  end
 
   def create
     create! do |success, failure|
