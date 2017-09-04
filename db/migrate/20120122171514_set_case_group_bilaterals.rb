@@ -24,9 +24,9 @@ class SetCaseGroupBilaterals < ActiveRecord::Migration
   end
 
   def up
-    Appointment.all.each do |appointment|
-      appointment.join_bilateral_cases
-    end
+    # Appointment.all.each do |appointment|
+    #   appointment.join_bilateral_cases
+    # end
   end
 
   def down
