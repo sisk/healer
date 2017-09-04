@@ -263,3 +263,9 @@ DEPENDENCIES
   thin
   uglifier (>= 1.0.3)
   will_paginate (~> 3.0.3)
+
+RUBY VERSION
+   ruby 1.9.3p545
+
+BUNDLED WITH
+   1.15.4
